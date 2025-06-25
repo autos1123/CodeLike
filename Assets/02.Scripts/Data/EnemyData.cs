@@ -4,8 +4,8 @@ using UnityEngine;
 public class EnemyData
 {
     public int ID;
-    public string Name ;
-    public int HP ;
-    public int ATK ;
+    public string Name;
+    public int HP;
+    public int ATK;
     public float Speed;
 }

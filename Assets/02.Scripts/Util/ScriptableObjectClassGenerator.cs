@@ -22,6 +22,12 @@ public static class ScriptableObjectClassGenerator
             string fieldName = table.Rows[0][i].ToString();
             string fieldType = table.Rows[1][i].ToString();
 
+            if(string.IsNullOrEmpty(fieldName) || string.IsNullOrEmpty(fieldType))
+            {
+                Debug.LogWarning($"⚠️ 필드명 또는 타입이 비어있습니다. 열 인덱스: {i}, 필드명: '{fieldName}', 타입: '{fieldType}'");
+                continue;
+            }
+
             sb.AppendLine($"    public {fieldType} {fieldName};");
         }
 
