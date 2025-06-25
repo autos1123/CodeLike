@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9399cf5e89e2c76499b769287c2b2e57, type: 3}
+  m_Name: EnemyDataTable
+  m_EditorClassIdentifier: 
+  dataList:
+  - ID: 1
+    Name: Slime
+    HP: 30
+    ATK: 5
+    Speed: 1.2
+    aaaaaa: 0
+  - ID: 2
+    Name: Goblin
+    HP: 50
+    ATK: 10
+    Speed: 1.8
+    aaaaaa: 0
+  - ID: 3
+    Name: Orc
+    HP: 120
+    ATK: 20
+    Speed: 0.9
+    aaaaaa: 0

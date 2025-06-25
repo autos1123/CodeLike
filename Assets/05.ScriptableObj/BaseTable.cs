@@ -5,8 +5,7 @@ using System;
 
 public class BaseTable<T> : ScriptableObject, ITable where T : class
 {
-    [SerializeField] protected List<T> dataList = new List<T>();  
-
+    public List<T> dataList = new List<T>();  
     public Dictionary<int, T> DataDic { get; protected set; } = new Dictionary<int, T>();
     public Type Type { get; private set; }
 
@@ -22,13 +21,5 @@ public class BaseTable<T> : ScriptableObject, ITable where T : class
 
         Debug.LogError($"ID {id}를 찾을 수 없습니다.");
         return null;
-    }
-    
-    public void SaveSO()
-    {
-        for (int i = 0; i < DataDic.Values.Count; i++)
-        {
-            dataList[i] = DataDic[i];
-        }
     }
 }
