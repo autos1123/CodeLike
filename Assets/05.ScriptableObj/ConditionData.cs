@@ -37,7 +37,7 @@ public class ConditionEntry
     }
 }
 
-[CreateAssetMenu(fileName = "ConditionData", menuName = "ScriptableObjects/ConditionData")]
+[CreateAssetMenu(fileName = "ConditionData", menuName = "Scriptable Objects/ConditionData")]
 public class ConditionData : ScriptableObject
 {
     [SerializeField] private string characterName;

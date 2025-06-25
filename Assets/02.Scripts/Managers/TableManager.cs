@@ -6,6 +6,7 @@ using UnityEditor.AddressableAssets;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class TableManager:MonoSingleton<TableManager>
 {
@@ -15,21 +16,12 @@ public class TableManager:MonoSingleton<TableManager>
 
     private AsyncOperationHandle<ScriptableObject> _loadHandle;
 
-
-
-    protected override void Awake()
-    {        
-        base.Awake();
-
+    /// <summary>
+    /// 초기화
+    /// </summary>
+    public void Initialization()
+    {
         LoadTablesAsync();
-        foreach(var tableObj in tableList)
-        {
-            if(tableObj is ITable table)
-            {
-                table.CreateTable();
-                tableDic[table.Type] = table;
-            }
-        }
     }
     /// <summary>
     /// 라벨을 통해 어드레서블에 올린 데이터 탐색하여 저장
@@ -42,7 +34,17 @@ public class TableManager:MonoSingleton<TableManager>
             {
                 tableList.Add(table);
             }
-        );
+        ).Completed += (handle) =>
+        {
+            foreach(var tableObj in tableList)
+            {
+                if(tableObj is ITable table)
+                {
+                    table.CreateTable();
+                    tableDic[table.Type] = table;
+                }
+            }
+        };
     }
 
     public T GetTable<T>() where T : class
