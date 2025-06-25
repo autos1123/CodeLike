@@ -29,10 +29,9 @@ public class PoolManager : MonoSingleton<PoolManager>
         {
             CreatePool(pool, pool.PoolSize);
         }
-
     }
 
-    public void CreatePool(IPoolObject iPoolObject, int poolsize)
+    private void CreatePool(IPoolObject iPoolObject, int poolsize)
     {
         if (poolObjects.ContainsKey(iPoolObject.PoolType))
         {

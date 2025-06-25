@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SOTable
+  m_EditorClassIdentifier: 
+  m_GroupName: SOTable
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 8abc612d017e26f4cb62782ec1595abe
+  m_SerializeEntries:
+  - m_GUID: 60c307908f969064882693c259728ce4
+    m_Address: EnemyDataTable
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DataTable
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d1b9aaf0a38772247843bd7f0235d75b, type: 2}
+    - {fileID: 11400000, guid: dcd7515d18a15284fbac801bff133288, type: 2}
