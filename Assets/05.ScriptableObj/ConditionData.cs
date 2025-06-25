@@ -4,8 +4,7 @@ using UnityEngine;
 
 public enum ConditionType
 {
-    None = 0,
-    HP,
+    HP = 0,
     Stamina,
     StaminaRegen,
     AttackPower,
