@@ -15,36 +15,13 @@ public class TableManager:MonoSingleton<TableManager>
 
     private AsyncOperationHandle<ScriptableObject> _loadHandle;
 
-    public void LoadTablesAsync()//튜터님에게 질문
-    {
-        var settings = AddressableAssetSettingsDefaultObject.Settings;
-        var group = settings.FindGroup(TableAddressble.TableGroup);
 
-        if(group == null)
-        {
-            Debug.LogError($"Group '{TableAddressble.TableGroup}' not found!");
-            return;
-        }
-
-        foreach(var entry in group.entries)
-        {
-            Addressables.LoadAssetAsync<ScriptableObject>(entry.address).Completed +=
-                (AsyncOperationHandle<ScriptableObject> AsyncOperationHandle) =>
-                {
-                    _loadHandle = AsyncOperationHandle;        
-                    if(_loadHandle.Status == AsyncOperationStatus.Succeeded)
-                    {
-                        tableList.Add(_loadHandle.Result);
-                    }
-
-                };
-        }
-    }
 
     protected override void Awake()
-    {
+    {        
         base.Awake();
 
+        LoadTablesAsync();
         foreach(var tableObj in tableList)
         {
             if(tableObj is ITable table)
@@ -53,6 +30,19 @@ public class TableManager:MonoSingleton<TableManager>
                 tableDic[table.Type] = table;
             }
         }
+    }
+    /// <summary>
+    /// 라벨을 통해 어드레서블에 올린 데이터 탐색하여 저장
+    /// </summary>
+    private void LoadTablesAsync()
+    {
+        Addressables.LoadAssetsAsync<ScriptableObject>(
+            TableAddressble.TableLabel,
+            (table) =>
+            {
+                tableList.Add(table);
+            }
+        );
     }
 
     public T GetTable<T>() where T : class

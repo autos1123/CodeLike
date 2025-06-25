@@ -15,6 +15,7 @@ public static class LayerName
 
 public static class TableAddressble
 {
+    public const string TableLabel = "DataTable";
     public const string TableGroup = "SOTable";
     public const string EnemyDataTable = "EnemyDataTable";
 }

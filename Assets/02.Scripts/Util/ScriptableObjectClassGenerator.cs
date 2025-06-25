@@ -3,9 +3,9 @@ using System.Text;
 using System.Data;
 using UnityEngine;
 
-public static class ScriptableObjectClassGenerator
+public static class ClassGenerator
 {
-    public static void GenerateClassFromTable(DataTable table, string className, string scriptOutputPath)
+    public static void GenerateEnemyDataClassFromTable(DataTable table, string className, string scriptOutputPath)
     {
         var sb = new StringBuilder();
 

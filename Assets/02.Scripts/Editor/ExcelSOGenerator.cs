@@ -10,8 +10,8 @@ public static class ExcelSOGenerator
         switch(sheetName)
         {
             case "EnemyData":
-                
-                ScriptableObjectClassGenerator.GenerateClassFromTable(table, sheetName, scriptOutputPath);
+
+                ClassGenerator.GenerateEnemyDataClassFromTable(table, sheetName, scriptOutputPath);
 
                 var enemyList = ScriptableObject.CreateInstance<EnemyDataTable>();
 
