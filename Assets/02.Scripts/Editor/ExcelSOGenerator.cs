@@ -33,6 +33,15 @@ public static class ExcelSOGenerator
                 AssetDatabase.CreateAsset(enemyList, assetPath);
                 Debug.Log($"✅ {sheetName} SO 생성됨: {assetPath}");
                 break;
+            case "DestinyData":
+                break;
+            case "EnhanceData":
+                break;
+            case "ItemData":
+                break;
+            default:
+                Debug.LogError("이상한 반복 확인");
+                break;
 
         }
     }
