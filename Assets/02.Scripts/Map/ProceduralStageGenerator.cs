@@ -31,15 +31,22 @@ public class ProceduralStageGenerator : MonoBehaviour
 
     public bool AreRoomsOverlapping(Room roomA, Room roomB)
     {
-        int ax1 = roomA.Position.x;
-        int ay1 = roomA.Position.y;
-        int ax2 = ax1 + roomA.Size.x;
-        int ay2 = ay1 + roomA.Size.y;
+        Vector3 apos = roomA.transform.position;
+        Vector3 bpos = roomB.transform.position;
 
-        int bx1 = roomB.Position.x;
-        int by1 = roomB.Position.y;
-        int bx2 = bx1 + roomB.Size.x;
-        int by2 = by1 + roomB.Size.y;
+        //프리팹 실제 크기값
+        float width = 10f;
+        float height = 6f;
+
+        float ax1 = apos.x;
+        float ay1 = apos.y;
+        float ax2 = ax1 + width;   
+        float ay2 = ay1 + height;
+
+        float bx1 = bpos.x;
+        float by1 = bpos.y;
+        float bx2 = bx1 + width;  
+        float by2 = by1 + height;
 
         return !(ax2 <= bx1 || ax1 >= bx2 || ay2 <= by1 || ay1 >= by2);
 
