@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class EnhanceManager : MonoBehaviour
+public class EnhanceManager :MonoSingleton<EnhanceManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    TableManager _tableManager;
+    List<EnhanceData> enhanceDatadatas;
+    public void Init(TableManager tableManager)
     {
-        
+        _tableManager = tableManager;
+        enhanceDatadatas = _tableManager.GetTable<EnhanceDataTable>().dataList;
     }
-
-    // Update is called once per frame
-    void Update()
+    public List<EnhanceData> GetEnhance(int count)
     {
-        
+        return enhanceDatadatas.ShuffleData().Take(count).ToList();
     }
 }

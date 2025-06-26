@@ -54,6 +54,10 @@ public static class ExcelSOGenerator
                 break;
             case "ItemData":
                 break;
+            case "ActiveItemData":
+                break;
+            case "DestinyEffectData":
+                break;
             default:
                 Debug.LogError("이상한 반복 확인");
                 break;

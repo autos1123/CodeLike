@@ -15,16 +15,16 @@ public class PoolManager : MonoSingleton<PoolManager>
     protected override bool Persistent => false;
     protected override void Awake()
     {
-        LoadTablesAsync();
+        LoadPoolsAsync();
     }
 
     /// <summary>
     /// 라벨을 통해 어드레서블에 올린 데이터 탐색하여 저장
     /// </summary>
-    private void LoadTablesAsync()
+    private void LoadPoolsAsync()
     {
         Addressables.LoadAssetsAsync<GameObject>(
-            PoolAddressble.PoolLabel,
+            AddressbleLabels.PoolLabel,
             (GameObject) =>
             {
                 poolObjectList.Add(GameObject);

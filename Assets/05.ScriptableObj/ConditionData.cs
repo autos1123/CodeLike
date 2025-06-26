@@ -4,16 +4,20 @@ using UnityEngine;
 
 public enum ConditionType
 {
+    // 공통 컨디션 타입
     HP = 0,
     Stamina,
     StaminaRegen,
     AttackPower,
-    Defense,
     AttackSpeed,
+    AttackRange,
+    Defense,
     MoveSpeed,
     JumpPower,
     CriticalChance,
-    CriticalDamage
+    CriticalDamage,
+    // Enemy 전용 컨디션 타입
+    ChaseRange
 }
 
 [Serializable]
@@ -41,9 +45,19 @@ public class ConditionEntry
 public class ConditionData : ScriptableObject
 {
     [SerializeField] private string characterName;
-    [SerializeField] private Dictionary<ConditionType, ConditionEntry> conditions = new Dictionary<ConditionType, ConditionEntry>();
+    [SerializeField] private List<ConditionEntry> initialConditions;
+    private Dictionary<ConditionType, ConditionEntry> conditions = new Dictionary<ConditionType, ConditionEntry>();
     public string CharacterName => characterName;
     public Dictionary<ConditionType, ConditionEntry> Conditions => conditions;
+
+    public void Awake()
+    {
+        // 초기 컨디션을 딕셔너리에 추가
+        foreach(var entry in initialConditions)
+        {
+            conditions[entry.Type] = entry;
+        }
+    }
 
     /// <summary>
     /// 컨디션 딕셔너리를 반환합니다.
@@ -60,20 +74,22 @@ public class ConditionData : ScriptableObject
     }
 
     /// <summary>
-    /// 특정 컨디션 타입에 대한 ConditionEntry를 반환합니다.
+    /// 특정 컨디션 타입에 대한 값을 반환합니다.
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public ConditionEntry GetCondition(ConditionType type)
+    public bool TryGetCondition(ConditionType type, out float value)
     {
         if(conditions.TryGetValue(type, out ConditionEntry entry))
         {
-            return entry;
+            value = entry.Value;
+            return true;
         }
         else
         {
             Debug.LogWarning($"Condition {type} not found.");
-            return null;
+            value = 0f;
+            return false;
         }
     }
 

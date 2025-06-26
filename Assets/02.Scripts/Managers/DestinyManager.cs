@@ -7,6 +7,8 @@ public class DestinyManager : MonoSingleton<DestinyManager>
 {
     TableManager tableManager;
     List<DestinyData> destinyDatadatas;
+
+    protected override bool Persistent => false;
     public void Init()
     {
         tableManager = TableManager.Instance;
@@ -15,7 +17,6 @@ public class DestinyManager : MonoSingleton<DestinyManager>
     }
     public List<DestinyData> GetDestiny(int count)
     {
-        System.Random rand = new System.Random();// 이거는 위치가 이상한거 같음
-        return destinyDatadatas.ShuffleData(rand).Take(count).ToList();
+        return destinyDatadatas.ShuffleData().Take(count).ToList();
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnhanceDataTable", menuName = "Scriptable Objects/EnhanceDataTable")]
 
-public class EnhanceDataTable : BaseTable<EnemyData>
+public class EnhanceDataTable : BaseTable<EnhanceData>
 {
     public override void CreateTable()
     {
