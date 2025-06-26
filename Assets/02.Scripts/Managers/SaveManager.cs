@@ -7,8 +7,9 @@ using UnityEngine;
 /// </summary>
 public class SaveManager : MonoSingleton<SaveManager>
 {
-    public void Initialization()
+    GameManager _gameManager;
+    public void Init(GameManager gameManager)
     {
-
+        _gameManager = gameManager;
     }
 }

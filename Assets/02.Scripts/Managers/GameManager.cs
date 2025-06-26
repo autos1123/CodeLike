@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    TableManager tableManager;
+    TableManager _tableManager;
     public TableManager TableManager
     {
-        get { return tableManager; }
-        protected set {  tableManager = value; }
+        get { return _tableManager; }
+        protected set {  _tableManager = value; }
     }
-    SaveManager saveManager;
+    SaveManager _saveManager;
     public SaveManager SaveManager
     {
-        get { return saveManager; }
-        protected set {  saveManager = value; }
+        get { return _saveManager; }
+        protected set {  _saveManager = value; }
     }
     protected override void Awake()
     {
@@ -23,7 +23,7 @@ public class GameManager : MonoSingleton<GameManager>
         TableManager = TableManager.Instance;
         SaveManager = SaveManager.Instance;
 
-        tableManager.Initialization();
-        saveManager.Initialization();
+        _tableManager.Init(Instance);
+        _saveManager.Init(Instance);
     }
 }

@@ -10,6 +10,8 @@ using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class TableManager:MonoSingleton<TableManager>
 {
+    GameManager _gameManager;
+
     [SerializeField] List<ScriptableObject> tableList = new List<ScriptableObject>();
 
     private Dictionary<Type, ITable> tableDic = new Dictionary<Type, ITable>();
@@ -19,8 +21,9 @@ public class TableManager:MonoSingleton<TableManager>
     /// <summary>
     /// 초기화
     /// </summary>
-    public void Initialization()
+    public void Init(GameManager gameManager)
     {
+        _gameManager = gameManager;
         LoadTablesAsync();
     }
     /// <summary>
