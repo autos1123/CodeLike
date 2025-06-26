@@ -4,16 +4,20 @@ using UnityEngine;
 
 public enum ConditionType
 {
+    // 공통 컨디션 타입
     HP = 0,
     Stamina,
     StaminaRegen,
     AttackPower,
-    Defense,
     AttackSpeed,
+    AttackRange,
+    Defense,
     MoveSpeed,
     JumpPower,
     CriticalChance,
-    CriticalDamage
+    CriticalDamage,
+    // Enemy 전용 컨디션 타입
+    ChaseRange
 }
 
 [Serializable]
@@ -60,20 +64,22 @@ public class ConditionData : ScriptableObject
     }
 
     /// <summary>
-    /// 특정 컨디션 타입에 대한 ConditionEntry를 반환합니다.
+    /// 특정 컨디션 타입에 대한 값을 반환합니다.
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public ConditionEntry GetCondition(ConditionType type)
+    public bool TryGetCondition(ConditionType type, out float value)
     {
         if(conditions.TryGetValue(type, out ConditionEntry entry))
         {
-            return entry;
+            value = entry.Value;
+            return true;
         }
         else
         {
             Debug.LogWarning($"Condition {type} not found.");
-            return null;
+            value = 0f;
+            return false;
         }
     }
 
