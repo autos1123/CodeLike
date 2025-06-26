@@ -10,15 +10,15 @@ public enum ModifierType
 
 public class BaseCondition : IDamagable
 {
-    [SerializeField] private ConditionData data;
+    private ConditionData data;
 
-    public ConditionData Data => data;
     public Dictionary<ConditionType, float> CurrentConditions { get; private set; }
     public Dictionary<ConditionType, Dictionary<ModifierType, float>> CondifionModifier { get; private set; }
 
-    public BaseCondition()
+    public BaseCondition(ConditionData data)
     {
-        CurrentConditions = Data.GetCurrentConditions();
+        this.data = data;
+        CurrentConditions = data.GetCurrentConditions();
         CondifionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();
     }
 
