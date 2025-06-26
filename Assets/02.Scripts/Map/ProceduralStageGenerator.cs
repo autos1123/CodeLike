@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,32 +13,40 @@ public class ProceduralStageGenerator : MonoBehaviour
     public Vector2Int maxRoomSize;
     public int nextRoomID;
 
-    public Room CreateRoom(Vector2Int gridPos)
+    public RoomPrefabSet prefabSet;
+    public Transform roomParent;
+
+    public Room CreateRoom(Vector2Int gridPos, RoomType type)
     {
-        int width = random.Next(minRoomSize.x, maxRoomSize.x + 1);
-        int height = random.Next(minRoomSize.y, maxRoomSize.y + 1);
-        int x = random.Next(0, 100);
-        int y = random.Next(0, 10);
-
         int gridSpacing = 20;
-        Vector2Int position = new Vector2Int(gridPos.x * gridSpacing, gridPos.y * gridSpacing);
-        Vector2Int size = new Vector2Int(width, height);
+        Vector3 worldPos = new Vector3(gridPos.x *  gridSpacing, 0f, gridPos.y * gridSpacing);
 
-        Room room = new Room(nextRoomID++, position, size, RoomType.Normal);
+        GameObject prefab = prefabSet.GetRandomPrefab(type);
+        GameObject roomGO = Instantiate(prefab, worldPos, Quaternion.identity, roomParent);
+
+        Room room = roomGO.GetComponent<Room>();
+        room.Initialize(nextRoomID++, gridPos, type);
         return room;
     } 
 
     public bool AreRoomsOverlapping(Room roomA, Room roomB)
     {
-        int ax1 = roomA.Position.x;
-        int ay1 = roomA.Position.y;
-        int ax2 = ax1 + roomA.Size.x;
-        int ay2 = ay1 + roomA.Size.y;
+        Vector3 apos = roomA.transform.position;
+        Vector3 bpos = roomB.transform.position;
 
-        int bx1 = roomB.Position.x;
-        int by1 = roomB.Position.y;
-        int bx2 = bx1 + roomB.Size.x;
-        int by2 = by1 + roomB.Size.y;
+        //프리팹 실제 크기값
+        float width = 10f;
+        float height = 6f;
+
+        float ax1 = apos.x;
+        float ay1 = apos.y;
+        float ax2 = ax1 + width;   
+        float ay2 = ay1 + height;
+
+        float bx1 = bpos.x;
+        float by1 = bpos.y;
+        float bx2 = bx1 + width;  
+        float by2 = by1 + height;
 
         return !(ax2 <= bx1 || ax1 >= bx2 || ay2 <= by1 || ay1 >= by2);
 
@@ -54,25 +62,22 @@ public class ProceduralStageGenerator : MonoBehaviour
         int gridWidth = 5;
         int gridHeight = 5;
         bool[,] grid = new bool[gridWidth, gridHeight];
-        Vector2Int[,] gridCoords = new Vector2Int[gridWidth, gridHeight];
 
         Vector2Int startGridPos = new Vector2Int(0, 1);
         Vector2Int current = startGridPos;
 
         for (int i = 0; i < roomCount; i++)
         {
-            Room room = CreateRoom(current);
-            if(i == 0)
-                room.Type = RoomType.Start;
-            else if(i == roomCount - 1)
-                room.Type = RoomType.Boss;
+            RoomType type = RoomType.Normal;
+            if (i == 0) type = RoomType.Start;
+            else if (i == roomCount - 1) type = RoomType.Boss;
 
+            Room room = CreateRoom(current, type);
             rooms.Add(room);
             grid[current.x, current.y] = true;
-            gridCoords[current.x, current.y] = room.Position;
 
-            //다음 이동 방향 결정: 오른쪽 > 아래  > 위 > 왼쪽
-            List<Vector2Int> directions = new()
+                //다음 이동 방향 결정: 오른쪽 > 아래  > 위 > 왼쪽
+                List<Vector2Int> directions = new()
             {
                 new Vector2Int(1, 0), //오른쪽
                 new Vector2Int(0, -1), //아래쪽
