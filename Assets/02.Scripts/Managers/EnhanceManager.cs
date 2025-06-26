@@ -6,16 +6,15 @@ using UnityEngine;
 public class EnhanceManager :MonoSingleton<EnhanceManager>
 {
     TableManager _tableManager;
-    List<DestinyData> destinyDatadatas;
+    List<EnhanceData> enhanceDatadatas;
     public void Init(TableManager tableManager)
     {
         _tableManager = tableManager;
-        destinyDatadatas = _tableManager.GetTable<DestinyDataTable>().dataList;
+        enhanceDatadatas = _tableManager.GetTable<EnhanceDataTable>().dataList;
     }
-    public List<DestinyData> GetDestiny(int count)
+    public List<EnhanceData> GetEnhance(int count)
     {
         System.Random rand = new System.Random();// 이거는 위치가 이상한거 같음
-        return destinyDatadatas.ShuffleData(rand).Take(count).ToList();
+        return enhanceDatadatas.ShuffleData(rand).Take(count).ToList();
     }
-
 }
