@@ -45,9 +45,19 @@ public class ConditionEntry
 public class ConditionData : ScriptableObject
 {
     [SerializeField] private string characterName;
-    [SerializeField] private Dictionary<ConditionType, ConditionEntry> conditions = new Dictionary<ConditionType, ConditionEntry>();
+    [SerializeField] private List<ConditionEntry> initialConditions;
+    private Dictionary<ConditionType, ConditionEntry> conditions = new Dictionary<ConditionType, ConditionEntry>();
     public string CharacterName => characterName;
     public Dictionary<ConditionType, ConditionEntry> Conditions => conditions;
+
+    public void Awake()
+    {
+        // 초기 컨디션을 딕셔너리에 추가
+        foreach(var entry in initialConditions)
+        {
+            conditions[entry.Type] = entry;
+        }
+    }
 
     /// <summary>
     /// 컨디션 딕셔너리를 반환합니다.
