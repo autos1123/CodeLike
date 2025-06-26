@@ -1,18 +1,22 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageData : MonoBehaviour
+[System.Serializable]
+public class StageData 
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int stageID;
+    public List<Room> rooms = new();
+    public List<RoomConnection> connections = new();
+    public Dictionary<int, Room> roomMap = new();
 
-    // Update is called once per frame
-    void Update()
+    public Vector3 playerSpawnPoint;
+    public Room startRoom => rooms.Find(r => r.Type == RoomType.Start);
+    public Room bossRoom => rooms.Find(r => r.Type == RoomType.Boss);  
+
+    public void RegisterRoom(Room room)
     {
-        
+        if (!roomMap.ContainsKey(room.Id)) 
+            roomMap.Add(room.Id, room); 
     }
 }
