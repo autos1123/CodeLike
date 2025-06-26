@@ -15,6 +15,14 @@ public class EnemyStateMachine : UnitStateMachine
         this.Enemy = enemy;
         Target = GameObject.FindGameObjectWithTag("Player");
 
-        MovementSpeed = Enemy.Condition.Data.GetCondition(ConditionType.MoveSpeed).Value;
+        if(Enemy.Condition.Data.TryGetCondition(ConditionType.MoveSpeed, out float value))
+        {
+            MovementSpeed = value;
+        }
+        else
+        {
+            Debug.LogError($"ConditionType MoveSpeed를 찾을 수 없습니다. 기본값으로 1.0f를 사용합니다.");
+            MovementSpeed = 1.0f;
+        }
     }
 }
