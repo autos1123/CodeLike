@@ -58,6 +58,9 @@ public static class ExcelSOGenerator
                 break;
             case "DestinyEffectData":
                 break;
+            case "Enums":
+                ClassGenerator.GenerateEnumFromTable(table, sheetName, "Assets/02.Scripts/Emuns");
+                break;
             default:
                 Debug.LogError("이상한 반복 확인");
                 break;
