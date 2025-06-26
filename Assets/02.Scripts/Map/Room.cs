@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,24 +11,23 @@ public enum RoomType
     Event
 }
 
-public class Room
+public class Room : MonoBehaviour
 {
-    //필드
-    public int Id { get; private set; }
-    public Vector2Int Position { get; private set; }
-    public Vector2Int Size { get; private set; }
-    public RoomType Type { get; set; }
+    public int Id {  get; private set; }
+    public Vector2Int GridPosition { get; private set; } // 생성 시 사용한 그리드 위치
+    public RoomType Type { get; private set; }
+
     public List<RoomConnection> Connections { get; private set; } = new();
 
-    public Room(int id, Vector2Int position, Vector2Int size, RoomType type)
+    public void Initialize(int id, Vector2Int gridPos, RoomType type)
     {
         Id = id;
-        Position = position;
-        Size = size;
+        GridPosition = gridPos;
         Type = type;
     }
 
-    public int GetLeftEdge() => Position.x;
-    public int GetRightEdge() => Position.x + Size.x;
-    public void AddConnection(RoomConnection conn) => Connections.Add(conn);
- }
+    public void AddConnection(RoomConnection conn)
+    {
+        Connections.Add(conn);
+    }
+}
