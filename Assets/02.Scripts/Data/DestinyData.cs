@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class DestinyData
+public struct DestinyData
 {
     public int ID;
     public string Name;

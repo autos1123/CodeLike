@@ -15,7 +15,7 @@ public static class ClassGenerator
         sb.AppendLine("using UnityEngine;");
         sb.AppendLine();
         sb.AppendLine("[System.Serializable]");
-        sb.AppendLine($"public class {className}");
+        sb.AppendLine($"public struct {className}");
         sb.AppendLine("{");
 
         int columnCount = table.Columns.Count;

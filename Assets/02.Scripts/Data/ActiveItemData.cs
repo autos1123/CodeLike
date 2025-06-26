@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActiveItemData 
+public struct ActiveItemData 
 {
     public int ID;
 
