@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ItemManager : MonoSingleton<ItemManager>
 {
-
+    protected override bool Persistent => false;
 }

@@ -48,6 +48,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef61efebb45b8b54ab236ba458403a26, type: 2}
   - {fileID: 11400000, guid: 2061a0671b6b1624cbbe2c837e1a8f8e, type: 2}
   - {fileID: 11400000, guid: caf7d1ba2bd8e3447b0254304c6a9e58, type: 2}
+  - {fileID: 11400000, guid: 0e093f638af1aca47925dc235fdf3b7c, type: 2}
+  - {fileID: 11400000, guid: 251e38d97842c1e4785f2de93c5c7945, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -91,6 +93,8 @@ MonoBehaviour:
     - default
     - DataTable
     - Pool
+    - BGM
+    - SFX
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: e94f4a5ad2d03724bb8e8327ad893714, type: 2}

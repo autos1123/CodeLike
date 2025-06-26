@@ -14,7 +14,6 @@ public class EnhanceManager :MonoSingleton<EnhanceManager>
     }
     public List<EnhanceData> GetEnhance(int count)
     {
-        System.Random rand = new System.Random();// 이거는 위치가 이상한거 같음
-        return enhanceDatadatas.ShuffleData(rand).Take(count).ToList();
+        return enhanceDatadatas.ShuffleData().Take(count).ToList();
     }
 }

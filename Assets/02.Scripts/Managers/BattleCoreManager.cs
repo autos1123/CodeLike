@@ -16,6 +16,7 @@ public class BattleCoreManager : MonoSingleton<BattleCoreManager>
     public ItemManager ItemManager { get { return itemManager; } }
     public StageManager StageManager { get { return stageManager; } }
 
+    protected  override bool Persistent => false;
     protected override void Awake()
     {
         base.Awake();
