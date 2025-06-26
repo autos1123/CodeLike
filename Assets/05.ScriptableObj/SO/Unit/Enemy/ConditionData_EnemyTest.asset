@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed468f78ace61ea46920cbf339a09baa, type: 3}
   m_Name: ConditionData_EnemyTest
   m_EditorClassIdentifier: 
-  characterName: 
+  characterName: TestEnemy
+  initialConditions:
+  - type: 11
+    value: 5
+  - type: 7
+    value: 3

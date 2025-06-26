@@ -8,13 +8,13 @@ public class EnemyBaseState:IUnitState
     protected EnemyStateMachine stateMachine;
     protected ConditionData data;
 
-    private ViewModeType viewMode;
+    protected ViewModeType viewMode;
 
     protected float moveSpeedModifier = 1f;
 
-    public EnemyBaseState(EnemyStateMachine playerStateMachine)
+    public EnemyBaseState(EnemyStateMachine stateMachine)
     {
-        stateMachine = playerStateMachine;
+        this.stateMachine = stateMachine;
         data = stateMachine.Enemy.Data;
     }
 
@@ -45,7 +45,7 @@ public class EnemyBaseState:IUnitState
 
     public virtual void StateUpdate()
     {
-        Move();
+
     }
 
     /// <summary>
@@ -56,59 +56,6 @@ public class EnemyBaseState:IUnitState
     {
         if(viewMode == mode) return;
         viewMode = mode;
-    }
-
-    private void Move()
-    {
-        Vector3 movementDirection = GetMovementDirection();
-
-        Rotate(movementDirection);
-
-        Move(movementDirection);
-    }
-
-    private Vector3 GetMovementDirection()
-    {
-        Vector3 dir = (stateMachine.Target.transform.position - stateMachine.Enemy.transform.position);
-
-        // 2D인 경우 x축 y축만 고려
-        if(viewMode == ViewModeType.View2D)
-        {
-            dir.z = 0;
-        }
-
-        dir.Normalize();
-        return dir;
-    }
-
-    void Move(Vector3 movementDirection)
-    {
-        float movementSpeed = GetMovementSpeed();
-
-        // 2D인 경우 Rigidbody를 사용하고, 3D인 경우 NavMeshAgent를 사용
-        if(viewMode == ViewModeType.View2D)
-        {
-            stateMachine.Enemy.Rigidbody.velocity = movementDirection * movementSpeed;
-        }
-        else
-        {
-            stateMachine.Enemy.NavMeshAgent.SetDestination(stateMachine.Target.transform.position);
-        }
-    }
-
-    private float GetMovementSpeed()
-    {
-        float movementSpeed = stateMachine.MovementSpeed * moveSpeedModifier;
-        return movementSpeed;
-    }
-
-    void Rotate(Vector3 movementDirection)
-    {
-        if(movementDirection != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
-            stateMachine.Enemy.transform.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
-        }
     }
 
     protected bool IsInChaseRange()

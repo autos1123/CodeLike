@@ -10,6 +10,10 @@ public class EnemyStateMachine : UnitStateMachine
 
     public GameObject Target { get; private set; }
 
+    // State
+    public EnemyIdleState IdleState { get; }
+    public EnemyMoveState MoveState { get; }
+
     public EnemyStateMachine(EnemyController enemy)
     {
         this.Enemy = enemy;
@@ -24,5 +28,10 @@ public class EnemyStateMachine : UnitStateMachine
             Debug.LogError($"ConditionType MoveSpeed를 찾을 수 없습니다. 기본값으로 1.0f를 사용합니다.");
             MovementSpeed = 1.0f;
         }
+
+        IdleState = new EnemyIdleState(this);
+        MoveState = new EnemyMoveState(this);
+
+        ChangeState(IdleState);
     }
 }

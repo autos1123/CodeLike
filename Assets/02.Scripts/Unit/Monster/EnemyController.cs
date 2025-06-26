@@ -17,9 +17,20 @@ public class EnemyController:MonoBehaviour
 
     private void Start()
     {
+        data.InitDictionary();
         Condition = new EnemyCondition(data);
         stateMachine = new EnemyStateMachine(this);
         Rigidbody = GetComponent<Rigidbody>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
+    }
+
+    private void Update()
+    {
+        stateMachine.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        stateMachine.PhysicsUpdate();
     }
 }
