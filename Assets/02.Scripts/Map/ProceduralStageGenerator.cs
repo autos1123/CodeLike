@@ -34,18 +34,18 @@ public class ProceduralStageGenerator : MonoBehaviour
         Vector3 apos = roomA.transform.position;
         Vector3 bpos = roomB.transform.position;
 
-        //프리팹 실제 크기값
+        // 프리팹의 실제 크기 값 (예: BoxCollider, SpriteRenderer 크기 등)에서 구하거나, 하드코딩된 RoomSize를 임시로 사용
         float width = 10f;
         float height = 6f;
 
         float ax1 = apos.x;
-        float ay1 = apos.y;
-        float ax2 = ax1 + width;   
+        float ay1 = apos.z; // Y축이 아니라 Z축 기준 (3D 공간 상에서)
+        float ax2 = ax1 + width;
         float ay2 = ay1 + height;
 
         float bx1 = bpos.x;
-        float by1 = bpos.y;
-        float bx2 = bx1 + width;  
+        float by1 = bpos.z;
+        float bx2 = bx1 + width;
         float by2 = by1 + height;
 
         return !(ax2 <= bx1 || ax1 >= bx2 || ay2 <= by1 || ay1 >= by2);
