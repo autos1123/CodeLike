@@ -15,7 +15,7 @@ public class EnemyStateMachine : UnitStateMachine
         this.Enemy = enemy;
         Target = GameObject.FindGameObjectWithTag("Player");
 
-        if(Enemy.Condition.Data.TryGetCondition(ConditionType.MoveSpeed, out float value))
+        if(Enemy.Data.TryGetCondition(ConditionType.MoveSpeed, out float value))
         {
             MovementSpeed = value;
         }

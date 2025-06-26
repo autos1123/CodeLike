@@ -1,15 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController:MonoBehaviour
 {
-    public EnemyCondition Condition { get; private set; }
     private EnemyStateMachine stateMachine;
+    [SerializeField] private ConditionData data;
+    [SerializeField] private float rotDamping;
 
-    private void Awake()
+    public EnemyCondition Condition { get; private set; }
+    public Rigidbody Rigidbody { get; private set; }
+    public NavMeshAgent NavMeshAgent { get; private set; }
+    public float RotationDamping => rotDamping;
+    public ConditionData Data => data;
+
+    private void Start()
     {
-        Condition = new EnemyCondition();
+        Condition = new EnemyCondition(data);
         stateMachine = new EnemyStateMachine(this);
+        Rigidbody = GetComponent<Rigidbody>();
+        NavMeshAgent = GetComponent<NavMeshAgent>();
     }
 }
