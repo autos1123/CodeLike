@@ -50,13 +50,13 @@ public class ViewCameraController : MonoBehaviour
         {
             transform.DOLocalMove(position2D, transitionDuration).SetEase(Ease.OutQuad);
             transform.DOLocalRotate(rotation2D, transitionDuration).SetEase(Ease.OutQuad);
-            cam.cullingMask &= ~layerMask; 
+            cam.cullingMask &= ~layerToControl; 
         }
         else
         {
             transform.DOLocalMove(position3D, transitionDuration).SetEase(Ease.OutQuad);
             transform.DOLocalRotate(rotation3D, transitionDuration).SetEase(Ease.OutQuad);
-            cam.cullingMask |= layerMask; 
+            cam.cullingMask |= layerToControl; 
         }
     }
 }
