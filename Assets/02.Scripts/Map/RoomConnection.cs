@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,9 +10,9 @@ public enum HorizontalDirection
 
 public class RoomConnection 
 {
-    public int FromRoomID { get; set; }
-    public int ToRoomID { get; set; }
-    public HorizontalDirection Direction { get; set; }
+    public int FromRoomID { get; private set; }
+    public int ToRoomID { get; private set; }
+    public HorizontalDirection Direction { get; private set; }
 
     public RoomConnection(int fromRoomID, int toRoomID, HorizontalDirection direction)
     {

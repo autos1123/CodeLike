@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,18 +13,19 @@ public class ProceduralStageGenerator : MonoBehaviour
     public Vector2Int maxRoomSize;
     public int nextRoomID;
 
-    public Room CreateRoom(Vector2Int gridPos)
+    public RoomPrefabSet prefabSet;
+    public Transform roomParent;
+
+    public Room CreateRoom(Vector2Int gridPos, RoomType type)
     {
-        int width = random.Next(minRoomSize.x, maxRoomSize.x + 1);
-        int height = random.Next(minRoomSize.y, maxRoomSize.y + 1);
-        int x = random.Next(0, 100);
-        int y = random.Next(0, 10);
-
         int gridSpacing = 20;
-        Vector2Int position = new Vector2Int(gridPos.x * gridSpacing, gridPos.y * gridSpacing);
-        Vector2Int size = new Vector2Int(width, height);
+        Vector3 worldPos = new Vector3(gridPos.x *  gridSpacing, 0f, gridPos.y * gridSpacing);
 
-        Room room = new Room(nextRoomID++, position, size, RoomType.Normal);
+        GameObject prefab = prefabSet.GetRandomPrefab(type);
+        GameObject roomGO = Instantiate(prefab, worldPos, Quaternion.identity, roomParent);
+
+        Room room = roomGO.GetComponent<Room>();
+        room.Initialize(nextRoomID++, gridPos, type);
         return room;
     } 
 
@@ -54,25 +55,22 @@ public class ProceduralStageGenerator : MonoBehaviour
         int gridWidth = 5;
         int gridHeight = 5;
         bool[,] grid = new bool[gridWidth, gridHeight];
-        Vector2Int[,] gridCoords = new Vector2Int[gridWidth, gridHeight];
 
         Vector2Int startGridPos = new Vector2Int(0, 1);
         Vector2Int current = startGridPos;
 
         for (int i = 0; i < roomCount; i++)
         {
-            Room room = CreateRoom(current);
-            if(i == 0)
-                room.Type = RoomType.Start;
-            else if(i == roomCount - 1)
-                room.Type = RoomType.Boss;
+            RoomType type = RoomType.Normal;
+            if (i == 0) type = RoomType.Start;
+            else if (i == roomCount - 1) type = RoomType.Boss;
 
+            Room room = CreateRoom(current, type);
             rooms.Add(room);
             grid[current.x, current.y] = true;
-            gridCoords[current.x, current.y] = room.Position;
 
-            //다음 이동 방향 결정: 오른쪽 > 아래  > 위 > 왼쪽
-            List<Vector2Int> directions = new()
+                //다음 이동 방향 결정: 오른쪽 > 아래  > 위 > 왼쪽
+                List<Vector2Int> directions = new()
             {
                 new Vector2Int(1, 0), //오른쪽
                 new Vector2Int(0, -1), //아래쪽
