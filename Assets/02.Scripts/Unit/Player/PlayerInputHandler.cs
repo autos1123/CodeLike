@@ -2,51 +2,66 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// 플레이어 입력을 처리하고, ViewMode(2D/3D)에 따라 분기하여 방향 및 행동을 전달하는 클래스
+/// 플레이어 입력을 처리하고, ViewMode(2D/3D)에 따라 분기하지 않고 원본 입력을 유지.
+/// 이동 방향 분기는 실제 이동 처리에서 적용.
 /// </summary>
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerInputHandler:MonoBehaviour
 {
     private PlayerInputActions inputActions;
 
+    /// <summary>
+    /// 이동 방향 입력 (Vector2)
+    /// 2D: (좌우), 3D: (좌우 + 상하)
+    /// </summary>
     public Vector2 MoveInput { get; private set; }
+
+    /// <summary>
+    /// Jump 버튼이 눌렸는지 여부 (한 프레임만 true)
+    /// </summary>
     public bool JumpPressed { get; private set; }
+
+    /// <summary>
+    /// Attack 버튼이 눌렸는지 여부 (한 프레임만 true)
+    /// </summary>
     public bool AttackPressed { get; private set; }
 
     private void Awake()
     {
         inputActions = new PlayerInputActions();
 
-        // 입력 이벤트 등록
+        // 방향키, WASD 등의 방향 입력 등록
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.canceled += OnMove;
 
+        // 점프 및 공격: 한 프레임만 true로 처리
         inputActions.Player.Jump.performed += ctx => JumpPressed = true;
         inputActions.Player.Attack.performed += ctx => AttackPressed = true;
     }
 
-    private void OnEnable() => inputActions.Player.Enable();
-    private void OnDisable() => inputActions.Player.Disable();
-
-    private void Update()
+    private void OnEnable()
     {
-        // ViewMode에 따라 입력 해석 분기
-        if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
-        {
-            // 2D는 x축만 사용
-            MoveInput = new Vector2(MoveInput.x, 0f);
-        }
-        else
-        {
-            // 3D는 x, y 그대로 유지
-            // 필요하다면 카메라 기준으로 변환도 가능
-        }
+        inputActions.Player.Enable();
     }
 
+    private void OnDisable()
+    {
+        inputActions.Player.Disable();
+    }
+
+    /// <summary>
+    /// 방향 입력 처리 (입력 중 또는 입력 취소 시 둘 다 호출됨)
+    /// </summary>
     private void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
+        // 입력이 취소되면 (0, 0)이 자동으로 들어옴
     }
 
+    /// <summary>
+    /// Jump, Attack 같은 일회성 입력값을 초기화
+    /// 매 프레임 후 호출 필요
+    /// </summary>
     public void ResetOneTimeInputs()
     {
         JumpPressed = false;
