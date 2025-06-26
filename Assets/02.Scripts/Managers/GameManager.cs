@@ -5,25 +5,32 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     TableManager _tableManager;
+    SaveManager _saveManager;
+    SoundManager _soundManager;
+
     public TableManager TableManager
     {
         get { return _tableManager; }
-        protected set {  _tableManager = value; }
     }
-    SaveManager _saveManager;
     public SaveManager SaveManager
     {
         get { return _saveManager; }
-        protected set {  _saveManager = value; }
     }
+    public SoundManager SoundManager
+    {
+        get { return _soundManager; }
+    }
+
     protected override void Awake()
     {
         base.Awake();
 
-        TableManager = TableManager.Instance;
-        SaveManager = SaveManager.Instance;
+        _tableManager = TableManager.Instance;
+        _saveManager = SaveManager.Instance;
+        _soundManager = SoundManager.Instance;
 
         _tableManager.Init(Instance);
         _saveManager.Init(Instance);
+        _soundManager.Init();
     }
 }

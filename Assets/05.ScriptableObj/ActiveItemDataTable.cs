@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnhanceDataTable", menuName = "Scriptable Objects/EnhanceDataTable")]
+[CreateAssetMenu(fileName = "ActiveItemDataTable", menuName = "Scriptable Objects/ActiveItemDataTable")]
 
-public class EnhanceDataTable : BaseTable<EnhanceData>
+public class ActiveItemDataTable : BaseTable<ActiveItemData>
 {
     public override void CreateTable()
     {

@@ -32,7 +32,7 @@ public class TableManager:MonoSingleton<TableManager>
     private void LoadTablesAsync()
     {
         Addressables.LoadAssetsAsync<ScriptableObject>(
-            TableAddressble.TableLabel,
+            AddressbleLabels.TableLabel,
             (table) =>
             {
                 tableList.Add(table);

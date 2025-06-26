@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class ListExtensions 
@@ -21,17 +22,8 @@ public static class ListExtensions
         }
     }
 
-    public static List<T> ShuffleData<T>(this List<T> list, System.Random rng)
+    public static List<T> ShuffleData<T>(this List<T> _list)
     {
-        if(list == null || list.Count <= 1) return null;
-        int n = list.Count;
-        while(n > 0)
-        {
-            int k = rng.Next(n--);
-            (list[n], list[k]) = (list[k], list[n]);
-        }
-
-        return list;
+        return _list.OrderBy(_ => Random.value).ToList();
     }
-
 }

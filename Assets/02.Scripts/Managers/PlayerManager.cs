@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public class PlayerManager : MonoSingleton<PlayerManager>
 {
-    GameObject _player;
-    
+    public GameObject _player;
+    protected override bool Persistent => false;
     public GameObject Player
     {
         get { return _player; }
