@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class ClassGenerator
 {
-    public static void GenerateEnemyDataClassFromTable(DataTable table, string className, string scriptOutputPath)
+    public static void GenerateDataTableClassFromTable(DataTable table, string className, string scriptOutputPath)
     {
         var sb = new StringBuilder();
 
@@ -38,4 +38,5 @@ public static class ClassGenerator
         File.WriteAllText(filePath, sb.ToString());
         Debug.Log($"[SO Generator] {filePath} 생성 완료");
     }
+
 }

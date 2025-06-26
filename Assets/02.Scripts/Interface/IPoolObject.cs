@@ -5,6 +5,7 @@ using UnityEngine;
 public enum PoolType
 {
     none,
+    temp,
 
 }
 public interface IPoolObject

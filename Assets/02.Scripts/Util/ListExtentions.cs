@@ -20,4 +20,18 @@ public static class ListExtensions
             (list[n], list[k]) = (list[k], list[n]);
         }
     }
+
+    public static List<T> ShuffleData<T>(this List<T> list, System.Random rng)
+    {
+        if(list == null || list.Count <= 1) return null;
+        int n = list.Count;
+        while(n > 0)
+        {
+            int k = rng.Next(n--);
+            (list[n], list[k]) = (list[k], list[n]);
+        }
+
+        return list;
+    }
+
 }

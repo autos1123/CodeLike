@@ -19,3 +19,8 @@ public static class TableAddressble
     public const string TableGroup = "SOTable";
     public const string EnemyDataTable = "EnemyDataTable";
 }
+
+public static class PoolAddressble
+{
+    public const string PoolLabel = "Pool";
+}

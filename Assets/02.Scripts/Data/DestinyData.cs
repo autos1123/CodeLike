@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DestinyData 
+[System.Serializable]
+public class DestinyData
 {
     public int ID;
 }

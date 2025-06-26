@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 
 public class PoolManager : MonoSingleton<PoolManager>
@@ -14,21 +15,38 @@ public class PoolManager : MonoSingleton<PoolManager>
     protected override bool Persistent => false;
     protected override void Awake()
     {
-        foreach (var obj in poolObjectList)
-        {
-            if (obj.TryGetComponent<IPoolObject>(out var ipool))
+        LoadTablesAsync();
+    }
+
+    /// <summary>
+    /// 라벨을 통해 어드레서블에 올린 데이터 탐색하여 저장
+    /// </summary>
+    private void LoadTablesAsync()
+    {
+        Addressables.LoadAssetsAsync<GameObject>(
+            PoolAddressble.PoolLabel,
+            (GameObject) =>
             {
-                pools.Add(ipool);
+                poolObjectList.Add(GameObject);
             }
-            else
-            {
-                Debug.LogError($"오브젝트에 IPoolObject이 상속 되어 있지 않습니다. {obj.name}");
-            }
-        }
-        foreach (var pool in pools)
+        ).Completed += (handle) =>
         {
-            CreatePool(pool, pool.PoolSize);
-        }
+            foreach(var obj in poolObjectList)
+            {
+                if(obj.TryGetComponent<IPoolObject>(out var ipool))
+                {
+                    pools.Add(ipool);
+                }
+                else
+                {
+                    Debug.LogError($"오브젝트에 IPoolObject이 상속 되어 있지 않습니다. {obj.name}");
+                }
+            }
+            foreach(var pool in pools)
+            {
+                CreatePool(pool, pool.PoolSize);
+            }
+        };
     }
 
     private void CreatePool(IPoolObject iPoolObject, int poolsize)

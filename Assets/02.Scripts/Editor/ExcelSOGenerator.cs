@@ -11,7 +11,7 @@ public static class ExcelSOGenerator
         {
             case "EnemyData":
 
-                ClassGenerator.GenerateEnemyDataClassFromTable(table, sheetName, scriptOutputPath);
+                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
 
                 var enemyList = ScriptableObject.CreateInstance<EnemyDataTable>();
 
@@ -29,11 +29,26 @@ public static class ExcelSOGenerator
                     
                     enemyList.dataList.Add(enemy);
                 }
-                string assetPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
-                AssetDatabase.CreateAsset(enemyList, assetPath);
-                Debug.Log($"✅ {sheetName} SO 생성됨: {assetPath}");
+                string enemyAssetPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
+                AssetDatabase.CreateAsset(enemyList, enemyAssetPath);
+                Debug.Log($"✅ {sheetName} SO 생성됨: {enemyAssetPath}");
                 break;
             case "DestinyData":
+                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
+
+                var destinyDataTable = ScriptableObject.CreateInstance<DestinyDataTable>();
+
+                for(int i = 2; i < table.Rows.Count; i++)
+                {
+                    var row = table.Rows[i];
+                    var destiny = new DestinyData();
+                    destiny.ID = int.Parse(row[0].ToString());
+                    destinyDataTable.dataList.Add(destiny);
+                }
+
+                string destinyAssetPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
+                AssetDatabase.CreateAsset(destinyDataTable, destinyAssetPath);
+                Debug.Log($"✅ {sheetName} SO 생성됨: {destinyAssetPath}");
                 break;
             case "EnhanceData":
                 break;
