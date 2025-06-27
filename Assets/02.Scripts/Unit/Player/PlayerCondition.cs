@@ -32,7 +32,7 @@ public class PlayerCondition : BaseCondition
     /// </summary>
     public bool TakenDamage(float damage)
     {
-        Debug.Log($"💥 {damage} 데미지 받음 처리 중...");
+        Debug.Log($"{damage} 데미지 받음 처리 중...");
 
         bool isDead = base.GetDamaged(damage);
         float currentHP = GetValue(ConditionType.HP);

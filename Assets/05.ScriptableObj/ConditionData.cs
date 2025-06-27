@@ -126,13 +126,14 @@ public class ConditionData
         if(conditions.ContainsKey(type))
         {
             conditions[type].SetValue(value);
-            
         }
         else
         {
             Debug.LogWarning($"Condition {type} does not exist. Adding new condition.");
             AddCondition(type, value);
         }
-        initialConditions.Add(conditions[type]);
+
+        if(!initialConditions.Contains(conditions[type]))
+            initialConditions.Add(conditions[type]);
     }
 }

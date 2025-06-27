@@ -10,6 +10,9 @@ public class PlayerController:MonoBehaviour
     [Header("ConditionData SO (엑셀 기반 SO 연결)")]
     [SerializeField] private ConditionData conditionData;
 
+    [Header("Ground Detection")]
+    [SerializeField] private LayerMask groundLayer;
+
     private PlayerInputHandler inputHandler;
     private Rigidbody rb;
 

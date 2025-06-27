@@ -13,58 +13,42 @@ public static class ExcelSOGenerator
             case "PlayerData":
                 Debug.Log($"[ExcelSOGenerator] PlayerData 처리 시작");
 
-                var conditionData = ScriptableObject.CreateInstance<ConditionData>();
+                var playerConditionTable = ScriptableObject.CreateInstance<ConditionDataTable>();
 
-                DataRow typeRow = table.Rows[0];   // 2행 (타입)
-                DataRow valueRow = table.Rows[1];  // 3행 (값)
-
-                for(int col = 0; col < table.Columns.Count; col++)
+                for(int i = 2; i < table.Rows.Count; i++)  // 플레이어 데이터가 여러 개면 반복, 아니면 그냥 i=2 한 번만 돌려도 됨
                 {
-                    string columnName = table.Columns[col].ColumnName.Trim();
-                    string typeStr = typeRow[col].ToString().Trim().ToLower();
-                    string valueStr = valueRow[col].ToString().Trim();
+                    var row = table.Rows[i];
 
-                    if(!Enum.TryParse(columnName, out ConditionType conditionType))
-                    {
-                        Debug.LogWarning($"⚠️ ConditionType '{columnName}' 은 ConditionType Enum에 존재하지 않아 무시.");
-                        continue;
-                    }
+                    var conditionData = new ConditionData();
+                    conditionData.ID = int.Parse(row[0].ToString());
+                    conditionData.CharacterName = row[1].ToString();
 
-                    if(string.IsNullOrEmpty(valueStr))
-                    {
-                        Debug.LogWarning($"⚠️ '{columnName}' 의 값이 비어있어 무시.");
-                        continue;
-                    }
+                    // 열 순서에 맞게 직접 InitCondition 호출
+                    conditionData.InitCondition(ConditionType.HP, float.Parse(row[2].ToString()));
+                    conditionData.InitCondition(ConditionType.Stamina, float.Parse(row[3].ToString()));
+                    conditionData.InitCondition(ConditionType.StaminaRegen, float.Parse(row[4].ToString()));
+                    conditionData.InitCondition(ConditionType.AttackPower, float.Parse(row[5].ToString()));
+                    conditionData.InitCondition(ConditionType.AttackSpeed, float.Parse(row[6].ToString()));
+                    conditionData.InitCondition(ConditionType.AttackRange, float.Parse(row[7].ToString()));
+                    conditionData.InitCondition(ConditionType.Defense, float.Parse(row[8].ToString()));
+                    conditionData.InitCondition(ConditionType.MoveSpeed, float.Parse(row[9].ToString()));
+                    conditionData.InitCondition(ConditionType.JumpPower, float.Parse(row[10].ToString()));
+                    conditionData.InitCondition(ConditionType.CriticalChance, float.Parse(row[11].ToString()));
+                    conditionData.InitCondition(ConditionType.CriticalDamage, float.Parse(row[12].ToString()));
+                    // 필요하면 추가 컨디션도 넣기
 
-                    try
-                    {
-                        float parsedValue = 0f;
-                        if(typeStr == "int")
-                            parsedValue = int.Parse(valueStr);
-                        else if(typeStr == "float")
-                            parsedValue = float.Parse(valueStr);
-                        else
-                        {
-                            Debug.LogWarning($"⚠️ '{columnName}' 의 타입 '{typeStr}' 은 지원하지 않음. 무시.");
-                            continue;
-                        }
-
-                        conditionData.AddCondition(conditionType, parsedValue);
-                        Debug.Log($"✅ {conditionType} = {parsedValue} 적용 완료");
-                    }
-                    catch(Exception ex)
-                    {
-                        Debug.LogError($"❌ '{columnName}' 값 '{valueStr}' 파싱 실패: {ex.Message}");
-                    }
+                    playerConditionTable.dataList.Add(conditionData);
                 }
 
-                string playerAssetPath = $"{assetOutputPath}/PlayerConditionData.asset";
-                AssetDatabase.CreateAsset(conditionData, playerAssetPath);
+                string playerAssetPath = $"{assetOutputPath}/PlayerConditionDataTable.asset";
+                AssetDatabase.CreateAsset(playerConditionTable, playerAssetPath);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
-                Debug.Log($"✅ PlayerConditionData SO 생성 완료: {playerAssetPath}");
+                Debug.Log($"✅ PlayerConditionDataTable SO 생성 완료: {playerAssetPath}");
                 break;
+
+
 
             case "EnemyData":
 
