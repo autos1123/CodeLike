@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
 /// <summary>
-/// 카메라의 로컬 위치 및 회전을 통해 2D와 3D 시점 전환 및 레이어 렌더링 판별
+/// 카메라의 로컬 위치와 회전을 통해 2D 및 3D 시점 전환을 제어하고,
+/// 특정 레이어 렌더링을 제어하며, 전환 중에는 플레이어를 바라보도록 한다.
 /// </summary>
 public class ViewCameraController : MonoBehaviour
 {
@@ -15,18 +14,22 @@ public class ViewCameraController : MonoBehaviour
     [Header("3D 시점 카메라 위치/회전")]
     public Vector3 position3D = new Vector3(0, 5, -38);
     public Vector3 rotation3D = new Vector3(5, 0, 0);
-    
+
     [Header("카메라 전환 시간")]
     public float transitionDuration = 1f;
 
     [Header("렌더링 제어할 레이어")]
     [SerializeField] private LayerMask layerToControl;
 
+    [Header("전환 중 플레이어 추적")]
+    private bool isTransitioning = false;
+    [SerializeField] private Transform playerTransform;
+
     private Camera cam;
-    private int layerMask;
-    
+
     /// <summary>
-    /// 시작 시 현재 시점 모드에 맞게 카메라를 설정후 해당 이벤트를 구독,레이어 마스크 판별
+    /// 시작 시 현재 ViewMode에 따라 카메라를 초기 설정하고,
+    /// ViewManager의 시점 전환 이벤트에 등록한다.
     /// </summary>
     private void Start()
     {
@@ -40,23 +43,40 @@ public class ViewCameraController : MonoBehaviour
         ApplyView(ViewManager.Instance.CurrentViewMode);
         ViewManager.Instance.OnViewChanged += ApplyView;
     }
+
     /// <summary>
-    /// 주어진 시점 모드에 따라 카메라 위치와 회전및 ForeWardBG레이어 렌더링 설정
+    /// 주어진 ViewMode에 따라 카메라 위치 전환 및 렌더링 레이어 설정을 수행하고,
+    /// 전환 중에는 플레이어를 향해 카메라를 회전시킨다.
     /// </summary>
-    /// <param name="mode">적용할 시점 모드</param>
+    /// <param name="mode">적용할 시점 모드 (2D 또는 3D)</param>
     private void ApplyView(ViewModeType mode)
     {
+        isTransitioning = true;
+
+        Vector3 localTargetPos = (mode == ViewModeType.View2D) ? position2D : position3D;
+        Vector3 worldTargetPos = transform.parent.TransformPoint(localTargetPos);
+
+        transform.DOMove(worldTargetPos, transitionDuration)
+            .SetEase(Ease.OutQuad)
+            .OnUpdate(() =>
+            {
+                // 전환 중 실시간으로 플레이어를 바라보게 회전
+                if (playerTransform != null)
+                    transform.LookAt(playerTransform.position);
+            })
+            .OnComplete(() =>
+            {
+                isTransitioning = false;
+
+                // 전환 종료 후 정확히 한 번 LookAt 적용 (보정용)
+                if (playerTransform != null)
+                    transform.LookAt(playerTransform.position);
+            });
+
+        // 레이어 렌더링 마스크 설정 (2D에서는 비활성화, 3D에서는 활성화)
         if (mode == ViewModeType.View2D)
-        {
-            transform.DOLocalMove(position2D, transitionDuration).SetEase(Ease.OutQuad);
-            transform.DOLocalRotate(rotation2D, transitionDuration).SetEase(Ease.OutQuad);
-            cam.cullingMask &= ~layerToControl; 
-        }
+            cam.cullingMask &= ~layerToControl;
         else
-        {
-            transform.DOLocalMove(position3D, transitionDuration).SetEase(Ease.OutQuad);
-            transform.DOLocalRotate(rotation3D, transitionDuration).SetEase(Ease.OutQuad);
-            cam.cullingMask |= layerToControl; 
-        }
+            cam.cullingMask |= layerToControl;
     }
 }
