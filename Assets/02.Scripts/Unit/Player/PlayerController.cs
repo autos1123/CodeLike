@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -9,6 +10,7 @@ public class PlayerController:MonoBehaviour
 {
     [Header("ConditionData SO (엑셀 기반 SO 연결)")]
     [SerializeField] private ConditionData conditionData;
+    [SerializeField] private int ID;
 
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
@@ -29,12 +31,14 @@ public class PlayerController:MonoBehaviour
         // FSM 생성
         stateMachine = new PlayerStateMachine(this);
 
-        // PlayerCondition 생성 및 초기화
-        condition = new PlayerCondition(conditionData);
-        condition.Init(this, stateMachine);
 
         Debug.Log("PlayerController 초기화 완료");
     }
+    private void Start()
+    {
+        StartCoroutine(WaitForDataLoad());
+    }
+
 
     private void Update()
     {
@@ -53,6 +57,18 @@ public class PlayerController:MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.PhysicsUpdate();
+    }
+
+    IEnumerator WaitForDataLoad()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.TableManager.loadComplete);
+        conditionData = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
+        conditionData.InitConditionDictionary();
+
+
+        // PlayerCondition 생성 및 초기화
+        condition = new PlayerCondition(conditionData);
+        condition.Init(this, stateMachine);
     }
 
     /// <summary>

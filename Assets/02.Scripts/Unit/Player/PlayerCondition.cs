@@ -29,10 +29,11 @@ public class PlayerCondition : BaseCondition
 
     /// <summary>
     /// BaseCondition의 GetDamaged 확장 (피격 및 사망 FSM 연동)
+    /// 임시 메서드
     /// </summary>
     public bool TakenDamage(float damage)
     {
-        Debug.Log($"{damage} 데미지 받음 처리 중...");
+        Debug.Log($"{damage} 데미지 받음 처리 중");
 
         bool isDead = base.GetDamaged(damage);
         float currentHP = GetValue(ConditionType.HP);
@@ -53,7 +54,7 @@ public class PlayerCondition : BaseCondition
     /// </summary>
     private void Die()
     {
-        Debug.Log("💀 PlayerCondition: 사망 -> PlayerDeadState 전환");
+        Debug.Log("PlayerCondition: 사망 -> PlayerDeadState 전환");
         stateMachine.ChangeState(new PlayerDeadState(controller, stateMachine));
     }
 }
