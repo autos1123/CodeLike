@@ -47,17 +47,21 @@ public class ConditionData
     [SerializeField] private int id;
     [SerializeField] private string characterName;
     [SerializeField] private List<ConditionEntry> initialConditions = new();
-    private Dictionary<ConditionType, ConditionEntry> conditions = new Dictionary<ConditionType, ConditionEntry>();
+    private Dictionary<ConditionType, ConditionEntry> conditions;
     public int ID { get { return id; } set { id = value; } }
     public string CharacterName { get { return characterName; } set { characterName = value; } }
     public Dictionary<ConditionType, ConditionEntry> Conditions => conditions;
 
-    public void InitDictionary()
+    public ConditionData()
     {
-        // 초기 컨디션을 딕셔너리에 추가
-        foreach(var entry in initialConditions)
+        conditions = new Dictionary<ConditionType, ConditionEntry>();
+    }
+
+    public void InitConditionDictionary()
+    {
+        foreach(ConditionEntry ce in initialConditions)
         {
-            conditions[entry.Type] = entry;
+            conditions[ce.Type] = ce;
         }
     }
 
@@ -96,26 +100,6 @@ public class ConditionData
     }
 
     /// <summary>
-    /// 컨디션 종류 추가
-    /// 데이터 로드 과정에서 사용됨
-    /// </summary>
-    /// <param name="type">추가할 컨디션</param>
-    /// <param name="value">값</param>
-    public void AddCondition(ConditionType type, float value)
-    {
-        if(conditions.ContainsKey(type))
-        {
-            Debug.LogWarning($"Condition {type} already exists. Updating value.");
-            conditions[type] = new ConditionEntry(type, value);
-        }
-        else
-        {
-            conditions.Add(type, new ConditionEntry(type, value));
-        }
-        
-    }
-
-    /// <summary>
     /// 컨디션 초기화
     /// 데이터 로드 과정에서 사용됨
     /// </summary>
@@ -123,16 +107,7 @@ public class ConditionData
     /// <param name="value"></param>
     public void InitCondition(ConditionType type, float value)
     {
-        if(conditions.ContainsKey(type))
-        {
-            conditions[type].SetValue(value);
-            
-        }
-        else
-        {
-            Debug.LogWarning($"Condition {type} does not exist. Adding new condition.");
-            AddCondition(type, value);
-        }
+        conditions[type] = new ConditionEntry(type, value);
         initialConditions.Add(conditions[type]);
     }
 }

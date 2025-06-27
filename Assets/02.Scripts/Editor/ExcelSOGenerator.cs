@@ -10,7 +10,8 @@ public static class ExcelSOGenerator
     {
         switch(sheetName)
         {
-            case "EnemyData":
+           
+            case "UnitData":
 
                 var conditions = ScriptableObject.CreateInstance<ConditionDataTable>();
 
