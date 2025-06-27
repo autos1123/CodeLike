@@ -7,7 +7,9 @@ public class RoomPrefabSet : ScriptableObject
 {
     public GameObject startRoom;
     public GameObject bossRoom;
-    public List<GameObject> normalRooms;
+
+    [SerializeField]
+    public List<GameObject> normalRooms; 
 
     public GameObject GetRandomPrefab(RoomType type)
     {

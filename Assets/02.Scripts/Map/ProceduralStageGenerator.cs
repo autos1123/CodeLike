@@ -19,7 +19,7 @@ public class ProceduralStageGenerator : MonoBehaviour
     public Room CreateRoom(Vector2Int gridPos, RoomType type)
     {
         int gridSpacing = 20;
-        Vector3 worldPos = new Vector3(gridPos.x *  gridSpacing, 0f, gridPos.y * gridSpacing);
+        Vector3 worldPos = new Vector3(gridPos.x * gridSpacing, gridPos.y * gridSpacing, 0f);
 
         GameObject prefab = prefabSet.GetRandomPrefab(type);
         GameObject roomGO = Instantiate(prefab, worldPos, Quaternion.identity, roomParent);
@@ -27,7 +27,36 @@ public class ProceduralStageGenerator : MonoBehaviour
         Room room = roomGO.GetComponent<Room>();
         room.Initialize(nextRoomID++, gridPos, type);
         return room;
-    } 
+    }
+
+    public void ConnectRooms()
+    {
+        for (int i = 1; i < rooms.Count; i++)
+        {
+            Room prev = rooms[i - 1];
+            Room curr = rooms[i];
+
+
+
+            Direction direction;
+
+            Vector2Int diff = curr.GridPosition - prev.GridPosition;
+            if (diff.x == 1) direction = Direction.Right;
+            else if (diff.x == -1) direction = Direction.Left;
+            else if (diff.y == 1) direction = Direction.Up;
+            else direction = Direction.Down;
+
+            RoomConnection connection = new RoomConnection
+                (
+                    fromRoomID: prev.Id,
+                    toRoomID: curr.Id,
+                    direction: direction
+                );
+
+            prev.AddConnection(connection);
+            connections.Add(connection);
+        }
+    }
 
     public bool AreRoomsOverlapping(Room roomA, Room roomB)
     {
@@ -57,6 +86,7 @@ public class ProceduralStageGenerator : MonoBehaviour
         this.seed = seed;
         random = new System.Random(seed);
         rooms = new List<Room>();
+        connections = new List<RoomConnection>();
         nextRoomID = 0;
 
         int gridWidth = 5;
@@ -102,6 +132,7 @@ public class ProceduralStageGenerator : MonoBehaviour
             if(!moved) break;
 
         }
+        ConnectRooms();
         return rooms;
     }
 }
