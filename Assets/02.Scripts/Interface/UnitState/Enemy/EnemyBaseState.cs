@@ -58,9 +58,13 @@ public class EnemyBaseState:IUnitState
         viewMode = mode;
     }
 
+    /// <summary>
+    /// 미리 캐싱한 플레이어가 추적 범위에 들어왔는지 확인하는 메서드
+    /// </summary>
+    /// <returns></returns>
     protected bool IsInChaseRange()
     {
-        float playerDistanceSqr = (stateMachine.Target.transform.position - stateMachine.Enemy.transform.position).sqrMagnitude;
+        float playerDistanceSqr = (stateMachine.Player.transform.position - stateMachine.Enemy.transform.position).sqrMagnitude;
         float chaseRange = 0f;
 
         if(!data.TryGetCondition(ConditionType.ChaseRange, out chaseRange))

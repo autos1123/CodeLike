@@ -17,6 +17,7 @@ public enum ConditionType
     CriticalChance,
     CriticalDamage,
     // Enemy 전용 컨디션 타입
+    PatrolRange,
     ChaseRange
 }
 
