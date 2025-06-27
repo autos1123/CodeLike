@@ -27,8 +27,7 @@ public class Pixelater : MonoBehaviour
     }
     
     /// <summary>
-    /// 활성화 시 ViewManager의 OnViewChanged 이벤트에 등록하여
-    /// 시점 전환 시 픽셀화 상태를 실시간으로 반영
+    /// 활성화 시 ViewMode 전환 이벤트에 등록하고 초기 상태 반영
     /// </summary>
     private void OnEnable()
     {
@@ -47,19 +46,28 @@ public class Pixelater : MonoBehaviour
         if (ViewManager.HasInstance)
             ViewManager.Instance.OnViewChanged -= OnViewModeChanged;
     }
+    
+    /// <summary>
+    /// 프레임마다 현재 픽셀화 강도를 목표 값으로 부드럽게 보간
+    /// </summary>
     private void Update()
     {
         _currentPixelate = Mathf.Lerp(_currentPixelate, _targetPixelate, Time.deltaTime * _lerpSpeed);
         
     }
+    
     /// <summary>
-    /// ViewManager로부터 시점 전환 알림을 받아 픽셀화 상태 갱신
+    /// ViewMode 전환 시, 2D일 경우 픽셀화 강도 적용 / 3D일 경우 해제
     /// </summary>
     private void OnViewModeChanged(ViewModeType mode)
     {
         //_pixelateActive = (mode == ViewModeType.View2D);
         _targetPixelate = (mode == ViewModeType.View2D) ? _pixelate : 0f;
     }
+    
+    /// <summary>
+    /// 현재 ViewMode에 맞게 초기 픽셀화 강도 설정
+    /// </summary>
     private void TryUpdatePixelateState()
     {
         if (ViewManager.HasInstance)
@@ -69,7 +77,7 @@ public class Pixelater : MonoBehaviour
         }
     }
     /// <summary>
-    /// 카메라 렌더링 결과에 픽셀화 후처리 적용
+    /// 카메라 렌더링 결과에 픽셀화 효과를 적용 (RenderTexture 해상도 축소/확대로 표현)
     /// </summary>
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
@@ -92,7 +100,7 @@ public class Pixelater : MonoBehaviour
     }
     
     /// <summary>
-    /// 현재 픽셀화 강도 값을 화면에 GUI로 출력
+    /// 현재 적용 중인 픽셀화 강도를 화면에 GUI로 출력 (디버그용)
     /// </summary>
     private void OnGUI()
     {
