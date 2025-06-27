@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class BaseTable<T> : ScriptableObject, ITable where T : class
+public class BaseTable<T> : ScriptableObject, ITable where T : class 
 {
     public List<T> dataList = new List<T>();  
     public Dictionary<int, T> DataDic { get; protected set; } = new Dictionary<int, T>();
@@ -20,6 +20,7 @@ public class BaseTable<T> : ScriptableObject, ITable where T : class
             return value;
 
         Debug.LogError($"ID {id}를 찾을 수 없습니다.");
-        return null;
+        return default(T);
     }
 }
+

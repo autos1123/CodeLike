@@ -28,6 +28,12 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        List<Room> generatedRooms = generator.Generate(seed);
+        // generatedRooms를 StageData 등으로 저장하는 로직도 필요
+    }
+
     public void RestartStage() => LoadStage(seed);
 
     public void ClearStage()
