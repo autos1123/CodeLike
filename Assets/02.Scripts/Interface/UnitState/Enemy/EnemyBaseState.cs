@@ -1,26 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Profiling.HierarchyFrameDataView;
 
-public class EnemyBaseState : IUnitState
+public class EnemyBaseState:IUnitState
 {
     protected EnemyStateMachine stateMachine;
     protected ConditionData data;
 
+    protected ViewModeType viewMode;
+
     protected float moveSpeedModifier = 1f;
 
-    public EnemyBaseState(EnemyStateMachine playerStateMachine)
+    public EnemyBaseState(EnemyStateMachine stateMachine)
     {
-        stateMachine = playerStateMachine;
-        data = stateMachine.Enemy.Condition.Data;
+        this.stateMachine = stateMachine;
+        data = stateMachine.Enemy.Data;
     }
 
     public virtual void StateEnter()
     {
+        if(ViewManager.HasInstance)
+        {
+            viewMode = ViewManager.Instance.CurrentViewMode;
+            ViewManager.Instance.OnViewChanged += SwitchView;
+        }
+        else
+        {
+            viewMode = ViewModeType.View2D; // 기본값 설정
+        }
     }
 
     public virtual void StateExit()
     {
+        if(ViewManager.HasInstance)
+        {
+            ViewManager.Instance.OnViewChanged -= SwitchView;
+        }
     }
 
     public virtual void StatePhysicsUpdate()
@@ -29,55 +45,26 @@ public class EnemyBaseState : IUnitState
 
     public virtual void StateUpdate()
     {
-        Move();
+
     }
 
-    private void Move()
+    /// <summary>
+    /// 2D/3D 시점 변환시 호출되는 메서드
+    /// </summary>
+    /// <param name="mode"></param>
+    public void SwitchView(ViewModeType mode)
     {
-        Vector3 movementDirection = GetMovementDirection();
-
-        Rotate(movementDirection);
-
-        Move(movementDirection);
+        if(viewMode == mode) return;
+        viewMode = mode;
     }
 
-    private Vector3 GetMovementDirection()
-    {
-        // 2D/3D 고려 필요
-        Vector3 dir = (stateMachine.Target.transform.position - stateMachine.Enemy.transform.position).normalized;
-        return dir;
-    }
-
-    void Move(Vector3 movementDirection)
-    {
-        float movementSpeed = GetMovementSpeed();
-        // stateMachine.Enemy.Controller.Move(((movementDirection * movementSpeed) + stateMachine.Enemy.ForceReceiver.Movement) * Time.deltaTime);
-    }
-
-    private float GetMovementSpeed()
-    {
-        float movementSpeed = stateMachine.MovementSpeed * moveSpeedModifier;
-        return movementSpeed;
-    }
-
-    void Rotate(Vector3 movementDirection)
-    {
-        // 2D/3D 고려 필요
-        //if(movementDirection != Vector3.zero)
-        //{
-        //    Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
-        //    stateMachine.Enemy.transform.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
-        //}
-    }
-
-    protected void ForceMove()
-    {
-        // stateMachine.Enemy.Controller.Move(stateMachine.Enemy.ForceReceiver.Movement * Time.deltaTime);
-    }
-
+    /// <summary>
+    /// 미리 캐싱한 플레이어가 추적 범위에 들어왔는지 확인하는 메서드
+    /// </summary>
+    /// <returns></returns>
     protected bool IsInChaseRange()
     {
-        float playerDistanceSqr = (stateMachine.Target.transform.position - stateMachine.Enemy.transform.position).sqrMagnitude;
+        float playerDistanceSqr = (stateMachine.Player.transform.position - stateMachine.Enemy.transform.position).sqrMagnitude;
         float chaseRange = 0f;
 
         if(!data.TryGetCondition(ConditionType.ChaseRange, out chaseRange))

@@ -17,6 +17,7 @@ public enum ConditionType
     CriticalChance,
     CriticalDamage,
     // Enemy 전용 컨디션 타입
+    PatrolRange,
     ChaseRange
 }
 
@@ -50,7 +51,7 @@ public class ConditionData : ScriptableObject
     public string CharacterName => characterName;
     public Dictionary<ConditionType, ConditionEntry> Conditions => conditions;
 
-    public void Awake()
+    public void InitDictionary()
     {
         // 초기 컨디션을 딕셔너리에 추가
         foreach(var entry in initialConditions)
