@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,10 +16,10 @@ public class ProceduralStageGenerator : MonoBehaviour
     public RoomPrefabSet prefabSet;
     public Transform roomParent;
 
-    public Room CreateRoom(Vector2Int gridPos, RoomType type)
+    public Room CreateRoom(Vector2Int gridPos, RoomType type) //룸 생성 함수
     {
         int gridSpacing = 20;
-        Vector3 worldPos = new Vector3(gridPos.x *  gridSpacing, 0f, gridPos.y * gridSpacing);
+        Vector3 worldPos = new Vector3(gridPos.x * gridSpacing, gridPos.y * gridSpacing, 0f); 
 
         GameObject prefab = prefabSet.GetRandomPrefab(type);
         GameObject roomGO = Instantiate(prefab, worldPos, Quaternion.identity, roomParent);
@@ -29,7 +29,37 @@ public class ProceduralStageGenerator : MonoBehaviour
         return room;
     } 
 
-    public bool AreRoomsOverlapping(Room roomA, Room roomB)
+
+    public void ConnectRooms() //룸 연결 함수(RoomConnection과 연결)
+    {
+        for (int i = 1; i < rooms.Count; i++)
+        {
+            Room prev = rooms[i - 1];
+            Room curr = rooms[i];
+
+
+
+            Direction direction; //룸의 방향을 기준으로 연결
+
+            Vector2Int diff = curr.GridPosition - prev.GridPosition;
+            if (diff.x == 1) direction = Direction.Right;
+            else if (diff.x == -1) direction = Direction.Left;
+            else if (diff.y == 1) direction = Direction.Up;
+            else direction = Direction.Down;
+
+            RoomConnection connection = new RoomConnection 
+                (
+                    fromRoomID: prev.Id,
+                    toRoomID: curr.Id,
+                    direction: direction
+                );
+
+            prev.AddConnection(connection);
+            connections.Add(connection);
+        }
+    }
+
+    public bool AreRoomsOverlapping(Room roomA, Room roomB) //룸이 겹치는지 테스트하는 함수
     {
         Vector3 apos = roomA.transform.position;
         Vector3 bpos = roomB.transform.position;
@@ -52,11 +82,12 @@ public class ProceduralStageGenerator : MonoBehaviour
 
     }
 
-    public List<Room> Generate(int seed)
+    public List<Room> Generate(int seed) //실제 절차적 생성 함수
     {
         this.seed = seed;
         random = new System.Random(seed);
         rooms = new List<Room>();
+        connections = new List<RoomConnection>();
         nextRoomID = 0;
 
         int gridWidth = 5;
@@ -102,6 +133,7 @@ public class ProceduralStageGenerator : MonoBehaviour
             if(!moved) break;
 
         }
-        return rooms;
+        ConnectRooms(); //룸 연결
+        return rooms; //값 반환
     }
 }

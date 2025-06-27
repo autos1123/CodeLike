@@ -68,26 +68,35 @@ public static class ExcelSOGenerator
 
             case "EnemyData":
 
-                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
-
-                var enemyList = ScriptableObject.CreateInstance<EnemyDataTable>();
+                var conditions = ScriptableObject.CreateInstance<ConditionDataTable>();
 
                 for(int i = 2; i < table.Rows.Count; i++)
                 {
                     var row = table.Rows[i];
-                    var enemy = new EnemyData();
 
-                    enemy.ID = int.Parse(row[0].ToString());
-                    enemy.Name = row[1].ToString();
-                    enemy.HP = int.Parse(row[2].ToString());
-                    enemy.ATK = int.Parse(row[3].ToString());
-                    enemy.Speed = float.Parse(row[4].ToString());
+                    var condition = new ConditionData();
+                    condition.ID = int.Parse(row[0].ToString());
+                    condition.CharacterName = row[1].ToString();
+                    condition.InitCondition(ConditionType.HP , float.Parse(row[2].ToString()));
+                    condition.InitCondition(ConditionType.Stamina, float.Parse(row[3].ToString()));
+                    condition.InitCondition(ConditionType.StaminaRegen, float.Parse(row[4].ToString()));
+                    condition.InitCondition(ConditionType.AttackPower, float.Parse(row[5].ToString()));
+                    condition.InitCondition(ConditionType.AttackSpeed, float.Parse(row[6].ToString()));
+                    condition.InitCondition(ConditionType.AttackRange, float.Parse(row[7].ToString()));
+                    condition.InitCondition(ConditionType.Defense, float.Parse(row[8].ToString()));
+                    condition.InitCondition(ConditionType.MoveSpeed, float.Parse(row[9].ToString()));
+                    condition.InitCondition(ConditionType.JumpPower, float.Parse(row[10].ToString()));
+                    condition.InitCondition(ConditionType.CriticalChance, float.Parse(row[11].ToString()));
+                    condition.InitCondition(ConditionType.CriticalDamage, float.Parse(row[12].ToString()));
+                    condition.InitCondition(ConditionType.PatrolRange, float.Parse(row[13].ToString()));
+                    condition.InitCondition(ConditionType.ChaseRange, float.Parse(row[14].ToString()));
 
-                    
-                    enemyList.dataList.Add(enemy);
+                    conditions.dataList.Add(condition);
                 }
-                string enemyAssetPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
-                AssetDatabase.CreateAsset(enemyList, enemyAssetPath);
+                string enemyAssetPath = $"{assetOutputPath}/ConditionDataTable.asset";
+                AssetDatabase.CreateAsset(conditions, enemyAssetPath);
+                
+
                 Debug.Log($"✅ {sheetName} SO 생성됨: {enemyAssetPath}");
                 break;
             case "DestinyData":
@@ -115,8 +124,11 @@ public static class ExcelSOGenerator
                 break;
             case "DestinyEffectData":
                 break;
+            case "Enums":
+                ClassGenerator.GenerateEnumFromTable(table, sheetName, "Assets/02.Scripts/Emuns");
+                break;
             default:
-                Debug.LogError("이상한 반복 확인");
+                Debug.LogError($"{sheetName}이상한 반복 확인");
                 break;
 
         }
