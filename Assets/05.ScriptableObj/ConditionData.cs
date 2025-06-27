@@ -32,7 +32,6 @@ public class ConditionEntry
         this.type = type;
         this.value = value;
     }
-
     public ConditionType Type => type;
     public float Value => value;
 
@@ -42,13 +41,15 @@ public class ConditionEntry
     }
 }
 
-[CreateAssetMenu(fileName = "ConditionData", menuName = "Scriptable Objects/ConditionData")]
-public class ConditionData : ScriptableObject
+[System.Serializable]
+public class ConditionData
 {
+    [SerializeField] private int id;
     [SerializeField] private string characterName;
-    [SerializeField] private List<ConditionEntry> initialConditions;
+    [SerializeField] private List<ConditionEntry> initialConditions = new();
     private Dictionary<ConditionType, ConditionEntry> conditions = new Dictionary<ConditionType, ConditionEntry>();
-    public string CharacterName => characterName;
+    public int ID { get { return id; } set { id = value; } }
+    public string CharacterName { get { return characterName; } set { characterName = value; } }
     public Dictionary<ConditionType, ConditionEntry> Conditions => conditions;
 
     public void InitDictionary()
@@ -111,6 +112,7 @@ public class ConditionData : ScriptableObject
         {
             conditions.Add(type, new ConditionEntry(type, value));
         }
+        
     }
 
     /// <summary>
@@ -124,11 +126,13 @@ public class ConditionData : ScriptableObject
         if(conditions.ContainsKey(type))
         {
             conditions[type].SetValue(value);
+            
         }
         else
         {
             Debug.LogWarning($"Condition {type} does not exist. Adding new condition.");
             AddCondition(type, value);
         }
+        initialConditions.Add(conditions[type]);
     }
 }

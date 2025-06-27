@@ -8,7 +8,7 @@ public class EnemyController:MonoBehaviour
     private EnemyStateMachine stateMachine;
     [SerializeField] private ConditionData data;
     [SerializeField] private float rotDamping;
-
+    [SerializeField] private int ID;
     public EnemyCondition Condition { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
@@ -23,10 +23,15 @@ public class EnemyController:MonoBehaviour
         stateMachine = new EnemyStateMachine(this);
         Rigidbody = GetComponent<Rigidbody>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
+        data = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
     }
 
     private void Update()
     {
+        if(data.ID ==0)
+        {
+            data = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
+        }
         stateMachine.Update();
     }
 

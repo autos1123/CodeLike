@@ -15,16 +15,16 @@ MonoBehaviour:
   dataList:
   - ID: 1
     Name: Slime
-    HP: 30
-    ATK: 5
-    Speed: 1.2
+    HP: 1
+    ATK: 1
+    Speed: 1
   - ID: 2
     Name: Goblin
-    HP: 50
-    ATK: 10
-    Speed: 1.8
+    HP: 1
+    ATK: 1
+    Speed: 1
   - ID: 3
     Name: Orc
-    HP: 120
-    ATK: 20
-    Speed: 0.9
+    HP: 1
+    ATK: 1
+    Speed: 1

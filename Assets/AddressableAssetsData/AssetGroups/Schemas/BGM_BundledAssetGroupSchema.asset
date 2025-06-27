@@ -31,7 +31,7 @@ MonoBehaviour:
   m_UseUWRForLocalBundles: 0
   m_Timeout: 0
   m_ChunkedTransfer: 0
-  m_RedirectLimit: -1
+  m_RedirectLimit: 8
   m_RetryCount: 0
   m_BuildPath:
     m_Id: 282e1ae588ec6a245864161c85a06c91
