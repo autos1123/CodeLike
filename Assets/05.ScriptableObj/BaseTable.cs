@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class BaseTable<T> : ScriptableObject, ITable where T : struct 
+public class BaseTable<T> : ScriptableObject, ITable where T : class 
 {
     public List<T> dataList = new List<T>();  
     public Dictionary<int, T> DataDic { get; protected set; } = new Dictionary<int, T>();

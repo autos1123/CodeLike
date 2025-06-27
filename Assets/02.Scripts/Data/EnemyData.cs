@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public struct EnemyData
+public class EnemyData
 {
     public int ID;
     public string Name;

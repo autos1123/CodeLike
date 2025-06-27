@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct DestinyEffectData
+public class DestinyEffectData
 {
     int ID;
 }
