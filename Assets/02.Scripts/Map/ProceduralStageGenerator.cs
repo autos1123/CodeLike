@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,11 +19,7 @@ public class ProceduralStageGenerator : MonoBehaviour
     public Room CreateRoom(Vector2Int gridPos, RoomType type) //룸 생성 함수
     {
         int gridSpacing = 20;
-<<<<<<< Updated upstream
-        Vector3 worldPos = new Vector3(gridPos.x *  gridSpacing, 0f, gridPos.y * gridSpacing);
-=======
         Vector3 worldPos = new Vector3(gridPos.x * gridSpacing, gridPos.y * gridSpacing, 0f); 
->>>>>>> Stashed changes
 
         GameObject prefab = prefabSet.GetRandomPrefab(type);
         GameObject roomGO = Instantiate(prefab, worldPos, Quaternion.identity, roomParent);
@@ -31,10 +27,8 @@ public class ProceduralStageGenerator : MonoBehaviour
         Room room = roomGO.GetComponent<Room>();
         room.Initialize(nextRoomID++, gridPos, type);
         return room;
-<<<<<<< Updated upstream
     } 
-=======
-    }
+
 
     public void ConnectRooms() //룸 연결 함수(RoomConnection과 연결)
     {
@@ -64,7 +58,6 @@ public class ProceduralStageGenerator : MonoBehaviour
             connections.Add(connection);
         }
     }
->>>>>>> Stashed changes
 
     public bool AreRoomsOverlapping(Room roomA, Room roomB) //룸이 겹치는지 테스트하는 함수
     {
@@ -94,6 +87,7 @@ public class ProceduralStageGenerator : MonoBehaviour
         this.seed = seed;
         random = new System.Random(seed);
         rooms = new List<Room>();
+        connections = new List<RoomConnection>();
         nextRoomID = 0;
 
         int gridWidth = 5;
@@ -139,11 +133,7 @@ public class ProceduralStageGenerator : MonoBehaviour
             if(!moved) break;
 
         }
-<<<<<<< Updated upstream
-        return rooms;
-=======
         ConnectRooms(); //룸 연결
         return rooms; //값 반환
->>>>>>> Stashed changes
     }
 }
