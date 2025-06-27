@@ -5,18 +5,17 @@ using UnityEngine;
 
 public class DestinyManager : MonoSingleton<DestinyManager>
 {
-    TableManager tableManager;
-    List<DestinyData> destinyDatadatas;
+    TableManager _tableManager;
+    List<DestinyData> _destinyDatas;
 
     protected override bool Persistent => false;
-    public void Init()
+    public void Init(TableManager tableManager)
     {
-        tableManager = TableManager.Instance;
-        destinyDatadatas = tableManager.GetTable<DestinyDataTable>().dataList;
-
+        _tableManager = tableManager;
+        _destinyDatas = tableManager.GetTable<DestinyDataTable>().dataList;
     }
     public List<DestinyData> GetDestiny(int count)
     {
-        return destinyDatadatas.ShuffleData().Take(count).ToList();
+        return _destinyDatas.ShuffleData().Take(count).ToList();
     }
 }
