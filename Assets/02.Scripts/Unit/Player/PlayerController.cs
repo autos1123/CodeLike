@@ -1,30 +1,39 @@
 using UnityEngine;
 
 /// <summary>
-/// 플레이어 이동과 상태를 제어하는 컴포넌트
-/// ViewMode (2D / 3D)에 따라 이동 방향과 점프 방식이 달라짐
+/// 플레이어 이동 및 상태(FSM), 스탯 관리 연동 컨트롤러 (엑셀 기반 SO 사용)
 /// </summary>
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController:MonoBehaviour
 {
+    [Header("ConditionData SO (엑셀 기반 SO 연결)")]
+    [SerializeField] private ConditionData conditionData;
+
+    [Header("Ground Detection")]
+    [SerializeField] private LayerMask groundLayer;
+
     private PlayerInputHandler inputHandler;
     private Rigidbody rb;
 
-    [Header("이동 속도")]
-    public float moveSpeed = 5f;
-
-    [Header("점프 설정")]
-    public float jumpForce = 7f;
-    public float groundRayLength = 0.3f;         // 바닥 감지용 Ray 길이
-    public LayerMask groundLayer;                // 바닥 판정할 레이어
-
     private bool isGrounded;
+
+    public PlayerStateMachine stateMachine { get; private set; }
+    public PlayerCondition condition { get; private set; }
 
     private void Awake()
     {
         inputHandler = GetComponent<PlayerInputHandler>();
         rb = GetComponent<Rigidbody>();
+
+        // FSM 생성
+        stateMachine = new PlayerStateMachine(this);
+
+        // PlayerCondition 생성 및 초기화
+        condition = new PlayerCondition(conditionData);
+        condition.Init(this, stateMachine);
+
+        Debug.Log("PlayerController 초기화 완료");
     }
 
     private void Update()
@@ -37,61 +46,64 @@ public class PlayerController:MonoBehaviour
             Jump();
         }
 
-        inputHandler.ResetOneTimeInputs(); // 일회성 입력 초기화
+        stateMachine.Update();
+        inputHandler.ResetOneTimeInputs();
     }
 
     private void FixedUpdate()
     {
-        // 이동 처리 (물리 기반)
-        Vector2 moveInput = inputHandler.MoveInput;
-
-        Vector3 moveDir = Move(moveInput);
-        Vector3 velocity = moveDir * moveSpeed;
-        velocity.y = rb.velocity.y;
-
-        rb.velocity = velocity;
+        stateMachine.PhysicsUpdate();
     }
 
     /// <summary>
-    /// ViewMode에 따라 이동 방향 계산
+    /// ViewMode에 따라 이동 방향 계산 및 속도 적용
+    /// FSM 내에서 호출됨
     /// </summary>
     public Vector3 Move(Vector2 input)
     {
+        float moveSpeed = condition.GetValue(ConditionType.MoveSpeed);
+
+        Vector3 moveDirection;
+
         if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
         {
-            return new Vector3(input.x, 0f, 0f); // X축만 이동 (Z 고정)
+            moveDirection = new Vector3(input.x, 0f, 0f);
         }
         else
         {
-            // 3D: 카메라 기준으로 방향 계산
             Vector3 camForward = Camera.main.transform.forward;
             Vector3 camRight = Camera.main.transform.right;
-
             camForward.y = 0f;
             camRight.y = 0f;
             camForward.Normalize();
             camRight.Normalize();
 
-            return camRight * input.x + camForward * input.y;
+            moveDirection = camRight * input.x + camForward * input.y;
         }
+
+        // 속도 적용
+        Vector3 velocity = moveDirection * moveSpeed;
+        velocity.y = rb.velocity.y;
+        rb.velocity = velocity;
+
+        return moveDirection;
     }
 
     /// <summary>
-    /// ViewMode에 따라 점프 처리
+    /// ViewMode에 따라 점프 처리 (엑셀 SO 기반 jumpForce 사용)
     /// </summary>
     private void Jump()
     {
+        float jumpForce = condition.GetValue(ConditionType.JumpPower);
         Vector3 currentVelocity = rb.velocity;
 
         if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
         {
-            // Y축 점프, Z 고정
             rb.velocity = new Vector3(currentVelocity.x, 0f, 0f);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
         else
         {
-            // Y축 점프 (XZ 이동 유지)
             rb.velocity = new Vector3(currentVelocity.x, 0f, currentVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
@@ -102,16 +114,13 @@ public class PlayerController:MonoBehaviour
     /// </summary>
     private bool IsGrounded()
     {
-        Vector3 origin = transform.position + Vector3.up * 0.1f; // 살짝 위에서 쏨
+        Vector3 origin = transform.position + Vector3.up * 0.1f;
         Ray ray = new Ray(origin, Vector3.down);
 
-        Debug.DrawRay(origin, Vector3.down * groundRayLength, Color.red); // 디버그 시각화
+        Debug.DrawRay(origin, Vector3.down * 0.3f, Color.red);
 
-        return Physics.Raycast(ray, groundRayLength, groundLayer);
+        return Physics.Raycast(ray, 0.3f, groundLayer);
     }
 
-    /// <summary>
-    /// 입력 핸들러 접근자
-    /// </summary>
     public PlayerInputHandler Input => inputHandler;
 }
