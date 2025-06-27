@@ -23,15 +23,16 @@ public class EnemyController:MonoBehaviour
         stateMachine = new EnemyStateMachine(this);
         Rigidbody = GetComponent<Rigidbody>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        data = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
+        StartCoroutine(WaitForDataLoad());
+        //data = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
     }
 
     private void Update()
     {
-        if(data.ID ==0)
-        {
-            data = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
-        }
+        //if(data.ID == 0)
+        //{
+        //    data = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
+        //}
         stateMachine.Update();
     }
 
@@ -73,5 +74,11 @@ public class EnemyController:MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
         }
+    }
+
+    IEnumerator WaitForDataLoad()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.TableManager.loadComplete);
+        data = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
     }
 }

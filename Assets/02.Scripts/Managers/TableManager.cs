@@ -18,6 +18,8 @@ public class TableManager:MonoSingleton<TableManager>
 
     private AsyncOperationHandle<ScriptableObject> _loadHandle;
 
+    public bool loadComplete { get; private set; } = false;
+
     /// <summary>
     /// 초기화
     /// </summary>
@@ -48,6 +50,8 @@ public class TableManager:MonoSingleton<TableManager>
                 }
             }
         };
+
+        loadComplete = true;
     }
 
     public T GetTable<T>() where T : class
