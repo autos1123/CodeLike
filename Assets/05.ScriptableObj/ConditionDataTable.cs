@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnemyDataTable", menuName = "Scriptable Objects/EnemyDataTable")]
+[CreateAssetMenu(fileName = "ConditionDataTable", menuName = "Scriptable Objects/ConditionDataTable")]
 
-public class EnemyDataTable : BaseTable<EnemyData>
+public class ConditionDataTable :BaseTable<ConditionData>
 {
     public override void CreateTable()
     {
         base.CreateTable();
+        DataDic.Clear();
         foreach(var data in dataList)
         {
             DataDic[data.ID] = data;

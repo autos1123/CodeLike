@@ -17,12 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 8abc612d017e26f4cb62782ec1595abe
   m_SerializeEntries:
-  - m_GUID: 60c307908f969064882693c259728ce4
-    m_Address: EnemyDataTable
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - DataTable
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cc73896d9e14cb54b8f2dc62700c2cfa
     m_Address: DestinyDataTable
     m_ReadOnly: 0
@@ -43,6 +37,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 291e9caaed4b58c4d808eab59ded6744
     m_Address: ActiveItemDataTable
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DataTable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1841d90d8b54fa14ebc225d188ed742b
+    m_Address: ConditionDataTable
     m_ReadOnly: 0
     m_SerializedLabels:
     - DataTable

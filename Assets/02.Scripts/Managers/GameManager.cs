@@ -27,10 +27,10 @@ public class GameManager : MonoSingleton<GameManager>
 
         _tableManager = TableManager.Instance;
         _saveManager = SaveManager.Instance;
-        _soundManager = SoundManager.Instance;
+        //_soundManager = SoundManager.Instance;
 
         _tableManager.Init(Instance);
         _saveManager.Init(Instance);
-        _soundManager.Init();
+        //_soundManager.Init();
     }
 }

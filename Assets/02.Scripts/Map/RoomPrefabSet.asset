@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startRoom: {fileID: 6537864612374158351, guid: 18e92144744713c4ca50a8d1250e98f2, type: 3}
   bossRoom: {fileID: 3506361992251466487, guid: fb2d9e1ae162f0f47892f57b8ee9d3b1, type: 3}
-  normalRooms: []
+  normalRooms:
+  - {fileID: 8882030770698099168, guid: 113e951ed10b14842a962a67a493f40f, type: 3}
+  - {fileID: 8882030770698099168, guid: 467986a2ec3fcde4e8fe3f324600b76e, type: 3}
+  - {fileID: 8882030770698099168, guid: aab96094b0677484cb471946c6c28288, type: 3}
