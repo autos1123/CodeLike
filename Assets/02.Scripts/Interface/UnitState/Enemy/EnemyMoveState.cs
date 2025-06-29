@@ -30,6 +30,7 @@ public class EnemyMoveState : EnemyBaseState
     {
         base.StatePhysicsUpdate();
         Move();
+        Debug.Log(targetPos);
     }
 
     protected void Move()
@@ -50,8 +51,10 @@ public class EnemyMoveState : EnemyBaseState
         {
             dir.z = 0;
         }
+        dir.y = 0; // y축은 현재 위치 유지
 
         dir.Normalize();
+        Debug.Log($"GetMovementDirection: {dir}");
         return dir;
     }
 
@@ -82,10 +85,7 @@ public class EnemyMoveState : EnemyBaseState
     {
         if(movementDirection != Vector3.zero)
         {
-            Vector3 lookDir = movementDirection;
-            lookDir.y = stateMachine.Enemy.transform.position.y; // y축은 현재 위치 유지
-
-            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+            Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
             stateMachine.Enemy.transform.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
         }
     }
@@ -96,6 +96,13 @@ public class EnemyMoveState : EnemyBaseState
     /// <returns></returns>
     protected float GetDistanceToTarget()
     {
+        if(viewMode == ViewModeType.View2D)
+        {
+            // 2D인 경우 x축과 y축만 고려하여 거리 계산
+            Vector3 targetPos2D = new Vector3(targetPos.x, targetPos.y, stateMachine.Enemy.transform.position.z);
+            return Vector3.Distance(stateMachine.Enemy.transform.position, targetPos2D);
+        }
+
         return Vector3.Distance(stateMachine.Enemy.transform.position, targetPos);
     }
 }

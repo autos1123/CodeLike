@@ -45,6 +45,10 @@ public class EnemyIdleState : EnemyBaseState
         }
     }
 
+    /// <summary>
+    /// 탐색 지점 검출 메서드
+    /// </summary>
+    /// <returns></returns>
     private Vector3 GetWanderLocation()
     {
         NavMeshHit hit;
