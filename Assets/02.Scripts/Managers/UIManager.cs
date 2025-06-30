@@ -7,20 +7,20 @@ using UnityEngine.AddressableAssets;
 public class UIManager:MonoSingleton<UIManager>
 {
     private Dictionary<string, UIBase> _uiInstances = new Dictionary<string, UIBase>();
-    [SerializeField]private List<GameObject> uiPrefabs;
-    private void Awake()
+    private List<GameObject> uiPrefabs;
+    protected override void Awake()
     {
+        base.Awake();
         InitializeUI();
     }
     private void InitializeUI()
     {
-        Addressables.LoadAssetsAsync<UIBase>(
+        Addressables.LoadAssetsAsync<GameObject>(
             AddressbleLabels.UIabel,
-            (uiBase) =>
+            (GameObject) =>
             {
-                var ui =  Instantiate(uiBase.gameObject, this.transform);
-                uiPrefabs.Add(ui);
-                uiBase.Close();                
+                var ui = Instantiate(GameObject, this.transform);
+                uiPrefabs.Add(ui);        
             }
         ).Completed += (handle) =>
         {
@@ -30,9 +30,29 @@ public class UIManager:MonoSingleton<UIManager>
                 {
                     _uiInstances[uIBase.name] = uIBase;
                 }
-            }
-            
+            }            
             Debug.Log("[TableManager] 테이블 로드 및 등록 완료");
         };
+    }
+
+    public void ShowUI<T>() where T : UIBase
+    {
+        if(_uiInstances.TryGetValue(typeof(T).Name , out var ui))
+        {
+            ui.Open();
+        }
+    }
+
+    public void Hide<T>() where T : UIBase
+    {
+        if(_uiInstances.TryGetValue(typeof(T).Name, out var ui))
+        {
+            ui.Close();
+        }
+    }
+
+    public T GetUI<T>() where T : UIBase
+    {
+        return _uiInstances[name] as T;
     }
 }
