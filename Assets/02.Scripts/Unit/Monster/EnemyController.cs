@@ -45,7 +45,7 @@ public class EnemyController:BaseController
         patrolPivot = transform.position;
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         if(Application.isPlaying && isInitialized)
         {
@@ -82,5 +82,13 @@ public class EnemyController:BaseController
         Condition = new EnemyCondition(data);
         stateMachine = new EnemyStateMachine(this);
         isInitialized = true;
+    }
+
+    /// <summary>
+    /// 적의 공격 액션을 수행하는 메서드
+    /// </summary>
+    public virtual void AttackAction()
+    {
+
     }
 }

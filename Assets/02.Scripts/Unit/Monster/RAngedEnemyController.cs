@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RAngedEnemyController : MonoBehaviour
+public class RangedEnemyController : EnemyController
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("원거리 공격 관련 변수")]
+    [SerializeField] private GameObject projectilePrefab; // 투사체 프리팹
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// 원거리 적의 공격 행동
+    /// 투사체 생성 및 발사
+    /// </summary>
+    public override void AttackAction()
     {
-        
+        base.AttackAction();
     }
 }
