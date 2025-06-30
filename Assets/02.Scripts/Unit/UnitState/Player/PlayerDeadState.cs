@@ -16,7 +16,7 @@ public class PlayerDeadState:IUnitState
 
     public void StateEnter()
     {
-        Debug.Log("💀 PlayerDeadState 진입 - 플레이어 사망 처리");
+        Debug.Log("PlayerDeadState 진입 - 플레이어 사망 처리");
 
         // Rigidbody 멈춤
         if(player.TryGetComponent<Rigidbody>(out var rb))

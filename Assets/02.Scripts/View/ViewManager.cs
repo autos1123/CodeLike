@@ -18,7 +18,10 @@ public class ViewManager : MonoSingleton<ViewManager>
     /// 시점이 변경될 때 호출되는 이벤트
     /// </summary>
     public event Action<ViewModeType> OnViewChanged;
-    
+
+    // 내부적으로 ViewCameraController 에서 세팅해 주는 값
+    public bool IsTransitioning { get; set; }
+
     /// <summary>
     /// 지정한 시점 모드로 전환, 동일한 모드일 경우 무시
     /// </summary>
@@ -26,6 +29,7 @@ public class ViewManager : MonoSingleton<ViewManager>
     public void SwitchView(ViewModeType mode)
     {
         if (CurrentViewMode == mode) return;
+
 
         CurrentViewMode = mode;
         Debug.Log($"[ViewManager] 시점 전환: {mode}");
