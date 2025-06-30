@@ -24,7 +24,7 @@ public class EnemyController:BaseController
         base.Start();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if(!isInitialized)
             return;
@@ -45,13 +45,14 @@ public class EnemyController:BaseController
         patrolPivot = transform.position;
     }
 
-    protected virtual void OnDrawGizmos()
+    protected override void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
+
         if(Application.isPlaying && isInitialized)
         {
             float patrolRange;
             float chaseRange;
-            float attackRange;
 
             if(data.TryGetCondition(ConditionType.PatrolRange, out patrolRange))
             {
@@ -65,13 +66,6 @@ public class EnemyController:BaseController
                 // 적의 추적 범위를 시각적으로 표시
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, chaseRange);
-            }
-
-            if(data.TryGetCondition(ConditionType.AttackRange, out attackRange))
-            {
-                // 적의 공격 범위를 시각적으로 표시
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, attackRange);
             }
         }
     }

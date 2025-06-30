@@ -10,13 +10,8 @@ public class MeleeEnemyController : EnemyController
     {
         base.AttackAction();
 
-        if(!data.TryGetCondition(ConditionType.AttackRange, out float attackRange))
-        {
-            Debug.LogWarning("Attack range not set for MeleeEnemyController.");
-            attackRange = 0.0f; // 기본값 설정
-        }
+        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Player"));
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange, LayerMask.GetMask("Player"));
         foreach(var hitCollider in hitColliders)
         {
             if(hitCollider.TryGetComponent(out IDamagable player))
