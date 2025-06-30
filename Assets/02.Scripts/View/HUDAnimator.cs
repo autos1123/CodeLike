@@ -34,9 +34,9 @@ public class HUDAnimator : MonoBehaviour
         Vector3 shiftDir = Vector3.zero;
 
         if (fromMode == ViewModeType.View2D && toMode == ViewModeType.View3D)
-            shiftDir = Vector3.left;
-        else if (fromMode == ViewModeType.View3D && toMode == ViewModeType.View2D)
             shiftDir = Vector3.right;
+        else if (fromMode == ViewModeType.View3D && toMode == ViewModeType.View2D)
+            shiftDir = Vector3.left;
 
         Vector3 targetPos = originalPos + shiftDir * shiftAmount;
 
