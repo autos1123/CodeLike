@@ -9,19 +9,19 @@ public class DestinyManager : MonoSingleton<DestinyManager>
 {
     TableManager _tableManager;
     List<DestinyData> _destinyDatas;
-    DestinyBoard destinyBoard;
+    DestinyBoard _destinyBoard;
     protected override bool Persistent => false;
+    protected override void OnDestroy()
+    {
+        if(Instance == this)
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     public void Init(TableManager tableManager)
     {
         _tableManager = tableManager;
         _destinyDatas = tableManager.GetTable<DestinyDataTable>().dataList;
         SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-    protected override void OnDestroy()
-    {
-        if(Instance == this)
-            SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     public List<DestinyData> GetDestinys(int count)
     {
@@ -34,7 +34,7 @@ public class DestinyManager : MonoSingleton<DestinyManager>
 
         if(Board != null)
         {
-            destinyBoard = Board;
+            _destinyBoard = Board;
         }
         else
         {
@@ -44,11 +44,11 @@ public class DestinyManager : MonoSingleton<DestinyManager>
 
     public void OpenBoard()
     {
-        destinyBoard.gameObject.SetActive(true);
+        _destinyBoard.gameObject.SetActive(true);
     }
 
     public void CloseBoard()
     {
-        destinyBoard.gameObject.SetActive(false);
+        _destinyBoard.gameObject.SetActive(false);
     }
 }

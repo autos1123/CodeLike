@@ -9,12 +9,14 @@ public class BattleCoreManager : MonoSingleton<BattleCoreManager>
     GameManager gameManager;
     PlayerManager playerManager;
     DestinyManager destinyManager;
+    EnhanceManager enhanceManager;
     PoolManager poolManager;
     ItemManager itemManager;//아이템매니저는 위치 고민필요
     StageManager stageManager;
 
     public PlayerManager PlayerManager {  get { return playerManager; } }
     public DestinyManager DestinyManager { get { return destinyManager; } }
+    public EnhanceManager EnhanceManager { get { return enhanceManager; } }
     public PoolManager PoolManager { get { return poolManager; } }
     public ItemManager ItemManager { get { return itemManager; } }
     public StageManager StageManager { get { return stageManager; } }
@@ -30,6 +32,7 @@ public class BattleCoreManager : MonoSingleton<BattleCoreManager>
 
         playerManager = PlayerManager.Instance;
         destinyManager = DestinyManager.Instance;
+        enhanceManager = EnhanceManager.Instance;
         poolManager = PoolManager.Instance;
         itemManager = ItemManager.Instance;
         //stageManager
