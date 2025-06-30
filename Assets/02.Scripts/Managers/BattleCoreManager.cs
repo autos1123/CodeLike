@@ -40,4 +40,10 @@ public class BattleCoreManager : MonoSingleton<BattleCoreManager>
         //itemManager.Init(gameManager.TableManager);
     }
 
+    public void setCurDestinyData(DestinyData destinyData)
+    {
+        this.curDestinyData = destinyData;
+        onDestinyChange?.Invoke();
+    }
+
 }
