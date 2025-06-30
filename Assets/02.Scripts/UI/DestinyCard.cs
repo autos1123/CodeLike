@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -33,12 +34,19 @@ public class DestinyCard : MonoBehaviour
         _title.text = _destinyData.Name;
         _positiveDescription.text = _destinyData.PositiveDescription;
         _negativeDescription.text = _destinyData.NegativeDescription;
-
     }
-
+    public void Clear()
+    {
+        _destinyData = null;
+        _title.text = string.Empty;
+        _positiveDescription.text = string.Empty;
+        _negativeDescription.text = string.Empty;
+    }
     void Click()
     {
         Debug.Log("눌림");
         _battleCoreManager.setCurDestinyData(_destinyData);
     }
+
+    
 }
