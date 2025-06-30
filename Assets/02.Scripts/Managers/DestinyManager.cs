@@ -30,11 +30,11 @@ public class DestinyManager : MonoSingleton<DestinyManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {        
-        var Board = GameObject.FindObjectOfType<DestinyBoard>();
+        var board = GameObject.FindObjectOfType<DestinyBoard>();
 
-        if(Board != null)
+        if(board != null)
         {
-            _destinyBoard = Board;
+            _destinyBoard = board;
         }
         else
         {

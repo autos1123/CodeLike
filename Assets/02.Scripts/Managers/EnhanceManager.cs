@@ -32,11 +32,11 @@ public class EnhanceManager :MonoSingleton<EnhanceManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        var Board = GameObject.FindObjectOfType<EnhanceBoard>();
+        var board = GameObject.FindObjectOfType<EnhanceBoard>();
 
-        if(Board != null)
+        if(board != null)
         {
-            _enhanceBoard = Board;
+            _enhanceBoard = board;
         }
         else
         {
