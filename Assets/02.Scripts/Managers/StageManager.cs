@@ -12,12 +12,17 @@ public class StageManager : MonoBehaviour
 
     public void LoadStage(int seed)
     {
+        int randomSeed = Random.Range(0, int.MaxValue);
+        int randomRoomCount = Random.Range(6, 11);
+
+        generator.roomCount = randomRoomCount;
         ClearStage();
 
         currentStage = new StageData();
         currentStage.stageID = stageID++;
 
-        var generatedRooms = generator.Generate(seed);
+        var generatedRooms = generator.Generate(randomSeed);
+
         foreach (var room in generatedRooms)
         {
             currentStage.rooms.Add(room);
@@ -30,7 +35,7 @@ public class StageManager : MonoBehaviour
 
     void Start()
     {
-        List<Room> generatedRooms = generator.Generate(seed);
+        LoadStage(0);
         // generatedRooms를 StageData 등으로 저장하는 로직도 필요
     }
 
