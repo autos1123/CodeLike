@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController:MonoBehaviour
+public class EnemyController:BaseController
 {
-    private bool isInitialized = false;
-
     private EnemyStateMachine stateMachine;
-    [SerializeField] private ConditionData data;
     [SerializeField] private float rotDamping;
-    [SerializeField] private int ID;
+
     public EnemyCondition Condition { get; private set; }
-    public Rigidbody Rigidbody { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
     public float RotationDamping => rotDamping;
-    public ConditionData Data => data;
     public Vector3 patrolPivot { get; private set; } = Vector3.zero;
 
-    private void Start()
+    protected override void Awake()
     {
-        Rigidbody = GetComponent<Rigidbody>();
+        base.Awake();
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        StartCoroutine(WaitForDataLoad());
+    }
+
+    protected override void Start()
+    {
+        base.Start();
     }
 
     private void Update()
@@ -77,11 +76,9 @@ public class EnemyController:MonoBehaviour
         }
     }
 
-    IEnumerator WaitForDataLoad()
+    protected override void Initialize()
     {
-        yield return new WaitUntil(() => GameManager.Instance.TableManager.loadComplete);
-        data = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
-        data.InitConditionDictionary();
+        base.Initialize();
         Condition = new EnemyCondition(data);
         stateMachine = new EnemyStateMachine(this);
         isInitialized = true;

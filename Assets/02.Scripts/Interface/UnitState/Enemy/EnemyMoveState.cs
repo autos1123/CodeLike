@@ -23,7 +23,7 @@ public class EnemyMoveState : EnemyBaseState
     {
         base.StateExit();
         stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
-        stateMachine.Enemy.Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
+        stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
     }
 
     public override void StatePhysicsUpdate()
@@ -63,11 +63,11 @@ public class EnemyMoveState : EnemyBaseState
         if(viewMode == ViewModeType.View2D)
         {
             stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
-            stateMachine.Enemy.Rigidbody.velocity = movementDirection * movementSpeed;
+            stateMachine.Enemy._Rigidbody.velocity = movementDirection * movementSpeed;
         }
         else
         {
-            stateMachine.Enemy.Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
+            stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
             stateMachine.Enemy.NavMeshAgent.SetDestination(targetPos);
         }
     }
