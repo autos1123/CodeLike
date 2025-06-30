@@ -215,7 +215,7 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     private Room CreateRoom(Vector2Int gridPos, RoomType type)
     {
-        int gridSpacing = 20;
+        int gridSpacing = 250;
         Vector3 worldPos = new Vector3(gridPos.x * gridSpacing, gridPos.y * gridSpacing, 0f);
 
         GameObject prefab = prefabSet.GetRandomPrefab(type);

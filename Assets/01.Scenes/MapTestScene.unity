@@ -190,8 +190,8 @@ MonoBehaviour:
   seed: 0
   rooms: []
   roomCount: 0
-  gridWidth: 10
-  gridHeight: 10
+  gridWidth: 12
+  gridHeight: 12
   nextRoomID: 0
   prefabSet: {fileID: 11400000, guid: 19ce6f99000d6ca4cbbf2b96b49527f9, type: 2}
   roomParent: {fileID: 902659208}
