@@ -8,7 +8,7 @@ public enum ModifierType
     ItemEnhance
 }
 
-public class BaseCondition : IDamagable
+public class BaseCondition
 {
     protected ConditionData data;
     public ConditionData Data => data;
@@ -82,9 +82,9 @@ public class BaseCondition : IDamagable
         if(CurrentConditions[ConditionType.HP] <= 0)
         {
             CurrentConditions[ConditionType.HP] = 0;
-            return true; // 사망 처리
+            return false; // 사망 처리
         }
 
-        return false; // 사망하지 않음
+        return true; // 사망하지 않음
     }
 }

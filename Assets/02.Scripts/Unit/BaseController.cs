@@ -23,9 +23,9 @@ public class BaseController:MonoBehaviour, IDamagable
         StartCoroutine(WaitForDataLoad());
     }
 
-    public bool GetDamaged(float damage)
+    public virtual bool GetDamaged(float damage)
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 
     protected virtual void Initialize()
