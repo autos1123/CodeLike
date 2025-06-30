@@ -4,51 +4,32 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class PlayerController:MonoBehaviour
+public class PlayerController:BaseController
 {
-    [Header("ConditionData SO (엑셀 기반 SO 연결)")]
-    [SerializeField] private ConditionData conditionData;
-    [SerializeField] private int ID;
-
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.1f;
 
     private PlayerInputHandler inputHandler;
-    private Rigidbody rb;
     private Collider col;
     private bool isGrounded;
 
     public PlayerStateMachine stateMachine { get; private set; }
     public PlayerCondition condition { get; private set; }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         inputHandler = GetComponent<PlayerInputHandler>();
-        rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
 
-        rb.freezeRotation = true;
+        _Rigidbody.freezeRotation = true;
         stateMachine = new PlayerStateMachine(this);
     }
 
-    private void Start()
+    protected override void Start()
     {
-        StartCoroutine(WaitForDataLoad());
-    }
-
-    private IEnumerator WaitForDataLoad()
-    {
-        yield return new WaitUntil(() => GameManager.Instance.TableManager.loadComplete);
-
-        conditionData = GameManager.Instance
-            .TableManager
-            .GetTable<ConditionDataTable>()
-            .GetDataByID(ID);
-
-        conditionData.InitConditionDictionary();
-        condition = new PlayerCondition(conditionData);
-        condition.Init(this, stateMachine);
+        base.Start();
     }
 
     private void Update()
@@ -61,6 +42,8 @@ public class PlayerController:MonoBehaviour
 
         if(inputHandler.JumpPressed && isGrounded)
             Jump();
+        if(inputHandler.AttackPressed)
+            stateMachine.ChangeState(new PlayerAttackState(this, stateMachine));
 
         stateMachine.Update();
         inputHandler.ResetOneTimeInputs();
@@ -113,20 +96,51 @@ public class PlayerController:MonoBehaviour
         }
 
         Vector3 delta = dir * speed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + delta);
+        _Rigidbody.MovePosition(_Rigidbody.position + delta);
         return dir;
+    }
+    public void Attack()
+    {
+        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Enemy"));
+
+        foreach(var hitCollider in hitColliders)
+        {
+            if(hitCollider.TryGetComponent(out IDamagable player))
+            {
+                if(!data.TryGetCondition(ConditionType.AttackPower, out float power))
+                {
+                    power = 0.0f;
+                }
+
+                // 플레이어에게 피해를 입히는 로직
+                player.GetDamaged(power);
+            }
+        }
     }
 
     private void Jump()
     {
         float force = condition.GetValue(ConditionType.JumpPower);
-        Vector3 v = rb.velocity;
+        Vector3 v = _Rigidbody.velocity;
         if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
-            rb.velocity = new Vector3(v.x, 0f, 0f);
+            _Rigidbody.velocity = new Vector3(v.x, 0f, 0f);
         else
-            rb.velocity = new Vector3(v.x, 0f, v.z);
+            _Rigidbody.velocity = new Vector3(v.x, 0f, v.z);
 
-        rb.AddForce(Vector3.up * force, ForceMode.Impulse);
+        _Rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+    }
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        condition = new PlayerCondition(data);
+        stateMachine = new PlayerStateMachine(this);
+        isInitialized = true;
+    }
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
     }
 
     public PlayerInputHandler Input => inputHandler;
