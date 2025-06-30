@@ -24,7 +24,7 @@ public class DestinyCard : MonoBehaviour
         _negativeDescription = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
         _battleCoreManager = BattleCoreManager.Instance;
 
-        _button.onClick.AddListener(Click);
+        
 
     }
 
@@ -34,6 +34,9 @@ public class DestinyCard : MonoBehaviour
         _title.text = _destinyData.Name;
         _positiveDescription.text = _destinyData.PositiveDescription;
         _negativeDescription.text = _destinyData.NegativeDescription;
+
+        _button.onClick.RemoveAllListeners();
+        _button.onClick.AddListener(Click);
     }
     public void Clear()
     {

@@ -21,14 +21,15 @@ public class EnhanceCard : MonoBehaviour
         _title = transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
         _enhaceDescription = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
 
-        _battleCoreManager = BattleCoreManager.Instance;
-
-        _button.onClick.AddListener(Click);
+        _battleCoreManager = BattleCoreManager.Instance;        
     }
 
     public void init(EnhanceData enhanceData)
     {
         _enhanceData = enhanceData;
+
+        _button.onClick.RemoveAllListeners();
+        _button.onClick.AddListener(Click);
     }
     public void Clear()
     {

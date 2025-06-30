@@ -67,6 +67,8 @@ public static class ExcelSOGenerator
                 break;
             case "ActiveItemData":
                 break;
+            case "ItemSkillData":
+                break;
             case "DestinyEffectData":
                 break;
             case "Enums":

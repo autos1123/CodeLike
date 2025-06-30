@@ -19,6 +19,7 @@ public static class AddressbleLabels
     public const string PoolLabel = "Pool";
     public const string BGMLabel = "BGM";
     public const string SFXLabel = "SFX";
+    public const string UIabel = "UI";
 }
 
 public static class TableAddressble

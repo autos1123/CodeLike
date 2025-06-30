@@ -4,14 +4,21 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnhanceBoard : MonoBehaviour
+public class EnhanceBoard : UIBase
 {
     EnhanceCard[] cards;
     EnhanceManager _enhanceManager;
 
-    public void OnEnable()
+    public override string UIName => "enhanceBoard";
+
+    private void Awake()
     {
         cards = transform.GetComponentsInChildren<EnhanceCard>();
+    }
+
+    public void OnEnable()
+    {
+        
         _enhanceManager = BattleCoreManager.Instance.EnhanceManager;
         var enhance = _enhanceManager.GetEnhance(cards.Count());
 

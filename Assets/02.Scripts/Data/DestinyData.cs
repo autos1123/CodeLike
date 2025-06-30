@@ -7,4 +7,6 @@ public class DestinyData
     public string Name;
     public string PositiveDescription;
     public string NegativeDescription;
+    public int PositiveEffectDataID;
+    public int NegativeEffectDataID;
 }
