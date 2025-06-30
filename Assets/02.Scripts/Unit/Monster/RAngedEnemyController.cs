@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RangedEnemyController : EnemyController
 {
-    [Header("원거리 공격 관련 변수")]
-    [SerializeField] private GameObject projectilePrefab; // 투사체 프리팹
+    [Header("원거리 적 설정")]
+    [SerializeField] private Transform projectileOffset;
 
     /// <summary>
     /// 원거리 적의 공격 행동
@@ -24,6 +24,12 @@ public class RangedEnemyController : EnemyController
 
     private void FireProjectile(Vector3 targetPos)
     {
+        // 타겟까지의 방향 계산
+        Vector3 direction = ((targetPos + Vector3.up * 1.5f)- projectileOffset.position).normalized;
 
+        // 투사체를 풀에서 가져오기
+        GameObject projectile = PoolManager.Instance.GetObject(PoolType.projectile);
+        projectile.transform.position = projectileOffset.position;
+        projectile.transform.forward = direction;
     }
 }
