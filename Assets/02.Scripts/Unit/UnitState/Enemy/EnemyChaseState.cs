@@ -29,6 +29,11 @@ public class EnemyChaseState : EnemyMoveState
             stateMachine.Enemy.SetPatrolPivot();
             stateMachine.ChangeState(stateMachine.IdleState);
         }
+        if(stateMachine.Enemy.GetTargetColliders(LayerMask.GetMask("Player")).Length > 0)
+        {
+            // AttackState로 변환
+            stateMachine.ChangeState(stateMachine.AttackState);
+        }
     }
 
     public override void StatePhysicsUpdate()

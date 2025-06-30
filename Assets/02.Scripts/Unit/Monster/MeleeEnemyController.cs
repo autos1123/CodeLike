@@ -1,18 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeEnemyController : MonoBehaviour
+public class MeleeEnemyController : EnemyController
 {
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// 근거리 적의 공격 행동
+    /// 적 충돌 체크 및 공격
+    /// </summary>
+    public override void AttackAction()
     {
-        
-    }
+        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Player"));
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        foreach(var hitCollider in hitColliders)
+        {
+            if(hitCollider.TryGetComponent(out IDamagable player))
+            {
+                if(!data.TryGetCondition(ConditionType.AttackPower, out float power))
+                {
+                    power = 0.0f;
+                }
+
+                // 플레이어에게 피해를 입히는 로직
+                player.GetDamaged(power);
+            }
+        }
     }
 }

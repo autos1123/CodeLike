@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController:BaseController
+public abstract class EnemyController:BaseController
 {
     private EnemyStateMachine stateMachine;
     [SerializeField] private float rotDamping;
@@ -24,7 +24,7 @@ public class EnemyController:BaseController
         base.Start();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if(!isInitialized)
             return;
@@ -45,13 +45,14 @@ public class EnemyController:BaseController
         patrolPivot = transform.position;
     }
 
-    private void OnDrawGizmos()
+    protected override void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
+
         if(Application.isPlaying && isInitialized)
         {
             float patrolRange;
             float chaseRange;
-            float attackRange;
 
             if(data.TryGetCondition(ConditionType.PatrolRange, out patrolRange))
             {
@@ -66,13 +67,6 @@ public class EnemyController:BaseController
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, chaseRange);
             }
-
-            if(data.TryGetCondition(ConditionType.AttackRange, out attackRange))
-            {
-                // 적의 공격 범위를 시각적으로 표시
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, attackRange);
-            }
         }
     }
 
@@ -83,4 +77,9 @@ public class EnemyController:BaseController
         stateMachine = new EnemyStateMachine(this);
         isInitialized = true;
     }
+
+    /// <summary>
+    /// 적의 공격 액션을 수행하는 메서드
+    /// </summary>
+    public abstract void AttackAction();
 }
