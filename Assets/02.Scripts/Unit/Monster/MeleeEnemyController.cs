@@ -8,8 +8,6 @@ public class MeleeEnemyController : EnemyController
     /// </summary>
     public override void AttackAction()
     {
-        base.AttackAction();
-
         Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Player"));
 
         foreach(var hitCollider in hitColliders)

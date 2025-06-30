@@ -45,7 +45,7 @@ public class BaseController:MonoBehaviour, IDamagable
     /// </summary>
     /// <param name="layer">타겟 레이어</param>
     /// <returns></returns>
-    protected virtual Collider[] GetTargetColliders(LayerMask layer)
+    public virtual Collider[] GetTargetColliders(LayerMask layer)
     {
         Collider[] hitColliders;
 

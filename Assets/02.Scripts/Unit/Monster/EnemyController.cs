@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController:BaseController
+public abstract class EnemyController:BaseController
 {
     private EnemyStateMachine stateMachine;
     [SerializeField] private float rotDamping;
@@ -81,8 +81,5 @@ public class EnemyController:BaseController
     /// <summary>
     /// 적의 공격 액션을 수행하는 메서드
     /// </summary>
-    public virtual void AttackAction()
-    {
-
-    }
+    public abstract void AttackAction();
 }

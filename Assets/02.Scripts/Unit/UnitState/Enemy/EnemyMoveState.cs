@@ -30,7 +30,6 @@ public class EnemyMoveState : EnemyBaseState
     {
         base.StatePhysicsUpdate();
         Move();
-        Debug.Log(targetPos);
     }
 
     protected void Move()
@@ -54,7 +53,6 @@ public class EnemyMoveState : EnemyBaseState
         dir.y = 0; // y축은 현재 위치 유지
 
         dir.Normalize();
-        Debug.Log($"GetMovementDirection: {dir}");
         return dir;
     }
 
@@ -71,6 +69,7 @@ public class EnemyMoveState : EnemyBaseState
         else
         {
             stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
+            stateMachine.Enemy.NavMeshAgent.speed = movementSpeed;
             stateMachine.Enemy.NavMeshAgent.SetDestination(targetPos);
         }
     }

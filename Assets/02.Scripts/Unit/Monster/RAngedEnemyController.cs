@@ -13,6 +13,17 @@ public class RangedEnemyController : EnemyController
     /// </summary>
     public override void AttackAction()
     {
-        base.AttackAction();
+        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Player"));
+
+        foreach(var hitCollider in hitColliders)
+        {
+            // 투사체 생성 및 발사
+            FireProjectile(hitCollider.transform.position);
+        }
+    }
+
+    private void FireProjectile(Vector3 targetPos)
+    {
+
     }
 }
