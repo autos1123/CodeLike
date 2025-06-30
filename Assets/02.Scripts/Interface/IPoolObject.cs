@@ -6,7 +6,7 @@ public enum PoolType
 {
     none,
     temp,
-
+    projectile
 }
 public interface IPoolObject
 {

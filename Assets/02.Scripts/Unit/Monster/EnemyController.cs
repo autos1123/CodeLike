@@ -78,6 +78,24 @@ public abstract class EnemyController:BaseController
         isInitialized = true;
     }
 
+    public override bool GetDamaged(float damage)
+    {
+        if(!Condition.GetDamaged(damage))
+        {
+            // 몬스터 사망
+            // 사망 이펙트 재생
+            Invoke(nameof(EnemyDie), 0.1f);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void EnemyDie()
+    {
+        gameObject.SetActive(false);
+    }
+
     /// <summary>
     /// 적의 공격 액션을 수행하는 메서드
     /// </summary>

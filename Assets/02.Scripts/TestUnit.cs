@@ -6,7 +6,6 @@ public class TestUnit : MonoBehaviour, IDamagable
 {
     public bool GetDamaged(float damage)
     {
-        Debug.Log($"TestUnit damaged by {damage}");
         return true;
     }
 }

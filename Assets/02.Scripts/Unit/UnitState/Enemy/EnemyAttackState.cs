@@ -14,6 +14,9 @@ public class EnemyAttackState : EnemyBaseState
     public override void StateEnter()
     {
         moveSpeedModifier = 0f; // 공격 상태에서는 이동하지 않음
+        stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
+        stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
+
         if(!stateMachine.Enemy.Data.TryGetCondition(ConditionType.AttackSpeed, out float atkSpeed))
             atkSpeed = 1.0f; // 기본 공격 속도 설정
 
@@ -31,6 +34,10 @@ public class EnemyAttackState : EnemyBaseState
     {
         base.StateUpdate();
 
+        Vector3 movementDirection = GetMovementDirection(stateMachine.Player.transform.position);
+
+        Rotate(movementDirection);
+
         if(Time.time - startTime < attackDelay)
         {
             // 공격 딜레이가 끝나지 않았으면 대기
@@ -39,7 +46,6 @@ public class EnemyAttackState : EnemyBaseState
 
         // 공격 행동 수행
         stateMachine.Enemy.AttackAction();
-        Debug.Log($"Enemy {stateMachine.Enemy.name} attacks!");
         startTime = Time.time; // 다음 공격을 위한 시간 초기화
     }
 }

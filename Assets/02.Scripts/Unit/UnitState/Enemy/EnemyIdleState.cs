@@ -7,8 +7,6 @@ public class EnemyIdleState : EnemyBaseState
     private float waitingEndTime = 2f;
     Vector3 nextPoint;
 
-    ConditionData data;
-
     public EnemyIdleState(EnemyStateMachine playerStateMachine) : base(playerStateMachine)
     {
         data = stateMachine.Enemy.Data;
@@ -17,6 +15,8 @@ public class EnemyIdleState : EnemyBaseState
     public override void StateEnter()
     {
         moveSpeedModifier = 0; // Idle 상태에서는 이동 속도를 0으로 설정
+        stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
+        stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
         base.StateEnter();
         waitingStartTime = Time.time;
         nextPoint = GetWanderLocation();
@@ -30,6 +30,10 @@ public class EnemyIdleState : EnemyBaseState
     public override void StateUpdate()
     {
         base.StateUpdate();
+
+        Vector3 movementDirection = GetMovementDirection(targetPos);
+
+        Rotate(movementDirection);
 
         if(IsInChaseRange())
         {
