@@ -64,18 +64,18 @@ public class EnemyBaseState:IUnitState
     /// 미리 캐싱한 플레이어가 추적 범위에 들어왔는지 확인하는 메서드
     /// </summary>
     /// <returns></returns>
-    protected bool IsInChaseRange()
+    protected bool IsInRange(ConditionType rangeType)
     {
         float playerDistanceSqr = (stateMachine.Player.transform.position - stateMachine.Enemy.transform.position).sqrMagnitude;
-        float chaseRange = 0f;
+        float range = 0f;
 
-        if(!data.TryGetCondition(ConditionType.ChaseRange, out chaseRange))
+        if(!data.TryGetCondition(rangeType, out range))
         {
             Debug.LogError($"ConditionType ChaseRange를 찾을 수 없습니다. 기본값으로 10.0f를 사용합니다.");
-            chaseRange = 10.0f; // 기본값 설정
+            range = 10.0f; // 기본값 설정
         }
 
-        return playerDistanceSqr <= chaseRange * chaseRange;
+        return playerDistanceSqr <= range * range;
     }
 
     protected Vector3 GetMovementDirection(Vector3 target)

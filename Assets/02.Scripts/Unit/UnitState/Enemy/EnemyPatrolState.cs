@@ -11,6 +11,7 @@ public class EnemyPatrolState : EnemyMoveState
     public override void StateEnter()
     {
         moveSpeedModifier = 1f;
+        stateMachine.Enemy.NavMeshAgent.isStopped = false;
         base.StateEnter();
     }
 
@@ -23,7 +24,7 @@ public class EnemyPatrolState : EnemyMoveState
     {
         base.StateUpdate();
 
-        if(IsInChaseRange())
+        if(IsInRange(ConditionType.ChaseRange))
         {
             // ChaseState로 전환
             stateMachine.ChangeState(stateMachine.ChaseState);

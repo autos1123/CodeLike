@@ -10,7 +10,8 @@ public class EnemyChaseState : EnemyMoveState
 
     public override void StateEnter()
     {
-        moveSpeedModifier = 1.5f; 
+        moveSpeedModifier = 1.5f;
+        stateMachine.Enemy.NavMeshAgent.isStopped = false; 
         base.StateEnter();
     }
 
@@ -23,16 +24,18 @@ public class EnemyChaseState : EnemyMoveState
     {
         base.StateUpdate();
 
-        if(!IsInChaseRange())
+        if(!IsInRange(ConditionType.ChaseRange))
         {
             // IdleState로 변환
             stateMachine.Enemy.SetPatrolPivot();
             stateMachine.ChangeState(stateMachine.IdleState);
+            return;
         }
-        if(stateMachine.Enemy.GetTargetColliders(LayerMask.GetMask("Player")).Length > 0)
+        if(IsInRange(ConditionType.AttackRange))
         {
             // AttackState로 변환
             stateMachine.ChangeState(stateMachine.AttackState);
+            return;
         }
     }
 

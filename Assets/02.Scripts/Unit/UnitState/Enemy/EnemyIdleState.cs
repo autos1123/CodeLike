@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class EnemyIdleState : EnemyBaseState
 {
     private float waitingStartTime;
-    private float waitingEndTime = 2f;
+    private float waitingEndTime = 0.1f;
     Vector3 nextPoint;
 
     public EnemyIdleState(EnemyStateMachine playerStateMachine) : base(playerStateMachine)
@@ -35,17 +35,20 @@ public class EnemyIdleState : EnemyBaseState
 
         Rotate(movementDirection);
 
-        if(IsInChaseRange())
+        if(IsInRange(ConditionType.ChaseRange))
         {
             // MoveState로 변환
             stateMachine.ChangeState(stateMachine.ChaseState);
+            return;
         }
 
         if(waitingEndTime <= Time.time - waitingStartTime)
         {
+            Debug.Log("Idle 상태에서 대기 시간이 끝났습니다. 다음 PatrolPoint로 이동합니다.");
             // 대기 시간이 끝나면 Target을 다음 PatrolPoint로 설정 후 MoveState로 전환
             stateMachine.SetPatrolPoint(nextPoint);
             stateMachine.ChangeState(stateMachine.PatrolState);
+            return;
         }
     }
 

@@ -34,6 +34,13 @@ public class EnemyAttackState : EnemyBaseState
     {
         base.StateUpdate();
 
+        if(!IsInRange(ConditionType.AttackRange))
+        {
+            // AttackState로 변환
+            stateMachine.ChangeState(stateMachine.ChaseState);
+            return;
+        }
+
         Vector3 movementDirection = GetMovementDirection(stateMachine.Player.transform.position);
 
         Rotate(movementDirection);
