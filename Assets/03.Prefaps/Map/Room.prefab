@@ -154,6 +154,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawnPoint: {fileID: 4323951726511225685}
+  entranceUp: {fileID: 1661521157211077284}
+  entranceDown: {fileID: 4323951726511225685}
+  entranceLeft: {fileID: 366942244634060547}
+  entranceRight: {fileID: 6617271946875783804}
 --- !u!1 &2162831490386082172
 GameObject:
   m_ObjectHideFlags: 0

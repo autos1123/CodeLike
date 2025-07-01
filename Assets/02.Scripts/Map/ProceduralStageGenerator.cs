@@ -1,142 +1,3 @@
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-
-//public class ProceduralStageGenerator : MonoBehaviour
-//{
-//    public int seed;
-//    public System.Random random;
-//    public List<Room> rooms;
-//    public List<RoomConnection> connections;
-//    public int roomCount;
-//    public Vector2Int minRoomSize;
-//    public Vector2Int maxRoomSize;
-//    public int nextRoomID;
-
-//    public RoomPrefabSet prefabSet;
-//    public Transform roomParent;
-
-//    public Room CreateRoom(Vector2Int gridPos, RoomType type) //룸 생성 함수
-//    {
-//        int gridSpacing = 20;
-//        Vector3 worldPos = new Vector3(gridPos.x * gridSpacing, gridPos.y * gridSpacing, 0f); 
-
-//        GameObject prefab = prefabSet.GetRandomPrefab(type);
-//        GameObject roomGO = Instantiate(prefab, worldPos, Quaternion.identity, roomParent);
-
-//        Room room = roomGO.GetComponent<Room>();
-//        room.Initialize(nextRoomID++, gridPos, type);
-//        return room;
-//    } 
-
-
-//    public void ConnectRooms() //룸 연결 함수(RoomConnection과 연결)
-//    {
-//        for (int i = 1; i < rooms.Count; i++)
-//        {
-//            Room prev = rooms[i - 1];
-//            Room curr = rooms[i];
-
-
-
-//            Direction direction; //룸의 방향을 기준으로 연결
-
-//            Vector2Int diff = curr.GridPosition - prev.GridPosition;
-//            if (diff.x == 1) direction = Direction.Right;
-//            else if (diff.x == -1) direction = Direction.Left;
-//            else if (diff.y == 1) direction = Direction.Up;
-//            else direction = Direction.Down;
-
-//            RoomConnection connection = new RoomConnection 
-//                (
-//                    fromRoomID: prev.Id,
-//                    toRoomID: curr.Id,
-//                    direction: direction
-//                );
-
-//            prev.AddConnection(connection);
-//            connections.Add(connection);
-//        }
-//    }
-
-//    public bool AreRoomsOverlapping(Room roomA, Room roomB) //룸이 겹치는지 테스트하는 함수
-//    {
-//        Vector3 apos = roomA.transform.position;
-//        Vector3 bpos = roomB.transform.position;
-
-//        // 프리팹의 실제 크기 값 (예: BoxCollider, SpriteRenderer 크기 등)에서 구하거나, 하드코딩된 RoomSize를 임시로 사용
-//        float width = 10f;
-//        float height = 6f;
-
-//        float ax1 = apos.x;
-//        float ay1 = apos.z; // Y축이 아니라 Z축 기준 (3D 공간 상에서)
-//        float ax2 = ax1 + width;
-//        float ay2 = ay1 + height;
-
-//        float bx1 = bpos.x;
-//        float by1 = bpos.z;
-//        float bx2 = bx1 + width;
-//        float by2 = by1 + height;
-
-//        return !(ax2 <= bx1 || ax1 >= bx2 || ay2 <= by1 || ay1 >= by2);
-
-//    }
-
-//    public List<Room> Generate(int seed) //실제 절차적 생성 함수
-//    {
-//        this.seed = seed;
-//        random = new System.Random(seed);
-//        rooms = new List<Room>();
-//        connections = new List<RoomConnection>();
-//        nextRoomID = 0;
-
-//        int gridWidth = 5;
-//        int gridHeight = 5;
-//        bool[,] grid = new bool[gridWidth, gridHeight];
-
-//        Vector2Int startGridPos = new Vector2Int(0, 1);
-//        Vector2Int current = startGridPos;
-
-//        for (int i = 0; i < roomCount; i++)
-//        {
-//            RoomType type = RoomType.Normal;
-//            if (i == 0) type = RoomType.Start;
-//            else if (i == roomCount - 1) type = RoomType.Boss;
-
-//            Room room = CreateRoom(current, type);
-//            rooms.Add(room);
-//            grid[current.x, current.y] = true;
-
-//                //다음 이동 방향 결정: 오른쪽 > 아래  > 위 > 왼쪽
-//                List<Vector2Int> directions = new()
-//            {
-//                new Vector2Int(1, 0), //오른쪽
-//                new Vector2Int(0, -1), //아래쪽
-//                new Vector2Int(0, 1), //위쪽 
-//                new Vector2Int(-1, 0) //왼쪽
-//            };
-
-//            directions.Shuffle(random);
-
-//            bool moved = false;
-//            foreach (var dir in directions)
-//            {
-//                Vector2Int next = current + dir;
-//                if (next.x >= 0 && next.x < gridWidth && next.y >= 0 && next.y < gridHeight && !grid[next.x, next.y])
-//                {
-//                    current = next;
-//                    moved = true;
-//                    break;
-//                }
-//            }
-
-//            if(!moved) break;
-
-//        }
-//        ConnectRooms(); //룸 연결
-//        return rooms; //값 반환
-//    }
-//}
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -151,6 +12,7 @@ public class ProceduralStageGenerator:MonoBehaviour
     public int gridWidth = 10;
     public int gridHeight = 10;
     public int nextRoomID;
+    public GameObject connectionPrefab;
 
     public RoomPrefabSet prefabSet;
     public Transform roomParent;
@@ -209,7 +71,7 @@ public class ProceduralStageGenerator:MonoBehaviour
                 }
             }
         }
-
+        PlaceConnections();
         return rooms;
     }
 
@@ -253,5 +115,42 @@ public class ProceduralStageGenerator:MonoBehaviour
             _ => Vector2Int.zero,
         };
     }
+    public void PlaceConnections()
+    {
+        foreach(var conn in connections)
+        {
+            Room fromRoom = rooms.Find(r => r.Id == conn.FromRoomID);
+            Room toRoom = rooms.Find(r => r.Id == conn.ToRoomID);
+
+            if(fromRoom == null || toRoom == null) continue;
+
+            // ▶ A → B 포탈
+            CreatePortal(fromRoom, toRoom, conn.Direction);
+
+            // ▶ B → A 포탈 (반대 방향)
+            CreatePortal(toRoom, fromRoom, Room.GetOppositeDirection(conn.Direction));
+        }
+    }
+
+    private void CreatePortal(Room fromRoom, Room toRoom, Direction direction)
+    {
+        Transform fromAnchor = fromRoom.GetEntranceAnchor(direction);
+        Transform toAnchor = toRoom.GetEntranceAnchor(Room.GetOppositeDirection(direction));
+
+        if(fromAnchor == null || toAnchor == null)
+        {
+            Debug.LogWarning($"Missing anchor for Room {fromRoom.Id} → {toRoom.Id} at direction {direction}");
+            return;
+        }
+
+        GameObject portalGO = Instantiate(connectionPrefab, fromAnchor.position, fromAnchor.rotation, fromRoom.transform);
+        Portal portal = portalGO.GetComponent<Portal>();
+        if(portal != null)
+        {
+            portal.destinationPoint = toAnchor;
+        }
+    }
+
+
 }
 
