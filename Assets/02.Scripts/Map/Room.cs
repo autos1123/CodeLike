@@ -16,7 +16,14 @@ public class Room : MonoBehaviour
     public int Id {  get; private set; }
     public Vector2Int GridPosition { get; private set; } // 생성 시 사용한 그리드 위치
     public RoomType Type { get; private set; }
+
+    [Header("Anchor")]
     public Transform playerSpawnPoint;
+    public Transform entranceUp;
+    public Transform entranceDown;
+    public Transform entranceLeft;
+    public Transform entranceRight;
+
 
     public List<RoomConnection> Connections { get; private set; } = new();
 
@@ -58,7 +65,7 @@ public class Room : MonoBehaviour
         return data;
     }
 
-    private Direction GetOppositeDirection(Direction dir)
+    public static Direction GetOppositeDirection(Direction dir)
     {
         return dir switch
         {
@@ -67,6 +74,17 @@ public class Room : MonoBehaviour
             Direction.Left => Direction.Right,
             Direction.Right => Direction.Left,
             _ => dir
+        };
+    }
+    public Transform GetEntranceAnchor(Direction dir)
+    {
+        return dir switch
+        {
+            Direction.Up => entranceUp,
+            Direction.Down => entranceDown,
+            Direction.Left => entranceLeft,
+            Direction.Right => entranceRight,
+            _ => null
         };
     }
 }

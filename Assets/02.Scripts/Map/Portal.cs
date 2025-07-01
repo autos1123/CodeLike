@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
-    public Room destinationRoom;
+    public Transform destinationPoint;
+    public bool isActive = true;
 
     private void OnTriggerEnter(Collider other)
     {
+        if(!isActive) return;
         if (other.CompareTag("Player"))
         {
-            other.transform.position = destinationRoom.GetPlayerSpawnPoint();
+            other.transform.position = destinationPoint.transform.position;
         }
     }
 }
