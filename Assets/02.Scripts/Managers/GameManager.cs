@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,33 +6,13 @@ using UnityEngine;
 [DefaultExecutionOrder(-100)]
 public class GameManager : MonoSingleton<GameManager>
 {
-    TableManager _tableManager;
-    SaveManager _saveManager;
-    SoundManager _soundManager;
+    public DestinyData curDestinyData;// 현재 적용중인 운명
 
-    public TableManager TableManager
-    {
-        get { return _tableManager; }
-    }
-    public SaveManager SaveManager
-    {
-        get { return _saveManager; }
-    }
-    public SoundManager SoundManager
-    {
-        get { return _soundManager; }
-    }
+    public event Action onDestinyChange;
 
-    protected override void Awake()
+    public void setCurDestinyData(DestinyData destinyData)
     {
-        base.Awake();
-
-        _tableManager = TableManager.Instance;
-        _saveManager = SaveManager.Instance;
-        //_soundManager = SoundManager.Instance;
-
-        _tableManager.Init(Instance);
-        _saveManager.Init(Instance);
-        //_soundManager.Init();
+        this.curDestinyData = destinyData;
+        onDestinyChange?.Invoke();
     }
 }

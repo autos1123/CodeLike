@@ -13,7 +13,6 @@ public class EnhanceCard : MonoBehaviour
     private TextMeshProUGUI _enhaceDescription;
 
     private UIBase _board;
-    private BattleCoreManager _battleCoreManager;
     private EnhanceData _enhanceData;
 
     void Awake()
@@ -31,7 +30,6 @@ public class EnhanceCard : MonoBehaviour
         _enhanceData = enhanceData;
         _title.text = enhanceData.name;
         _enhaceDescription.text = enhanceData.dsecription;
-        _battleCoreManager = BattleCoreManager.Instance;
     }
     public void Clear()
     {
@@ -40,7 +38,7 @@ public class EnhanceCard : MonoBehaviour
     }
     void Click()
     {
-        if(BattleCoreManager.Instance.PlayerManager.Player.TryGetComponent<PlayerController>(out var playerController))
+        if(PlayerManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
         {
             playerController.condition.ChangeModifierValue(_enhanceData.ConditionType, ModifierType.BuffEnhance, _enhanceData.value);
 

@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour
     public List<ItemSlot> inventorySlots = new List<ItemSlot>(16);
     private IEnumerator Start()
     {
-        yield return new WaitUntil(() => GameManager.Instance.TableManager.loadComplete);
+        yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         Init();
 

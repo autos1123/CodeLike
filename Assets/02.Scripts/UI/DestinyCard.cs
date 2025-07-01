@@ -14,7 +14,6 @@ public class DestinyCard : MonoBehaviour
     private TextMeshProUGUI _positiveDescription;
     private TextMeshProUGUI _negativeDescription;
 
-    private BattleCoreManager _battleCoreManager;
     private TableManager _tableManager;
     private UIBase _board;
     [SerializeField]private DestinyData _destinyData;
@@ -33,8 +32,7 @@ public class DestinyCard : MonoBehaviour
 
     public void init(DestinyData destinyData)
     {
-        if(_battleCoreManager == null) _battleCoreManager = BattleCoreManager.Instance;
-        if(_tableManager == null) _tableManager = GameManager.Instance.TableManager;
+        if(_tableManager == null) _tableManager = TableManager.Instance;
 
         _destinyData = destinyData;
         _title.text = _destinyData.Name;
@@ -51,7 +49,7 @@ public class DestinyCard : MonoBehaviour
     void Click()
     {
         Debug.Log("눌림");
-        _battleCoreManager.setCurDestinyData(_destinyData);
+        GameManager.Instance.setCurDestinyData(_destinyData);
         _board.Close();
     }
 

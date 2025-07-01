@@ -32,13 +32,13 @@ public class BaseController:MonoBehaviour, IDamagable
 
     protected virtual void Initialize()
     {
-        data = GameManager.Instance.TableManager.GetTable<ConditionDataTable>().GetDataByID(ID);
+        data = TableManager.Instance.GetTable<ConditionDataTable>().GetDataByID(ID);
         data.InitConditionDictionary();
     }
 
     protected virtual IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => GameManager.Instance.TableManager.loadComplete);
+        yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         Initialize();
     }
 

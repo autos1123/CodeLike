@@ -126,7 +126,7 @@ public abstract class EnemyController:BaseController
 
     protected override IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => GameManager.Instance.TableManager.loadComplete && PoolManager.Instance.IsInitialized);
+        yield return new WaitUntil(() => TableManager.Instance.loadComplete && PoolManager.Instance.IsInitialized);
         Initialize();
     }
 }
