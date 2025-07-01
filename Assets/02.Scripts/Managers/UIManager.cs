@@ -11,7 +11,35 @@ public class UIManager:MonoSingleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
+        uiPrefabs = new List<GameObject>();
         InitializeUI();
+    }
+
+    /// <summary>
+    /// 테스트용 후추 삭제
+    /// </summary>
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("f1");
+            ShowUI<DestinyBoard>();
+        }
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            Debug.Log("f2");
+            Hide<DestinyBoard>();
+        }
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("f1");
+            ShowUI<EnhanceBoard>();
+        }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("f2");
+            Hide<EnhanceBoard>();
+        }
     }
     private void InitializeUI()
     {
@@ -28,7 +56,7 @@ public class UIManager:MonoSingleton<UIManager>
             {
                 if(tableObj.TryGetComponent<UIBase>(out var uIBase))
                 {
-                    _uiInstances[uIBase.name] = uIBase;
+                    _uiInstances[uIBase.UIName] = uIBase;
                 }
             }            
             Debug.Log("[TableManager] 테이블 로드 및 등록 완료");

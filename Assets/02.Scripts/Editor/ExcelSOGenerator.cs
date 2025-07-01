@@ -1,6 +1,7 @@
 using Codice.CM.Client.Differences.Graphic;
 using System;
 using System.Data;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEditor;
 using UnityEngine;
 
@@ -78,7 +79,7 @@ public static class ExcelSOGenerator
                     destinyEffect.affectedTarget = (AffectedTarget)int.Parse(row[3].ToString());
                     destinyEffect.PConditionType = (ConditionType) Enum.Parse(typeof(ConditionType), row[4].ToString());
                     destinyEffect.value = int.Parse(row[5].ToString());
-                    destinyEffect.dsecription = row[6].ToString();
+                    destinyEffect.dsecription = row[6].ToString().Replace("@", destinyEffect.value.ToString());
                     destinyEffectDataTable.dataList.Add(destinyEffect);
                 }
 
@@ -148,7 +149,7 @@ public static class ExcelSOGenerator
                     itemData.Rarity = (Rarity)int.Parse(row[2].ToString());                    
                     itemData.ConditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[3].ToString());
                     itemData.value = int.Parse(row[4].ToString());
-                    itemData.dsecription = row[5].ToString();
+                    itemData.dsecription = row[5].ToString().Replace("@", itemData.value.ToString());
 
                     itemDataTable.dataList.Add(itemData);
                 }
@@ -165,14 +166,14 @@ public static class ExcelSOGenerator
                 for(int i = 2; i < table.Rows.Count; i++)
                 {
                     var row = table.Rows[i];
-                    var itemData = new EnhanceData();
-                    itemData.ID = int.Parse(row[0].ToString());
-                    itemData.name = row[1].ToString();
-                    itemData.ConditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[2].ToString().Trim().Replace("\u00A0", ""));
-                    itemData.value = int.Parse(row[3].ToString());
-                    itemData.dsecription = row[4].ToString();
+                    var enhanceData = new EnhanceData();
+                    enhanceData.ID = int.Parse(row[0].ToString());
+                    enhanceData.name = row[1].ToString();
+                    enhanceData.ConditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[2].ToString().Trim().Replace("\u00A0", ""));
+                    enhanceData.value = int.Parse(row[3].ToString());
+                    enhanceData.dsecription = row[4].ToString().Replace("@", enhanceData.value.ToString());
 
-                    enhanceDataTable.dataList.Add(itemData);
+                    enhanceDataTable.dataList.Add(enhanceData);
                 }
 
                 string enhancePath = $"{assetOutputPath}/{table.ToString()}Table.asset";

@@ -7,34 +7,33 @@ using UnityEngine.UI;
 public class EnhanceBoard : UIBase
 {
     EnhanceCard[] cards;
-    EnhanceManager _enhanceManager;
-
-    public override string UIName => "enhanceBoard";
+    TableManager _tableManager;
+    public override string UIName => "EnhanceBoard";
 
     private void Awake()
     {
         cards = transform.GetComponentsInChildren<EnhanceCard>();
+        _tableManager = TableManager.Instance;
     }
 
-    public void OnEnable()
+    public override void Open()
     {
-        
-        _enhanceManager = BattleCoreManager.Instance.EnhanceManager;
-        var enhance = _enhanceManager.GetEnhance(cards.Count());
+        base.Open();
+
+        var enhance = _tableManager.GetTable<EnhanceDataTable>().dataList.ShuffleData().Take(cards.Count()).ToArray();
 
         for(int i = 0; i < cards.Length; i++)
         {
             cards[i].init(enhance[i]);
         }
-
     }
-
-    public void OnDisable()
+    public override void Close()
     {
         foreach(var item in cards)
         {
             item.Clear();
         }
-        cards = null;
+        base.Close();
     }
+
 }

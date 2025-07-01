@@ -7,21 +7,22 @@ using UnityEngine.UI;
 public class DestinyBoard : UIBase
 {
     DestinyCard[] cards;
-    DestinyManager _destinyManager;
     Button FailedButton;
+    TableManager _tableManager;
+    public override string UIName => "DestinyBoard";
 
-    public override string UIName => "destinyBoard";
 
-
-    public void Awake()
+    void Awake()
     {
         FailedButton = transform.GetChild(3).GetComponent<Button>();
         cards = transform.GetComponentsInChildren<DestinyCard>();
+        _tableManager = TableManager.Instance;
     }
-    public void OnEnable()
-    {        
-        _destinyManager = BattleCoreManager.Instance.DestinyManager;
-        var destinys = _destinyManager.GetDestinys(cards.Count());
+    
+    public override void Open()
+    {
+        base.Open();
+        var destinys = _tableManager.GetTable<DestinyDataTable>().dataList.ShuffleData().Take(cards.Count()).ToArray();
 
         for(int i = 0; i < cards.Length; i++)
         {
@@ -32,14 +33,15 @@ public class DestinyBoard : UIBase
         FailedButton.onClick.AddListener(ClickFailed);
     }
 
-    public void OnDisable()
+    public override void Close()
     {
         foreach(var item in cards)
         {
             item.Clear();
-        }
-        cards=null;
+        }        
+        base.Close();
     }
+
 
     void ClickFailed()
     {
