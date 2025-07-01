@@ -54,11 +54,15 @@ public class BaseCondition
             {
                 modifierDict[m_type] = value;
             }
+
+            
         }
         else
         {
             CondifionModifier[c_type] = new Dictionary<ModifierType, float> { { m_type, value } };
         }
+        //확인용
+        Debug.Log(CondifionModifier[c_type][m_type]);
     }
 
     /// <summary>

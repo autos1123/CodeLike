@@ -21,7 +21,6 @@ public class EnhanceManager :MonoSingleton<EnhanceManager>
     public List<EnhanceData> GetEnhance(int count)
     {
         return _enhanceDatas.ShuffleData().Take(count).ToList();
-    }
-    
+    }   
 
 }
