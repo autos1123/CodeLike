@@ -469,3 +469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawnPoint: {fileID: 7259435738863793292}
+  entranceUp: {fileID: 5742540085258073469}
+  entranceDown: {fileID: 7259435738863793292}
+  entranceLeft: {fileID: 6748878783993637082}
+  entranceRight: {fileID: 246067123109184933}
