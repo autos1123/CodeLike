@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 844489935}
   - component: {fileID: 844489934}
   - component: {fileID: 844489939}
+  - component: {fileID: 844489940}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -330,6 +331,27 @@ MonoBehaviour:
     initialConditions: []
   ID: 1
   rotDamping: 10
+--- !u!95 &844489940
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844489933}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &945966688
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +365,8 @@ GameObject:
   - component: {fileID: 945966691}
   - component: {fileID: 945966690}
   - component: {fileID: 945966689}
-  m_Layer: 0
+  - component: {fileID: 945966694}
+  m_Layer: 9
   m_Name: TestEnemy (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -366,7 +389,7 @@ MonoBehaviour:
     id: 0
     characterName: 
     initialConditions: []
-  ID: 1
+  ID: 1001
   rotDamping: 10
   projectileOffset: {fileID: 1010116728}
 --- !u!195 &945966690
@@ -455,6 +478,27 @@ Transform:
   - {fileID: 1235262605}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &945966694
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945966688}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &988819894
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +555,7 @@ GameObject:
   - component: {fileID: 1010116731}
   - component: {fileID: 1010116730}
   - component: {fileID: 1010116729}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -788,7 +832,7 @@ GameObject:
   - component: {fileID: 1235262605}
   - component: {fileID: 1235262607}
   - component: {fileID: 1235262606}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TestEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1138,6 +1182,9 @@ GameObject:
   - component: {fileID: 1475416481}
   - component: {fileID: 1475416480}
   - component: {fileID: 1475416483}
+  - component: {fileID: 1475416486}
+  - component: {fileID: 1475416485}
+  - component: {fileID: 1475416484}
   m_Layer: 8
   m_Name: TestPlayer
   m_TagString: Player
@@ -1224,6 +1271,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52dda68ebff9d8244be98ef5e0033dd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1475416484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475416479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 134378f331964214488a0695e2951f04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    id: 0
+    characterName: 
+    initialConditions: []
+  ID: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  groundRayOffset: 0.1
+--- !u!114 &1475416485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475416479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b39144637cdc32247b3c7237bd9f8e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1475416486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475416479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1001 &1512398311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1294,7 +1404,7 @@ GameObject:
   - component: {fileID: 1843054171}
   - component: {fileID: 1843054170}
   - component: {fileID: 1843054174}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

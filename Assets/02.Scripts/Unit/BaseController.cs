@@ -11,11 +11,13 @@ public class BaseController:MonoBehaviour, IDamagable
     [SerializeField] protected int ID;
 
     public Rigidbody _Rigidbody { get; protected set; }
+    public Animator _Animator { get; protected set; }
     public ConditionData Data => data;
 
     protected virtual void Awake()
     {
         _Rigidbody = GetComponent<Rigidbody>();
+        _Animator = GetComponent<Animator>();
     }
 
     protected virtual void Start()
