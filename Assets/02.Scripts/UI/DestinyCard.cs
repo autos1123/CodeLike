@@ -32,8 +32,8 @@ public class DestinyCard : MonoBehaviour
     {
         _destinyData = destinyData;
         _title.text = _destinyData.Name;
-        _positiveDescription.text = _destinyData.PositiveDescription;
-        _negativeDescription.text = _destinyData.NegativeDescription;
+        //_positiveDescription.text = _destinyData.PositiveDescription;
+        //_negativeDescription.text = _destinyData.NegativeDescription;
 
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(Click);

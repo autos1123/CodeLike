@@ -13,21 +13,15 @@ MonoBehaviour:
   m_Name: DestinyDataTable
   m_EditorClassIdentifier: 
   dataList:
-  - ID: 1
-    Name: 
-    PositiveDescription: 
-    NegativeDescription: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
-  - ID: 2
-    Name: 
-    PositiveDescription: 
-    NegativeDescription: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
-  - ID: 3
-    Name: 
-    PositiveDescription: 
-    NegativeDescription: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
+  - ID: 2000
+    Name: "\uC6B4\uBA851"
+    PositiveEffectDataID: 3000
+    NegativeEffectDataID: 3500
+  - ID: 2001
+    Name: "\uC6B4\uBA852"
+    PositiveEffectDataID: 3001
+    NegativeEffectDataID: 3500
+  - ID: 2002
+    Name: "\uC6B4\uBA853"
+    PositiveEffectDataID: 3000
+    NegativeEffectDataID: 3500
