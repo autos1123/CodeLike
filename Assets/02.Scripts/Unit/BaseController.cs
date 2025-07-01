@@ -34,7 +34,7 @@ public class BaseController:MonoBehaviour, IDamagable
         data.InitConditionDictionary();
     }
 
-    protected IEnumerator WaitForDataLoad()
+    protected virtual IEnumerator WaitForDataLoad()
     {
         yield return new WaitUntil(() => GameManager.Instance.TableManager.loadComplete);
         Initialize();
