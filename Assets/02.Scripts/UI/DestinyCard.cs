@@ -16,6 +16,7 @@ public class DestinyCard : MonoBehaviour
 
     private BattleCoreManager _battleCoreManager;
     private TableManager _tableManager;
+    private UIBase _board;
     [SerializeField]private DestinyData _destinyData;
 
     void Awake()
@@ -24,6 +25,7 @@ public class DestinyCard : MonoBehaviour
         _title = transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
         _positiveDescription = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         _negativeDescription = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        _board = transform.parent.GetComponent<UIBase>();
 
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(Click);
@@ -50,6 +52,7 @@ public class DestinyCard : MonoBehaviour
     {
         Debug.Log("눌림");
         _battleCoreManager.setCurDestinyData(_destinyData);
+        _board.Close();
     }
 
 }

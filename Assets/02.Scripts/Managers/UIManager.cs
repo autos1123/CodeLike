@@ -15,6 +15,9 @@ public class UIManager:MonoSingleton<UIManager>
         InitializeUI();
     }
 
+    /// <summary>
+    /// 테스트용 후추 삭제
+    /// </summary>
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Q))

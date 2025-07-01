@@ -51,6 +51,7 @@ public class TableManager:MonoSingleton<TableManager>
                     tableDic[table.Type] = table;
                 }
             }
+            loadComplete = true;
             loadComplet?.Invoke();            
             Debug.Log("[TableManager] 테이블 로드 및 등록 완료");
         };
