@@ -4,19 +4,22 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DestinyBoard : MonoBehaviour
+public class DestinyBoard : UIBase
 {
     DestinyCard[] cards;
     DestinyManager _destinyManager;
     Button FailedButton;
 
+    public override string UIName => "destinyBoard";
+
+
     public void Awake()
     {
         FailedButton = transform.GetChild(3).GetComponent<Button>();
+        cards = transform.GetComponentsInChildren<DestinyCard>();
     }
     public void OnEnable()
-    {
-        cards = transform.GetComponentsInChildren<DestinyCard>();
+    {        
         _destinyManager = BattleCoreManager.Instance.DestinyManager;
         var destinys = _destinyManager.GetDestinys(cards.Count());
 

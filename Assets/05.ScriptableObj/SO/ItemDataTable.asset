@@ -12,3 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 208a75a48505ac6428a2175b996d1ea7, type: 3}
   m_Name: ItemDataTable
   m_EditorClassIdentifier: 
+  dataList:
+  - ID: 6000
+    name: "\uBC29\uD328"
+    Rarity: 301
+    ConditionType: 6
+    value: 10
+    dsecription: "\uBC29\uC5B4\uB825\uC774 @\uC99D\uAC00\uD55C\uB2E4."
+  - ID: 6001
+    name: "\uAC80"
+    Rarity: 301
+    ConditionType: 3
+    value: 10
+    dsecription: "\uACF5\uACA9\uB825\uC774 @\uC99D\uAC00\uD55C\uB2E4."

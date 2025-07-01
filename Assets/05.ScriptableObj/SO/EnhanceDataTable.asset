@@ -12,4 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65dcc3b2a66d181429b10f3b359cec11, type: 3}
   m_Name: EnhanceDataTable
   m_EditorClassIdentifier: 
-  dataList: []
+  dataList:
+  - ID: 7000
+    name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+    ConditionType: 3
+    value: 10
+    dsecription: "\uACF5\uACA9\uB825\uC774 @\uC99D\uAC00\uD55C\uB2E4."
+  - ID: 7001
+    name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+    ConditionType: 3
+    value: 20
+    dsecription: "\uACF5\uACA9\uB825\uC774 @\uC99D\uAC00\uD55C\uB2E4."
+  - ID: 7002
+    name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+    ConditionType: 3
+    value: 30
+    dsecription: "\uACF5\uACA9\uB825\uC774 @\uC99D\uAC00\uD55C\uB2E4."

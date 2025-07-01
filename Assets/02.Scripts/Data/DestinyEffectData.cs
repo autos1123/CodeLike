@@ -1,8 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class DestinyEffectData
 {
-    int ID;
+    public int ID;
+    public string Name;
+    public EffectType effectType;
+    public AffectedTarget affectedTarget;
+    public ConditionType PConditionType;
+    public float value;
+    public string dsecription;
 }

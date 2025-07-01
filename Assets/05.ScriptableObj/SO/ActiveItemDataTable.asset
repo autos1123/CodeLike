@@ -12,3 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee0136717c827442b96ad6b3596f9a4, type: 3}
   m_Name: ActiveItemDataTable
   m_EditorClassIdentifier: 
+  dataList:
+  - ID: 4000
+    name: Bow
+    rarity: 301
+    skillID: 5001
+    description: "\uD65C"

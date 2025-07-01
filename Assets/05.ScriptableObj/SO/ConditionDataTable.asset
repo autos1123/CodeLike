@@ -39,10 +39,10 @@ MonoBehaviour:
     - type: 10
       value: 1.5
     - type: 11
-      value: 10
+      value: 0
     - type: 12
-      value: 5
-  - id: 1
+      value: 0
+  - id: 1000
     characterName: Slime
     initialConditions:
     - type: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
     - type: 4
       value: 1
     - type: 5
-      value: 3
+      value: 1
     - type: 6
       value: 1
     - type: 7
@@ -68,10 +68,10 @@ MonoBehaviour:
     - type: 10
       value: 1
     - type: 11
-      value: 5
+      value: 1
     - type: 12
-      value: 3
-  - id: 2
+      value: 1
+  - id: 1001
     characterName: Goblin
     initialConditions:
     - type: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
       value: 1
     - type: 12
       value: 1
-  - id: 3
+  - id: 1002
     characterName: Orc
     initialConditions:
     - type: 0
