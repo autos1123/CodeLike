@@ -7,9 +7,8 @@ using UnityEngine.UI;
 public class DestinyBoard : UIBase
 {
     DestinyCard[] cards;
-    DestinyManager _destinyManager;
     Button FailedButton;
-
+    TableManager _tableManager;
     public override string UIName => "DestinyBoard";
 
 
@@ -17,13 +16,13 @@ public class DestinyBoard : UIBase
     {
         FailedButton = transform.GetChild(3).GetComponent<Button>();
         cards = transform.GetComponentsInChildren<DestinyCard>();
+        _tableManager = TableManager.Instance;
     }
     
     public override void Open()
     {
         base.Open();
-        _destinyManager = BattleCoreManager.Instance.DestinyManager;
-        var destinys = _destinyManager.GetDestinys(cards.Count());
+        var destinys = _tableManager.GetTable<DestinyDataTable>().dataList.ShuffleData().Take(cards.Count()).ToArray();
 
         for(int i = 0; i < cards.Length; i++)
         {
