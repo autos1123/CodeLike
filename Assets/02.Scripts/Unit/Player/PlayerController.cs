@@ -34,6 +34,11 @@ public class PlayerController:BaseController
 
     private void Update()
     {
+        if(!isInitialized)
+            return;
+
+        if(ViewManager.Instance.IsTransitioning)
+            return;
         // **카메라 전환 중엔 아무 동작 하지 않음**
         if(ViewManager.Instance.IsTransitioning)
             return;
@@ -51,6 +56,9 @@ public class PlayerController:BaseController
 
     private void FixedUpdate()
     {
+        
+        if(!isInitialized)
+            return;
         // **카메라 전환 중엔 물리 업데이트도 스킵**
         if(ViewManager.Instance.IsTransitioning)
             return;
@@ -120,6 +128,18 @@ public class PlayerController:BaseController
 
     private void Jump()
     {
+        if(condition == null)
+        {
+            Debug.LogError("condition 이 null 입니다.");
+        }
+        if(_Rigidbody == null)
+        {
+            Debug.LogError("_Rigidbody 가 null 입니다.");
+        }
+        if(ViewManager.Instance == null)
+        {
+            Debug.LogError("ViewManager.Instance 가 null 입니다.");
+        }
         float force = condition.GetValue(ConditionType.JumpPower);
         Vector3 v = _Rigidbody.velocity;
         if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
@@ -133,9 +153,11 @@ public class PlayerController:BaseController
     protected override void Initialize()
     {
         base.Initialize();
+        Debug.Log("PlayerController Initialize 호출");
         condition = new PlayerCondition(data);
         stateMachine = new PlayerStateMachine(this);
         isInitialized = true;
+        Debug.Log("PlayerController Initialize 완료, isInitialized = true");
     }
 
     protected override void OnDrawGizmos()

@@ -14,26 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - ID: 2000
-    Name: 
-    PositiveDescription: 
-    NegativeDescription: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
+    Name: "\uC6B4\uBA851"
+    PositiveEffectDataID: 3000
+    NegativeEffectDataID: 3500
   - ID: 2001
-    Name: 
-    PositiveDescription: 
-    NegativeDescription: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
+    Name: "\uC6B4\uBA852"
+    PositiveEffectDataID: 3001
+    NegativeEffectDataID: 3500
   - ID: 2002
-    Name: 
-    PositiveDescription: 
-    NegativeDescription: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
+    Name: "\uC6B4\uBA853"
+    PositiveEffectDataID: 3000
+    NegativeEffectDataID: 3500
   - ID: 2003
-    Name: 
-    PositiveDescription: 
-    NegativeDescription: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
+    Name: "\uC6B4\uBA854"
+    PositiveEffectDataID: 3002
+    NegativeEffectDataID: 3500

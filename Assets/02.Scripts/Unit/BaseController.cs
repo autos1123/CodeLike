@@ -38,7 +38,10 @@ public class BaseController:MonoBehaviour, IDamagable
 
     protected virtual IEnumerator WaitForDataLoad()
     {
+        Debug.Log($"TableManager.Instance: {TableManager.Instance}");
+        Debug.Log("WaitForDataLoad 시작");
         yield return new WaitUntil(() => TableManager.Instance.loadComplete);
+        Debug.Log("TableManager 로드 완료됨, Initialize 호출");
         Initialize();
     }
 

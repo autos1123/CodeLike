@@ -10,6 +10,11 @@ public class GameManager : MonoSingleton<GameManager>
 
     public event Action onDestinyChange;
 
+    private void Start()
+    {
+        TableManager.Instance.Init(this);
+    }
+
     public void setCurDestinyData(DestinyData destinyData)
     {
         this.curDestinyData = destinyData;
