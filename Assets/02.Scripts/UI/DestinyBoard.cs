@@ -22,8 +22,8 @@ public class DestinyBoard : UIBase
     public override void Open()
     {
         base.Open();
-        var destinys = _tableManager.GetTable<DestinyDataTable>().dataList.ShuffleData().Take(cards.Count()).ToArray();
-
+        if(_tableManager == null) _tableManager = TableManager.Instance;
+        var destinys = _tableManager.GetTable<DestinyDataTable>().dataList.ShuffleData().Take(cards.Count()).ToArray();        
         for(int i = 0; i < cards.Length; i++)
         {
             cards[i].init(destinys[i]);
