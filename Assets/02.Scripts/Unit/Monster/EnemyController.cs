@@ -13,6 +13,19 @@ public abstract class EnemyController:BaseController
     public float RotationDamping => rotDamping;
     public Vector3 patrolPivot { get; private set; } = Vector3.zero;
 
+    private GameObject hpBar;
+    public PoolingHPBar HpUI => hpBar.GetComponent<PoolingHPBar>();
+
+    private void OnEnable()
+    {
+        StartCoroutine(WaitForDataLoad());
+    }
+
+    private void OnDisable()
+    {
+        PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -21,7 +34,6 @@ public abstract class EnemyController:BaseController
 
     protected override void Start()
     {
-        base.Start();
     }
 
     protected virtual void Update()
@@ -76,6 +88,11 @@ public abstract class EnemyController:BaseController
         Condition = new EnemyCondition(data);
         stateMachine = new EnemyStateMachine(this);
         isInitialized = true;
+
+        hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
+        hpBar.transform.SetParent(transform);
+        hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
+        HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
     }
 
     public override bool GetDamaged(float damage)
@@ -84,6 +101,7 @@ public abstract class EnemyController:BaseController
         {
             // 몬스터 사망
             // 사망 이펙트 재생
+            HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
             Invoke(nameof(EnemyDie), 0.1f);
             return false;
         }
@@ -100,4 +118,10 @@ public abstract class EnemyController:BaseController
     /// 적의 공격 액션을 수행하는 메서드
     /// </summary>
     public abstract void AttackAction();
+
+    protected override IEnumerator WaitForDataLoad()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.TableManager.loadComplete && PoolManager.Instance.IsInitialized);
+        Initialize();
+    }
 }

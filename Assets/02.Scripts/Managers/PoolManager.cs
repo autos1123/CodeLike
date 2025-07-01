@@ -12,6 +12,8 @@ public class PoolManager : MonoSingleton<PoolManager>
     private Dictionary<PoolType, GameObject> registeredObj = new Dictionary<PoolType, GameObject>();
     private Dictionary<PoolType, Transform> parentCache = new Dictionary<PoolType, Transform>();
 
+    public bool IsInitialized { get; private set; } = false;
+
     protected override bool Persistent => false;
     protected override void Awake()
     {
@@ -47,6 +49,8 @@ public class PoolManager : MonoSingleton<PoolManager>
                 CreatePool(pool, pool.PoolSize);
             }
         };
+
+        IsInitialized = true;
     }
 
     private void CreatePool(IPoolObject iPoolObject, int poolsize)
