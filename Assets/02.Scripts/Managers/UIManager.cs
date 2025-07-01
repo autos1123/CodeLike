@@ -32,13 +32,13 @@ public class UIManager:MonoSingleton<UIManager>
         }
         if(Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("f1");
-            ShowUI<EnhanceBoard>();
+            Debug.Log("인벤열림");
+            ShowUI<InventoryUI>();
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("f2");
-            Hide<EnhanceBoard>();
+            Debug.Log("인벤닫힘");
+            Hide<InventoryUI>();
         }
     }
     private void InitializeUI()

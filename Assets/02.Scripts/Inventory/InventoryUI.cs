@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : UIBase
 {
-    // Start is called before the first frame update
-    void Start()
+    public override string UIName => "InventoryUI"; 
+    
+    public Inventory inventory;
+    
+    public SlotUI[] inventorySlotUIs; // 중간 16칸
+    
+    public override void Open()
     {
-        
+        base.Open();
+        RefreshUI();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RefreshUI()
     {
-        
+        for(int i = 0; i < inventorySlotUIs.Length; i++)
+            inventorySlotUIs[i].Set(inventory.inventorySlots[i]);
     }
+
 }

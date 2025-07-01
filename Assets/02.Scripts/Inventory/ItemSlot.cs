@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ItemSlot : MonoBehaviour
+[System.Serializable]
+public class ItemSlot
 {
-    // Start is called before the first frame update
-    void Start()
+    public ItemData Item { get; private set; }
+    public int Quantity { get; private set; }
+
+    public bool IsEmpty => Item == null;
+
+    public void Set(ItemData item, int quantity)
     {
-        
+        Item = item;
+        Quantity = quantity;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Clear()
     {
-        
+        Item = null;
+        Quantity = 0;
     }
 }
