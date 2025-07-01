@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-99)]
 public class BattleCoreManager : MonoSingleton<BattleCoreManager>
 {
     GameManager gameManager;
@@ -38,8 +39,8 @@ public class BattleCoreManager : MonoSingleton<BattleCoreManager>
         //stageManager
 
         //TOdo : 매니저들 추가 init();
-        //destinyManager.Init(gameManager.TableManager);
-        //destinyManager.Init(gameManager.TableManager);
+        destinyManager.Init(gameManager.TableManager);
+        enhanceManager.Init(gameManager.TableManager);
         //itemManager.Init(gameManager.TableManager);
     }
 

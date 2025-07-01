@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class DestinyCard : MonoBehaviour
 {
     private Button _button;
@@ -14,29 +15,29 @@ public class DestinyCard : MonoBehaviour
     private TextMeshProUGUI _negativeDescription;
 
     private BattleCoreManager _battleCoreManager;
+    private TableManager _tableManager;
     [SerializeField]private DestinyData _destinyData;
-    // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
         _button = GetComponent<Button>();
         _title = transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
         _positiveDescription = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         _negativeDescription = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        _battleCoreManager = BattleCoreManager.Instance;
 
-        
-
+        _button.onClick.RemoveAllListeners();
+        _button.onClick.AddListener(Click);
     }
 
     public void init(DestinyData destinyData)
     {
+        if(_battleCoreManager == null) _battleCoreManager = BattleCoreManager.Instance;
+        if(_tableManager == null) _tableManager = GameManager.Instance.TableManager;
+
         _destinyData = destinyData;
         _title.text = _destinyData.Name;
-        //_positiveDescription.text = _destinyData.PositiveDescription;
-        //_negativeDescription.text = _destinyData.NegativeDescription;
-
-        _button.onClick.RemoveAllListeners();
-        _button.onClick.AddListener(Click);
+        _positiveDescription.text = _tableManager.GetTable<DestinyEffectDataTable>().GetDataByID(_destinyData.NegativeEffectDataID).dsecription;
+        _negativeDescription.text = _tableManager.GetTable<DestinyEffectDataTable>().GetDataByID(_destinyData.PositiveEffectDataID).dsecription;        
     }
     public void Clear()
     {
@@ -51,5 +52,4 @@ public class DestinyCard : MonoBehaviour
         _battleCoreManager.setCurDestinyData(_destinyData);
     }
 
-    
 }

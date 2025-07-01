@@ -20,6 +20,8 @@ public class TableManager:MonoSingleton<TableManager>
 
     public bool loadComplete { get; private set; } = false;
 
+    public event Action loadComplet;
+
     /// <summary>
     /// 초기화
     /// </summary>
@@ -49,7 +51,7 @@ public class TableManager:MonoSingleton<TableManager>
                     tableDic[table.Type] = table;
                 }
             }
-            loadComplete = true;  // 테이블 다 로드하고 등록한 다음에 true로 바꿈
+            loadComplet?.Invoke();            
             Debug.Log("[TableManager] 테이블 로드 및 등록 완료");
         };
     }

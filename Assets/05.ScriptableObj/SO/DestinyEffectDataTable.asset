@@ -34,3 +34,10 @@ MonoBehaviour:
     PConditionType: 3
     value: -10
     dsecription: "\uC544\uAD70 \uACF5\uACA9\uB825 @\uAC10\uC18C\uD55C\uB2E4."
+  - ID: 3002
+    Name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+    effectType: 201
+    affectedTarget: 102
+    PConditionType: 3
+    value: 20
+    dsecription: "\uC544\uAD70 \uACF5\uACA9\uB825 @\uC99D\uAC00\uD55C\uB2E4."

@@ -10,16 +10,18 @@ public class DestinyBoard : UIBase
     DestinyManager _destinyManager;
     Button FailedButton;
 
-    public override string UIName => "destinyBoard";
+    public override string UIName => "DestinyBoard";
 
 
-    public void Awake()
+    void Awake()
     {
         FailedButton = transform.GetChild(3).GetComponent<Button>();
         cards = transform.GetComponentsInChildren<DestinyCard>();
     }
-    public void OnEnable()
-    {        
+    
+    public override void Open()
+    {
+        base.Open();
         _destinyManager = BattleCoreManager.Instance.DestinyManager;
         var destinys = _destinyManager.GetDestinys(cards.Count());
 
@@ -32,14 +34,15 @@ public class DestinyBoard : UIBase
         FailedButton.onClick.AddListener(ClickFailed);
     }
 
-    public void OnDisable()
+    public override void Close()
     {
         foreach(var item in cards)
         {
             item.Clear();
-        }
-        cards=null;
+        }        
+        base.Close();
     }
+
 
     void ClickFailed()
     {
