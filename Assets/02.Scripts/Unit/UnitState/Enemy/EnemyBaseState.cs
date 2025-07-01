@@ -49,6 +49,15 @@ public class EnemyBaseState:IUnitState
     public virtual void StateUpdate()
     {
     }
+    protected void StartAnimation(int animationHash)
+    {
+        stateMachine.Enemy._Animator.SetBool(animationHash, true);
+    }
+
+    protected void StopAnimation(int animationHash)
+    {
+        stateMachine.Enemy._Animator.SetBool(animationHash, true);
+    }
 
     /// <summary>
     /// 2D/3D 시점 변환시 호출되는 메서드

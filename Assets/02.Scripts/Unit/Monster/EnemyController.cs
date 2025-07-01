@@ -8,6 +8,7 @@ public abstract class EnemyController:BaseController
     private EnemyStateMachine stateMachine;
     [SerializeField] private float rotDamping;
 
+    public EnemyAnimationData AnimationData { get; private set; }
     public EnemyCondition Condition { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
     public float RotationDamping => rotDamping;
@@ -85,14 +86,18 @@ public abstract class EnemyController:BaseController
     protected override void Initialize()
     {
         base.Initialize();
+        // Controller 초기화
         Condition = new EnemyCondition(data);
         stateMachine = new EnemyStateMachine(this);
-        isInitialized = true;
+        AnimationData = new EnemyAnimationData();
 
+        // 체력 UI 초기화
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
         hpBar.transform.SetParent(transform);
         hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
         HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
+
+        isInitialized = true;
     }
 
     public override bool GetDamaged(float damage)
