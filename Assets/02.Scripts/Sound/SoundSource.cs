@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundSource : MonoBehaviour ,IPoolObject
 {
-    public SoundSource soundSource;
+    public AudioSource audioSource;
     [SerializeField] private PoolType poolType;
     [SerializeField] private int poolSize;
     public GameObject GameObject => gameObject;
@@ -15,9 +15,26 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     private void Start()
     {
-        soundSource = GetComponent<SoundSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
+    public void Play(AudioClip clip,bool issfx)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
+        if(issfx) { StartCoroutine(wiatEnd(clip.length)); }
+    }
+    public void Stop()
+    {
+        audioSource.Stop();
+        returnPool();
+    }
+
+    IEnumerator wiatEnd(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        returnPool();
+    }
     public void returnPool()
     {
         PoolManager.Instance.ReturnObject(this);

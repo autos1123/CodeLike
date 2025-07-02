@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
+using static UnityEditor.PlayerSettings;
 using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class SoundManager : MonoSingleton<SoundManager>
@@ -12,9 +13,10 @@ public class SoundManager : MonoSingleton<SoundManager>
     [SerializeField] List<AudioClip> bgms;
     [SerializeField] List<AudioClip> sfxs;
 
+    Dictionary<string , AudioClip> bgmdic;
+    Dictionary<string , AudioClip> sfxdic;
     //플레이하는 AudioSource
-    [SerializeField] AudioSource audioBgm;
-    [SerializeField] AudioSource audioSfx;
+    [SerializeField] SoundSource audioBgm;
 
     public void Start()
     {
@@ -22,14 +24,15 @@ public class SoundManager : MonoSingleton<SoundManager>
     }
     public void Init()
     {
-        LoadBGMAsync();
-        LoadSFXAsync();
         Addressables.LoadAssetAsync<AudioMixer>("MainMixer")
             .Completed += (handle) =>
             {
                 audioMixer = handle.Result;
             };
-        //Spatial Blend : 2d 3d 전환일때 사용
+        LoadBGMAsync();
+        LoadSFXAsync();
+        bgmdic = new Dictionary<string, AudioClip>();
+        sfxdic = new Dictionary<string, AudioClip>();
     }
 
     private void Update()
@@ -37,7 +40,7 @@ public class SoundManager : MonoSingleton<SoundManager>
         if(Input.GetKeyDown(KeyCode.F1))
         {
             Debug.Log("f1");
-            PlayBGM();
+            PlayBGM(transform.position , SoundAddressbleName.bgm1);
         }
         if(Input.GetKeyDown(KeyCode.F2))
         {
@@ -47,7 +50,7 @@ public class SoundManager : MonoSingleton<SoundManager>
         if(Input.GetKeyDown(KeyCode.F3))
         {
             Debug.Log("f3");
-            audioSfx.PlayOneShot(sfxs[0]);
+            PlaySFX(transform.position, SoundAddressbleName.sfx1);
         }
     }
 
@@ -62,7 +65,13 @@ public class SoundManager : MonoSingleton<SoundManager>
             {
                 bgms.Add(source);
             }
-        );
+        ).Completed += (handle) =>
+        {
+            foreach(var bgm in bgms)
+            {
+                bgmdic[bgm.name] = bgm;
+            }
+        };
     }
     private void LoadSFXAsync()
     {
@@ -72,27 +81,41 @@ public class SoundManager : MonoSingleton<SoundManager>
             {
                 sfxs.Add(source);
             }
-        );
+        ).Completed += (handle) =>
+        {
+            foreach(var sfx in sfxs)
+            {
+                sfxdic[sfx.name] = sfx;
+            }
+        };
     }
 
-    //public void PlayBGM(EBgm bgmIdx)
-    public void PlayBGM()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pos">소리 생성 포지션</param>
+    /// <param name="key">재생할 소리 이름</param>
+    public void PlaySFX(Vector3 pos,string key)
     {
-        //enum int형으로 형변환 가능
-        //audioBgm.clip = bgms[(int)bgmIdx];
-        audioBgm.clip = bgms[0];
-        audioBgm.Play();
+        var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
+        sound.transform.position = pos;
+        SoundSource soundSource = sound.GetComponent<SoundSource>();
+        soundSource.Play(sfxdic[key], true);
+    }
+    public void PlayBGM(Vector3 pos, string key)
+    {
+        var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
+        sound.transform.position = pos;
+        SoundSource soundSource = sound.GetComponent<SoundSource>();        
+        soundSource.Play(bgmdic[key],false);
+        audioBgm = soundSource;
     }
 
     // 현재 재생 중인 배경 음악 정지
     public void StopBGM()
     {
         audioBgm.Stop();
+
     }
 
-    // ESfx 열거형을 매개변수로 받아 해당하는 효과음 클립을 재생
-    public void PlaySFX(/*ESfx esfx*/)
-    {
-        /*audioSfx.PlayOneShot(sfxs[(int)esfx]);*/
-    }
 }
