@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,12 +18,17 @@ public class BaseCondition
     public Dictionary<ConditionType, float> CurrentConditions { get; private set; }
     public Dictionary<ConditionType, Dictionary<ModifierType, float>> CondifionModifier { get; private set; }
 
-    public Dictionary<ConditionType, Action> statModifiers;
+    public Dictionary<ConditionType, Action> statModifiers = new();
     public BaseCondition(ConditionData data)
     {
         this.data = data;
         CurrentConditions = data.GetCurrentConditions();
         CondifionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();
+
+        foreach(var item in CurrentConditions)
+        {
+            statModifiers[item.Key] = null;
+        }
     }
 
     /// <summary>
@@ -65,10 +71,6 @@ public class BaseCondition
             CondifionModifier[c_type] = new Dictionary<ModifierType, float> { { m_type, value } };
         }
 
-        if(!statModifiers.ContainsKey(c_type))
-        {
-            statModifiers[c_type] = () => { };  // 빈 Action으로 초기화
-        }
         statModifiers[c_type]?.Invoke();
         //확인용
         Debug.Log(CondifionModifier[c_type][m_type]);

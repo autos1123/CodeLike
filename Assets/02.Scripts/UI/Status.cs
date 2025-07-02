@@ -6,7 +6,8 @@ using UnityEngine;
 public class Status : MonoBehaviour
 {
     TextMeshProUGUI text;
-    [SerializeField]ConditionType _conditionType;
+    [SerializeField] ConditionType _conditionType;
+
     public void init(ConditionType conditionType)
     {
         _conditionType = conditionType;
@@ -14,6 +15,8 @@ public class Status : MonoBehaviour
 
     private void OnEnable()
     {
+        if(text == null) text = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+
         GameManager.Instance.Player.GetComponent<PlayerController>().PlayerCondition.statModifiers[_conditionType] += onChangeText;
         onChangeText();
     }
