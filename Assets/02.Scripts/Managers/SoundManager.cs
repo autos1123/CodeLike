@@ -35,6 +35,7 @@ public class SoundManager : MonoSingleton<SoundManager>
         sfxdic = new Dictionary<string, AudioClip>();
     }
 
+    //테스트용 추후에 지움
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.F1))
@@ -115,7 +116,6 @@ public class SoundManager : MonoSingleton<SoundManager>
     public void StopBGM()
     {
         audioBgm.Stop();
-
     }
 
 }
