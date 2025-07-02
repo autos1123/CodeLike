@@ -9,4 +9,5 @@ public class ItemData
     public ConditionType ConditionType;
     public float value;
     public string dsecription;
+    public string IconPath;
 }
