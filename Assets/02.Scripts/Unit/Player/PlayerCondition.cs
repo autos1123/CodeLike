@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -13,6 +14,9 @@ public class PlayerCondition : BaseCondition
     private PlayerStateMachine stateMachine;
     private PlayerController controller;
 
+    // (currentHP, maxHP) 전달
+    public event Action<float, float> OnHPChanged;
+
     /// <summary>
     /// 생성자 - BaseCondition에 ConditionData 전달
     /// </summary>
@@ -25,6 +29,7 @@ public class PlayerCondition : BaseCondition
     {
         this.controller = player;
         this.stateMachine = stateMachine;
+        Debug.Log($"초기 HP: {GetValue(ConditionType.HP)}");
     }
 
     /// <summary>
@@ -36,18 +41,31 @@ public class PlayerCondition : BaseCondition
         Debug.Log($"{damage} 데미지 받음 처리 중");
 
         bool isDead = base.GetDamaged(damage);
-        float currentHP = GetValue(ConditionType.HP);
 
+        float currentHP = GetValue(ConditionType.HP);
         Debug.Log($"현재 HP: {currentHP}");
+        Debug.Log($"isDead: {isDead}, HP after damage: {currentHP}");
 
         if(isDead)
         {
             Die();
-            return true;
+            return true; // 사망
         }
 
-        return false;
+        return false; // 생존
     }
+
+    public float GetCurrentHpRatio()
+    {
+        if(!Data.TryGetCondition(ConditionType.HP, out float max))
+        {
+            Debug.LogError("ConditionType.HP를 찾을 수 없습니다.");
+            return 0;
+        }
+
+        return GetValue(ConditionType.HP) / max;
+    }
+
 
     /// <summary>
     /// 사망 시 FSM Dead 상태로 전환
