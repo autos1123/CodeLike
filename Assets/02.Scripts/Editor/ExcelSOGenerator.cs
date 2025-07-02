@@ -149,7 +149,7 @@ public static class ExcelSOGenerator
                     itemData.Rarity = (Rarity)int.Parse(row[2].ToString());                    
                     itemData.ConditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[3].ToString());
                     itemData.value = int.Parse(row[4].ToString());
-                    itemData.dsecription = row[5].ToString().Replace("@", itemData.value.ToString());
+                    itemData.description = row[5].ToString().Replace("@", itemData.value.ToString());
                     itemData.IconPath = row[6].ToString();
 
                     itemDataTable.dataList.Add(itemData);

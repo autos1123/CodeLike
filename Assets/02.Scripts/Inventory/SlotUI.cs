@@ -9,10 +9,11 @@ public enum SlotType
     Equip
 }
 /// <summary>
-/// UI 슬롯 하나를 표현하는 클래스.
-/// 아이콘 이미지 및 수량 텍스트를 설정.
+/// 하나의 인벤토리 또는 장비 슬롯을 표현하는 UI 컴포넌트
+/// 아이템의 아이콘, 수량 표시 및 툴팁, 드래그 앤 드롭 기능을 처리
 /// </summary>
-public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHandler, 
+    IDropHandler,IPointerEnterHandler, IPointerExitHandler
 {
     public SlotType slotType;
     
@@ -20,7 +21,6 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     public TextMeshProUGUI quantityText;
     
     public ItemSlot ItemSlot { get; private set; } 
-    [HideInInspector] public Transform originalParent;  // 드래그용
     
     private bool isBeingDragged = false;
     
@@ -32,7 +32,10 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
         ItemSlot = slot;
         RefreshVisual();
     }
-
+    
+    /// <summary>
+    /// 현재 슬롯 데이터에 따라 아이콘과 수량 등의 시각적 요소를 갱신
+    /// </summary>
     private void RefreshVisual()
     {
         if (ItemSlot == null || ItemSlot.IsEmpty)
@@ -61,11 +64,11 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
             eventData.pointerDrag = null;
             return;
         }
-
-        iconImage.raycastTarget = false;
         isBeingDragged = true;
+        iconImage.raycastTarget = false;
+        TooltipManager.Instance.Hide();
+        
         RefreshVisual();
-
         DragManager.Instance.CreateGhost(iconImage.sprite);
     }
     // 드래그 중
@@ -82,8 +85,8 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     {
         iconImage.raycastTarget = true;
         isBeingDragged = false;
+        
         RefreshVisual();
-
         DragManager.Instance.ClearGhost();
     }
 
@@ -117,5 +120,28 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
 
         Set(ItemSlot);
         fromSlotUI.Set(fromSlotUI.ItemSlot);
+    }
+    
+    /// <summary>
+    /// 마우스가 슬롯 위에 올라갔을 때 호출, 툴팁 표시
+    /// </summary>
+    /// <param name="eventData">이벤트 데이터</param>
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (ItemSlot == null || ItemSlot.IsEmpty) return;
+        
+        // 툴팁 중복 호출 방지
+        if (!TooltipManager.Instance.IsVisible)
+            TooltipManager.Instance.Show(ItemSlot.GetDescription(), eventData.position);
+
+    }
+
+    /// <summary>
+    /// 마우스가 슬롯에서 벗어났을 때 호출, 툴팁 숨김
+    /// </summary>
+    /// <param name="eventData">이벤트 데이터</param>
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        TooltipManager.Instance.Hide();
     }
 }

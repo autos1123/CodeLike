@@ -16,7 +16,13 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: be2227b91220ff54aab4945db3d4981c
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: faba5c5bb478bc045881debd7522ab2c
+    m_Address: Assets/03.Prefaps/UI/TooltipUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:
