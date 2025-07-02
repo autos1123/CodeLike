@@ -7,7 +7,8 @@ public enum PoolType
     none,
     temp,
     projectile,
-    hpBar
+    hpBar,
+    SoundSource
 }
 public interface IPoolObject
 {
