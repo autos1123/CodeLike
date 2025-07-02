@@ -666,10 +666,10 @@ RectTransform:
   - {fileID: 1405881694591119491}
   m_Father: {fileID: 4846628217901586182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0.53, y: 0.15}
+  m_AnchorMax: {x: 0.8, y: 0.85}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 800}
+  m_SizeDelta: {x: -38, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &2868738590323513783
 GameObject:
@@ -913,10 +913,10 @@ RectTransform:
   - {fileID: 5998390112440476059}
   m_Father: {fileID: 4846628217901586182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0.25, y: 0.15}
+  m_AnchorMax: {x: 0.52, y: 0.85}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 800}
+  m_SizeDelta: {x: -39, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!1 &3986875327109126929
 GameObject:
@@ -1305,10 +1305,10 @@ RectTransform:
   - {fileID: 8668076611121559128}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 485.4, y: 300}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7766683399806986386
 CanvasRenderer:
@@ -1360,8 +1360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee99e08ad4ca4a4fa32ba2f9248a86e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipSlotCount: 4
-  inventorySlotCount: 16
   equippedSlots: []
   inventorySlots: []
 --- !u!114 &581751402618224839
@@ -1377,7 +1375,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 836664430511430985}
-  equipSlotUIs: []
   inventorySlotUIs: []
 --- !u!1 &8387517677690486133
 GameObject:
