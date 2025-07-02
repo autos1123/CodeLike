@@ -17,6 +17,7 @@ public class UIManager:MonoSingleton<UIManager>
         base.Awake();
         uiPrefabs = new List<GameObject>();
         InitializeUI();
+        
     }
 
     /// <summary>
@@ -63,6 +64,10 @@ public class UIManager:MonoSingleton<UIManager>
                 if(tableObj.TryGetComponent<UIBase>(out var uIBase))
                 {
                     _uiInstances[uIBase.UIName] = uIBase;
+                }
+                if (tableObj.name.Contains("TooltipUI"))
+                {
+                    TooltipManager.Instance.RegisterTooltipUI(tableObj);
                 }
             }
             Debug.Log("[TableManager] 테이블 로드 및 등록 완료");
