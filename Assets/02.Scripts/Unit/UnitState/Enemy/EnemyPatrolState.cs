@@ -15,6 +15,7 @@ public class EnemyPatrolState : EnemyMoveState
         stateMachine.Enemy.NavMeshAgent.isStopped = false;
         base.StateEnter();
 
+        targetPos = stateMachine.PatrolPoint;
         StartAnimation(stateMachine.Enemy.AnimationData.PatrolParameterHash);
     }
 
@@ -39,7 +40,6 @@ public class EnemyPatrolState : EnemyMoveState
         // 목표 지점에 도착한 경우
         if(IsArrivePatrolPoint())
         {
-            Debug.LogError("PatrolPoint 도착");
             // IdleState로 전환
             stateMachine.ChangeState(stateMachine.IdleState);
             return;

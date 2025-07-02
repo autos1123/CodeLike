@@ -14,6 +14,7 @@ public class EnemyChaseState : EnemyMoveState
         stateMachine.Enemy.NavMeshAgent.isStopped = false; 
         base.StateEnter();
 
+        targetPos = stateMachine.Player.transform.position;
         StartAnimation(stateMachine.Enemy.AnimationData.ChaseParameterHash);
     }
 
