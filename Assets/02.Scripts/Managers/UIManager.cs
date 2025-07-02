@@ -8,6 +8,8 @@ public class UIManager:MonoSingleton<UIManager>
     private Dictionary<string, UIBase> _uiInstances = new Dictionary<string, UIBase>();
     private List<GameObject> uiPrefabs;
 
+    [SerializeField] private string currentSceneName;
+
     protected override bool Persistent => false;
 
     protected override void Awake()
@@ -45,7 +47,7 @@ public class UIManager:MonoSingleton<UIManager>
     }
     private void InitializeUI()
     {
-        string uiLabel = SceneManager.GetActiveScene().buildIndex == 0 ? AddressbleLabels.TitleUILabel : AddressbleLabels.InGameUILabel;
+        string uiLabel = currentSceneName.Equals("TitleScene") ? AddressbleLabels.TitleUILabel : AddressbleLabels.InGameUILabel;
 
         Addressables.LoadAssetsAsync<GameObject>(
             uiLabel,
