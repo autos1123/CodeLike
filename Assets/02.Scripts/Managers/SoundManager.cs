@@ -28,8 +28,6 @@ public class SoundManager : MonoSingleton<SoundManager>
             Debug.Log("f1");
             PlayBGM();
         }
-
-
     }
 
     /*    /// <summary>
