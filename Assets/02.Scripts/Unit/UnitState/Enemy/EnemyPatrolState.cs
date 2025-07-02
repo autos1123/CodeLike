@@ -10,14 +10,19 @@ public class EnemyPatrolState : EnemyMoveState
 
     public override void StateEnter()
     {
+        // Debug.LogWarning("PatrolState 진입");
         moveSpeedModifier = 1f;
         stateMachine.Enemy.NavMeshAgent.isStopped = false;
         base.StateEnter();
+
+        StartAnimation(stateMachine.Enemy.AnimationData.PatrolParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
+
+        StopAnimation(stateMachine.Enemy.AnimationData.PatrolParameterHash);
     }
 
     public override void StateUpdate()
@@ -34,6 +39,7 @@ public class EnemyPatrolState : EnemyMoveState
         // 목표 지점에 도착한 경우
         if(IsArrivePatrolPoint())
         {
+            Debug.LogError("PatrolPoint 도착");
             // IdleState로 전환
             stateMachine.ChangeState(stateMachine.IdleState);
             return;

@@ -54,7 +54,6 @@ public class PlayerInputHandler:MonoBehaviour
     /// </summary>
     private void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log("@@@@");
         MoveInput = context.ReadValue<Vector2>();
         // 입력이 취소되면 (0, 0)이 자동으로 들어옴
     }

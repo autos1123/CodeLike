@@ -53,7 +53,7 @@ public class EnemyBaseState:IUnitState
 
     protected void StopAnimation(int animationHash)
     {
-        stateMachine.Enemy._Animator.SetBool(animationHash, true);
+        stateMachine.Enemy._Animator.SetBool(animationHash, false);
     }
 
     /// <summary>
