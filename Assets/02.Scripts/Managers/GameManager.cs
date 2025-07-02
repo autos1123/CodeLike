@@ -11,7 +11,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public event Action onDestinyChange;
 
-    private GameObject _player;
+    [SerializeField]private GameObject _player;
     public GameObject Player
     {
         get { return _player; }

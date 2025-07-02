@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class BaseCondition
     public Dictionary<ConditionType, float> CurrentConditions { get; private set; }
     public Dictionary<ConditionType, Dictionary<ModifierType, float>> CondifionModifier { get; private set; }
 
+    public Dictionary<ConditionType, Action> statModifiers;
     public BaseCondition(ConditionData data)
     {
         this.data = data;
@@ -51,18 +53,23 @@ public class BaseCondition
             if(modifierDict.TryGetValue(m_type, out float currentValue))
             {
                 modifierDict[m_type] += value;
+                
             }
             else
             {
                 modifierDict[m_type] = value;
-            }
-
-            
+            }            
         }
         else
         {
             CondifionModifier[c_type] = new Dictionary<ModifierType, float> { { m_type, value } };
         }
+
+        if(!statModifiers.ContainsKey(c_type))
+        {
+            statModifiers[c_type] = () => { };  // 빈 Action으로 초기화
+        }
+        statModifiers[c_type]?.Invoke();
         //확인용
         Debug.Log(CondifionModifier[c_type][m_type]);
     }

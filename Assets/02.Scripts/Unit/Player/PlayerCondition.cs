@@ -9,8 +9,7 @@ using UnityEngine;
 /// </summary>
 public class PlayerCondition : BaseCondition
 {
-    public Dictionary<ConditionType, Action> statModifiers = new();
-
+    
     private PlayerStateMachine stateMachine;
     private PlayerController controller;
 
