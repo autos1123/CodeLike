@@ -105,6 +105,8 @@ public class SoundManager : MonoSingleton<SoundManager>
     }
     public void PlayBGM(Vector3 pos, string key)
     {
+        if(audioBgm != null) StopBGM();
+
         var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
         sound.transform.position = pos;
         SoundSource soundSource = sound.GetComponent<SoundSource>();        
@@ -116,6 +118,7 @@ public class SoundManager : MonoSingleton<SoundManager>
     public void StopBGM()
     {
         audioBgm.Stop();
+        audioBgm = null;
     }
 
 }

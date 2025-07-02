@@ -36,6 +36,7 @@ public static class ExcelSOGenerator
                     condition.InitCondition(ConditionType.CriticalDamage, float.Parse(row[12].ToString()));
                     condition.InitCondition(ConditionType.PatrolRange, float.Parse(row[13].ToString()));
                     condition.InitCondition(ConditionType.ChaseRange, float.Parse(row[14].ToString()));
+                    condition.InitCondition(ConditionType.Gold, float.Parse(row[15].ToString()));
 
                     conditions.dataList.Add(condition);
                 }
@@ -149,7 +150,7 @@ public static class ExcelSOGenerator
                     itemData.Rarity = (Rarity)int.Parse(row[2].ToString());                    
                     itemData.ConditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[3].ToString());
                     itemData.value = int.Parse(row[4].ToString());
-                    itemData.dsecription = row[5].ToString().Replace("@", itemData.value.ToString());
+                    itemData.description = row[5].ToString().Replace("@", itemData.value.ToString());
                     itemData.IconPath = row[6].ToString();
 
                     itemDataTable.dataList.Add(itemData);

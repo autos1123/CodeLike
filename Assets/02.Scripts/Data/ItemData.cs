@@ -8,6 +8,6 @@ public class ItemData
     public Rarity Rarity;
     public ConditionType ConditionType;
     public float value;
-    public string dsecription;
+    public string description;
     public string IconPath;
 }
