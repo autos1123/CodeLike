@@ -15,7 +15,9 @@ public class PlayerController:BaseController
     private bool isGrounded;
 
     public PlayerStateMachine stateMachine { get; private set; }
-    public PlayerCondition condition { get; private set; }
+
+    private PlayerCondition condition;
+    public PlayerCondition PlayerCondition => condition;
 
     protected override void Awake()
     {
@@ -113,15 +115,15 @@ public class PlayerController:BaseController
 
         foreach(var hitCollider in hitColliders)
         {
-            if(hitCollider.TryGetComponent(out IDamagable player))
+            if(hitCollider.TryGetComponent(out IDamagable Enemy))
             {
                 if(!data.TryGetCondition(ConditionType.AttackPower, out float power))
                 {
                     power = 0.0f;
                 }
 
-                // 플레이어에게 피해를 입히는 로직
-                player.GetDamaged(power);
+                // 적에게 피해를 입히는 로직
+                Enemy.GetDamaged(power);
             }
         }
     }
@@ -156,6 +158,7 @@ public class PlayerController:BaseController
         Debug.Log("PlayerController Initialize 호출");
         condition = new PlayerCondition(data);
         stateMachine = new PlayerStateMachine(this);
+        condition.Init(this, stateMachine);
         isInitialized = true;
         Debug.Log("PlayerController Initialize 완료, isInitialized = true");
     }

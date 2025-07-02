@@ -36,6 +36,8 @@ public class BaseCondition
         return 0f;
     }
 
+    
+
     /// <summary>
     /// 강화 타입에 따른 특정 컨디션 값의 증가치 변화(증가, 감소)
     /// </summary>
@@ -86,9 +88,9 @@ public class BaseCondition
         if(CurrentConditions[ConditionType.HP] <= 0)
         {
             CurrentConditions[ConditionType.HP] = 0;
-            return false; // 사망 처리
+            return true; // 사망 처리
         }
 
-        return true; // 사망하지 않음
+        return false; // 사망하지 않음
     }
 }
