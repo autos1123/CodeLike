@@ -13,6 +13,8 @@ public class InventoryUI : UIBase
     
     public SlotUI[] inventorySlotUIs; // 중간 16칸
     
+    public SlotUI[] equipSlotUIs; // 위쪽 4칸 
+    
     /// <summary>
     /// UI 열기 시 슬롯 정보를 동기화
     /// </summary>
@@ -31,6 +33,9 @@ public class InventoryUI : UIBase
     {
         for(int i = 0; i < inventorySlotUIs.Length; i++)
             inventorySlotUIs[i].Set(inventory.inventorySlots[i]);
+        
+        for (int i = 0; i < equipSlotUIs.Length; i++)
+            equipSlotUIs[i].Set(inventory.equipSlots[i]);
     }
     
     /// <summary>

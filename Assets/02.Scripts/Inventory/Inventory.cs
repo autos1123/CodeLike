@@ -11,7 +11,11 @@ public class Inventory : MonoBehaviour
     private ItemDataTable itemDataTable;
     
     /// <summary> 실제 인벤토리 슬롯 리스트 (16칸) </summary>
+    [HideInInspector]
     public List<ItemSlot> inventorySlots = new List<ItemSlot>();
+    /// <summary> 실제 장비 슬롯 리스트 (4칸) </summary>
+    [HideInInspector]
+    public List<ItemSlot> equipSlots = new List<ItemSlot>();
     
     /// <summary> 인벤토리가 초기화 완료되었는지 여부 </summary>
     public bool Initialized { get; private set; } = false;
@@ -42,6 +46,10 @@ public class Inventory : MonoBehaviour
         inventorySlots.Clear();
         for (int i = 0; i < 16; i++)
             inventorySlots.Add(new ItemSlot());
+        
+        equipSlots.Clear();
+        for (int i = 0; i < 4; i++)
+            equipSlots.Add(new ItemSlot());
     }
     
     
