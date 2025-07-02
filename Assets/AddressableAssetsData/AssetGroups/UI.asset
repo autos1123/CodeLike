@@ -21,19 +21,26 @@ MonoBehaviour:
     m_Address: DestinyBoard
     m_ReadOnly: 0
     m_SerializedLabels:
-    - UI
+    - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 502ce5f10d34a30409395a2255681c05
     m_Address: EnhanceBoard
     m_ReadOnly: 0
     m_SerializedLabels:
-    - UI
+    - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e4b742a1ce8b106438b3e8be3185cf96
     m_Address: Inventory
     m_ReadOnly: 0
     m_SerializedLabels:
-    - UI
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e5186ca63bf7c64e990f6d05d92f301
+    m_Address: Assets/03.Prefaps/UI/Option.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    - TitleUI
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}

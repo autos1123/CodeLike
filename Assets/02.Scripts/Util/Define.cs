@@ -20,6 +20,8 @@ public static class AddressbleLabels
     public const string BGMLabel = "BGM";
     public const string SFXLabel = "SFX";
     public const string UIabel = "UI";
+    public const string TitleUILabel = "TitleUI";
+    public const string InGameUILabel = "InGameUI";
 }
 
 public static class SoundAddressbleName
