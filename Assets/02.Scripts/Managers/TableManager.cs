@@ -11,7 +11,6 @@ using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class TableManager:MonoSingleton<TableManager>
 {
-    GameManager _gameManager;
 
     [SerializeField] List<ScriptableObject> tableList = new List<ScriptableObject>();
 
@@ -23,14 +22,11 @@ public class TableManager:MonoSingleton<TableManager>
 
     public event Action loadComplet;
 
-    /// <summary>
-    /// 초기화
-    /// </summary>
-    public void Init(GameManager gameManager)
+    private void Awake()
     {
-        _gameManager = gameManager;
         LoadTablesAsync();
     }
+
     /// <summary>
     /// 라벨을 통해 어드레서블에 올린 데이터 탐색하여 저장
     /// </summary>
