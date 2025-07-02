@@ -5,14 +5,31 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
     public Transform destinationPoint;
-    public bool isActive = true;
+    public float teleportCooldown = 1.0f;
+
+    private Dictionary<GameObject, float> lastTeleportTimes = new();
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!isActive) return;
-        if (other.CompareTag("Player"))
+        if(!other.CompareTag("Player")) return;
+
+        GameObject player = other.gameObject;
+        float currentTime = Time.time;
+
+        if (lastTeleportTimes.ContainsKey(player))
         {
-            other.transform.position = destinationPoint.transform.position;
+            float lastTime = lastTeleportTimes[player];
+            if(currentTime - lastTime < teleportCooldown)
+                return;
+        }
+
+        other.transform.position = destinationPoint.position;
+        lastTeleportTimes[player] = currentTime;
+
+        Portal targetPortal = destinationPoint.GetComponentInParent<Portal>();
+        if (targetPortal != null )
+        {
+            targetPortal.lastTeleportTimes[player] = currentTime;
         }
     }
-}
+ }
