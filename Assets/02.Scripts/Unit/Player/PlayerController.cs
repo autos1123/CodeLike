@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(BoxCollider))]
 public class PlayerController:BaseController
 {
     [Header("Ground Detection")]
@@ -11,19 +11,22 @@ public class PlayerController:BaseController
     [SerializeField] private float groundRayOffset = 0.1f;
 
     private PlayerInputHandler inputHandler;
-    private Collider col;
+    private BoxCollider col;
     private bool isGrounded;
 
     public PlayerStateMachine stateMachine { get; private set; }
+    public bool IsAttacking { get; private set; }
 
     private PlayerCondition condition;
     public PlayerCondition PlayerCondition => condition;
+    public Transform VisualTransform; // Visual 회전용
+    public float VisualRotateSpeed = 10f; // 부드러운 회전 속도
 
     protected override void Awake()
     {
         base.Awake();
         inputHandler = GetComponent<PlayerInputHandler>();
-        col = GetComponent<Collider>();
+        col = GetComponent<BoxCollider>();
 
         _Rigidbody.freezeRotation = true;
         stateMachine = new PlayerStateMachine(this);
