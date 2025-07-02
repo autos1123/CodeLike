@@ -22,6 +22,11 @@ public static class AddressbleLabels
     public const string UIabel = "UI";
 }
 
+public static class SoundAddressbleName
+{
+    public const string bgm1 = "bgm1";
+    public const string sfx1 = "sfx1";
+}
 public static class TableAddressble
 {
     public const string TableGroup = "SOTable";

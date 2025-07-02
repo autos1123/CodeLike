@@ -13,8 +13,6 @@ public class PoolManager : MonoSingleton<PoolManager>
     private Dictionary<PoolType, Transform> parentCache = new Dictionary<PoolType, Transform>();
 
     public bool IsInitialized { get; private set; } = false;
-
-    protected override bool Persistent => false;
     protected override void Awake()
     {
         LoadPoolsAsync();

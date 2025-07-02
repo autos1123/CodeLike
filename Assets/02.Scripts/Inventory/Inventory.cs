@@ -2,28 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 인벤토리 데이터를 관리하는 클래스.
+/// 슬롯 초기화 및 아이템 추가 기능을 포함.
+/// </summary>
 public class Inventory : MonoBehaviour
 {
     private ItemDataTable itemDataTable;
     
-    public List<ItemSlot> equippedSlots = new List<ItemSlot>(); // 장착 슬롯 (4칸)
-    public List<ItemSlot> inventorySlots = new List<ItemSlot>(16);
+    /// <summary> 실제 인벤토리 슬롯 리스트 (16칸) </summary>
+    [HideInInspector]
+    public List<ItemSlot> inventorySlots = new List<ItemSlot>();
+    /// <summary> 실제 장비 슬롯 리스트 (4칸) </summary>
+    [HideInInspector]
+    public List<ItemSlot> equipSlots = new List<ItemSlot>();
+    
+    /// <summary> 인벤토리가 초기화 완료되었는지 여부 </summary>
+    public bool Initialized { get; private set; } = false;
+    
+    /// <summary>
+    /// 테이블 매니저가 로드 완료될 때까지 대기 후, 슬롯 초기화 및 테스트 아이템 추가
+    /// </summary>
     private IEnumerator Start()
     {
         yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         Init();
-
+        
         // 테스트 아이템 추가
-        var item = itemDataTable.GetDataByID(6000);
-        AddToInventory(item);
+        var item_1 = itemDataTable.GetDataByID(6000);
+        AddToInventory(item_1);
+        var item_2 = itemDataTable.GetDataByID(6001);
+        AddToInventory(item_2);
+        
+        Initialized = true;
     }
+    
+    /// <summary>
+    /// 인벤토리 슬롯을 초기화하고 비워진 상태로 설정
+    /// </summary>
     public void Init()
     {
         inventorySlots.Clear();
         for (int i = 0; i < 16; i++)
             inventorySlots.Add(new ItemSlot());
+        
+        equipSlots.Clear();
+        for (int i = 0; i < 4; i++)
+            equipSlots.Add(new ItemSlot());
     }
+    
+    
+    /// <summary>
+    /// 비어 있는 슬롯에 아이템을 추가
+    /// </summary>
+    /// <param name="item">추가할 아이템</param>
+    /// <returns>성공적으로 추가되었는지 여부</returns>
     public bool AddToInventory(ItemData item)
     {
         foreach (var slot in inventorySlots)

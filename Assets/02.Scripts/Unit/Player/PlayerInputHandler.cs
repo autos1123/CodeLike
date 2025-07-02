@@ -68,4 +68,9 @@ public class PlayerInputHandler:MonoBehaviour
         JumpPressed = false;
         AttackPressed = false;
     }
+
+    public bool IsPressingDown()
+    {
+        return MoveInput.y < -0.5f;
+    }
 }
