@@ -18,15 +18,15 @@ public class PlayerDeadState:IUnitState
     {
         Debug.Log("PlayerDeadState 진입 - 플레이어 사망 처리");
 
-        // Rigidbody 멈춤
         if(player.TryGetComponent<Rigidbody>(out var rb))
         {
             rb.velocity = Vector3.zero;
             rb.isKinematic = true;
         }
 
-        // 입력 비활성화
         player.enabled = false;
+
+        player._Animator.SetBool("isDead", true);
 
         // 필요시 사망 애니메이션, 사운드, 게임오버 호출 등 가능
     }

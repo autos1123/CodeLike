@@ -44,7 +44,7 @@ public class EnemyIdleState : EnemyBaseState
 
         if(waitingEndTime <= Time.time - waitingStartTime)
         {
-            Debug.Log("Idle 상태에서 대기 시간이 끝났습니다. 다음 PatrolPoint로 이동합니다.");
+           // Debug.Log("Idle 상태에서 대기 시간이 끝났습니다. 다음 PatrolPoint로 이동합니다.");
             // 대기 시간이 끝나면 Target을 다음 PatrolPoint로 설정 후 MoveState로 전환
             stateMachine.SetPatrolPoint(nextPoint);
             stateMachine.ChangeState(stateMachine.PatrolState);
