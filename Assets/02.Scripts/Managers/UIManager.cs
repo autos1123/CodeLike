@@ -1,13 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
 public class UIManager:MonoSingleton<UIManager>
 {
     private Dictionary<string, UIBase> _uiInstances = new Dictionary<string, UIBase>();
     private List<GameObject> uiPrefabs;
+
+    protected override bool Persistent => false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -43,8 +45,10 @@ public class UIManager:MonoSingleton<UIManager>
     }
     private void InitializeUI()
     {
+        string uiLabel = SceneManager.GetActiveScene().buildIndex == 0 ? AddressbleLabels.TitleUILabel : AddressbleLabels.InGameUILabel;
+
         Addressables.LoadAssetsAsync<GameObject>(
-            AddressbleLabels.UIabel,
+            uiLabel,
             (GameObject) =>
             {
                 var ui = Instantiate(GameObject, this.transform);

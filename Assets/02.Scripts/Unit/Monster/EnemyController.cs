@@ -24,7 +24,8 @@ public abstract class EnemyController:BaseController
 
     private void OnDisable()
     {
-        PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
+        if(PoolManager.HasInstance)
+            PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
     }
 
     protected override void Awake()

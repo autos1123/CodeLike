@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResoultionData
+public class ResolutionData
 {
     public List<Resolution> resolutions { get; private set; } = new List<Resolution>(); // 해상도 리스트
 
-    public ResoultionData()
+    public ResolutionData()
     {
         InitResolution(); // 생성자에서 해상도 리스트 초기화
     }
