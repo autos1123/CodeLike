@@ -58,7 +58,7 @@ public class UIManager:MonoSingleton<UIManager>
                 {
                     _uiInstances[uIBase.UIName] = uIBase;
                 }
-            }            
+            }
             Debug.Log("[TableManager] 테이블 로드 및 등록 완료");
         };
     }
