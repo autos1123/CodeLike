@@ -23,6 +23,19 @@ MonoBehaviour:
     m_SerializedLabels:
     - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e7200afdc74784949bd3db397b4b0cbc
+    m_Address: Assets/03.Prefaps/UI/Dialogue.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TitleUI
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8474bd4a6ec3b064599d31e3761ca8a6
+    m_Address: Assets/03.Prefaps/UI/GameOver.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:

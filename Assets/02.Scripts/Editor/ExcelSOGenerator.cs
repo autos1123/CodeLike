@@ -36,6 +36,7 @@ public static class ExcelSOGenerator
                     condition.InitCondition(ConditionType.CriticalDamage, float.Parse(row[12].ToString()));
                     condition.InitCondition(ConditionType.PatrolRange, float.Parse(row[13].ToString()));
                     condition.InitCondition(ConditionType.ChaseRange, float.Parse(row[14].ToString()));
+                    condition.InitCondition(ConditionType.Gold, float.Parse(row[15].ToString()));
 
                     conditions.dataList.Add(condition);
                 }
