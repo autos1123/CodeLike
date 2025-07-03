@@ -16,8 +16,7 @@ public class UIManager:MonoSingleton<UIManager>
     {
         base.Awake();
         uiPrefabs = new List<GameObject>();
-        InitializeUI();
-        
+        InitializeUI();        
     }
 
     /// <summary>
