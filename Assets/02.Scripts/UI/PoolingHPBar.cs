@@ -25,14 +25,9 @@ public class PoolingHPBar : MonoBehaviour, IPoolObject
         mainCam = Camera.main;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //transform.forward = mainCam.transform.forward;
-    }
     void LateUpdate()
     {
-        transform.LookAt(mainCam.transform);
+        transform.forward = mainCam.transform.forward;
     }
 
     public void HpBarUpdate(float hpRatio)
