@@ -21,7 +21,7 @@ public class HUD : UIBase
 
     public override string UIName => "HUD";
 
-    private void OnEnable()
+    public override void Open()
     {
         player = GameManager.Instance.Player.GetComponent<PlayerController>();
 
@@ -34,16 +34,13 @@ public class HUD : UIBase
         player.PlayerCondition.statModifiers[ConditionType.HP] += ChangeHP;
         ChangeHP();
     }
-
-    private void OnDisable()
+    public override void Close()
     {
         if(player == null) return;
 
         player.PlayerCondition.statModifiers[ConditionType.Gold] -= ChangeGold;
         player.PlayerCondition.statModifiers[ConditionType.HP] -= ChangeHP;
     }
-
-
 
     void ChangeGold()
     {
