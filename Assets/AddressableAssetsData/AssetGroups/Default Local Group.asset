@@ -50,6 +50,12 @@ MonoBehaviour:
     - TitleUI
     - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9370d220b7536de4bbc9c89133c60586
+    m_Address: Assets/03.Prefaps/UI/StatusBoard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:
