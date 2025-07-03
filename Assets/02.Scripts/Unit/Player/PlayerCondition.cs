@@ -53,6 +53,8 @@ public class PlayerCondition:BaseCondition
 
         Debug.Log($"[PlayerCondition] 현재 HP: {currentHP} / {maxHP}, isDead: {isDead}");
 
+        statModifiers[ConditionType.HP]?.Invoke();
+
         if(isDead)
         {
             Die();

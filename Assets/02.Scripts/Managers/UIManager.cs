@@ -17,7 +17,7 @@ public class UIManager:MonoSingleton<UIManager>
         base.Awake();
         uiPrefabs = new List<GameObject>();
         InitializeUI();
-        
+
     }
 
     /// <summary>
@@ -71,7 +71,14 @@ public class UIManager:MonoSingleton<UIManager>
                 }
             }
             Debug.Log("[TableManager] 테이블 로드 및 등록 완료");
+
+            if(!SceneManager.GetActiveScene().name.Equals("TitleScene"))
+            {
+                ShowUI<HUD>();
+            }
         };
+
+        
     }
 
     public void ToggleOptionUI<T>() where T : UIBase
