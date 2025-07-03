@@ -1,30 +1,38 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(BoxCollider))]
 public class PlayerController:BaseController
 {
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float groundRayOffset = 0.1f;
+    [SerializeField] private float groundRayOffset = 0.3f;
 
     private PlayerInputHandler inputHandler;
-    private Collider col;
+    private BoxCollider col;
     private bool isGrounded;
+    public bool IsGrounded => isGrounded;
 
     public PlayerStateMachine stateMachine { get; private set; }
+    public bool IsAttacking { get; private set; }
 
     private PlayerCondition condition;
     public PlayerCondition PlayerCondition => condition;
+    public Transform VisualTransform;
+    public float VisualRotateSpeed = 10f;
+
+    [Header("Interaction")]
+    [SerializeField] private LayerMask interactableLayer;
+    [SerializeField] private float interactableRange = 2.0f;
 
     protected override void Awake()
     {
         base.Awake();
         inputHandler = GetComponent<PlayerInputHandler>();
-        col = GetComponent<Collider>();
-
+        col = GetComponent<BoxCollider>();
         _Rigidbody.freezeRotation = true;
         stateMachine = new PlayerStateMachine(this);
     }
@@ -32,23 +40,35 @@ public class PlayerController:BaseController
     protected override void Start()
     {
         base.Start();
+
+    }
+
+    private void OnEnable()
+    {
+        if(inputHandler != null)
+        {
+            inputHandler.OnInteraction += OnInteractableAction;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if(inputHandler != null)
+        {
+            inputHandler.OnInteraction -= OnInteractableAction;
+        }
     }
 
     private void Update()
     {
-        if(!isInitialized)
-            return;
-
-        if(ViewManager.Instance.IsTransitioning)
-            return;
-        // **카메라 전환 중엔 아무 동작 하지 않음**
-        if(ViewManager.Instance.IsTransitioning)
+        if(!isInitialized || ViewManager.Instance.IsTransitioning)
             return;
 
         UpdateGrounded();
 
         if(inputHandler.JumpPressed && isGrounded)
-            Jump();
+            stateMachine.ChangeState(new PlayerJumpState(this, stateMachine));
+
         if(inputHandler.AttackPressed)
             stateMachine.ChangeState(new PlayerAttackState(this, stateMachine));
 
@@ -58,11 +78,7 @@ public class PlayerController:BaseController
 
     private void FixedUpdate()
     {
-        
-        if(!isInitialized)
-            return;
-        // **카메라 전환 중엔 물리 업데이트도 스킵**
-        if(ViewManager.Instance.IsTransitioning)
+        if(!isInitialized || ViewManager.Instance.IsTransitioning)
             return;
 
         stateMachine.PhysicsUpdate();
@@ -81,21 +97,18 @@ public class PlayerController:BaseController
             QueryTriggerInteraction.Ignore
         );
 
-        if(hit != isGrounded)
-            isGrounded = hit;
-
+        isGrounded = hit;
         Debug.DrawRay(origin, Vector3.down * distance, hit ? Color.green : Color.red);
     }
 
     public Vector3 Move(Vector2 input)
     {
-        // MoveState 내부에서도 안전하게 무시 가능
         if(ViewManager.Instance.IsTransitioning)
             return Vector3.zero;
 
         float speed = condition.GetValue(ConditionType.MoveSpeed);
-
         Vector3 dir;
+
         if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
             dir = new Vector3(input.x, 0f, 0f);
         else
@@ -109,6 +122,18 @@ public class PlayerController:BaseController
         _Rigidbody.MovePosition(_Rigidbody.position + delta);
         return dir;
     }
+
+    public override bool GetDamaged(float damage)
+    {
+        if(!condition.GetDamaged(damage))
+        {
+            // 플레이어 사망 처리
+            return false;
+        }
+
+        return true;
+    }
+
     public void Attack()
     {
         Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Enemy"));
@@ -118,38 +143,11 @@ public class PlayerController:BaseController
             if(hitCollider.TryGetComponent(out IDamagable Enemy))
             {
                 if(!data.TryGetCondition(ConditionType.AttackPower, out float power))
-                {
                     power = 0.0f;
-                }
 
-                // 적에게 피해를 입히는 로직
                 Enemy.GetDamaged(power);
             }
         }
-    }
-
-    private void Jump()
-    {
-        if(condition == null)
-        {
-            Debug.LogError("condition 이 null 입니다.");
-        }
-        if(_Rigidbody == null)
-        {
-            Debug.LogError("_Rigidbody 가 null 입니다.");
-        }
-        if(ViewManager.Instance == null)
-        {
-            Debug.LogError("ViewManager.Instance 가 null 입니다.");
-        }
-        float force = condition.GetValue(ConditionType.JumpPower);
-        Vector3 v = _Rigidbody.velocity;
-        if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
-            _Rigidbody.velocity = new Vector3(v.x, 0f, 0f);
-        else
-            _Rigidbody.velocity = new Vector3(v.x, 0f, v.z);
-
-        _Rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
     }
 
     protected override void Initialize()
@@ -169,4 +167,32 @@ public class PlayerController:BaseController
     }
 
     public PlayerInputHandler Input => inputHandler;
+
+    /// <summary>
+    /// 상호작용 키 입력 시 호출되는 메서드
+    /// 플레이어 중심으로 상호작용 오브젝트 탐색 후 상호작용 메서드 호출
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnInteractableAction(InputAction.CallbackContext context)
+    {
+        // 상호작용 오브젝트 탐색
+        Collider[] hitColliders = Physics.OverlapSphere(
+            transform.position,
+            interactableRange,
+            interactableLayer
+        );
+
+        if(hitColliders.Length == 0)
+            return;
+
+        for(int i = 0; i < hitColliders.Length; i++)
+        {
+            if(hitColliders[i].TryGetComponent(out IInteractable interactable))
+            {
+                // 상호작용 메서드 호출
+                interactable.Interact(gameObject);
+                return; // 첫 번째 상호작용만 처리
+            }
+        }
+    }
 }

@@ -22,6 +22,5 @@ public class PlayerHPUI:MonoBehaviour
 
         float ratio = playerCondition.GetCurrentHpRatio();
         hpBarImage.fillAmount = ratio;
-        Debug.Log($"HP Ratio: {ratio}");
     }
 }

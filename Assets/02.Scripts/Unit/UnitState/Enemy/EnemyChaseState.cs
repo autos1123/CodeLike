@@ -13,11 +13,16 @@ public class EnemyChaseState : EnemyMoveState
         moveSpeedModifier = 1.5f;
         stateMachine.Enemy.NavMeshAgent.isStopped = false; 
         base.StateEnter();
+
+        targetPos = stateMachine.Player.transform.position;
+        StartAnimation(stateMachine.Enemy.AnimationData.ChaseParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
+
+        StopAnimation(stateMachine.Enemy.AnimationData.ChaseParameterHash);
     }
 
     public override void StateUpdate()

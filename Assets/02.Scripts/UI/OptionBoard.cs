@@ -24,7 +24,7 @@ public class OptionBoard : UIBase
     [SerializeField] private Button exitToGameButton; // 게임으로 돌아가기 버튼
     [SerializeField] private string gameSceneName;
 
-    private void Start()
+    private void Awake()
     {
         resolutionData = new ResolutionData(); // 해상도 데이터 초기화
         resolutions = resolutionData.resolutions.ToArray(); // 해상도 리스트를 배열로 변환
@@ -32,8 +32,10 @@ public class OptionBoard : UIBase
         InitFullScreenModeDropDown();
     }
 
-    private void OnEnable()
+    public override void Open()
     {
+        base.Open();
+
         resolutionDropdown.onValueChanged.AddListener(ResolutionDropDownOptionChange); // 해상도 드롭다운 값 변경 이벤트 등록
         fullscreenDropdown.onValueChanged.AddListener(ScreenModeDropDownOptionChange); // 화면 모드 드롭다운 값 변경 이벤트 등록
 
@@ -47,8 +49,10 @@ public class OptionBoard : UIBase
         }
     }
 
-    private void OnDisable()
+    public override void Close()
     {
+        base.Close();
+
         resolutionDropdown.onValueChanged.RemoveAllListeners(); // 해상도 드롭다운 값 변경 이벤트 제거
         fullscreenDropdown.onValueChanged.RemoveAllListeners(); // 화면 모드 드롭다운 값 변경 이벤트 제거
 
@@ -159,6 +163,7 @@ public class OptionBoard : UIBase
 
     private void OnClickExitToGameButton()
     {
+        Debug.Log("게임으로 돌아갑니다."); // 게임으로 돌아가는 버튼 클릭 이벤트
         UIManager.Instance.Hide<OptionBoard>(); // 옵션 UI 비활성화
     }
 }

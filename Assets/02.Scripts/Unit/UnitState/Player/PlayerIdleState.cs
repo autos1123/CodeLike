@@ -17,6 +17,7 @@ public class PlayerIdleState:IUnitState
     public void StateEnter()
     {
         Debug.Log("Idle 상태 진입");
+        player._Animator.SetBool("isMoving", false);
     }
 
     public void StateExit()

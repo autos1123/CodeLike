@@ -48,7 +48,7 @@ public class ConditionData
     [SerializeField] private int id;
     [SerializeField] private string characterName;
     [SerializeField] private List<ConditionEntry> initialConditions = new();
-     private Dictionary<ConditionType, ConditionEntry> conditions;
+    private Dictionary<ConditionType, ConditionEntry> conditions;
     public int ID { get { return id; } set { id = value; } }
     public string CharacterName { get { return characterName; } set { characterName = value; } }
     public Dictionary<ConditionType, ConditionEntry> Conditions => conditions;

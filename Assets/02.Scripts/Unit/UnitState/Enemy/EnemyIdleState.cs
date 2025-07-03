@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class EnemyIdleState : EnemyBaseState
 {
     private float waitingStartTime;
-    private float waitingEndTime = 0.1f;
+    private float waitingEndTime = 2f;
     Vector3 nextPoint;
 
     public EnemyIdleState(EnemyStateMachine playerStateMachine) : base(playerStateMachine)
@@ -18,6 +18,8 @@ public class EnemyIdleState : EnemyBaseState
         stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
         stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
         base.StateEnter();
+
+        StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
         waitingStartTime = Time.time;
         nextPoint = GetWanderLocation();
     }
@@ -25,15 +27,16 @@ public class EnemyIdleState : EnemyBaseState
     public override void StateExit()
     {
         base.StateExit();
+        StopAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
 
-        Vector3 movementDirection = GetMovementDirection(targetPos);
+        //Vector3 movementDirection = GetMovementDirection(targetPos);
 
-        Rotate(movementDirection);
+        //Rotate(movementDirection);
 
         if(IsInRange(ConditionType.ChaseRange))
         {
@@ -44,7 +47,6 @@ public class EnemyIdleState : EnemyBaseState
 
         if(waitingEndTime <= Time.time - waitingStartTime)
         {
-            Debug.Log("Idle 상태에서 대기 시간이 끝났습니다. 다음 PatrolPoint로 이동합니다.");
             // 대기 시간이 끝나면 Target을 다음 PatrolPoint로 설정 후 MoveState로 전환
             stateMachine.SetPatrolPoint(nextPoint);
             stateMachine.ChangeState(stateMachine.PatrolState);
@@ -77,7 +79,7 @@ public class EnemyIdleState : EnemyBaseState
 
             if(NavMesh.SamplePosition(stateMachine.Enemy.patrolPivot + sample, out hit, patrolRange, NavMesh.AllAreas))
             {
-                if(Vector3.Distance(stateMachine.Enemy.transform.position, hit.position) > patrolRange * 0.3f)
+                if(Vector3.Distance(stateMachine.Enemy.transform.position, hit.position) > patrolRange * 0.8f)
                 {
                     return hit.position; // 유효한 위치를 반환
                 }

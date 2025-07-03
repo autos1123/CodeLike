@@ -23,6 +23,9 @@ public class EnemyAttackState : EnemyBaseState
         attackDelay = 1.0f / atkSpeed; // 공격 속도에 따라 딜레이 설정
         startTime = Time.time;
         base.StateEnter();
+
+        StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
+        stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.AttackParameterHash);
     }
 
     public override void StateExit()
@@ -52,7 +55,7 @@ public class EnemyAttackState : EnemyBaseState
         }
 
         // 공격 행동 수행
-        stateMachine.Enemy.AttackAction();
+        stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.AttackParameterHash);
         startTime = Time.time; // 다음 공격을 위한 시간 초기화
     }
 }
