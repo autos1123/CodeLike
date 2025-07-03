@@ -10,4 +10,6 @@ public class ItemData
     public float value;
     public string description;
     public string IconPath;
+    public int buyPrice;
+    public int sellPrice;
 }
