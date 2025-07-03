@@ -4,54 +4,26 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HUD : UIBase
+public class HUD:MonoBehaviour
 {
-    private PlayerController player;
+    Button minMapButton;
+    Button optionButton;
+    TextMeshProUGUI goldText;
 
-    [SerializeField] Button minMapButton;
-    [SerializeField] Button optionButton;
-    [SerializeField] TextMeshProUGUI goldText;
+    Image HPFill;
 
-    [SerializeField] Image HPFill;
+    Image ItemSlot1;
+    Image ItemSlot2;
 
-    [SerializeField] Image ItemSlot1;
-    [SerializeField] Image ItemSlot2;
-
-    bool isOptionOpen = false;
-
-    public override string UIName => "HUD";
-
-    public override void Open()
+    private void Awake()
     {
-        player = GameManager.Instance.Player.GetComponent<PlayerController>();
+        Debug.Log($"Child Count: {transform.childCount}");
+        minMapButton = transform.GetChild(1).GetComponent<Button>();
+        optionButton = transform.GetChild(2).GetComponent<Button>();
+        goldText = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
 
-        optionButton.onClick.RemoveAllListeners();
-        optionButton.onClick.AddListener(UIManager.Instance.ToggleOptionUI<OptionBoard>);
-
-        player.PlayerCondition.statModifiers[ConditionType.Gold] += ChangeGold;
-        ChangeGold();
-
-        player.PlayerCondition.statModifiers[ConditionType.HP] += ChangeHP;
-        ChangeHP();
-    }
-    public override void Close()
-    {
-        if(player == null) return;
-
-        player.PlayerCondition.statModifiers[ConditionType.Gold] -= ChangeGold;
-        player.PlayerCondition.statModifiers[ConditionType.HP] -= ChangeHP;
-    }
-
-    void ChangeGold()
-    {
-        
-        goldText.text = player.PlayerCondition.GetValue(ConditionType.Gold).ToString();
-        Debug.Log(goldText.text);
-    }
-
-    void ChangeHP()
-    {
-        HPFill.fillAmount = player.PlayerCondition.GetValue(ConditionType.HP) * 0.001f;
-        Debug.Log(HPFill.fillAmount.ToString());
+        HPFill = transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>();
+        ItemSlot1 = transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>();
+        ItemSlot2 = transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Image>();
     }
 }

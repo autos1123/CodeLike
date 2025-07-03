@@ -87,6 +87,7 @@ public class BaseCondition
 
     public bool GetDamaged(float damage)
     {
+        Debug.Log($"[PlayerController] GetDamaged 호출됨: damage = {damage}");
         if(!CurrentConditions.ContainsKey(ConditionType.HP))
         {
             Debug.LogError("HP ConditionType이 존재하지 않습니다.");
