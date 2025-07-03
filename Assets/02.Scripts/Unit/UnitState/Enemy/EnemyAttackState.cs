@@ -23,11 +23,15 @@ public class EnemyAttackState : EnemyBaseState
         attackDelay = 1.0f / atkSpeed; // 공격 속도에 따라 딜레이 설정
         startTime = Time.time;
         base.StateEnter();
+
+        StartAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
+
+        StopAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash);
     }
 
     public override void StateUpdate()

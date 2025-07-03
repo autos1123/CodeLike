@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(NavMeshAgent))]
 public abstract class EnemyController:BaseController
 {
     private EnemyStateMachine stateMachine;
@@ -89,8 +92,9 @@ public abstract class EnemyController:BaseController
         base.Initialize();
         // Controller 초기화
         Condition = new EnemyCondition(data);
-        stateMachine = new EnemyStateMachine(this);
         AnimationData = new EnemyAnimationData();
+        AnimationData.Initialize();
+        stateMachine = new EnemyStateMachine(this);
 
         // 체력 UI 초기화
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);

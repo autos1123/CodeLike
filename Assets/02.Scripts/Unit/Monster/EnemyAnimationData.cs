@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnemyAnimationData
 {
-    [SerializeField] private string idleParameterName = "Idle";
-    [SerializeField] private string patrolParameterName = "Patrol";
-    [SerializeField] private string chaseParameterName = "Chase";
-    [SerializeField] private string attackParameterName = "Attack";
+    private string idleParameterName = "Idle";
+    private string patrolParameterName = "Patrol";
+    private string chaseParameterName = "Chase";
+    private string attackParameterName = "Attack";
 
     public int IdleParameterHash { get; private set; }
     public int PatrolParameterHash { get; private set; }

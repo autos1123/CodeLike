@@ -17,7 +17,7 @@ public class BaseController:MonoBehaviour, IDamagable
     protected virtual void Awake()
     {
         _Rigidbody = GetComponent<Rigidbody>();
-        _Animator = GetComponent<Animator>();
+        _Animator = GetComponentInChildren<Animator>();
     }
 
     protected virtual void Start()

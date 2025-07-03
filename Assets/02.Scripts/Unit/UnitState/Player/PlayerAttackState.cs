@@ -16,6 +16,7 @@ public class PlayerAttackState:IUnitState
     public void StateEnter()
     {
         Debug.Log("Attack 상태 진입");
+        player._Animator.SetTrigger("attack");
         player.Attack();
 
         // 즉시 Idle로 전환 (예시로 IdleState 사용)

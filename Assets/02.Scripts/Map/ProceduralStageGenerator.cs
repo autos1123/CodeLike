@@ -4,17 +4,30 @@ using UnityEngine;
 
 public class ProceduralStageGenerator:MonoBehaviour
 {
+    //맵 생성 시드 번호
     public int seed;
+    //맵 랜덤화 함수 참조항목
     public System.Random random;
+    //방 리스트
     public List<Room> rooms;
+    //방 연결지점 리스트
     public List<RoomConnection> connections;
+    //방 갯수(StageManager에서 랜덤화됨)
     public int roomCount;
+
+    //그리드 반경 및 높이
     public int gridWidth = 10;
     public int gridHeight = 10;
+
+    //다음 방 ID
     public int nextRoomID;
+
+    //연결지점 및 방 프리팹들
     public GameObject connectionPrefab;
 
     public RoomPrefabSet prefabSet;
+
+    //방을 생성할 좌표(오브젝트)
     public Transform roomParent;
 
     private bool[,] grid;

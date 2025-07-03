@@ -10,14 +10,20 @@ public class EnemyPatrolState : EnemyMoveState
 
     public override void StateEnter()
     {
+        // Debug.LogWarning("PatrolState 진입");
         moveSpeedModifier = 1f;
         stateMachine.Enemy.NavMeshAgent.isStopped = false;
         base.StateEnter();
+
+        targetPos = stateMachine.PatrolPoint;
+        StartAnimation(stateMachine.Enemy.AnimationData.PatrolParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
+
+        StopAnimation(stateMachine.Enemy.AnimationData.PatrolParameterHash);
     }
 
     public override void StateUpdate()
