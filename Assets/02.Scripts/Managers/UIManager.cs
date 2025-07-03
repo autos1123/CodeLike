@@ -45,6 +45,16 @@ public class UIManager:MonoSingleton<UIManager>
             Debug.Log("인벤닫힘");
             Hide<InventoryUI>();
         }
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("상점열림");
+            ShowUI<ShopUI>();
+        }
+        if(Input.GetKeyDown(KeyCode.N))
+        {
+            Debug.Log("상점닫힘");
+            Hide<ShopUI>();
+        }
     }
     private void InitializeUI()
     {
@@ -92,6 +102,6 @@ public class UIManager:MonoSingleton<UIManager>
 
     public T GetUI<T>() where T : UIBase
     {
-        return _uiInstances[name] as T;
+        return _uiInstances[typeof(T).Name] as T;
     }
 }
