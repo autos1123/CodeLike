@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,6 +27,11 @@ public class PlayerInputHandler:MonoBehaviour
     /// </summary>
     public bool AttackPressed { get; private set; }
 
+    /// <summary>
+    /// 상호작용 키 입력 시 호출되는 이벤트
+    /// </summary>
+    public Action<InputAction.CallbackContext> OnInteraction;
+
     private void Awake()
     {
         inputActions = new PlayerInputActions();
@@ -37,6 +43,9 @@ public class PlayerInputHandler:MonoBehaviour
         // 점프 및 공격: 한 프레임만 true로 처리
         inputActions.Player.Jump.performed += ctx => JumpPressed = true;
         inputActions.Player.Attack.performed += ctx => AttackPressed = true;
+
+        // 상호작용 입력 (F키)
+        inputActions.Player.Interaction.performed += OnInteraction;
     }
 
     private void OnEnable()
