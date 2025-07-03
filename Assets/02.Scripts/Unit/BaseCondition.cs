@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -72,8 +71,6 @@ public class BaseCondition
         }
 
         statModifiers[c_type]?.Invoke();
-        //확인용
-        Debug.Log(CondifionModifier[c_type][m_type]);
     }
 
     /// <summary>

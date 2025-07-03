@@ -144,13 +144,14 @@ GameObject:
   m_Component:
   - component: {fileID: 8574323652764607292}
   - component: {fileID: 7189704172899622952}
+  - component: {fileID: 7161436273445082138}
   m_Layer: 0
   m_Name: HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8574323652764607292
 RectTransform:
   m_ObjectHideFlags: 0
@@ -169,10 +170,10 @@ RectTransform:
   - {fileID: 3002343047022398454}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -960, y: -540}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7189704172899622952
 MonoBehaviour:
@@ -188,6 +189,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shiftAmount: 2000
   ease: 6
+--- !u!114 &7161436273445082138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388300053610749077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97eef6bad074e8c4fbe3261dad3db8ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minMapButton: {fileID: 564802537668912062}
+  optionButton: {fileID: 3130369284552870980}
+  goldText: {fileID: 1083887537122938480}
+  HPFill: {fileID: 8636423806217975928}
+  ItemSlot1: {fileID: 5964098078316320698}
+  ItemSlot2: {fileID: 6891275021354739109}
 --- !u!1 &2299865016917654739
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,7 +1160,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 0.626
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

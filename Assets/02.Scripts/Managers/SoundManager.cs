@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.Rendering.VirtualTexturing.Debugging;
+
 
 public class SoundManager : MonoSingleton<SoundManager>
 {

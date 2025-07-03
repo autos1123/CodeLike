@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,7 +45,6 @@ public class DestinyCard : MonoBehaviour
     }
     void Click()
     {
-        Debug.Log("눌림");
         GameManager.Instance.setCurDestinyData(_destinyData);
         _board.Close();
     }

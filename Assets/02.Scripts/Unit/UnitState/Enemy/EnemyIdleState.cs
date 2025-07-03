@@ -34,10 +34,6 @@ public class EnemyIdleState : EnemyBaseState
     {
         base.StateUpdate();
 
-        //Vector3 movementDirection = GetMovementDirection(targetPos);
-
-        //Rotate(movementDirection);
-
         if(IsInRange(ConditionType.ChaseRange))
         {
             // MoveState로 변환

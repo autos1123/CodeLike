@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class EnemyPatrolState : EnemyMoveState
 {
     public EnemyPatrolState(EnemyStateMachine playerStateMachine) : base(playerStateMachine)

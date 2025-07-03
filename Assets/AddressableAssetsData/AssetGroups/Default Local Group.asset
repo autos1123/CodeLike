@@ -36,6 +36,38 @@ MonoBehaviour:
     m_SerializedLabels:
     - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fa4e0c541bd51f4cb67cac83f56fc74
+    m_Address: Assets/03.Prefaps/UI/HUD.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b234f5d9541a48d409062ed75edcf2e7
+    m_Address: Assets/03.Prefaps/UI/StatusBoard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    - TitleUI
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9370d220b7536de4bbc9c89133c60586
+    m_Address: Assets/03.Prefaps/UI/StatusBoard.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c7d8e0994efaa845a3cefee7d06eee0
+    m_Address: Assets/05.ScriptableObj/SO/DialogueDataTable.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DataTable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a68dd46a282ffe4f8ceccb05470f25f
+    m_Address: Assets/05.ScriptableObj/SO/NPCDataTable.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DataTable
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:

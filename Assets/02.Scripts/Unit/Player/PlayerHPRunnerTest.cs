@@ -12,7 +12,6 @@ public class PlayerHPRunnerTest:MonoBehaviour
     {
         yield return new WaitUntil(() => playerController.PlayerCondition != null);
         playerCondition = playerController.PlayerCondition;
-        Debug.Log("PlayerCondition successfully initialized in PlayerHPRunnerTest.");
     }
 
     private void Update()
@@ -22,7 +21,6 @@ public class PlayerHPRunnerTest:MonoBehaviour
         if(Input.GetKeyDown(KeyCode.K))
         {
             playerCondition.TakenDamage(testDamage);
-            Debug.Log($"테스트 데미지 {testDamage}만큼 적용됨");
         }
     }
 }
