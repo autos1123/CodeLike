@@ -74,6 +74,14 @@ public class UIManager:MonoSingleton<UIManager>
         };
     }
 
+    public void ToggleOptionUI<T>() where T : UIBase
+    {
+        if(GetUI<T>().gameObject.activeSelf)
+            Hide<T>();
+        else
+            ShowUI<T>();
+    }
+
     public void ShowUI<T>() where T : UIBase
     {
         if(_uiInstances.TryGetValue(typeof(T).Name , out var ui))
@@ -92,6 +100,6 @@ public class UIManager:MonoSingleton<UIManager>
 
     public T GetUI<T>() where T : UIBase
     {
-        return _uiInstances[name] as T;
+        return _uiInstances[typeof(T).Name] as T;
     }
 }
