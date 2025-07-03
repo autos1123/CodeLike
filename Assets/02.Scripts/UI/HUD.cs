@@ -44,14 +44,11 @@ public class HUD:UIBase
 
     void ChangeGold()
     {
-
         goldText.text = player.PlayerCondition.GetValue(ConditionType.Gold).ToString();
-        Debug.Log(goldText.text);
     }
 
     void ChangeHP()
     {
         HPFill.fillAmount = player.PlayerCondition.GetValue(ConditionType.HP) * 0.001f;
-        Debug.Log(HPFill.fillAmount.ToString());
     }
 }

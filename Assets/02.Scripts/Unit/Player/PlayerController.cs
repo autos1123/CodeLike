@@ -169,14 +169,12 @@ public class PlayerController:BaseController
     protected override void Initialize()
     {
         base.Initialize();
-        Debug.Log("[PlayerController] Initialize 호출");
 
         condition = new PlayerCondition(data);
         stateMachine = new PlayerStateMachine(this);
         condition.Init(this, stateMachine);
 
         isInitialized = true;
-        Debug.Log("[PlayerController] Initialize 완료");
     }
 
     /// <summary>

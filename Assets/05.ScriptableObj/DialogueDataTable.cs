@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DialogueDataTable", menuName = "Scriptable Objects/DialogueDataTable")]

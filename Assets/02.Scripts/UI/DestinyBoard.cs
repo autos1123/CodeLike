@@ -41,7 +41,6 @@ public class DestinyBoard:UIBase
 
     void ClickFailed()
     {
-        Debug.Log("거부눌림");
         gameObject.SetActive(false);
     }
 }

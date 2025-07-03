@@ -27,7 +27,6 @@ public class PlayerCondition:BaseCondition
     {
         this.controller = player;
         this.stateMachine = stateMachine;
-        Debug.Log($"[PlayerCondition] 초기 HP: {GetValue(ConditionType.HP)}");
     }
 
     /// <summary>
@@ -35,8 +34,6 @@ public class PlayerCondition:BaseCondition
     /// </summary>
     public bool TakenDamage(float damage)
     {
-        Debug.Log($"[PlayerCondition] {damage} 데미지 받음 처리 중");
-
         bool isDead = base.GetDamaged(damage);
 
         // 현재 HP 및 최대 HP 가져오기
@@ -50,9 +47,6 @@ public class PlayerCondition:BaseCondition
 
         // UI 갱신
         OnHPChanged?.Invoke(currentHP, maxHP);
-
-        Debug.Log($"[PlayerCondition] 현재 HP: {currentHP} / {maxHP}, isDead: {isDead}");
-
         if(isDead)
         {
             Die();
@@ -67,7 +61,6 @@ public class PlayerCondition:BaseCondition
     /// </summary>
     private void Die()
     {
-        Debug.Log("[PlayerCondition] 사망 -> PlayerDeadState 전환");
         stateMachine.ChangeState(new PlayerDeadState(controller, stateMachine));
     }
 }

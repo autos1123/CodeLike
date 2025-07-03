@@ -45,7 +45,6 @@ public class DestinyCard : MonoBehaviour
     }
     void Click()
     {
-        Debug.Log("눌림");
         GameManager.Instance.setCurDestinyData(_destinyData);
         _board.Close();
     }
