@@ -4,18 +4,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DestinyBoard : UIBase
+public class DestinyBoard:UIBase
 {
-    DestinyCard[] cards;
-    Button FailedButton;
+    [SerializeField] DestinyCard[] cards;
+    [SerializeField] Button FailedButton;
     TableManager _tableManager;
     public override string UIName => "DestinyBoard";
 
 
     void Awake()
     {
-        FailedButton = transform.GetChild(3).GetComponent<Button>();
-        cards = transform.GetComponentsInChildren<DestinyCard>();
         _tableManager = TableManager.Instance;
     }
     

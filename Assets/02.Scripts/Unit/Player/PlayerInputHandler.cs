@@ -81,4 +81,9 @@ public class PlayerInputHandler:MonoBehaviour
     {
         return MoveInput.y < -0.5f;
     }
+
+    public bool TestDamageKeyPressed()
+    {
+        return Keyboard.current.hKey.wasPressedThisFrame;
+    }
 }
