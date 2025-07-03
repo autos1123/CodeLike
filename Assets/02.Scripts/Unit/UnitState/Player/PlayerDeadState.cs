@@ -16,8 +16,6 @@ public class PlayerDeadState:IUnitState
 
     public void StateEnter()
     {
-        Debug.Log("PlayerDeadState 진입 - 플레이어 사망 처리");
-
         if(player.TryGetComponent<Rigidbody>(out var rb))
         {
             rb.velocity = Vector3.zero;
@@ -33,7 +31,7 @@ public class PlayerDeadState:IUnitState
 
     public void StateExit()
     {
-        Debug.Log("PlayerDeadState 종료");
+
     }
 
     public void StateUpdate()

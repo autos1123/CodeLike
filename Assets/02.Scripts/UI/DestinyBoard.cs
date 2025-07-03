@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,7 +41,6 @@ public class DestinyBoard:UIBase
 
     void ClickFailed()
     {
-        Debug.Log("거부눌림");
         gameObject.SetActive(false);
     }
 }

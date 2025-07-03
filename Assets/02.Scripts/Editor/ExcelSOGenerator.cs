@@ -1,6 +1,7 @@
 using Codice.CM.Client.Differences.Graphic;
 using System;
 using System.Data;
+using Unity.VisualScripting;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEditor;
 using UnityEngine;
@@ -152,6 +153,17 @@ public static class ExcelSOGenerator
                     itemData.value = int.Parse(row[4].ToString());
                     itemData.description = row[5].ToString().Replace("@", itemData.value.ToString());
                     itemData.IconPath = row[6].ToString();
+                    itemData.buyPrice = int.Parse(row[7].ToString());
+                    //판매가격은 구매가격의 50퍼
+                    string rawSell = row[8].ToString();
+                    if (rawSell.Trim() == "@")
+                    {
+                        itemData.sellPrice = Mathf.FloorToInt(itemData.buyPrice * 0.5f); // 50% 계산
+                    }
+                    else
+                    {
+                        itemData.sellPrice = int.Parse(rawSell);
+                    }
 
                     itemDataTable.dataList.Add(itemData);
                 }
@@ -181,6 +193,49 @@ public static class ExcelSOGenerator
                 string enhancePath = $"{assetOutputPath}/{table.ToString()}Table.asset";
                 AssetDatabase.CreateAsset(enhanceDataTable, enhancePath);
                 Debug.Log($"✅ {sheetName} SO 생성됨: {enhancePath}");
+
+                break;
+            case "NPCData":
+                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
+
+                var npcDataTable = ScriptableObject.CreateInstance<NPCDataTable>();
+
+                for(int i = 2; i < table.Rows.Count; i++)
+                {
+                    var row = table.Rows[i];
+                    var npcData = new NPCData();
+                    npcData.ID = int.Parse(row[0].ToString());
+                    npcData.Name = row[1].ToString();
+
+
+                    npcDataTable.dataList.Add(npcData);
+                }
+
+                string npcPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
+                AssetDatabase.CreateAsset(npcDataTable, npcPath);
+                Debug.Log($"✅ {sheetName} SO 생성됨: {npcPath}");
+
+                break;
+            case "DialogueData":
+                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
+
+                var dialogueDataTable = ScriptableObject.CreateInstance<DialogueDataTable>();
+
+                for(int i = 2; i < table.Rows.Count; i++)
+                {
+                    var row = table.Rows[i];
+                    var dialogueData = new DialogueData();
+                    dialogueData.ID = int.Parse(row[0].ToString());
+                    dialogueData.NPCID = int.Parse(row[0].ToString());
+                    dialogueData.description = row[1].ToString();
+
+
+                    dialogueDataTable.dataList.Add(dialogueData);
+                }
+
+                string dialoguePath = $"{assetOutputPath}/{table.ToString()}Table.asset";
+                AssetDatabase.CreateAsset(dialogueDataTable, dialoguePath);
+                Debug.Log($"✅ {sheetName} SO 생성됨: {dialoguePath}");
 
                 break;
             case "Enums":

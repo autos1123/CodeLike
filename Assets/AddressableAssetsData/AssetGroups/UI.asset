@@ -42,6 +42,12 @@ MonoBehaviour:
     - InGameUI
     - TitleUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6e5b415a198f61419cbcfbc3489f174
+    m_Address: Assets/03.Prefaps/UI/Shop.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:

@@ -20,6 +20,8 @@ MonoBehaviour:
     value: 10
     description: "\uBC29\uC5B4\uB825\uC774 10\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/ShieldIcon
+    buyPrice: 200
+    sellPrice: 100
   - ID: 6001
     name: "\uAC80"
     Rarity: 301
@@ -27,3 +29,5 @@ MonoBehaviour:
     value: 10
     description: "\uACF5\uACA9\uB825\uC774 10\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/SwordIcon
+    buyPrice: 100
+    sellPrice: 50

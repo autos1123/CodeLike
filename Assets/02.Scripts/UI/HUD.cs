@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,10 +21,11 @@ public class HUD:UIBase
 
     public override void Open()
     {
+        base.Open();
         player = GameManager.Instance.Player.GetComponent<PlayerController>();
 
         optionButton.onClick.RemoveAllListeners();
-        optionButton.onClick.AddListener(UIManager.Instance.ToggleOptionUI<OptionBoard>);
+        optionButton.onClick.AddListener(UIManager.Instance.ToggleUI<OptionBoard>);
 
         player.PlayerCondition.statModifiers[ConditionType.Gold] += ChangeGold;
         ChangeGold();
@@ -36,6 +35,7 @@ public class HUD:UIBase
     }
     public override void Close()
     {
+        base.Close();
         if(player == null) return;
 
         player.PlayerCondition.statModifiers[ConditionType.Gold] -= ChangeGold;
@@ -44,14 +44,11 @@ public class HUD:UIBase
 
     void ChangeGold()
     {
-
         goldText.text = player.PlayerCondition.GetValue(ConditionType.Gold).ToString();
-        Debug.Log(goldText.text);
     }
 
     void ChangeHP()
     {
         HPFill.fillAmount = player.PlayerCondition.GetValue(ConditionType.HP) * 0.001f;
-        Debug.Log(HPFill.fillAmount.ToString());
     }
 }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.SceneManagement;
 
 public class UIManager:MonoSingleton<UIManager>
 {
@@ -16,8 +15,7 @@ public class UIManager:MonoSingleton<UIManager>
     {
         base.Awake();
         uiPrefabs = new List<GameObject>();
-        InitializeUI();
-        
+        InitializeUI();        
     }
 
     /// <summary>
@@ -45,6 +43,27 @@ public class UIManager:MonoSingleton<UIManager>
             Debug.Log("인벤닫힘");
             Hide<InventoryUI>();
         }
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("상점열림");
+            ShowUI<ShopUI>();
+        }
+        if(Input.GetKeyDown(KeyCode.N))
+        {
+            Debug.Log("상점닫힘");
+            Hide<ShopUI>();
+        }
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log("스테이터스");
+            ToggleUI<StatusBoard>();
+        }
+        if(Input.GetKeyDown(KeyCode.Y))
+        {
+            Debug.Log("스테이터스");
+            ToggleUI<HUD>();
+        }
+
     }
     private void InitializeUI()
     {
@@ -74,7 +93,7 @@ public class UIManager:MonoSingleton<UIManager>
         };
     }
 
-    public void ToggleOptionUI<T>() where T : UIBase
+    public void ToggleUI<T>() where T : UIBase
     {
         if(GetUI<T>().gameObject.activeSelf)
             Hide<T>();

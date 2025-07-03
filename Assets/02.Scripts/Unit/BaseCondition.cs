@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -72,8 +71,6 @@ public class BaseCondition
         }
 
         statModifiers[c_type]?.Invoke();
-        //확인용
-        Debug.Log(CondifionModifier[c_type][m_type]);
     }
 
     /// <summary>
@@ -87,7 +84,6 @@ public class BaseCondition
 
     public bool GetDamaged(float damage)
     {
-        Debug.Log($"[PlayerController] GetDamaged 호출됨: damage = {damage}");
         if(!CurrentConditions.ContainsKey(ConditionType.HP))
         {
             Debug.LogError("HP ConditionType이 존재하지 않습니다.");

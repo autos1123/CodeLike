@@ -9,13 +9,9 @@ public class ItemDataTable :BaseTable<ItemData>
 {
     public override void CreateTable()
     {
-        base.CreateTable();
-        
-        Debug.Log($"[CreateTable] dataList.Count = {dataList.Count}");
-
+        base.CreateTable();      
         foreach(var data in dataList)
         {
-            Debug.Log($"[CreateTable] 등록 중: ID={data.ID}");
             DataDic[data.ID] = data;
         }
     }

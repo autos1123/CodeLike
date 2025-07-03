@@ -1,12 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCController : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string interactionPrompt = "[E] 대화하기";
+    [SerializeField] private int ID;
+
+    [SerializeField] private string interactionPrompt = "[F] 대화하기";
+    [SerializeField] private Transform promptPivot;
 
     public string InteractionPrompt => interactionPrompt;
+
+    public Transform PromptPivot => promptPivot;
 
     public bool CanInteract(GameObject interactor)
     {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttackState:IUnitState
@@ -15,7 +13,6 @@ public class PlayerAttackState:IUnitState
 
     public void StateEnter()
     {
-        Debug.Log("Attack 상태 진입");
         player._Animator.SetTrigger("attack");
         player.Attack();
 
@@ -25,7 +22,6 @@ public class PlayerAttackState:IUnitState
 
     public void StateExit()
     {
-        Debug.Log("Attack 상태 종료");
     }
 
 
