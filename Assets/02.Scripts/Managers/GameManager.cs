@@ -25,7 +25,7 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     public GameState curGameState;
-    public event Action onGameState;
+    public event Action onGameStateChange;
     public void setCurDestinyData(DestinyData destinyData)
     {
         this.curDestinyData = destinyData;
@@ -34,7 +34,7 @@ public class GameManager : MonoSingleton<GameManager>
     public void setState(GameState gameState)
     {
         curGameState = gameState;
-        onGameState?.Invoke();
+        onGameStateChange?.Invoke();
     }
     void OnEnable()
     {
