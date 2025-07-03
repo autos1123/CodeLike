@@ -24,14 +24,13 @@ public class EnemyAttackState : EnemyBaseState
         startTime = Time.time;
         base.StateEnter();
 
-        StartAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash);
+        StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
+        stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.AttackParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
-
-        StopAnimation(stateMachine.Enemy.AnimationData.AttackParameterHash);
     }
 
     public override void StateUpdate()
@@ -56,7 +55,7 @@ public class EnemyAttackState : EnemyBaseState
         }
 
         // 공격 행동 수행
-        stateMachine.Enemy.AttackAction();
+        stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.AttackParameterHash);
         startTime = Time.time; // 다음 공격을 위한 시간 초기화
     }
 }
