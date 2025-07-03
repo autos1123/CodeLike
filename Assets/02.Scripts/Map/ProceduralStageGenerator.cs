@@ -161,6 +161,7 @@ public class ProceduralStageGenerator:MonoBehaviour
         if(portal != null)
         {
             portal.destinationPoint = toAnchor;
+            portal.exitDirection = direction; // ✅ 여기 수정!
         }
     }
 

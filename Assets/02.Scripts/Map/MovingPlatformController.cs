@@ -2,44 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPlatformController : MonoBehaviour
+public class MovingPlatformController:MonoBehaviour
 {
-    public Transform pointA;
-    public Transform pointB;
+    public Transform targetPos1;
+    public Transform targetPos2;
     public float speed = 2f;
-    public bool loop = true;
 
-    private Vector3 target;
-    private bool goingToB = true;
+    private Transform currentTarget;
 
     void Start()
     {
-        if (pointA != null && pointB != null)
-            target = pointB.position; 
+        transform.position = targetPos1.position;
+        currentTarget = targetPos2;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (pointA == null || pointB == null) return;
+        transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
 
-        transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.fixedDeltaTime);
-
-        if (Vector3.Distance(transform.position, target) < 0.1f)
+        if(Vector3.Distance(transform.position, currentTarget.position) < 0.05f)
         {
-            goingToB = !goingToB;
-            target = goingToB ?  pointB.position : pointA.position;
+            currentTarget = (currentTarget == targetPos1) ? targetPos2 : targetPos1;
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player"))
-            other.transform.SetParent(transform);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.CompareTag("Player"))
-            other.transform.SetParent(null);
     }
 }
