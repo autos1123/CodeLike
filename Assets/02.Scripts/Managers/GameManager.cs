@@ -3,7 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
+public enum GameState
+{
+    Play,
+    ViewChange,
+    Stop,
+}
 [DefaultExecutionOrder(-100)]
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -16,12 +23,19 @@ public class GameManager : MonoSingleton<GameManager>
     {
         get { return _player; }
     }
+
+    public GameState curGameState;
+    public event Action onGameState;
     public void setCurDestinyData(DestinyData destinyData)
     {
         this.curDestinyData = destinyData;
         onDestinyChange?.Invoke();
     }
-
+    public void setState(GameState gameState)
+    {
+        curGameState = gameState;
+        onGameState?.Invoke();
+    }
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -31,6 +45,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
