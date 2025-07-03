@@ -17,12 +17,40 @@ public class HUD : MonoBehaviour
 
     private void Awake()
     {
-        minMapButton = transform.GetChild(1).GetComponent<Button>();
-        optionButton = transform.GetChild(2).GetComponent<Button>();
-        goldText = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+        Debug.Log("[HUD] Awake 시작");
 
-        HPFill = transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<Image>();
-        ItemSlot1 = transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<Image>();
-        ItemSlot2 = transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Image>();
+        Transform playerInfo = transform.Find("PlayerInfo");
+        Transform miniMapBtnTransform = transform.Find("minimapBtn");
+        Transform optionBtnTransform = transform.Find("optionBtn");
+        Transform goldInfo = transform.Find("GoldInfo");
+
+        if(miniMapBtnTransform != null)
+            minMapButton = miniMapBtnTransform.GetComponent<Button>();
+
+        if(optionBtnTransform != null)
+            optionButton = optionBtnTransform.GetComponent<Button>();
+
+        if(goldInfo != null)
+            goldText = goldInfo.GetComponent<TextMeshProUGUI>();
+
+        if(playerInfo != null)
+        {
+            var hpObj = playerInfo.Find("HPFill");
+            if(hpObj != null)
+                HPFill = hpObj.GetComponent<Image>();
+
+            var itemSlot1Obj = playerInfo.Find("ItemSlot1");
+            if(itemSlot1Obj != null)
+                ItemSlot1 = itemSlot1Obj.GetComponent<Image>();
+
+            var itemSlot2Obj = playerInfo.Find("ItemSlot2");
+            if(itemSlot2Obj != null)
+                ItemSlot2 = itemSlot2Obj.GetComponent<Image>();
+        }
+        else
+        {
+            Debug.LogError("[HUD] PlayerInfo 오브젝트를 찾을 수 없습니다.");
+        }
     }
+
 }

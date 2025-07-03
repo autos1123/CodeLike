@@ -65,6 +65,13 @@ public class PlayerController:BaseController
 
     private void Update()
     {
+        if(inputHandler.TestDamageKeyPressed())
+        {
+            GetDamaged(10f);
+        }
+
+
+
         if(!isInitialized || ViewManager.Instance.IsTransitioning)
             return;
 
