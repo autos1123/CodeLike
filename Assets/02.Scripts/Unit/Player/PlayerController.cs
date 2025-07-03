@@ -101,6 +101,17 @@ public class PlayerController:BaseController
         return dir;
     }
 
+    public override bool GetDamaged(float damage)
+    {
+        if(!condition.GetDamaged(damage))
+        {
+            // 플레이어 사망 처리
+            return false;
+        }
+
+        return true;
+    }
+
     public void Attack()
     {
         Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Enemy"));
