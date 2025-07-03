@@ -19,6 +19,8 @@ public class NPCController : MonoBehaviour, IInteractable
     public void Interact(GameObject interactor)
     {
         UIManager.Instance.ShowUI<DialogueBoard>();
+
+        DialogueManager.Instance.onDialogue(interactor.transform, this.transform);
         // TODO : 대화 시작 로직 추가
     }
 }
