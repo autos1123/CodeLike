@@ -28,7 +28,7 @@ public class PlayerMoveState:IUnitState
 
     public void StateUpdate()
     {
-        Debug.Log("VisualTransform Rotation: " + player.VisualTransform.rotation.eulerAngles);
+        //Debug.Log("VisualTransform Rotation: " + player.VisualTransform.rotation.eulerAngles);
         Vector2 move = player.Input.MoveInput;
 
         if(move.magnitude > 0.1f)
