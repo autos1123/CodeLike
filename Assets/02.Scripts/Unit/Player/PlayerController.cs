@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,9 +29,6 @@ public class PlayerController:BaseController
     public Transform VisualTransform;
     public float VisualRotateSpeed = 10f;
 
-    [Header("Interaction")]
-    [SerializeField] private LayerMask interactableLayer;
-    [SerializeField] private float interactableRange = 2.0f;
 
     protected override void Awake()
     {
@@ -47,21 +45,7 @@ public class PlayerController:BaseController
 
     }
 
-    private void OnEnable()
-    {
-        if(inputHandler != null)
-        {
-            inputHandler.OnInteraction += OnInteractableAction;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if(inputHandler != null)
-        {
-            inputHandler.OnInteraction -= OnInteractableAction;
-        }
-    }
+    
 
     private void Update()
     {
@@ -202,31 +186,5 @@ public class PlayerController:BaseController
     /// </summary>
     public PlayerInputHandler Input => inputHandler;
 
-    /// <summary>
-    /// 상호작용 키 입력 시 호출되는 메서드
-    /// 플레이어 중심으로 상호작용 오브젝트 탐색 후 상호작용 메서드 호출
-    /// </summary>
-    /// <param name="context"></param>
-    public void OnInteractableAction(InputAction.CallbackContext context)
-    {
-        // 상호작용 오브젝트 탐색
-        Collider[] hitColliders = Physics.OverlapSphere(
-            transform.position,
-            interactableRange,
-            interactableLayer
-        );
-
-        if(hitColliders.Length == 0)
-            return;
-
-        for(int i = 0; i < hitColliders.Length; i++)
-        {
-            if(hitColliders[i].TryGetComponent(out IInteractable interactable))
-            {
-                // 상호작용 메서드 호출
-                interactable.Interact(gameObject);
-                return; // 첫 번째 상호작용만 처리
-            }
-        }
-    }
+    
 }
