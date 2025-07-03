@@ -1999,6 +1999,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8064903823614914487, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 8685197678163476245, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
