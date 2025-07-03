@@ -29,7 +29,7 @@ public class ViewCameraController : MonoBehaviour
     
     private ViewModeType previousMode;
     private Camera cam;
-
+    private Tween moveTween;
     /// <summary>
     /// 시작 시 현재 ViewMode에 따라 카메라 위치를 초기화하고,
     /// ViewManager의 시점 전환 이벤트를 구독한다.
@@ -47,6 +47,7 @@ public class ViewCameraController : MonoBehaviour
         
         ApplyView(previousMode);
         ViewManager.Instance.OnViewChanged += ApplyView;
+        GameManager.Instance.onGameStateChange += OnStateChange;
     }
 
     /// <summary>
@@ -64,8 +65,8 @@ public class ViewCameraController : MonoBehaviour
         
         HUDAnimator hudAnimator = FindObjectOfType<HUDAnimator>();
         hudAnimator?.StartShift(previousMode, mode, transitionDuration);
-        
-        transform.DOMove(worldTargetPos, transitionDuration)
+
+        moveTween = transform.DOMove(worldTargetPos, transitionDuration)
             .SetEase(Ease.OutQuad)
             .OnUpdate(() =>
             {
@@ -90,5 +91,19 @@ public class ViewCameraController : MonoBehaviour
             cam.cullingMask |= layerToControl;
         
         previousMode = mode;
+    }
+    
+    void OnStateChange()
+    {
+        if(moveTween.IsComplete()) return;
+
+        if(GameManager.Instance.curGameState == GameState.Play)
+        {
+            moveTween.Play();
+        }
+        else if(GameManager.Instance.curGameState == GameState.Stop)
+        {
+            moveTween.Pause();
+        }
     }
 }
