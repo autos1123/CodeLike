@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// 플레이어 이동, 공격, 점프, 데미지 처리 및 FSM 관리
@@ -27,7 +28,6 @@ public class PlayerController:BaseController
     public Transform VisualTransform;
     public float VisualRotateSpeed = 10f;
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -36,14 +36,6 @@ public class PlayerController:BaseController
         _Rigidbody.freezeRotation = true;
         stateMachine = new PlayerStateMachine(this);
     }
-
-    protected override void Start()
-    {
-        base.Start();
-
-    }
-
-    
 
     private void Update()
     {
@@ -54,7 +46,7 @@ public class PlayerController:BaseController
 
 
 
-        if(!isInitialized || ViewManager.Instance.IsTransitioning)
+        if(!isInitialized || !isPlaying)
             return;
 
         UpdateGrounded();
@@ -76,7 +68,7 @@ public class PlayerController:BaseController
 
     private void FixedUpdate()
     {
-        if(!isInitialized || ViewManager.Instance.IsTransitioning)
+        if(!isInitialized || !isPlaying)
             return;
 
         stateMachine.PhysicsUpdate();
@@ -181,6 +173,4 @@ public class PlayerController:BaseController
     /// PlayerInputHandler 접근용 프로퍼티
     /// </summary>
     public PlayerInputHandler Input => inputHandler;
-
-    
 }

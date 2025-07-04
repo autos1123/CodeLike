@@ -34,6 +34,7 @@ public class ViewCameraController : MonoBehaviour
     /// 시작 시 현재 ViewMode에 따라 카메라 위치를 초기화하고,
     /// ViewManager의 시점 전환 이벤트를 구독한다.
     /// </summary>
+
     private void Start()
     {
         cam = GetComponent<Camera>();
@@ -44,9 +45,8 @@ public class ViewCameraController : MonoBehaviour
         }
 
         previousMode = ViewManager.Instance.CurrentViewMode;
-        
-        ApplyView(previousMode);
         ViewManager.Instance.OnViewChanged += ApplyView;
+        ViewManager.Instance.SwitchView(previousMode);
         GameManager.Instance.onGameStateChange += OnStateChange;
     }
 
@@ -68,6 +68,10 @@ public class ViewCameraController : MonoBehaviour
 
         moveTween = transform.DOMove(worldTargetPos, transitionDuration)
             .SetEase(Ease.OutQuad)
+            .OnStart(() =>
+            {
+                GameManager.Instance.setState(GameState.ViewChange);
+            })
             .OnUpdate(() =>
             {
                 if (playerTransform != null)
@@ -82,6 +86,7 @@ public class ViewCameraController : MonoBehaviour
 
                 // 전환 완료 후 HUD 복귀
                 hudAnimator?.ReturnToOriginal(transitionDuration - 0.5f);  // 복귀 시간은 약간 짧게
+                GameManager.Instance.setState(GameState.Play);
             });
 
         // 레이어 렌더링 마스크 설정 (2D에서는 비활성화, 3D에서는 활성화)
@@ -97,13 +102,13 @@ public class ViewCameraController : MonoBehaviour
     {
         if(moveTween.IsComplete()) return;
 
-        if(GameManager.Instance.curGameState == GameState.Play)
-        {
-            moveTween.Play();
-        }
-        else if(GameManager.Instance.curGameState == GameState.Stop)
+        if(GameManager.Instance.curGameState == GameState.Stop)
         {
             moveTween.Pause();
+        }
+        else
+        {
+            moveTween.Play();
         }
     }
 }

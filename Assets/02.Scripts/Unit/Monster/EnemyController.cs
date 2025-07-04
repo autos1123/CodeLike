@@ -19,12 +19,10 @@ public abstract class EnemyController:BaseController
     private GameObject hpBar;
     public PoolingHPBar HpUI => hpBar.GetComponent<PoolingHPBar>();
 
-    private void OnEnable()
-    {
-        StartCoroutine(WaitForDataLoad());
-    }
+    // 게임 모드에 따라 상태를 변경하기 위한 필드
+    private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         if(PoolManager.HasInstance)
             PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
@@ -36,13 +34,12 @@ public abstract class EnemyController:BaseController
         NavMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    protected override void Start()
-    {
-    }
-
     protected virtual void Update()
     {
         if(!isInitialized)
+            return;
+
+        if(!isPlaying)
             return;
 
         stateMachine.Update();
@@ -51,6 +48,9 @@ public abstract class EnemyController:BaseController
     private void FixedUpdate()
     {
         if(!isInitialized)
+            return;
+
+        if(!isPlaying)
             return;
 
         stateMachine.PhysicsUpdate();
@@ -106,15 +106,15 @@ public abstract class EnemyController:BaseController
 
     public override bool GetDamaged(float damage)
     {
-        if(!Condition.GetDamaged(damage))
+        if(Condition.GetDamaged(damage))
         {
             // 몬스터 사망
             // 사망 이펙트 재생
-            HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
             Invoke(nameof(EnemyDie), 0.1f);
             return false;
         }
 
+        HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
         return true;
     }
 
@@ -130,7 +130,23 @@ public abstract class EnemyController:BaseController
 
     protected override IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete && PoolManager.Instance.IsInitialized);
+        yield return new WaitUntil(() => TableManager.Instance.loadComplete && PoolManager.Instance.IsInitialized && GameManager.HasInstance);
         Initialize();
+    }
+
+    protected override void SetCharacterPauseMode(bool isPlaying)
+    {
+        base.SetCharacterPauseMode(isPlaying);
+
+        if(!isPlaying)
+        {
+            destinationTmp = NavMeshAgent.destination;
+            NavMeshAgent.isStopped = true; // NavMeshAgent 정지
+        }
+        else
+        {
+            NavMeshAgent.destination = destinationTmp; // NavMeshAgent 목적지 복원
+            NavMeshAgent.isStopped = false; // NavMeshAgent 재개
+        }
     }
 }

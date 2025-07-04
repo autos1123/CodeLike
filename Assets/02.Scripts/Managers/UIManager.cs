@@ -26,12 +26,12 @@ public class UIManager:MonoSingleton<UIManager>
         if(Input.GetKeyDown(KeyCode.Q))
         {
             Debug.Log("f1");
-            ShowUI<DestinyBoard>();
+            ToggleUI<DestinyBoard>();
         }
         if(Input.GetKeyDown(KeyCode.W))
         {
             Debug.Log("f2");
-            Hide<DestinyBoard>();
+            ToggleUI<EnhanceBoard>();
         }
         if(Input.GetKeyDown(KeyCode.E))
         {
