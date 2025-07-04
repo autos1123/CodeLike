@@ -19,6 +19,11 @@ public abstract class EnemyController:BaseController
     private GameObject hpBar;
     public PoolingHPBar HpUI => hpBar.GetComponent<PoolingHPBar>();
 
+    // 게임 모드에 따라 상태를 변경하기 위한 필드
+    private bool isPlaying = true;
+    private Vector3 velocityTmp; // 정지 전 속도를 저장하기 위한 변수
+    private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
+
     private void OnEnable()
     {
         StartCoroutine(WaitForDataLoad());
@@ -45,12 +50,18 @@ public abstract class EnemyController:BaseController
         if(!isInitialized)
             return;
 
+        if(!isPlaying)
+            return;
+
         stateMachine.Update();
     }
 
     private void FixedUpdate()
     {
         if(!isInitialized)
+            return;
+
+        if(!isPlaying)
             return;
 
         stateMachine.PhysicsUpdate();
@@ -101,6 +112,9 @@ public abstract class EnemyController:BaseController
         hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
         HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
 
+        // 게임 상태 변경 이벤트 구독
+        GameManager.Instance.onGameStateChange += OnGameStateChange;
+
         isInitialized = true;
     }
 
@@ -130,7 +144,36 @@ public abstract class EnemyController:BaseController
 
     protected override IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete && PoolManager.Instance.IsInitialized);
+        yield return new WaitUntil(() => TableManager.Instance.loadComplete && PoolManager.Instance.IsInitialized && GameManager.HasInstance);
         Initialize();
+    }
+
+    private void OnGameStateChange()
+    {
+        if(GameManager.Instance.curGameState == GameState.Play)
+        {
+            isPlaying = true;
+
+            _Rigidbody.velocity = velocityTmp; // 게임이 일시정지되면 Rigidbody 속도 초기화
+            _Rigidbody.useGravity = true; // 중력 비활성화
+
+            NavMeshAgent.destination = destinationTmp; // NavMeshAgent 목적지 복원
+            NavMeshAgent.isStopped = false; // NavMeshAgent 재개
+
+            _Animator.speed = 1;
+        }
+        else
+        {
+            isPlaying = false;
+
+            velocityTmp = _Rigidbody.velocity; // 현재 속도를 저장
+            _Rigidbody.velocity = Vector3.zero; // 게임이 일시정지되면 Rigidbody 속도 초기화
+            _Rigidbody.useGravity = false; // 중력 비활성화
+
+            destinationTmp = NavMeshAgent.destination;
+            NavMeshAgent.isStopped = true; // NavMeshAgent 정지
+
+            _Animator.speed = 0;
+        }
     }
 }
