@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopUI : UIBase
 {
@@ -18,48 +19,50 @@ public class ShopUI : UIBase
 
     public TextMeshProUGUI sellTotalText;
     public TextMeshProUGUI buyTotalText;
-
-    private List<ShopSlotUI> sellSlots = new List<ShopSlotUI>();
-    private List<ShopSlotUI> buySlots = new List<ShopSlotUI>();
+    public TextMeshProUGUI calculateText;
+    public Button dealBtn;
+    public TextMeshProUGUI curGoldText;
+    
+    private List<ShopSlotUI> sellSlots = new();
+    private List<ShopSlotUI> buySlots = new ();
+    
+    private HashSet<ItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
+    
     
     public override void Open()
     {
         base.Open();
-        if(playerInventoryRaw == null)
+        if (playerInventoryRaw == null)
         {
             var inventoryUI = UIManager.Instance.GetUI<InventoryUI>();
-            if(inventoryUI != null)
-            {
+            if (inventoryUI != null)
                 playerInventoryRaw = inventoryUI.GetComponent<Inventory>();
-            }
         }
-        if(shopInventoryRaw == null)
-        {
+
+        if (shopInventoryRaw == null)
             shopInventoryRaw = FindObjectOfType<ShopInventory>();
-        }
-        StartCoroutine(WaitForInventoryThenGenerate());
+        
+        UpdateGoldUI();
+            
+        dealBtn.onClick.RemoveAllListeners();
+        dealBtn.onClick.AddListener(ExecuteTransaction);
+        
+        StartCoroutine(InitAndGenerate());
     }
-
-    public override void Close()
+    private IEnumerator InitAndGenerate()
     {
-        base.Close();
-        // 필요 시 슬롯 정리 등 추가 가능
-    }
-
-    private IEnumerator WaitForInventoryThenGenerate()
-    {
-        // 인벤토리 초기화 대기
-        yield return new WaitUntil(() => 
+        yield return new WaitUntil(() =>
             playerInventoryRaw != null && playerInventoryRaw.Initialized &&
             shopInventoryRaw != null && shopInventoryRaw.Initialized);
-        
+
         GenerateSlots();
+        UpdateTotalPrices();
     }
 
     public void GenerateSlots()
     {
-        foreach (Transform child in sellParent) Destroy(child.gameObject);
-        foreach (Transform child in buyParent) Destroy(child.gameObject);
+        ClearChildren(sellParent);
+        ClearChildren(buyParent);
         sellSlots.Clear();
         buySlots.Clear();
 
@@ -75,9 +78,14 @@ public class ShopUI : UIBase
             {
                 var go = Instantiate(shopSlotPrefab, parent);
                 var slotUI = go.GetComponent<ShopSlotUI>();
-                slotUI.shopUI = this;
-                slotUI.Set(itemSlot, isPlayer);
+                
+                slotUI.Set(itemSlot, isPlayer,this);
                 targetList.Add(slotUI);
+
+                if(!isPlayer && purchaseSlots.Contains(itemSlot))
+                {
+                    slotUI.SetInteractable(false);
+                }
             }
         }
     }
@@ -85,20 +93,73 @@ public class ShopUI : UIBase
     public void UpdateTotalPrices()
     {
         int sellTotal = 0;
-        foreach (var slot in sellSlots)
-        {
-            if (slot.IsSelected && !slot.ItemSlot.IsEmpty)
-                sellTotal += slot.ItemSlot.Item.sellPrice * slot.ItemSlot.Quantity;
-        }
-
         int buyTotal = 0;
-        foreach (var slot in buySlots)
-        {
-            if (slot.IsSelected && !slot.ItemSlot.IsEmpty)
-                buyTotal += slot.ItemSlot.Item.buyPrice * slot.ItemSlot.Quantity;
-        }
+
+        foreach (var s in sellSlots)
+            if(s.IsSelected && s.ItemSlot != null && !s.ItemSlot.IsEmpty)
+            {
+                sellTotal += s.ItemSlot.Item.sellPrice;
+            }
+
+        foreach (var b in buySlots)
+            if(b.IsSelected  && b.ItemSlot != null && !b.ItemSlot.IsEmpty)
+            {
+                buyTotal += b.ItemSlot.Item.buyPrice;
+            }
 
         sellTotalText.text = $"판매 금액: {sellTotal} G";
         buyTotalText.text = $"구매 금액: {buyTotal} G";
+        
+        float calculatePrice = sellTotal - buyTotal;
+        string sign = calculatePrice >= 0 ? "+" : "-";
+        string calculatePriceText = $"{sign}{Mathf.Abs(calculatePrice)}";
+        
+        calculateText.text = $"총 계산된 금액: {calculatePriceText} G";
     }
+
+    public void ExecuteTransaction()
+    {
+        var sellSlotSelected = sellSlots.FindAll(s => s.IsSelected);
+        var buySlotSelected = buySlots.FindAll(s => s.IsSelected);
+        
+        var sellItems = sellSlotSelected.ConvertAll(s => s.ItemSlot);
+        var buyItems = buySlotSelected.ConvertAll(s => s.ItemSlot);
+        
+        if (ShopManager.Instance.TryExecuteTransaction(sellItems, buyItems, out var result))
+        {
+            Debug.Log(result);
+            foreach(var slot in buySlotSelected)
+            {
+                purchaseSlots.Add(slot.ItemSlot);
+            }
+            GenerateSlots();
+            UpdateTotalPrices();
+            UpdateGoldUI();
+        }
+        else
+        {
+            Debug.LogWarning(result);
+        }
+
+        UpdateTotalPrices();
+    }
+
+    private void ClearChildren(Transform t)
+    {
+        foreach (Transform child in t)
+            Destroy(child.gameObject);
+    }
+
+    private void UpdateGoldUI()
+    {
+        if(ShopManager.Instance.TryGetGold(out float gold))
+        {
+            curGoldText.text = $"보유골드: {gold}G";
+        }
+        else
+        {
+            curGoldText.text = "보유골드: ???";
+        }
+    }
+    
 }

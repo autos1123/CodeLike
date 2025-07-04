@@ -14,8 +14,11 @@ public class ShopInventory : MonoBehaviour,IInventory
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         Init();
         var item1 = itemDataTable.GetDataByID(6000);
+        var item2 = itemDataTable.GetDataByID(6001);
         inventorySlots.Add(CreateSlot(item1, 1));
+        inventorySlots.Add(CreateSlot(item2, 1));
         Initialized = true;
+        Debug.Log("Shop Inventory Initialized");
     }
 
     public void Init()
