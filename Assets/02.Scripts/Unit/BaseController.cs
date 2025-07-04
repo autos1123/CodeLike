@@ -37,7 +37,7 @@ public class BaseController:MonoBehaviour, IDamagable
 
     protected virtual IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete);
+        yield return new WaitUntil(() => TableManager.Instance.loadComplete && GameManager.HasInstance);
         Initialize();
     }
 
