@@ -34,6 +34,7 @@ public class ViewCameraController : MonoBehaviour
     /// 시작 시 현재 ViewMode에 따라 카메라 위치를 초기화하고,
     /// ViewManager의 시점 전환 이벤트를 구독한다.
     /// </summary>
+
     private void Start()
     {
         cam = GetComponent<Camera>();
@@ -44,9 +45,8 @@ public class ViewCameraController : MonoBehaviour
         }
 
         previousMode = ViewManager.Instance.CurrentViewMode;
-        
-        ApplyView(previousMode);
         ViewManager.Instance.OnViewChanged += ApplyView;
+        ViewManager.Instance.SwitchView(previousMode);
         GameManager.Instance.onGameStateChange += OnStateChange;
     }
 
