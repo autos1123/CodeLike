@@ -120,15 +120,15 @@ public abstract class EnemyController:BaseController
 
     public override bool GetDamaged(float damage)
     {
-        if(!Condition.GetDamaged(damage))
+        if(Condition.GetDamaged(damage))
         {
             // 몬스터 사망
             // 사망 이펙트 재생
-            HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
             Invoke(nameof(EnemyDie), 0.1f);
             return false;
         }
 
+        HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
         return true;
     }
 
