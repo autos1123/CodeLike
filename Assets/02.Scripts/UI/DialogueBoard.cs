@@ -19,11 +19,14 @@ public class DialogueBoard : UIBase
     public override void Open()
     {
         base.Open();
-
+        playerRawImage.texture = DialogueManager.Instance.playerTexture;
+        npcRawImage.texture = DialogueManager.Instance.npcTexture;
     }
     public override void Close()
     {
         base.Close();
+        playerRawImage.texture = null;
+        npcRawImage.texture = null;
     }
 
 }

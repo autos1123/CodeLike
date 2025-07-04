@@ -1,34 +1,51 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
-public class Portal : MonoBehaviour
+public class Portal:MonoBehaviour
 {
     public Transform destinationPoint;
-    public float teleportCooldown = 1.0f;
+    public Direction exitDirection;
+    public float offsetDistance = 3f;
+    public float cooldownDuration = 1f;
 
-    private Dictionary<GameObject, float> lastTeleportTimes = new();
+    private static readonly Dictionary<GameObject, float> lastTeleportTimes = new();
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!other.CompareTag("Player")) return;
+        if(!other.CompareTag("Player") || destinationPoint == null)
+            return;
 
-        GameObject player = other.gameObject;
         float currentTime = Time.time;
-
-        if (lastTeleportTimes.ContainsKey(player))
+        if(lastTeleportTimes.TryGetValue(other.gameObject, out float lastTime))
         {
-            float lastTime = lastTeleportTimes[player];
-            if(currentTime - lastTime < teleportCooldown)
+            if(currentTime - lastTime < cooldownDuration)
                 return;
         }
 
-        other.transform.position = destinationPoint.position;
-        lastTeleportTimes[player] = currentTime;
+        // 위치 이동: 연결 방향 기반으로 오프셋 적용
+        Vector3 offset = GetDirectionVector(exitDirection) * offsetDistance;
+        other.transform.position = destinationPoint.position + offset;
 
-        Portal targetPortal = destinationPoint.GetComponentInParent<Portal>();
-        if (targetPortal != null )
+        lastTeleportTimes[other.gameObject] = currentTime;
+
+        // 반대편 포탈도 쿨타임 동기화
+        Portal destPortal = destinationPoint.GetComponentInParent<Portal>();
+        if(destPortal != null)
         {
-            targetPortal.lastTeleportTimes[player] = currentTime;
+            lastTeleportTimes[other.gameObject] = currentTime;
         }
     }
- }
+
+    private Vector3 GetDirectionVector(Direction dir)
+    {
+        return dir switch
+        {
+            Direction.Up => Vector3.up,
+            Direction.Down => Vector3.down,
+            Direction.Left => Vector3.left,
+            Direction.Right => Vector3.right,
+            _ => Vector3.zero
+        };
+    }
+}

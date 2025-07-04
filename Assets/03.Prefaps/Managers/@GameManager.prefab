@@ -137,6 +137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
   npcCamera: {fileID: 0}
+  playerTexture: {fileID: 8400000, guid: b7f20ff3548e9f24498b7d44b4057fe6, type: 2}
+  npcTexture: {fileID: 8400000, guid: b507a8e200f61ff4e881e48c21b12a22, type: 2}
 --- !u!1 &4763308299229212232
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,6 +404,8 @@ MonoBehaviour:
     Name: 
     PositiveEffectDataID: 0
     NegativeEffectDataID: 0
+  _player: {fileID: 0}
+  curGameState: 0
 --- !u!1 &7104975032790017092
 GameObject:
   m_ObjectHideFlags: 0
