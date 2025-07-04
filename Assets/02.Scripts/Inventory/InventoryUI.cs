@@ -25,6 +25,14 @@ public class InventoryUI : UIBase
         StartCoroutine(WaitAndRefresh());
         
     }
+    /// <summary>
+    /// 인벤토리 닫을시 설정
+    /// </summary>
+    public override void Close()
+    {
+        base.Close();
+        TooltipManager.Instance.Hide(); // 툴팁 강제 비활성화
+    }
     
     /// <summary>
     /// 슬롯 UI를 실제 인벤토리 데이터로 갱신

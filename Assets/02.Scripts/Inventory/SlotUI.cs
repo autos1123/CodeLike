@@ -188,7 +188,10 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     {
         TooltipManager.Instance.Hide();
     }
-
+    
+    /// <summary>
+    /// 현재 플레이어의 PlayerCondition 컴포넌트를 가져옴
+    /// </summary>
     private bool TryGetPlayerCondition(out PlayerCondition condition)
     {
         condition = null;
@@ -199,14 +202,20 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
         }
         return false;
     }
-
+    
+    /// <summary>
+    /// 장비 해제 시 해당 아이템의 스탯을 감소시킴
+    /// </summary>
     private void RemoveItemStat(ItemData item, SlotType type, PlayerCondition playerCondition)
     {
         if(item == null || type != SlotType.Equip) return;
         
         playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, -item.value);
     }
-
+    
+    /// <summary>
+    /// 장비 장착 시 해당 아이템의 스탯을 증가시킴
+    /// </summary>
     private void ApplyItemStat(ItemData item, SlotType type, PlayerCondition playerCondition)
     {
         if(item == null || type != SlotType.Equip) return;
