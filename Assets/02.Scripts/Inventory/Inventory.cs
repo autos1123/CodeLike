@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface IInventory
+{
+    bool Initialized { get; }
+    List<ItemSlot> GetInventorySlots(); // 장비슬롯은 제외
+
+    bool AddToInventory(ItemData item);
+    bool RemoveFromInventory(ItemData item); // 필요 시
+}
 /// <summary>
 /// 인벤토리 데이터를 관리하는 클래스.
 /// 슬롯 초기화 및 아이템 추가 기능을 포함.
 /// </summary>
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IInventory
 {
     private ItemDataTable itemDataTable;
     
@@ -65,6 +73,23 @@ public class Inventory : MonoBehaviour
             if (slot.IsEmpty)
             {
                 slot.Set(item, 1);
+                return true;
+            }
+        }
+        return false;
+    }
+    public List<ItemSlot> GetInventorySlots()
+    {
+        return inventorySlots;
+    }
+
+    public bool RemoveFromInventory(ItemData item)
+    {
+        foreach (var slot in inventorySlots)
+        {
+            if (!slot.IsEmpty && slot.Item == item)
+            {
+                slot.Clear();
                 return true;
             }
         }

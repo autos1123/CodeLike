@@ -43,6 +43,16 @@ public class UIManager:MonoSingleton<UIManager>
             Debug.Log("인벤닫힘");
             Hide<InventoryUI>();
         }
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("상점열림");
+            ShowUI<ShopUI>();
+        }
+        if(Input.GetKeyDown(KeyCode.N))
+        {
+            Debug.Log("상점닫힘");
+            Hide<ShopUI>();
+        }
         if(Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log("스테이터스");
