@@ -2,35 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
-public class ShopSlotUI : MonoBehaviour
+public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
 {
     [Header("UI")]
     public Image iconImage;
     public TextMeshProUGUI quantityText;
     public TextMeshProUGUI priceText;
-    public Toggle selectionToggle;
-
-    public ShopUI shopUI;
+    public TextMeshProUGUI blockText;
+    public Image BackgroundImage;
+    
+    private ShopUI shopUI;
 
     private ItemSlot itemSlot;
     private bool isPlayerSlot;
+    private bool isSelected;
+    private bool isInteractable = true;
 
-    public bool IsSelected => selectionToggle != null && selectionToggle.isOn;
+    public Color defaultColor = Color.white;
+    public Color selectedColor = Color.red;
+    public Color disabledColor = Color.gray;
+    public bool IsSelected => isSelected;
     public ItemSlot ItemSlot => itemSlot;
-
-    public void Set(ItemSlot slot, bool isPlayerSlot)
+    
+    public void Set(ItemSlot slot, bool isPlayerSlot,ShopUI shopUI)
     {
         this.itemSlot = slot;
         this.isPlayerSlot = isPlayerSlot;
-
+        this.shopUI = shopUI;
+        isSelected = false;
+        isInteractable = true;
         Refresh();
-
-        selectionToggle.onValueChanged.AddListener(_ => 
-        {
-            shopUI?.UpdateTotalPrices();
-        });
     }
 
     private void Refresh()
@@ -47,8 +52,24 @@ public class ShopSlotUI : MonoBehaviour
         iconImage.sprite = Resources.Load<Sprite>(itemSlot.Item.IconPath);
         quantityText.text = itemSlot.Quantity > 1 ? itemSlot.Quantity.ToString() : "";
 
-        int price = isPlayerSlot ? itemSlot.Item.sellPrice : itemSlot.Item.buyPrice;
-        priceText.text = $"{price} G";
+        priceText.text = (isPlayerSlot ? itemSlot.Item.sellPrice : itemSlot.Item.buyPrice) + " G";
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(!isInteractable)
+            return;
+        
+        isSelected = !isSelected;
+        BackgroundImage.color = isSelected ? selectedColor : defaultColor;
+        shopUI.UpdateTotalPrices();
     }
     
+    public void SetInteractable(bool interactable)
+    {
+        isInteractable = interactable;
+        isSelected = false;
+        BackgroundImage.color = interactable ? defaultColor : disabledColor;
+        blockText.gameObject.SetActive(!interactable);
+    }
 }
