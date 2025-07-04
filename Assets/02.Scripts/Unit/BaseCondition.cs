@@ -44,6 +44,31 @@ public class BaseCondition
         Debug.LogError($"ConditionType {type}를 찾을 수 없습니다.");
         return 0f;
     }
+
+    /// <summary>
+    /// 특정 컨디션의 수정값을 반환합니다.
+    /// </summary>
+    /// <param name="m_Type">수정자 타입</param>
+    /// <param name="c_Type">컨디션 타입</param>
+    /// <returns></returns>
+    public float GetModifierValue(ModifierType m_Type, ConditionType c_Type)
+    {
+        if(CondifionModifier.TryGetValue(c_Type, out Dictionary<ModifierType, float> modifierDict))
+        {
+            if(modifierDict.TryGetValue(m_Type, out float value))
+            {
+                return value;
+            }
+            Debug.LogError($"ModifierType {m_Type}를 찾을 수 없습니다.");
+        }
+        else
+        {
+            Debug.LogError($"ConditionType {c_Type}에 대한 Modifier가 존재하지 않습니다.");
+        }
+
+        return 0f;
+    }
+
     /// <summary>
     /// 컨디션을 문자열로 변환하여 반환
     /// </summary>
