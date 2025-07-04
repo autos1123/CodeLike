@@ -7,8 +7,10 @@ using DG.Tweening;
 /// 또한 특정 레이어의 렌더링을 시점에 따라 제어하고,
 /// 시점 전환에 따라 HUD 애니메이션도 함께 제어.
 /// </summary>
-public class ViewCameraController : MonoBehaviour
+public class ViewCameraController:MonoBehaviour
 {
+    [SerializeField] private float lookPivotY = 1.0f;
+
     [Header("2D 시점 카메라 위치/회전")]
     public Vector3 position2D = new Vector3(67, 0, 0);
     public Vector3 rotation2D = new Vector3(0, -90, 0);
@@ -19,6 +21,7 @@ public class ViewCameraController : MonoBehaviour
 
     [Header("카메라 전환 시간")]
     public float transitionDuration = 1f;
+    private float transitionTime = 0f;
 
     [Header("렌더링 제어할 레이어")]
     [SerializeField] private LayerMask layerToControl;
@@ -26,7 +29,7 @@ public class ViewCameraController : MonoBehaviour
     [Header("전환 중 플레이어 추적")]
     private bool isTransitioning = false;
     [SerializeField] private Transform playerTransform;
-    
+
     private ViewModeType previousMode;
     private Camera cam;
     private Tween moveTween;
@@ -38,7 +41,7 @@ public class ViewCameraController : MonoBehaviour
     private void Start()
     {
         cam = GetComponent<Camera>();
-        if (cam == null)
+        if(cam == null)
         {
             Debug.LogError("[ViewCameraController] Camera 컴포넌트를 찾을 수 없습니다.");
             return;
@@ -46,7 +49,7 @@ public class ViewCameraController : MonoBehaviour
 
         previousMode = ViewManager.Instance.CurrentViewMode;
         ViewManager.Instance.OnViewChanged += ApplyView;
-        ViewManager.Instance.SwitchView(previousMode);
+        ViewManager.Instance.SwitchView(ViewModeType.View2D);
         GameManager.Instance.onGameStateChange += OnStateChange;
     }
 
@@ -62,27 +65,60 @@ public class ViewCameraController : MonoBehaviour
 
         Vector3 localTargetPos = (mode == ViewModeType.View2D) ? position2D : position3D;
         Vector3 worldTargetPos = transform.parent.TransformPoint(localTargetPos);
-        
+
         HUDAnimator hudAnimator = FindObjectOfType<HUDAnimator>();
         hudAnimator?.StartShift(previousMode, mode, transitionDuration);
+
+        float startY;
+        float targetY;
+        if(mode == ViewModeType.View2D)
+        {
+            startY = lookPivotY;
+            targetY = position2D.y;
+        }
+        else
+        {
+            startY = position2D.y;
+            targetY = lookPivotY;
+        }
 
         moveTween = transform.DOMove(worldTargetPos, transitionDuration)
             .SetEase(Ease.OutQuad)
             .OnStart(() =>
             {
                 GameManager.Instance.setState(GameState.ViewChange);
+                transitionTime = 0;
             })
             .OnUpdate(() =>
             {
-                if (playerTransform != null)
-                    transform.LookAt(playerTransform.position);
+                if(playerTransform != null)
+                {
+                    transitionTime += Time.deltaTime;
+                    float transitionPer = transitionTime / transitionDuration;
+                    float yPos = Mathf.Lerp(startY, targetY, transitionPer);
+
+                    transform.LookAt(playerTransform.position + Vector3.up * yPos);
+
+                    if(mode == ViewModeType.View2D)
+                    {
+                        if(transitionPer >= 0.8f)
+                            cam.orthographic = true;
+                    }
+                    else
+                    {
+                        if(transitionPer >= 0.2f)
+                            cam.orthographic = false;
+                    }
+                }
             })
             .OnComplete(() =>
             {
                 isTransitioning = false;
 
-                if (playerTransform != null)
-                    transform.LookAt(playerTransform.position);
+                if(playerTransform != null)
+                {
+                    transform.LookAt(playerTransform.position + Vector3.up * targetY);
+                }
 
                 // 전환 완료 후 HUD 복귀
                 hudAnimator?.ReturnToOriginal(transitionDuration - 0.5f);  // 복귀 시간은 약간 짧게
@@ -90,14 +126,14 @@ public class ViewCameraController : MonoBehaviour
             });
 
         // 레이어 렌더링 마스크 설정 (2D에서는 비활성화, 3D에서는 활성화)
-        if (mode == ViewModeType.View2D)
+        if(mode == ViewModeType.View2D)
             cam.cullingMask &= ~layerToControl;
         else
             cam.cullingMask |= layerToControl;
-        
+
         previousMode = mode;
     }
-    
+
     void OnStateChange()
     {
         if(moveTween.IsComplete()) return;
