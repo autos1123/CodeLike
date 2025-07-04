@@ -42,7 +42,15 @@ public class BaseCondition
         Debug.LogError($"ConditionType {type}를 찾을 수 없습니다.");
         return 0f;
     }
-
+    /// <summary>
+    /// 컨디션을 문자열로 변환하여 반환
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public string GetStatus(ConditionType type)
+    {
+        return $"{CurrentConditions[type]}({CondifionModifier[type][ModifierType.Upgrade] + CondifionModifier[type][ModifierType.BuffEnhance] + CondifionModifier[type][ModifierType.BuffEnhance]}) ";
+    }
     
 
     /// <summary>
