@@ -26,6 +26,6 @@ public class Status : MonoBehaviour
 
     void onChangeText()
     {
-        text.text = GameManager.Instance.Player.GetComponent<PlayerController>().PlayerCondition.GetValue(_conditionType).ToString();
+        text.text = GameManager.Instance.Player.GetComponent<PlayerController>().PlayerCondition.GetStatus(_conditionType);
     }
 }

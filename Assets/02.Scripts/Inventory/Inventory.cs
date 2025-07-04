@@ -44,6 +44,7 @@ public class Inventory : MonoBehaviour, IInventory
         AddToInventory(item_2);
         
         Initialized = true;
+        Debug.Log("Inventory Initialized");
     }
     
     /// <summary>
@@ -73,6 +74,7 @@ public class Inventory : MonoBehaviour, IInventory
             if (slot.IsEmpty)
             {
                 slot.Set(item, 1);
+                Debug.Log($"[Inventory] 아이템 추가됨: {item.name}");
                 return true;
             }
         }
@@ -95,4 +97,5 @@ public class Inventory : MonoBehaviour, IInventory
         }
         return false;
     }
+    
 }
