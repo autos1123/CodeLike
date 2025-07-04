@@ -4,8 +4,8 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 {
     [SerializeField] Camera playerCamera;
     [SerializeField] Camera npcCamera;
-    RenderTexture playerTexture;
-    RenderTexture npcTexture;
+    [SerializeField] public RenderTexture playerTexture;
+    [SerializeField] public RenderTexture npcTexture;
 
     public void Start()
     {
@@ -14,15 +14,36 @@ public class DialogueManager : MonoSingleton<DialogueManager>
         playerCamera.gameObject.SetActive(false);
         npcCamera.gameObject.SetActive(false);
     }
-    public void onDialogue(string npc)
+    public void onDialogue(Transform player , Transform npc)
     {
         //Todo npc정보를 기반으로 출력할 텍스트 정리
-        //npc앞과 플레이어 앞에 가메라 위치 고정
+        playerCamera.targetTexture = playerTexture;
+        npcCamera.targetTexture = npcTexture;
+
+        SetCamera(playerCamera, player);
+        SetCamera(npcCamera, npc);
     }
 
     public void offDialogue()
     {
         playerCamera.targetTexture = null;
-        //todo 이미지에 있는 택스처도 꺼준다.
+        ResetCamera(playerCamera);
+        ResetCamera(npcCamera);
+    }
+
+    void SetCamera(Camera camera , Transform transform)
+    {
+        
+        camera.transform.position = transform.forward * 5;//죄표 조절 필요
+        camera.transform.forward = transform.position;
+        //camera.transform.position = transform.up * 2;
+        camera.transform.parent = transform.transform;
+        camera.transform.gameObject.SetActive(true);
+    }
+
+    void ResetCamera(Camera camera)
+    {
+        camera.transform.parent = this.transform;
+        camera.transform.gameObject.SetActive(false);
     }
 }

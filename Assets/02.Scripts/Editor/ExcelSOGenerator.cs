@@ -153,6 +153,17 @@ public static class ExcelSOGenerator
                     itemData.value = int.Parse(row[4].ToString());
                     itemData.description = row[5].ToString().Replace("@", itemData.value.ToString());
                     itemData.IconPath = row[6].ToString();
+                    itemData.buyPrice = int.Parse(row[7].ToString());
+                    //판매가격은 구매가격의 50퍼
+                    string rawSell = row[8].ToString();
+                    if (rawSell.Trim() == "@")
+                    {
+                        itemData.sellPrice = Mathf.FloorToInt(itemData.buyPrice * 0.5f); // 50% 계산
+                    }
+                    else
+                    {
+                        itemData.sellPrice = int.Parse(rawSell);
+                    }
 
                     itemDataTable.dataList.Add(itemData);
                 }
