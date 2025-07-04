@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
 public enum ModifierType
@@ -49,7 +51,16 @@ public class BaseCondition
     /// <returns></returns>
     public string GetStatus(ConditionType type)
     {
-        return $"{CurrentConditions[type]}({CondifionModifier[type][ModifierType.Upgrade] + CondifionModifier[type][ModifierType.BuffEnhance] + CondifionModifier[type][ModifierType.BuffEnhance]}) ";
+        StringBuilder sb = new StringBuilder();
+        sb.Append(CurrentConditions[type]);
+        if(CondifionModifier.ContainsKey(type))
+        {
+            sb.Append('(');
+            sb.Append($"{CondifionModifier[type].Values.Sum()}");
+            sb.Append(')');
+
+        }
+        return sb.ToString();
     }
     
 
