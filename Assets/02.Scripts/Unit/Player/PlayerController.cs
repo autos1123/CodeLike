@@ -28,10 +28,6 @@ public class PlayerController:BaseController
     public Transform VisualTransform;
     public float VisualRotateSpeed = 10f;
 
-    // 캐릭터 정지 관련
-    private bool isPlaying = true;
-    private Vector3 velocityTmp;
-
     protected override void Awake()
     {
         base.Awake();
@@ -40,14 +36,6 @@ public class PlayerController:BaseController
         _Rigidbody.freezeRotation = true;
         stateMachine = new PlayerStateMachine(this);
     }
-
-    protected override void Start()
-    {
-        base.Start();
-
-    }
-
-    
 
     private void Update()
     {
@@ -178,8 +166,6 @@ public class PlayerController:BaseController
         stateMachine = new PlayerStateMachine(this);
         condition.Init(this, stateMachine);
 
-        GameManager.Instance.onGameStateChange += OnGameStateChange;
-
         isInitialized = true;
     }
 
@@ -187,28 +173,4 @@ public class PlayerController:BaseController
     /// PlayerInputHandler 접근용 프로퍼티
     /// </summary>
     public PlayerInputHandler Input => inputHandler;
-
-
-    private void OnGameStateChange()
-    {
-        if(GameManager.Instance.curGameState == GameState.Play)
-        {
-            isPlaying = true;
-
-            _Rigidbody.velocity = velocityTmp; // 게임이 일시정지되면 Rigidbody 속도 초기화
-            _Rigidbody.useGravity = true; // 중력 비활성화
-
-            _Animator.speed = 1;
-        }
-        else
-        {
-            isPlaying = false;
-
-            velocityTmp = _Rigidbody.velocity; // 현재 속도를 저장
-            _Rigidbody.velocity = Vector3.zero; // 게임이 일시정지되면 Rigidbody 속도 초기화
-            _Rigidbody.useGravity = false; // 중력 비활성화
-
-            _Animator.speed = 0;
-        }
-    }
 }
