@@ -42,6 +42,8 @@ public class Inventory : MonoBehaviour, IInventory
         AddToInventory(item_1);
         var item_2 = itemDataTable.GetDataByID(6001);
         AddToInventory(item_2);
+        var item_3 = itemDataTable.GetDataByID(6000);
+        AddToInventory(item_3);
         
         Initialized = true;
         Debug.Log("Inventory Initialized");

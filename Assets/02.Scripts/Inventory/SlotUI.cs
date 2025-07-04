@@ -106,12 +106,32 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     /// </summary>
     private void SwapSlotData(SlotUI fromSlotUI)
     {
+        
         if (ItemSlot == null || fromSlotUI.ItemSlot == null)
         {
             Debug.LogWarning("SlotUI: ItemSlot이 null입니다.");
             return;
         }
 
+        if(!TryGetPlayerCondition(out var playerCondition))
+            return;
+        
+        //기존 효과 제거
+        RemoveItemStat(ItemSlot.Item,slotType, playerCondition);
+        RemoveItemStat(fromSlotUI.ItemSlot.Item,fromSlotUI.slotType, playerCondition);
+
+        
+        // // 기존 장비 제거 시 스탯 감소
+        // if (fromSlotUI.slotType == SlotType.Equip && !fromSlotUI.ItemSlot.IsEmpty)
+        // {
+        //     var item = fromSlotUI.ItemSlot.Item;
+        //     if(GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
+        //     {
+        //         playerController.PlayerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, -item.value);
+        //     }
+        // }
+        
+        // 슬롯 데이터 교체
         var temp = new ItemSlot();
         temp.Set(ItemSlot.Item, ItemSlot.Quantity);
 
@@ -120,6 +140,30 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
 
         Set(ItemSlot);
         fromSlotUI.Set(fromSlotUI.ItemSlot);
+        
+        // // 새 장비 효과 적용
+        // if (slotType == SlotType.Equip && !ItemSlot.IsEmpty)
+        // {
+        //     var item = ItemSlot.Item;
+        //     if(GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
+        //     {
+        //         playerController.PlayerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, item.value);
+        //     }
+        // }
+        //
+        // if (fromSlotUI.slotType == SlotType.Equip && !fromSlotUI.ItemSlot.IsEmpty)
+        // {
+        //     var item = fromSlotUI.ItemSlot.Item;
+        //     if(GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
+        //     {
+        //         playerController.PlayerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, item.value);
+        //     }
+        //     
+        // }
+        
+        //교환후 새로운 효과 적용
+        ApplyItemStat(ItemSlot.Item, slotType, playerCondition);
+        ApplyItemStat(fromSlotUI.ItemSlot.Item, fromSlotUI.slotType, playerCondition);
     }
     
     /// <summary>
@@ -143,5 +187,31 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     public void OnPointerExit(PointerEventData eventData)
     {
         TooltipManager.Instance.Hide();
+    }
+
+    private bool TryGetPlayerCondition(out PlayerCondition condition)
+    {
+        condition = null;
+        if(GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
+        {
+            condition = playerController.PlayerCondition;
+            return condition != null;
+        }
+        return false;
+    }
+
+    private void RemoveItemStat(ItemData item, SlotType type, PlayerCondition playerCondition)
+    {
+        if(item == null || type != SlotType.Equip) return;
+        
+        playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, -item.value);
+    }
+
+    private void ApplyItemStat(ItemData item, SlotType type, PlayerCondition playerCondition)
+    {
+        if(item == null || type != SlotType.Equip) return;
+        
+        playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, item.value);
+
     }
 }
