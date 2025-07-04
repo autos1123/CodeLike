@@ -102,7 +102,7 @@ public class EnemyBaseState:IUnitState
     protected void Move(Vector3 movementDirection)
     {
         float movementSpeed = GetMovementSpeed();
-
+        Debug.Log(viewMode);
         // 2D인 경우 Rigidbody를 사용하고, 3D인 경우 NavMeshAgent를 사용
         if(viewMode == ViewModeType.View2D)
         {
