@@ -145,6 +145,7 @@ public class PlayerController:BaseController
     /// </summary>
     public override bool GetDamaged(float damage)
     {
+        base.GetDamaged(damage);
         Debug.LogWarning($"[PlayerController] {damage} 데미지 받음 처리 중");
         float defense = 0f;
         if(!data.TryGetCondition(ConditionType.Defense, out defense))
