@@ -6,7 +6,7 @@ public class DragManager : MonoSingleton<DragManager>
     [Header("드래그용 프리팹")]
     [SerializeField] private GameObject ghostPrefab;
 
-    private GameObject ghostInstance;
+    private GameObject ghostInstance; 
     private Image ghostImage;
 
     /// <summary>
@@ -17,7 +17,7 @@ public class DragManager : MonoSingleton<DragManager>
         if (ghostInstance != null)
             Destroy(ghostInstance);
 
-        ghostInstance = Instantiate(ghostPrefab, transform);
+        ghostInstance = Instantiate(ghostPrefab, transform); 
         ghostImage = ghostInstance.GetComponent<Image>();
         ghostImage.sprite = sprite;
 

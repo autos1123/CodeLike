@@ -110,7 +110,9 @@ public class PlayerController:BaseController<PlayerCondition>
         base.Initialize();
 
         Condition = new PlayerCondition(InitConditionData());
+        AnimationData = new PlayerAnimationData();
         stateMachine = new PlayerStateMachine(this);
+
 
         isInitialized = true;
     }

@@ -12,7 +12,7 @@ public class PlayerAnimationData
     public int AttackParameterHash { get; private set; }
     public int DeadParameterHash { get; private set; }
 
-    public void Initialize()
+    public PlayerAnimationData()
     {
         MoveParameterHash = Animator.StringToHash(moveParameterName);
         JumpParameterHash = Animator.StringToHash(jumpParameterName);
