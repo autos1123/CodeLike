@@ -61,7 +61,8 @@ public class ViewCameraController:MonoBehaviour
     {
         isTransitioning = true;
 
-        Vector3 localTargetPos = (mode == ViewModeType.View2D) ? pos2D.position : pos3D.position;
+        Debug.LogWarning(pos2D.localPosition);
+        Vector3 localTargetPos = (mode == ViewModeType.View2D) ? pos2D.localPosition : pos3D.localPosition;
         Vector3 worldTargetPos = transform.parent.TransformPoint(localTargetPos);
 
         HUDAnimator hudAnimator = FindObjectOfType<HUDAnimator>();
@@ -72,15 +73,15 @@ public class ViewCameraController:MonoBehaviour
         if(mode == ViewModeType.View2D)
         {
             startY = lookPivotY;
-            targetY = pos2D.position.y;
+            targetY = pos2D.localPosition.y;
         }
         else
         {
-            startY = pos2D.position.y;
+            startY = pos2D.localPosition.y;
             targetY = lookPivotY;
         }
 
-        moveTween = transform.DOLocalMove(worldTargetPos, transitionDuration)
+        moveTween = transform.DOLocalMove(localTargetPos, transitionDuration)
             .SetEase(Ease.OutQuad)
             .OnStart(() =>
             {
