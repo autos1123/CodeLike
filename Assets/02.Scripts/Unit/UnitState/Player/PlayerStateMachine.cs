@@ -16,17 +16,7 @@ public class PlayerStateMachine:UnitStateMachine
     public PlayerStateMachine(PlayerController player)
     {
         this.Player = player;
-        ChangeState(new PlayerIdleState(this));
-
-        if(Player.Data.TryGetCondition(ConditionType.MoveSpeed, out float value))
-        {
-            MovementSpeed = value;
-        }
-        else
-        {
-            Debug.LogError($"ConditionType MoveSpeed를 찾을 수 없습니다. 기본값으로 1.0f를 사용합니다.");
-            MovementSpeed = 1.0f;
-        }
+        MovementSpeed = Player.Condition.GetValue(ConditionType.MoveSpeed);
 
         IdleState = new PlayerIdleState(this);
         MoveState = new PlayerMoveState(this);

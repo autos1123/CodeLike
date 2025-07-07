@@ -11,7 +11,7 @@ public class PlayerBaseState:IUnitState
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
-        data = stateMachine.Player.Data;
+        data = stateMachine.Player.Condition.Data;
     }
 
     public virtual void StateEnter()
@@ -66,19 +66,13 @@ public class PlayerBaseState:IUnitState
     /// </summary>
     protected Vector3 Move(Vector2 input)
     {
-        if(ViewManager.HasInstance != null && ViewManager.Instance.IsTransitioning)
-            return Vector3.zero;
-
-        float speed = 0f;
-        if(!data.TryGetCondition(ConditionType.MoveSpeed, out speed))
-        {
-            Debug.LogWarning("[PlayerBaseState] MoveSpeed가 설정되어 있지 않습니다.");
-        }
+        float speed = player.Condition.GetValue(ConditionType.MoveSpeed);
 
         Vector3 dir;
         if(viewMode == ViewModeType.View2D)
         {
-            dir = new Vector3(input.x, 0f, 0f);
+            var r = Camera.main.transform.right; r.y = 0; r.Normalize();
+            dir = r * input.x;
         }
         else
         {
@@ -87,8 +81,8 @@ public class PlayerBaseState:IUnitState
             dir = r * input.x + f * input.y;
         }
 
-        Vector3 delta = dir * speed * Time.fixedDeltaTime;
-        player._Rigidbody.MovePosition(player._Rigidbody.position + delta);
+        Vector3 delta = dir * speed;
+        player._Rigidbody.velocity = delta;
         return dir;
     }
 }

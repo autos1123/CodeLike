@@ -10,7 +10,7 @@ public class PlayerJumpState:PlayerBaseState
     {
         Debug.Log("Jump 상태 진입");
 
-        float force = player.PlayerCondition.GetValue(ConditionType.JumpPower);
+        float force = player.Condition.GetValue(ConditionType.JumpPower);
         Debug.Log($"Jump force: {force}");
 
         Vector3 v = player._Rigidbody.velocity;
@@ -44,6 +44,6 @@ public class PlayerJumpState:PlayerBaseState
 
     public override void StatePhysicsUpdate()
     {
-        Move(player.Input.MoveInput);
+        Move(player.InputHandler.MoveInput);
     }
 }

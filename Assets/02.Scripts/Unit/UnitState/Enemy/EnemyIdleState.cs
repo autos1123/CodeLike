@@ -9,7 +9,6 @@ public class EnemyIdleState : EnemyBaseState
 
     public EnemyIdleState(EnemyStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        data = stateMachine.Enemy.Data;
     }
 
     public override void StateEnter()

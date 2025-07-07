@@ -18,17 +18,8 @@ public class EnemyStateMachine : UnitStateMachine
     public EnemyStateMachine(EnemyController enemy)
     {
         this.Enemy = enemy;
-        Player = GameObject.FindGameObjectWithTag("Player");
-
-        if(Enemy.Data.TryGetCondition(ConditionType.MoveSpeed, out float value))
-        {
-            MovementSpeed = value;
-        }
-        else
-        {
-            Debug.LogError($"ConditionType MoveSpeed를 찾을 수 없습니다. 기본값으로 1.0f를 사용합니다.");
-            MovementSpeed = 1.0f;
-        }
+        Player = GameManager.Instance.Player;
+        MovementSpeed = Enemy.Condition.GetValue(ConditionType.MoveSpeed);
 
         IdleState = new EnemyIdleState(this);
         PatrolState = new EnemyPatrolState(this);

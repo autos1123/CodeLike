@@ -38,7 +38,7 @@ public class EnhanceCard : MonoBehaviour
     {
         if(GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
         {
-            playerController.PlayerCondition.ChangeModifierValue(_enhanceData.ConditionType, ModifierType.BuffEnhance, _enhanceData.value);
+            playerController.Condition.ChangeModifierValue(_enhanceData.ConditionType, ModifierType.BuffEnhance, _enhanceData.value);
             //todo : 강화 수치에 대핸 데이터를 넘겨준다.
         }
         _board.Close();

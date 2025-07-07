@@ -11,7 +11,7 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     {
         if (GameManager.Instance.Player.TryGetComponent<PlayerController>(out var controller))
         {
-            playerCondition = controller.PlayerCondition;
+            playerCondition = controller.Condition;
         }
     }
     

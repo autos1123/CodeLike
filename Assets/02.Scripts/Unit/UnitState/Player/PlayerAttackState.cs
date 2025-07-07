@@ -4,11 +4,8 @@ public class PlayerAttackState:PlayerBaseState
 
     public override void StateEnter()
     {
+        base.StateEnter();
         player._Animator.SetTrigger("attack");
         stateMachine.ChangeState(stateMachine.IdleState);
     }
-
-    public override void StateExit() { }
-    public override void StateUpdate() { }
-    public override void StatePhysicsUpdate() { }
 }

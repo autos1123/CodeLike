@@ -5,14 +5,13 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(NavMeshAgent))]
-public abstract class EnemyController:BaseController
+public abstract class EnemyController:BaseController<EnemyCondition>
 {
 
     private EnemyStateMachine stateMachine;
     [SerializeField] private float rotDamping;
 
     public EnemyAnimationData AnimationData { get; private set; }
-    public EnemyCondition Condition { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
     public float RotationDamping => rotDamping;
     public Vector3 patrolPivot { get; private set; } = Vector3.zero;
@@ -34,7 +33,8 @@ public abstract class EnemyController:BaseController
         if(PoolManager.HasInstance)
             PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
 
-        GameManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
+        if(GameManager.HasInstance)
+            GameManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
     }
 
     protected override void Awake()
@@ -76,22 +76,12 @@ public abstract class EnemyController:BaseController
 
         if(Application.isPlaying && isInitialized)
         {
-            float patrolRange;
-            float chaseRange;
-
-            if(data.TryGetCondition(ConditionType.PatrolRange, out patrolRange))
-            {
-                // 적의 순찰 범위를 시각적으로 표시
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(patrolPivot, patrolRange);
-            }
-
-            if(data.TryGetCondition(ConditionType.ChaseRange, out chaseRange))
-            {
-                // 적의 추적 범위를 시각적으로 표시
-                Gizmos.color = Color.blue;
-                Gizmos.DrawWireSphere(transform.position, chaseRange);
-            }
+            // 적의 순찰 범위를 시각적으로 표시
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(patrolPivot, Condition.GetValue(ConditionType.PatrolRange));
+            // 적의 추적 범위를 시각적으로 표시
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, Condition.GetValue(ConditionType.ChaseRange));
         }
     }
 
@@ -99,7 +89,7 @@ public abstract class EnemyController:BaseController
     {
         base.Initialize();
         // Controller 초기화
-        Condition = new EnemyCondition(data);
+        Condition = new EnemyCondition(InitConditionData());
         AnimationData = new EnemyAnimationData();
         AnimationData.Initialize();
         stateMachine = new EnemyStateMachine(this);
@@ -108,36 +98,14 @@ public abstract class EnemyController:BaseController
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
         hpBar.transform.SetParent(transform);
         hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
-        HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
+        HpUI.HpBarUpdate(Condition.GetConditionRatio(ConditionType.HP));
 
         isInitialized = true;
     }
 
-    public override bool GetDamaged(float damage)
+    protected override void Die()
     {
-        if(!data.TryGetCondition(ConditionType.Defense, out float defense))
-        {
-            Debug.LogWarning("[EnemyController] Defense 값이 없어 0으로 처리합니다.");
-            defense = 0;
-        }
-
-        float reducedDamage = Mathf.Max(0, damage - defense);
-
-        if(Condition.GetDamaged(reducedDamage))
-        {
-            // 몬스터 사망
-            // 사망 이펙트 재생
-            Invoke(nameof(EnemyDie), 0.1f);
-            return false;
-        }
-
-        HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
-        return true;
-    }
-
-    private void EnemyDie()
-    {
-        gameObject.SetActive(false);
+        gameObject.SetActive(false); // 적 사망시 비활성화
     }
 
     /// <summary>
@@ -166,9 +134,6 @@ public abstract class EnemyController:BaseController
             NavMeshAgent.isStopped = false; // NavMeshAgent 재개
         }
     }
-
-
-
 
     /// <summary>
     /// 운명 변경이벤트 발생시 실행할 함수

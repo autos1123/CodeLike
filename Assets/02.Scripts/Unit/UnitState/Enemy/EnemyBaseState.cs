@@ -15,7 +15,7 @@ public class EnemyBaseState:IUnitState
     public EnemyBaseState(EnemyStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
-        data = stateMachine.Enemy.Data;
+        data = stateMachine.Enemy.Condition.Data;
     }
 
     public virtual void StateEnter()

@@ -8,22 +8,17 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
-public class PlayerController:BaseController
+public class PlayerController:BaseController<PlayerCondition>
 {
+    public PlayerInputHandler InputHandler { get; private set; }
+    public PlayerStateMachine stateMachine { get; private set; }
+
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.3f;
 
-    private PlayerInputHandler inputHandler;
     private BoxCollider col;
     private bool isGrounded;
-    public bool IsGrounded => isGrounded;
-
-    public PlayerStateMachine stateMachine { get; private set; }
-    public bool IsAttacking { get; private set; }
-
-    private PlayerCondition condition;
-    public PlayerCondition PlayerCondition => condition;
 
     [Header("Visual Settings")]
     public Transform VisualTransform;
@@ -32,15 +27,14 @@ public class PlayerController:BaseController
     protected override void Awake()
     {
         base.Awake();
-        inputHandler = GetComponent<PlayerInputHandler>();
+        InputHandler = GetComponent<PlayerInputHandler>();
         col = GetComponent<BoxCollider>();
         _Rigidbody.freezeRotation = true;
-        stateMachine = new PlayerStateMachine(this);
     }
 
     private void Update()
     {
-        if(inputHandler.TestDamageKeyPressed())
+        if(InputHandler.TestDamageKeyPressed())
         {
             GetDamaged(10f);
         }
@@ -51,18 +45,18 @@ public class PlayerController:BaseController
         UpdateGrounded();
 
         // 점프 입력 처리
-        if(inputHandler.JumpPressed && isGrounded)
+        if(InputHandler.JumpPressed && isGrounded)
             stateMachine.ChangeState(new PlayerJumpState(stateMachine));
 
         // 공격 입력 처리
-        if(inputHandler.AttackPressed)
+        if(InputHandler.AttackPressed)
             stateMachine.ChangeState(new PlayerAttackState(stateMachine));
 
         // 현재 상태 업데이트
         stateMachine.Update();
 
         // 일회성 입력 리셋
-        inputHandler.ResetOneTimeInputs();
+        InputHandler.ResetOneTimeInputs();
     }
 
     private void FixedUpdate()
@@ -96,33 +90,14 @@ public class PlayerController:BaseController
         {
             if(hitCollider.TryGetComponent(out IDamagable enemy))
             {
-                if(!data.TryGetCondition(ConditionType.AttackPower, out float power))
-                {
-                    power = 0f;
-                    Debug.LogWarning("[PlayerController] AttackPower 정보를 가져오지 못해 0으로 처리합니다.");
-                }
-
-                enemy.GetDamaged(power);
+                enemy.GetDamaged(Condition.GetValue(ConditionType.AttackPower));
             }
         }
     }
 
-
-    /// <summary>
-    /// 데미지 처리 (방어력 적용 후 PlayerCondition에 전달)
-    /// </summary>
-    public override bool GetDamaged(float damage)
+    protected override void Die()
     {
-        base.GetDamaged(damage);
-        Debug.LogWarning($"[PlayerController] {damage} 데미지 받음 처리 중");
-        float defense = 0f;
-        if(!data.TryGetCondition(ConditionType.Defense, out defense))
-        {
-            Debug.LogWarning("[PlayerController] Defense 값이 없어 0으로 처리합니다.");
-        }
-
-        float reducedDamage = Mathf.Max(0, damage - defense);
-        return PlayerCondition.TakenDamage(reducedDamage);
+        stateMachine.ChangeState(stateMachine.DeadState);
     }
 
     /// <summary>
@@ -132,17 +107,11 @@ public class PlayerController:BaseController
     {
         base.Initialize();
 
-        condition = new PlayerCondition(data);
+        Condition = new PlayerCondition(InitConditionData());
         stateMachine = new PlayerStateMachine(this);
-        condition.Init(this, stateMachine);
 
         isInitialized = true;
     }
-
-    /// <summary>
-    /// PlayerInputHandler 접근용 프로퍼티
-    /// </summary>
-    public PlayerInputHandler Input => inputHandler;
 
     protected override void OnEnable()
     {
@@ -153,8 +122,10 @@ public class PlayerController:BaseController
     protected override void OnDisable()
     {
         base.OnDisable();
-        GameManager.Instance.onDestinyChange -= HandleDestinyChange;
+        if(GameManager.HasInstance)
+            GameManager.Instance.onDestinyChange -= HandleDestinyChange;
     }
+
     /// <summary>
     /// 운명 변경이벤트 발생시 실행할 함수
     /// </summary>
@@ -167,12 +138,12 @@ public class PlayerController:BaseController
 
         if(positiveEffect.effectedTarget == EffectedTarget.Player)
         {
-            condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value); // 추후에 운명에 의한 증가량 추가
+            Condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value); // 추후에 운명에 의한 증가량 추가
         }
 
         if(negativeEffect.effectedTarget == EffectedTarget.Player)
         {
-            condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
+            Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
         }
 
     }

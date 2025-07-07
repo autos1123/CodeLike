@@ -9,18 +9,18 @@ public class PlayerIdleState:PlayerBaseState
 
     public override void StateEnter()
     {
-        Debug.Log("Idle 상태 진입");
+        base.StateEnter();
         StopAnimation(Animator.StringToHash("isMoving"));
     }
 
     public override void StateExit()
     {
-        Debug.Log("Idle 상태 종료");
+        base.StateExit();
     }
 
     public override void StateUpdate()
     {
-        var move = stateMachine.Player.Input.MoveInput;
+        var move = stateMachine.Player.InputHandler.MoveInput;
         if(move.magnitude > 0.1f)
         {
             stateMachine.ChangeState(stateMachine.MoveState); // 상태 객체 재사용 패턴!
