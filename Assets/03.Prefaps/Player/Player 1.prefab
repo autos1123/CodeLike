@@ -1570,13 +1570,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4851177912727492012}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16754349, y: -0, z: -0, w: 0.9858647}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1985143623796453560}
-  m_LocalEulerAnglesHint: {x: 10, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &4223102427382493442
 Camera:
   m_ObjectHideFlags: 0
@@ -1649,10 +1649,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookPivotY: 1
-  position2D: {x: 0, y: 3.5, z: -10}
-  rotation2D: {x: 0, y: 0, z: 0}
-  position3D: {x: -5, y: 2, z: 0}
-  rotation3D: {x: 10, y: 90, z: 0}
+  pos2D: {fileID: 4419271301878978068}
+  pos3D: {fileID: 8230312476428375637}
   transitionDuration: 1
   layerToControl:
     serializedVersion: 2
@@ -2629,13 +2627,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8362208269675928608}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08682413, y: 0.08682413, z: -0.0075961305, w: 0.99240386}
+  m_LocalRotation: {x: 0.06162845, y: 0.70441604, z: -0.06162845, w: 0.70441604}
   m_LocalPosition: {x: -5, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1985143623796453560}
-  m_LocalEulerAnglesHint: {x: 10, y: 10, z: 0}
+  m_LocalEulerAnglesHint: {x: 10, y: 90, z: 0}
 --- !u!1 &8862996021258141806
 GameObject:
   m_ObjectHideFlags: 0

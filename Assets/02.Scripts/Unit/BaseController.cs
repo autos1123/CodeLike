@@ -40,6 +40,10 @@ public class BaseController:MonoBehaviour, IDamagable
 
     public virtual bool GetDamaged(float damage)
     {
+        Vector3 dir = -transform.forward;  // 항상 내 뒤쪽
+        float knockbackStrength = 7f;      // 고정 세기
+
+        _Rigidbody.AddForce(dir * knockbackStrength, ForceMode.Impulse);
         return true;
     }
 
