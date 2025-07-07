@@ -80,4 +80,34 @@ public class ShopInventory : MonoBehaviour,IInventory
         }
         return false;
     }
+
+    void OnEnable()
+    {
+        GameManager.Instance.onDestinyChange += HandleDestinyChange;
+    }
+
+     void OnDisable()
+    {
+        GameManager.Instance.onDestinyChange -= HandleDestinyChange;
+    }
+    /// <summary>
+    /// 운명 변경이벤트 발생시 실행할 함수
+    /// </summary>
+    /// <param name="data"></param>
+    void HandleDestinyChange(DestinyData data)
+    {
+        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
+        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
+
+
+        if(positiveEffect.affectedTarget == AffectedTarget.Shop)
+        {
+
+        }
+
+        if(negativeEffect.affectedTarget == AffectedTarget.Shop)
+        {
+
+        }
+    }
 }

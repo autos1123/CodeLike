@@ -7,6 +7,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public abstract class EnemyController:BaseController
 {
+
     private EnemyStateMachine stateMachine;
     [SerializeField] private float rotDamping;
 
@@ -22,10 +23,18 @@ public abstract class EnemyController:BaseController
     // 게임 모드에 따라 상태를 변경하기 위한 필드
     private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        GameManager.Instance.onDestinyChange += HandleDestinyChange;//운명변경 이벤트 연결
+    }
     protected override void OnDisable()
     {
+        base.OnDisable();
         if(PoolManager.HasInstance)
             PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
+
+        GameManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
     }
 
     protected override void Awake()
@@ -148,5 +157,30 @@ public abstract class EnemyController:BaseController
             NavMeshAgent.destination = destinationTmp; // NavMeshAgent 목적지 복원
             NavMeshAgent.isStopped = false; // NavMeshAgent 재개
         }
+    }
+
+
+
+
+    /// <summary>
+    /// 운명 변경이벤트 발생시 실행할 함수
+    /// </summary>
+    /// <param name="data"></param>
+    void HandleDestinyChange(DestinyData data)
+    {
+        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
+        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
+
+
+        if(positiveEffect.affectedTarget == AffectedTarget.Enemy)
+        {
+            Condition.ChangeModifierValue(positiveEffect.PConditionType, ModifierType.BuffEnhance, positiveEffect.value); // 추후에 운명에 의한 증가량 추가
+        }
+
+        if(negativeEffect.affectedTarget == AffectedTarget.Enemy)
+        {
+            Condition.ChangeModifierValue(negativeEffect.PConditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
+        }
+
     }
 }

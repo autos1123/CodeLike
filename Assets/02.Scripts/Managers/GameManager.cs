@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +17,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public DestinyData curDestinyData;// 현재 적용중인 운명
 
-    public event Action onDestinyChange;
+    public event Action<DestinyData> onDestinyChange;
 
     [SerializeField]private GameObject _player;
     public GameObject Player
@@ -26,10 +27,11 @@ public class GameManager : MonoSingleton<GameManager>
 
     public GameState curGameState;
     public event Action onGameStateChange;
+
     public void setCurDestinyData(DestinyData destinyData)
     {
         this.curDestinyData = destinyData;
-        onDestinyChange?.Invoke();
+        onDestinyChange?.Invoke(curDestinyData);
     }
     public void setState(GameState gameState)
     {
@@ -39,11 +41,13 @@ public class GameManager : MonoSingleton<GameManager>
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        onDestinyChange += HandleDestinyChange;
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        onDestinyChange -= HandleDestinyChange;
     }
 
 
@@ -55,5 +59,23 @@ public class GameManager : MonoSingleton<GameManager>
             _player=null;
         }
         _player = GameObject.FindGameObjectWithTag(TagName.Player);
+    }
+
+    void HandleDestinyChange(DestinyData data)
+    {
+        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
+        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
+
+
+        if(positiveEffect.affectedTarget == AffectedTarget.Map)
+        {
+            stageMapCountData = stageMapCountData.Select(n => n + (int)positiveEffect.value).ToArray();
+        }
+
+        if(negativeEffect.affectedTarget == AffectedTarget.Map)
+        {
+            stageMapCountData = stageMapCountData.Select(n => n - (int)negativeEffect.value).ToArray();
+        }
+
     }
 }
