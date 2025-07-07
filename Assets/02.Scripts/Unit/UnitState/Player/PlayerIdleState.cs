@@ -10,8 +10,7 @@ public class PlayerIdleState:PlayerBaseState
     public override void StateEnter()
     {
         Debug.Log("Idle 상태 진입");
-        StartAnimation(Animator.StringToHash("isMoving")); // BaseState 함수 활용 (해당 함수 없으면 직접 _Animator 접근도 OK)
-        // 혹은: stateMachine.Player._Animator.SetBool("isMoving", false);
+        StopAnimation(Animator.StringToHash("isMoving"));
     }
 
     public override void StateExit()

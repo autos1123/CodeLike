@@ -56,7 +56,7 @@ public class PlayerController:BaseController
 
         // 공격 입력 처리
         if(inputHandler.AttackPressed)
-            stateMachine.ChangeState(new PlayerAttackState(this, stateMachine));
+            stateMachine.ChangeState(new PlayerAttackState(stateMachine));
 
         // 현재 상태 업데이트
         stateMachine.Update();
