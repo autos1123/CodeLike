@@ -61,7 +61,6 @@ public class ViewCameraController:MonoBehaviour
     {
         isTransitioning = true;
 
-        Debug.LogWarning(pos2D.localPosition);
         Vector3 localTargetPos = (mode == ViewModeType.View2D) ? pos2D.localPosition : pos3D.localPosition;
         Vector3 worldTargetPos = transform.parent.TransformPoint(localTargetPos);
 

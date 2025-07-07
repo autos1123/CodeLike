@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : BaseCondition
 {
@@ -11,6 +13,10 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     public T Condition { get; protected set; } // 제네릭 타입으로 ConditionData 접근 
     public Rigidbody _Rigidbody { get; protected set; }
     public Animator _Animator { get; protected set; }
+
+    // 공격 범위 관련
+    protected Vector3 forwardDir;
+    private float attackAngle = 120f; // 공격 각도
 
     // 캐릭터 정지 관련
     protected bool isPlaying = true;
@@ -98,20 +104,34 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
         float attackRange = Condition.GetValue(ConditionType.AttackRange);
 
-        // 공격 범위의 중심점 설정
-        // 중심점 위치는 오브젝트의 전방 방향으로 설정
-        Vector3 pivot = transform.position + (transform.forward * (attackRange / 2.0f)) + Vector3.up;
+
 
         // 2D와 3D 모드에 따라 다른 오버랩 박스 크기 사용
         // 2D 모드에서는 z축을 늘려 x, y축만 고려할 수 있도록 
         if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
         {
+            // 공격 범위의 중심점 설정
+            // 중심점 위치는 오브젝트의 전방 방향으로 설정
+            Vector3 pivot = transform.position + (forwardDir * (attackRange / 2.0f)) + Vector3.up;
+
             hitColliders = Physics.OverlapBox(pivot, new Vector3(attackRange, 1.5f, 100), Quaternion.identity, layer);
             return hitColliders;
         }
 
-        hitColliders = Physics.OverlapBox(pivot, new Vector3(attackRange, 1.5f, attackRange), Quaternion.identity, layer);
-        return hitColliders;
+        hitColliders = Physics.OverlapSphere(transform.position, attackRange);
+        List<Collider> filteredColliders = new List<Collider>();
+
+        foreach(Collider collider in hitColliders)
+        {
+            Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
+            float angle = Vector3.Angle(transform.forward, directionToTarget);
+
+            if(angle <= attackAngle) // 원하는 각도
+            {
+                filteredColliders.Add(collider);
+            }
+        }
+        return filteredColliders.ToArray();
     }
 
     /// <summary>
@@ -162,8 +182,28 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
             // 공격 범위를 시각적으로 표시
             Gizmos.color = Color.red;
-            Vector3 pivot = transform.position + (transform.forward * (attackRange / 2.0f)) + Vector3.up;
-            Gizmos.DrawWireCube(pivot, new Vector3(attackRange, 1.5f, ViewManager.Instance.CurrentViewMode == ViewModeType.View2D ? 100 : attackRange));
+            if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
+            {
+                Vector3 pivot = transform.position + (transform.forward * (attackRange / 2.0f)) + Vector3.up;
+                Gizmos.DrawWireCube(pivot, new Vector3(attackRange, 1.5f, ViewManager.Instance.CurrentViewMode == ViewModeType.View2D ? 100 : attackRange));
+            }
+            else
+            {
+                Gizmos.DrawWireSphere(transform.position, attackRange);
+
+                Gizmos.color = Color.black;
+                float angle1 = -attackAngle / 2f;
+                float angle2 = attackAngle / 2f;
+
+                Vector3 dir1 = Quaternion.Euler(0, angle1, 0) * transform.forward;
+                Vector3 dir2 = Quaternion.Euler(0, angle2, 0) * transform.forward;
+
+                Vector3 point1 = transform.position + dir1 * attackRange;
+                Vector3 point2 = transform.position + dir2 * attackRange;
+
+                Gizmos.DrawLine(transform.position, point1);
+                Gizmos.DrawLine(transform.position, point2);
+            }
         }
     }
 }
