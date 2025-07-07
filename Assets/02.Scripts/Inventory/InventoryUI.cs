@@ -20,6 +20,7 @@ public class InventoryUI : UIBase
     
     [SerializeField] private TextMeshProUGUI infoText;
     
+    private EquipmentManager equipmentManager;
     /// <summary>
     /// UI 열기 시 슬롯 정보를 동기화
     /// </summary>
@@ -78,5 +79,14 @@ public class InventoryUI : UIBase
     public void SetInfoText(string text)
     {
         infoText.text = text;
+    }
+    
+    public void HandleSlotSwap(SlotUI slotA, SlotUI slotB)
+    {
+        EquipmentManager.Instance.SwapItemEffects(slotA.ItemSlot, slotA.slotType, slotB.ItemSlot, slotB.slotType);
+        
+        // UI 갱신
+        slotA.Set(slotA.ItemSlot);
+        slotB.Set(slotB.ItemSlot);
     }
 }
