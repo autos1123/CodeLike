@@ -67,12 +67,12 @@ public class GameManager : MonoSingleton<GameManager>
         DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
 
 
-        if(positiveEffect.affectedTarget == AffectedTarget.Map)
+        if(positiveEffect.effectedTarget == EffectedTarget.Map)
         {
             stageMapCountData = stageMapCountData.Select(n => n + (int)positiveEffect.value).ToArray();
         }
 
-        if(negativeEffect.affectedTarget == AffectedTarget.Map)
+        if(negativeEffect.effectedTarget == EffectedTarget.Map)
         {
             stageMapCountData = stageMapCountData.Select(n => n - (int)negativeEffect.value).ToArray();
         }

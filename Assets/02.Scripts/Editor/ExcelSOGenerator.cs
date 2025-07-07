@@ -78,8 +78,8 @@ public static class ExcelSOGenerator
                     destinyEffect.ID = int.Parse(row[0].ToString());
                     destinyEffect.Name = row[1].ToString();
                     destinyEffect.effectType = (EffectType)int.Parse(row[2].ToString());
-                    destinyEffect.affectedTarget = (AffectedTarget)int.Parse(row[3].ToString());
-                    destinyEffect.PConditionType = (ConditionType) Enum.Parse(typeof(ConditionType), row[4].ToString());
+                    destinyEffect.effectedTarget = (EffectedTarget)int.Parse(row[3].ToString());
+                    destinyEffect.conditionType = (ConditionType) Enum.Parse(typeof(ConditionType), row[4].ToString());
                     destinyEffect.value = int.Parse(row[5].ToString());
                     destinyEffect.dsecription = row[6].ToString().Replace("@", destinyEffect.value.ToString());
                     destinyEffectDataTable.dataList.Add(destinyEffect);

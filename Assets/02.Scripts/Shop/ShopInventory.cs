@@ -100,12 +100,12 @@ public class ShopInventory : MonoBehaviour,IInventory
         DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
 
 
-        if(positiveEffect.affectedTarget == AffectedTarget.Shop)
+        if(positiveEffect.effectedTarget == EffectedTarget.Shop)
         {
 
         }
 
-        if(negativeEffect.affectedTarget == AffectedTarget.Shop)
+        if(negativeEffect.effectedTarget == EffectedTarget.Shop)
         {
 
         }

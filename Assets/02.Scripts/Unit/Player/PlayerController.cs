@@ -196,14 +196,14 @@ public class PlayerController:BaseController
         DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
 
 
-        if(positiveEffect.affectedTarget == AffectedTarget.Player)
+        if(positiveEffect.effectedTarget == EffectedTarget.Player)
         {
-            condition.ChangeModifierValue(positiveEffect.PConditionType, ModifierType.BuffEnhance, positiveEffect.value); // 추후에 운명에 의한 증가량 추가
+            condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value); // 추후에 운명에 의한 증가량 추가
         }
 
-        if(negativeEffect.affectedTarget == AffectedTarget.Player)
+        if(negativeEffect.effectedTarget == EffectedTarget.Player)
         {
-            condition.ChangeModifierValue(negativeEffect.PConditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
+            condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
         }
 
     }

@@ -172,14 +172,14 @@ public abstract class EnemyController:BaseController
         DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
 
 
-        if(positiveEffect.affectedTarget == AffectedTarget.Enemy)
+        if(positiveEffect.effectedTarget == EffectedTarget.Enemy)
         {
-            Condition.ChangeModifierValue(positiveEffect.PConditionType, ModifierType.BuffEnhance, positiveEffect.value); // 추후에 운명에 의한 증가량 추가
+            Condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value); // 추후에 운명에 의한 증가량 추가
         }
 
-        if(negativeEffect.affectedTarget == AffectedTarget.Enemy)
+        if(negativeEffect.effectedTarget == EffectedTarget.Enemy)
         {
-            Condition.ChangeModifierValue(negativeEffect.PConditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
+            Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
         }
 
     }
