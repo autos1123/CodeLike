@@ -13,6 +13,10 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     public T Condition { get; protected set; } // 제네릭 타입으로 ConditionData 접근 
     public Rigidbody _Rigidbody { get; protected set; }
     public Animator _Animator { get; protected set; }
+    protected BoxCollider col;
+
+    // 캐릭터 충돌체 변환 관련
+    protected Vector3 colliderSizeTmp;
 
     // 공격 범위 관련
     protected Vector3 forwardDir;
@@ -26,17 +30,22 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     {
         _Rigidbody = GetComponent<Rigidbody>();
         _Animator = GetComponentInChildren<Animator>();
+        col = GetComponent<BoxCollider>();
     }
 
     protected virtual void OnEnable()
     {
         StartCoroutine(WaitForDataLoad());
+        ViewManager.Instance.OnViewChanged += OnViewChange;
     }
 
     protected virtual void OnDisable()
     {
         if(GameManager.HasInstance)
             GameManager.Instance.onGameStateChange -= OnGameStateChange;
+
+        if(ViewManager.HasInstance)
+            ViewManager.Instance.OnViewChanged -= OnViewChange;
     }
 
     protected virtual void Start()
@@ -171,6 +180,19 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
             _Rigidbody.useGravity = true; // 중력 비활성화
 
             _Animator.speed = 1;
+        }
+    }
+
+    public virtual void OnViewChange(ViewModeType viewMode)
+    {
+        if(viewMode == ViewModeType.View2D)
+        {
+            colliderSizeTmp = col.size;
+            col.size = new Vector3(100, colliderSizeTmp.y, colliderSizeTmp.z); // 2D 모드에서는 z축을 늘려서 공격 범위 확장
+        }
+        else if(viewMode == ViewModeType.View3D)
+        {
+            col.size = colliderSizeTmp; // 3D 모드에서는 원래 크기로 복원
         }
     }
 

@@ -19,7 +19,6 @@ public class PlayerController:BaseController<PlayerCondition>
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.3f;
 
-    private BoxCollider col;
     private bool isGrounded;
 
     [Header("Visual Settings")]
@@ -30,7 +29,6 @@ public class PlayerController:BaseController<PlayerCondition>
     {
         base.Awake();
         InputHandler = GetComponent<PlayerInputHandler>();
-        col = GetComponent<BoxCollider>();
         _Rigidbody.freezeRotation = true;
     }
 
@@ -115,7 +113,6 @@ public class PlayerController:BaseController<PlayerCondition>
     {
         base.OnEnable();
         GameManager.Instance.onDestinyChange += HandleDestinyChange;
-        ViewManager.Instance.OnViewChanged += OnViewChange;
     }
 
     protected override void OnDisable()
@@ -123,9 +120,6 @@ public class PlayerController:BaseController<PlayerCondition>
         base.OnDisable();
         if(GameManager.HasInstance)
             GameManager.Instance.onDestinyChange -= HandleDestinyChange;
-
-        if(ViewManager.HasInstance)
-            ViewManager.Instance.OnViewChanged -= OnViewChange;
     }
 
     /// <summary>
@@ -150,8 +144,9 @@ public class PlayerController:BaseController<PlayerCondition>
 
     }
 
-    public void OnViewChange(ViewModeType viewMode)
+    public override void OnViewChange(ViewModeType viewMode)
     {
+        base.OnViewChange(viewMode);
         if(viewMode == ViewModeType.View2D)
         {
             col.excludeLayers = LayerMask.GetMask("Enemy"); // 2D 모드에서는 Enemy 레이어 제외
