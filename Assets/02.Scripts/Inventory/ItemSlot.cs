@@ -62,9 +62,16 @@ public class ItemSlot
     {
         if (type == SlotType.ActiveItem && ActiveItem != null)
             return ActiveItem.description;
-    
-        if (Item != null)
+
+        if(Item != null)
+        {
+            if(type == SlotType.Equip)
+            {
+                return $"<color=#ff0000>[장착중]</color>\n {Item.description}";
+            }
             return Item.description;
+        }
+            
 
         return "";
     }

@@ -20,6 +20,8 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     public SlotType slotType;
     
     public Image iconImage;
+    [CanBeNull] public TextMeshProUGUI EquipText;
+    public Image backgroundImage;
     
     private InventoryUI inventoryUI;
     public ItemSlot ItemSlot { get; private set; } 
@@ -45,7 +47,7 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     {
         if (ItemSlot == null)
             return;
-
+        //액티브 아이템
         if (slotType == SlotType.ActiveItem)
         {
             if (ItemSlot.ActiveItem == null)
@@ -67,6 +69,13 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
         {
             iconImage.sprite = null;
             iconImage.enabled = false;
+            
+            // 장비 텍스트 비활성화
+            if (slotType == SlotType.Equip && EquipText != null)
+            {
+                EquipText.gameObject.SetActive(false);
+            }
+            
             return;
         }
 
@@ -74,6 +83,11 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
         iconImage.enabled = true;
         iconImage.color = isBeingDragged ? new Color(1, 1, 1, 0.3f) : Color.white;
         
+        // 장비 텍스트 활성화
+        if (slotType == SlotType.Equip && EquipText != null)
+        {
+            EquipText.gameObject.SetActive(true);
+        }
     }
     
     // 드래그 시작
@@ -121,49 +135,17 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
         
     }
     
-    // /// <summary>
-    // /// 슬롯 데이터를 서로 교환
-    // /// </summary>
-    // private void SwapSlotData(SlotUI fromSlotUI)
-    // {
-    //     
-    //     if (ItemSlot == null || fromSlotUI.ItemSlot == null)
-    //     {
-    //         Debug.LogWarning("SlotUI: ItemSlot이 null입니다.");
-    //         return;
-    //     }
-    //
-    //     if(!TryGetPlayerCondition(out var playerCondition))
-    //         return;
-    //     
-    //     //기존 효과 제거
-    //     RemoveItemStat(ItemSlot.Item,slotType, playerCondition);
-    //     RemoveItemStat(fromSlotUI.ItemSlot.Item,fromSlotUI.slotType, playerCondition);
-    //     
-    //     
-    //     // 슬롯 데이터 교체
-    //     var temp = new ItemSlot();
-    //     temp.Set(ItemSlot.Item);
-    //
-    //     ItemSlot.Set(fromSlotUI.ItemSlot.Item);
-    //     fromSlotUI.ItemSlot.Set(temp.Item);
-    //
-    //     Set(ItemSlot);
-    //     fromSlotUI.Set(fromSlotUI.ItemSlot);
-    //     
-    //     
-    //     
-    //     //교환후 새로운 효과 적용
-    //     ApplyItemStat(ItemSlot.Item, slotType, playerCondition);
-    //     ApplyItemStat(fromSlotUI.ItemSlot.Item, fromSlotUI.slotType, playerCondition);
-    // }
-    
     /// <summary>
     /// 마우스가 슬롯 위에 올라갔을 때 호출, 툴팁 표시
     /// </summary>
     /// <param name="eventData">이벤트 데이터</param>
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (backgroundImage != null)
+        {
+            backgroundImage.color = new Color(0.9f, 0.9f, 0.9f, 1f);
+        }
+        
         if (slotType == SlotType.ActiveItem) return; // 액티브아이템슬롯은 리턴
 
         if (ItemSlot == null || ItemSlot.IsInvenSlotEmpty) return;
@@ -180,44 +162,12 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     /// <param name="eventData">이벤트 데이터</param>
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (backgroundImage != null)
+        {
+            backgroundImage.color = new Color(1f, 1f, 1f, 1f);
+        }
         TooltipManager.Instance.Hide();
     }
-    
-    // /// <summary>
-    // /// 현재 플레이어의 PlayerCondition 컴포넌트를 가져옴
-    // /// </summary>
-    // private bool TryGetPlayerCondition(out PlayerCondition condition)
-    // {
-    //     condition = null;
-    //     if(GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
-    //     {
-    //         condition = playerController.PlayerCondition;
-    //         return condition != null;
-    //     }
-    //     return false;
-    // }
-    //
-    // /// <summary>
-    // /// 장비 해제 시 해당 아이템의 스탯을 감소시킴
-    // /// </summary>
-    // private void RemoveItemStat(ItemData item, SlotType type, PlayerCondition playerCondition)
-    // {
-    //     if(item == null || type != SlotType.Equip) return;
-    //     
-    //     playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, -item.value);
-    // }
-    //
-    // /// <summary>
-    // /// 장비 장착 시 해당 아이템의 스탯을 증가시킴
-    // /// </summary>
-    // private void ApplyItemStat(ItemData item, SlotType type, PlayerCondition playerCondition)
-    // {
-    //     if(item == null || type != SlotType.Equip) return;
-    //     
-    //     playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, item.value);
-    //
-    // }
-    
     
     /// <summary>
     /// 슬롯 클릭시 (현재는 액티브아이템 슬롯만 적용)
