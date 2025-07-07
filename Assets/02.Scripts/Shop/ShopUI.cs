@@ -92,7 +92,7 @@ public class ShopUI : UIBase
     {
         foreach (var itemSlot in slots)
         {
-            if (!itemSlot.IsEmpty)
+            if (!itemSlot.IsInvenSlotEmpty)
             {
                 var go = Instantiate(shopSlotPrefab, parent);
                 var slotUI = go.GetComponent<ShopSlotUI>();
@@ -117,13 +117,13 @@ public class ShopUI : UIBase
         int buyTotal = 0;
 
         foreach (var s in sellSlots)
-            if(s.IsSelected && s.ItemSlot != null && !s.ItemSlot.IsEmpty)
+            if(s.IsSelected && s.ItemSlot != null && !s.ItemSlot.IsInvenSlotEmpty)
             {
                 sellTotal += s.ItemSlot.Item.sellPrice;
             }
 
         foreach (var b in buySlots)
-            if(b.IsSelected  && b.ItemSlot != null && !b.ItemSlot.IsEmpty)
+            if(b.IsSelected  && b.ItemSlot != null && !b.ItemSlot.IsInvenSlotEmpty)
             {
                 buyTotal += b.ItemSlot.Item.buyPrice;
             }

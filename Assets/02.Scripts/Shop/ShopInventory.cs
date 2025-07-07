@@ -20,8 +20,8 @@ public class ShopInventory : MonoBehaviour,IInventory
         Init();
         var item1 = itemDataTable.GetDataByID(6000);
         var item2 = itemDataTable.GetDataByID(6001);
-        inventorySlots.Add(CreateSlot(item1, 1));
-        inventorySlots.Add(CreateSlot(item2, 1));
+        inventorySlots.Add(CreateSlot(item1));
+        inventorySlots.Add(CreateSlot(item2));
         Initialized = true;
         Debug.Log("Shop Inventory Initialized");
     }
@@ -37,10 +37,10 @@ public class ShopInventory : MonoBehaviour,IInventory
     /// <summary>
     /// 지정된 아이템과 수량으로 새로운 ItemSlot 생성
     /// </summary>
-    private ItemSlot CreateSlot(ItemData item, int quantity)
+    private ItemSlot CreateSlot(ItemData item)
     {
         var slot = new ItemSlot();
-        slot.Set(item, quantity);
+        slot.Set(item);
         return slot;
     }
     
@@ -56,9 +56,9 @@ public class ShopInventory : MonoBehaviour,IInventory
     {
         foreach (var slot in inventorySlots)
         {
-            if (slot.IsEmpty)
+            if (slot.IsInvenSlotEmpty)
             {
-                slot.Set(item, 1);
+                slot.Set(item);
                 return true;
             }
         }
@@ -72,7 +72,7 @@ public class ShopInventory : MonoBehaviour,IInventory
     {
         foreach (var slot in inventorySlots)
         {
-            if (!slot.IsEmpty && slot.Item == item)
+            if (!slot.IsInvenSlotEmpty && slot.Item == item)
             {
                 slot.Clear();
                 return true;

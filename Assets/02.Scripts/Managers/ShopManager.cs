@@ -137,11 +137,6 @@ public class ShopManager:MonoSingleton<ShopManager>
 
         foreach (var slot in slots)
         {
-            if (slot.Quantity != 1)
-            {
-                error = "수량이 1개가 아닌 경우는 지원하지 않습니다.";
-                return -1;
-            }
             total += isSell ? slot.Item.sellPrice : slot.Item.buyPrice;
         }
 
