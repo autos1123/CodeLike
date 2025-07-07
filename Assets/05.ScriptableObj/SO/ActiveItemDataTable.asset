@@ -18,7 +18,6 @@ MonoBehaviour:
     rarity: 301
     skillID: 5001
     description: "\uD65C"
-    IconPath: Sprite/BowIcon
   - ID: 4001
     name: BlackOra
     rarity: 301
@@ -26,4 +25,3 @@ MonoBehaviour:
     description: "\uAC80\uC740 \uC624\uB77C\uB97C \uD48D\uAE30\uB294 \uC544\uC774\uD15C.
       \uC0AC\uC6A9\uC790\uC758 \uAE30\uBCF8\uACF5\uACA9\uC5D0 \uAC80\uC740\uC774\uD399\uD2B8\uAC00
       \uCD94\uAC00\uB418\uACE0 \uACF5\uACA9\uBC94\uC704\uAC00 \uB298\uC5B4\uB09C\uB2E4"
-    IconPath: Sprite/BlackOraIcon

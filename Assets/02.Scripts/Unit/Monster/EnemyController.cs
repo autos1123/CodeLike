@@ -115,7 +115,15 @@ public abstract class EnemyController:BaseController
 
     public override bool GetDamaged(float damage)
     {
-        if(Condition.GetDamaged(damage))
+        if(!data.TryGetCondition(ConditionType.Defense, out float defense))
+        {
+            Debug.LogWarning("[EnemyController] Defense 값이 없어 0으로 처리합니다.");
+            defense = 0;
+        }
+
+        float reducedDamage = Mathf.Max(0, damage - defense);
+
+        if(Condition.GetDamaged(reducedDamage))
         {
             // 몬스터 사망
             // 사망 이펙트 재생

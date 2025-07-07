@@ -7,6 +7,7 @@ public class BaseController:MonoBehaviour, IDamagable
 
     [Header("ConditionData SO (엑셀 기반 SO 연결)")]
     [SerializeField] protected ConditionData data;
+    private BaseCondition baseCondition;
     [SerializeField] protected int ID;
 
     public Rigidbody _Rigidbody { get; protected set; }
