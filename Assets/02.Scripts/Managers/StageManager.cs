@@ -33,6 +33,8 @@ public class StageManager : MonoSingleton<StageManager>
             if(room.Type == RoomType.Start)
                 currentStage.playerSpawnPoint = room.transform.position;   
         }
+
+        GameManager.Instance.Player.transform.position = currentStage.startRoom.playerSpawnPoint.position;
     }
     /// <summary>
     /// 테스트용

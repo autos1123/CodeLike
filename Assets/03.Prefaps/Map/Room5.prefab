@@ -321,7 +321,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 7
+  m_VersionIndex: 13
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f570024187ba669498487fb906fb58ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpawnPoint: {fileID: 0}
+  playerSpawnPoint: {fileID: 1564020787068838401}
   entranceUp: {fileID: 5308266973756079243}
   entranceDown: {fileID: 8761498720510161687}
   entranceLeft: {fileID: 1564020787068838401}
@@ -411,7 +411,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 13fc7bba5e1a4884ba45f28a7c039e76, type: 2}
+  m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
 --- !u!1 &4058820010561801184
 GameObject:
@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 2866691516427411414}
   - component: {fileID: 6263458553553644641}
   - component: {fileID: 7357906632942521507}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Box1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +486,7 @@ Transform:
   m_GameObject: {fileID: 5424548764434547793}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.258, y: 8.62, z: 0.139}
+  m_LocalPosition: {x: 0.258, y: 8.62, z: -0.514}
   m_LocalScale: {x: 0.23664999, y: 1.23852, z: 0.23678926}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -775,7 +775,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 7
+  m_VersionIndex: 13
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -793,7 +793,7 @@ GameObject:
   - component: {fileID: 4597869785801147781}
   - component: {fileID: 1944995507307666645}
   - component: {fileID: 1628643334360659136}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Box1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1077,7 +1077,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 455
+  m_VersionIndex: 461
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1117,7 +1117,7 @@ GameObject:
   - component: {fileID: 4511028501000169828}
   - component: {fileID: 804737094683400432}
   - component: {fileID: 6340221086648787694}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: Box1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1422,7 +1422,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 7
+  m_VersionIndex: 13
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
