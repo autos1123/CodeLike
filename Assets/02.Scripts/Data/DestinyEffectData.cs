@@ -6,8 +6,8 @@ public class DestinyEffectData
     public int ID;
     public string Name;
     public EffectType effectType;
-    public AffectedTarget affectedTarget;
-    public ConditionType PConditionType;
+    public EffectedTarget effectedTarget;
+    public ConditionType conditionType;
     public float value;
     public string dsecription;
 }

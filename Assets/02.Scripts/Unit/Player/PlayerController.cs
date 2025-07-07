@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 플레이어 이동, 공격, 점프, 데미지 처리 및 FSM 관리
@@ -173,4 +174,37 @@ public class PlayerController:BaseController
     /// PlayerInputHandler 접근용 프로퍼티
     /// </summary>
     public PlayerInputHandler Input => inputHandler;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        GameManager.Instance.onDestinyChange += HandleDestinyChange;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        GameManager.Instance.onDestinyChange -= HandleDestinyChange;
+    }
+    /// <summary>
+    /// 운명 변경이벤트 발생시 실행할 함수
+    /// </summary>
+    /// <param name="data"></param>
+    void HandleDestinyChange(DestinyData data)
+    {
+        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
+        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
+
+
+        if(positiveEffect.effectedTarget == EffectedTarget.Player)
+        {
+            condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value); // 추후에 운명에 의한 증가량 추가
+        }
+
+        if(negativeEffect.effectedTarget == EffectedTarget.Player)
+        {
+            condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
+        }
+
+    }
 }

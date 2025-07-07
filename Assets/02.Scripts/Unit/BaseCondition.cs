@@ -102,18 +102,17 @@ public class BaseCondition
             if(modifierDict.TryGetValue(m_type, out float currentValue))
             {
                 modifierDict[m_type] += value;
-                
             }
             else
             {
                 modifierDict[m_type] = value;
-            }            
+            }       
         }
         else
         {
             CondifionModifier[c_type] = new Dictionary<ModifierType, float> { { m_type, value } };
         }
-
+        
         statModifiers[c_type]?.Invoke();
     }
 

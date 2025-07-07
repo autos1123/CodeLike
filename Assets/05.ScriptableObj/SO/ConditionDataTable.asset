@@ -33,7 +33,7 @@ MonoBehaviour:
     - type: 7
       value: 4
     - type: 8
-      value: 4
+      value: 10
     - type: 9
       value: 0.15
     - type: 10
@@ -43,7 +43,7 @@ MonoBehaviour:
     - type: 12
       value: 0
     - type: 13
-      value: 1000000
+      value: 0
   - id: 1000
     characterName: Slime
     initialConditions:
@@ -72,7 +72,7 @@ MonoBehaviour:
     - type: 11
       value: 10
     - type: 12
-      value: 20
+      value: 4
     - type: 13
       value: 1
   - id: 1001

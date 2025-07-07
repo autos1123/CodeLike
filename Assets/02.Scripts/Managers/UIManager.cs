@@ -36,22 +36,12 @@ public class UIManager:MonoSingleton<UIManager>
         if(Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("인벤열림");
-            ShowUI<InventoryUI>();
+            ToggleUI<InventoryUI>();
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("인벤닫힘");
-            Hide<InventoryUI>();
-        }
-        if(Input.GetKeyDown(KeyCode.B))
-        {
             Debug.Log("상점열림");
-            ShowUI<ShopUI>();
-        }
-        if(Input.GetKeyDown(KeyCode.N))
-        {
-            Debug.Log("상점닫힘");
-            Hide<ShopUI>();
+            ToggleUI<ShopUI>();
         }
         if(Input.GetKeyDown(KeyCode.T))
         {

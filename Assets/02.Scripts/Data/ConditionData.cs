@@ -19,7 +19,8 @@ public enum ConditionType
     // Enemy 전용 컨디션 타입
     PatrolRange,
     ChaseRange,
-    Gold
+    Gold,
+    None
 }
 
 [Serializable]
