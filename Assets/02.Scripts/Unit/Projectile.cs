@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour, IPoolObject
         if(other.TryGetComponent(out IDamagable target) && ((1 << other.gameObject.layer) & LayerMask.GetMask("Player")) != 0)
         {
             // 대상에게 피해를 입히는 로직
-            if(!target.GetDamaged(10f)) // 예시로 10의 피해를 입힘
+            if(!target.GetDamaged(owner.Condition.GetValue(ConditionType.AttackPower))) // 예시로 10의 피해를 입힘
             {
                 owner.StateMachine.ChangeState(owner.StateMachine.IdleState);
             }

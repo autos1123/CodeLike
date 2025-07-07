@@ -36,11 +36,6 @@ public class PlayerController:BaseController<PlayerCondition>
 
     private void Update()
     {
-        if(InputHandler.TestDamageKeyPressed())
-        {
-            GetDamaged(10f);
-        }
-
         if(!isInitialized || !isPlaying)
             return;
 
@@ -113,7 +108,6 @@ public class PlayerController:BaseController<PlayerCondition>
         AnimationData = new PlayerAnimationData();
         stateMachine = new PlayerStateMachine(this);
 
-
         isInitialized = true;
     }
 
@@ -121,6 +115,7 @@ public class PlayerController:BaseController<PlayerCondition>
     {
         base.OnEnable();
         GameManager.Instance.onDestinyChange += HandleDestinyChange;
+        ViewManager.Instance.OnViewChanged += OnViewChange;
     }
 
     protected override void OnDisable()
@@ -128,6 +123,9 @@ public class PlayerController:BaseController<PlayerCondition>
         base.OnDisable();
         if(GameManager.HasInstance)
             GameManager.Instance.onDestinyChange -= HandleDestinyChange;
+
+        if(ViewManager.HasInstance)
+            ViewManager.Instance.OnViewChanged -= OnViewChange;
     }
 
     /// <summary>
@@ -150,5 +148,17 @@ public class PlayerController:BaseController<PlayerCondition>
             Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
         }
 
+    }
+
+    public void OnViewChange(ViewModeType viewMode)
+    {
+        if(viewMode == ViewModeType.View2D)
+        {
+            col.excludeLayers = LayerMask.GetMask("Enemy"); // 2D 모드에서는 Enemy 레이어 제외
+        }
+        else if(viewMode == ViewModeType.View3D)
+        {
+            col.excludeLayers = 0;
+        }
     }
 }
