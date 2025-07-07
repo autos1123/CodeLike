@@ -47,13 +47,4 @@ public class ViewManager : MonoSingleton<ViewManager>
 
         SwitchView(mode);
     }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.V))
-        {
-            Debug.Log("전환");
-            ToggleView();
-        }        
-    }
 }

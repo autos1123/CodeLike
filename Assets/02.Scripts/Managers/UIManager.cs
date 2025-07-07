@@ -23,20 +23,15 @@ public class UIManager:MonoSingleton<UIManager>
     /// </summary>
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(Input.GetKeyDown(KeyCode.F1))
         {
-            Debug.Log("f1");
+            Debug.Log("DestinyBoard");
             ToggleUI<DestinyBoard>();
         }
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKeyDown(KeyCode.F2))
         {
-            Debug.Log("f2");
+            Debug.Log("EnhanceBoard");
             ToggleUI<EnhanceBoard>();
-        }
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("인벤열림");
-            ToggleUI<InventoryUI>();
         }
         if(Input.GetKeyDown(KeyCode.R))
         {
@@ -48,12 +43,6 @@ public class UIManager:MonoSingleton<UIManager>
             Debug.Log("스테이터스");
             ToggleUI<StatusBoard>();
         }
-        if(Input.GetKeyDown(KeyCode.Y))
-        {
-            Debug.Log("스테이터스");
-            ToggleUI<HUD>();
-        }
-
     }
     private void InitializeUI()
     {
