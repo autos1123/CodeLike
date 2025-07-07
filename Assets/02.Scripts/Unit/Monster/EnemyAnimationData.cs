@@ -12,7 +12,7 @@ public class EnemyAnimationData
     public int ChaseParameterHash { get; private set; }
     public int AttackParameterHash { get; private set; }
 
-    public void Initialize()
+    public EnemyAnimationData()
     {
         IdleParameterHash = Animator.StringToHash(idleParameterName);
         PatrolParameterHash = Animator.StringToHash(patrolParameterName);
