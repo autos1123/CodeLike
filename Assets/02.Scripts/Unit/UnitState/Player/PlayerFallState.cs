@@ -13,6 +13,7 @@ public class PlayerFallState:IUnitState
 
     public void StateEnter()
     {
+
         Debug.Log("Fall 상태 진입");
         // 추후 활성화 예정
         //player._Animator.SetBool("isFalling", true);

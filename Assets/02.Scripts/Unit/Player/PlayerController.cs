@@ -13,6 +13,8 @@ public class PlayerController:BaseController<PlayerCondition>
     public PlayerInputHandler InputHandler { get; private set; }
     public PlayerStateMachine stateMachine { get; private set; }
 
+    public PlayerAnimationData AnimationData { get; private set; } 
+
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.3f;

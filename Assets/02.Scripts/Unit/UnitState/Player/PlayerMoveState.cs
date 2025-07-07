@@ -10,17 +10,18 @@ public class PlayerMoveState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        StartAnimation(Animator.StringToHash("isMoving"));
+        StartAnimation(player.AnimationData.MoveParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
-        StopAnimation(Animator.StringToHash("isMoving"));
+        StopAnimation(player.AnimationData.MoveParameterHash);
     }
 
     public override void StateUpdate()
     {
+        base.StateUpdate();
         Vector2 move = player.InputHandler.MoveInput;
 
         if(move.magnitude > 0.1f)
@@ -50,13 +51,13 @@ public class PlayerMoveState:PlayerBaseState
         }
         else
         {
-            // 멈추면 Idle로 전환 (상태 객체 재사용)
             stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
 
     public override void StatePhysicsUpdate()
     {
+        base.StatePhysicsUpdate();
         Move(player.InputHandler.MoveInput);
     }
 }

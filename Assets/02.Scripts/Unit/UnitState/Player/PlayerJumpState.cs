@@ -8,33 +8,31 @@ public class PlayerJumpState:PlayerBaseState
 
     public override void StateEnter()
     {
-        Debug.Log("Jump 상태 진입");
+        base.StateEnter();
 
         float force = player.Condition.GetValue(ConditionType.JumpPower);
-        Debug.Log($"Jump force: {force}");
 
         Vector3 v = player._Rigidbody.velocity;
-        Debug.Log($"Current Velocity Before Jump: {v}");
 
         v.y = 0;
         player._Rigidbody.velocity = v;
 
         player._Rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
 
-        Debug.Log($"Applied Jump force: {Vector3.up * force}");
-        player._Animator.SetBool("isJumping", true);
+        StartAnimation(player.AnimationData.JumpParameterHash);
 
-        hasStartedFalling = false; // Jump 진입할 때 초기화!
+        hasStartedFalling = false; // fall기능 추가 대비용 변수
     }
 
     public override void StateExit()
     {
-        Debug.Log("Jump 상태 종료");
-        player._Animator.SetBool("isJumping", false);
+        base.StateExit();
+        StopAnimation(player.AnimationData.JumpParameterHash);
     }
 
     public override void StateUpdate()
     {
+        base.StateUpdate();
         if(player._Rigidbody.velocity.y < -0.1f && !hasStartedFalling)
         {
             //hasStartedFalling = true;
@@ -44,6 +42,7 @@ public class PlayerJumpState:PlayerBaseState
 
     public override void StatePhysicsUpdate()
     {
+        base.StatePhysicsUpdate();
         Move(player.InputHandler.MoveInput);
     }
 }

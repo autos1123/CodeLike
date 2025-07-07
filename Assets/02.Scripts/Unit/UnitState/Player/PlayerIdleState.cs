@@ -10,7 +10,7 @@ public class PlayerIdleState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        StopAnimation(Animator.StringToHash("isMoving"));
+        StopAnimation(player.AnimationData.MoveParameterHash);
     }
 
     public override void StateExit()
@@ -20,12 +20,16 @@ public class PlayerIdleState:PlayerBaseState
 
     public override void StateUpdate()
     {
+        base.StateUpdate();
         var move = stateMachine.Player.InputHandler.MoveInput;
         if(move.magnitude > 0.1f)
         {
-            stateMachine.ChangeState(stateMachine.MoveState); // 상태 객체 재사용 패턴!
+            stateMachine.ChangeState(stateMachine.MoveState); 
         }
     }
 
-    public override void StatePhysicsUpdate() { }
+    public override void StatePhysicsUpdate() 
+    {
+        base.StatePhysicsUpdate();
+    }
 }
