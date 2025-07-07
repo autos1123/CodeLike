@@ -90,7 +90,6 @@ public class Inventory : MonoBehaviour, IInventory
             if (slot.IsInvenSlotEmpty)
             {
                 slot.Set(item);
-                Debug.Log($"[Inventory] 아이템 추가됨: {item.name}");
                 return true;
             }
         }

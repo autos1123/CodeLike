@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using Image = UnityEngine.UI.Image;
 
 /// <summary>
-/// 상점 슬롯 UI 요소. 아이템 정보 표시, 클릭 선택 처리, 비활성화 상태 표시를 담당.
+/// 상점 슬롯 UI 컴포넌트. 아이템 아이콘/가격 출력, 클릭 선택/장착 해제 처리 및 선택 상태 유지 기능을 담당.
 /// </summary>
 public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
 {
@@ -72,7 +72,7 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     }
     
     /// <summary>
-    /// 슬롯 클릭 시 선택 상태 토글 및 배경색 변경
+    /// 슬롯 클릭 시 장착 해제 여부를 체크하고, 선택 또는 해제 팝업을 실행
     /// </summary>
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -81,14 +81,21 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
         // 장착중인 아이템인지 확인 (플레이어 슬롯일 때만)
         if (isPlayerSlot && !itemSlot.IsInvenSlotEmpty && shopUI.IsEquippedSlot(itemSlot))
         {
+            // 현재 슬롯 + 아이템 기억해둠
+            var rememberedSlot = itemSlot;
+            var rememberedItem = itemSlot.Item;
+
             ConfirmPopup.Show(
                 "장착한 아이템입니다. 장착 해제하시겠습니까?",
                 onConfirm: () =>
                 {
-                    SelectSlot();
+                    var shopUI = UIManager.Instance.GetUI<ShopUI>();
+                    
+                    // 장착 해제 전에 선택 상태로 등록
+                    shopUI.RememberSelectedItem(rememberedSlot);
+                    
                     EquipmentManager.Instance.UnEquip(itemSlot);
                     
-                    var shopUI = UIManager.Instance.GetUI<ShopUI>();
                     if (shopUI != null)
                     {
                         shopUI.RefreshAllUI(); // 판매 슬롯 다시 구성하고 가격 재계산
@@ -121,7 +128,9 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
         BackgroundImage.color = interactable ? defaultColor : disabledColor;
         blockText.gameObject.SetActive(!interactable);
     }
-    
+    /// <summary>
+    /// 선택 상태 토글 및 UI 반영, 선택된 슬롯을 ShopUI에 등록/해제
+    /// </summary>
     private void SelectSlot()
     {
         isSelected = !isSelected;
@@ -135,6 +144,9 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
         }
         shopUI.UpdateTotalPrices();
     }
+    /// <summary>
+    /// 강제로 선택된 상태로 설정 (색상 변경만 적용됨)
+    /// </summary>
     public void ForceSelect()
     {
         isSelected = true;
