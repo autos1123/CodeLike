@@ -91,16 +91,21 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         // Controller 초기화
         Condition = new EnemyCondition(InitConditionData());
         AnimationData = new EnemyAnimationData();
-        AnimationData.Initialize();
         stateMachine = new EnemyStateMachine(this);
 
         // 체력 UI 초기화
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
         hpBar.transform.SetParent(transform);
         hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
-        HpUI.HpBarUpdate(Condition.GetConditionRatio(ConditionType.HP));
+        HpBarUpdate();
+        Condition.statModifiers[ConditionType.HP] += HpBarUpdate; // 체력 변화시 UI 업데이트
 
         isInitialized = true;
+    }
+
+    public void HpBarUpdate()
+    {
+        HpUI.HpBarUpdate(Condition.GetConditionRatio(ConditionType.HP));
     }
 
     protected override void Die()
