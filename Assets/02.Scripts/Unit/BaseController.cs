@@ -13,15 +13,29 @@ public class BaseController:MonoBehaviour, IDamagable
     public Animator _Animator { get; protected set; }
     public ConditionData Data => data;
 
+    // 캐릭터 정지 관련
+    protected bool isPlaying = true;
+    protected Vector3 velocityTmp;
+
     protected virtual void Awake()
     {
         _Rigidbody = GetComponent<Rigidbody>();
         _Animator = GetComponentInChildren<Animator>();
     }
 
-    protected virtual void Start()
+    protected virtual void OnEnable()
     {
         StartCoroutine(WaitForDataLoad());
+    }
+
+    protected virtual void OnDisable()
+    {
+        if(GameManager.HasInstance)
+            GameManager.Instance.onGameStateChange -= OnGameStateChange;
+    }
+
+    protected virtual void Start()
+    {
     }
 
     public virtual bool GetDamaged(float damage)
@@ -33,11 +47,12 @@ public class BaseController:MonoBehaviour, IDamagable
     {
         data = TableManager.Instance.GetTable<ConditionDataTable>().GetDataByID(ID);
         data.InitConditionDictionary();
+        GameManager.Instance.onGameStateChange += OnGameStateChange;
     }
 
     protected virtual IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete);
+        yield return new WaitUntil(() => TableManager.Instance.loadComplete && GameManager.HasInstance);
         Initialize();
     }
 
@@ -83,6 +98,39 @@ public class BaseController:MonoBehaviour, IDamagable
                 Vector3 pivot = transform.position + (transform.forward * (attackRange / 2.0f)) + Vector3.up;
                 Gizmos.DrawWireCube(pivot, new Vector3(attackRange, 1.5f, ViewManager.Instance.CurrentViewMode == ViewModeType.View2D ? 100 : attackRange));
             }
+        }
+    }
+
+    protected void OnGameStateChange()
+    {
+        if(GameManager.Instance.curGameState == GameState.Play)
+        {
+            isPlaying = true;
+        }
+        else
+        {
+            isPlaying = false;
+        }
+
+        SetCharacterPauseMode(isPlaying);
+    }
+
+    protected virtual void SetCharacterPauseMode(bool isPlaying)
+    {
+        if(!isPlaying)
+        {
+            velocityTmp = _Rigidbody.velocity; // 현재 속도를 저장
+            _Rigidbody.velocity = Vector3.zero; // 게임이 일시정지되면 Rigidbody 속도 초기화
+            _Rigidbody.useGravity = false; // 중력 비활성화
+
+            _Animator.speed = 0;
+        }
+        else
+        {
+            _Rigidbody.velocity = velocityTmp; // 게임이 일시정지되면 Rigidbody 속도 초기화
+            _Rigidbody.useGravity = true; // 중력 비활성화
+
+            _Animator.speed = 1;
         }
     }
 }

@@ -36,17 +36,19 @@ public class PlayerCondition:BaseCondition
     {
         bool isDead = base.GetDamaged(damage);
 
-        // 현재 HP 및 최대 HP 가져오기
         float currentHP = GetValue(ConditionType.HP);
         float maxHP = 0f;
         if(!Data.TryGetCondition(ConditionType.HP, out maxHP))
         {
             Debug.LogError("[PlayerCondition] 최대 HP 정보가 없습니다.");
-            maxHP = 1f; // 0으로 나누기 방지
+            maxHP = 1f;
         }
 
-        // UI 갱신
         OnHPChanged?.Invoke(currentHP, maxHP);
+
+        // ✅ HUD의 ChangeHP()가 호출되도록 연결
+        statModifiers[ConditionType.HP]?.Invoke();
+
         if(isDead)
         {
             Die();
@@ -55,6 +57,7 @@ public class PlayerCondition:BaseCondition
 
         return false;
     }
+
 
     /// <summary>
     /// 사망 시 FSM Dead 상태로 전환

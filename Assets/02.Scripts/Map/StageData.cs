@@ -19,3 +19,27 @@ public class StageData
             roomMap.Add(room.Id, room); 
     }
 }
+public static class MinimapBuilder
+{
+    public static List<MinimapRoomData> BuildFromStage(StageData stageData, List<RoomConnection> connections)
+    {
+        var minimapRooms = new List<MinimapRoomData>();
+
+        foreach(var room in stageData.rooms)
+        {
+            var data = new MinimapRoomData
+            {
+                roomID = room.Id,
+                worldPosition = new Vector3(room.GridPosition.x, room.GridPosition.y, 0f),
+                type = room.Type,
+                connectedDirections = new List<Direction>()
+            };
+
+            foreach(var conn in connections)
+            {
+
+            }
+        }
+        return minimapRooms;
+    }
+}

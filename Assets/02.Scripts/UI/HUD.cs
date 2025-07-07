@@ -49,6 +49,16 @@ public class HUD:UIBase
 
     void ChangeHP()
     {
-        HPFill.fillAmount = player.PlayerCondition.GetValue(ConditionType.HP) * 0.001f;
+        float currentHP = player.PlayerCondition.GetValue(ConditionType.HP);
+
+        if(player.PlayerCondition.Data.TryGetCondition(ConditionType.HP, out float maxHP))
+        {
+            HPFill.fillAmount = currentHP / maxHP;
+        }
+        else
+        {
+            Debug.LogError("[HUD] PlayerCondition에서 maxHP를 받아올 수 없습니다.");
+        }
     }
+
 }
