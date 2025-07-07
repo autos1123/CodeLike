@@ -73,13 +73,7 @@ public class EnemyBaseState:IUnitState
     protected bool IsInRange(ConditionType rangeType)
     {
         float playerDistanceSqr = (stateMachine.Player.transform.position - stateMachine.Enemy.transform.position).sqrMagnitude;
-        float range = 0f;
-
-        if(!data.TryGetCondition(rangeType, out range))
-        {
-            Debug.LogError($"ConditionType ChaseRange를 찾을 수 없습니다. 기본값으로 10.0f를 사용합니다.");
-            range = 10.0f; // 기본값 설정
-        }
+        float range = stateMachine.Enemy.Condition.GetValue(rangeType);
 
         return playerDistanceSqr <= range * range;
     }
@@ -102,7 +96,7 @@ public class EnemyBaseState:IUnitState
     protected void Move(Vector3 movementDirection)
     {
         float movementSpeed = GetMovementSpeed();
-        Debug.Log(viewMode);
+
         // 2D인 경우 Rigidbody를 사용하고, 3D인 경우 NavMeshAgent를 사용
         if(viewMode == ViewModeType.View2D)
         {

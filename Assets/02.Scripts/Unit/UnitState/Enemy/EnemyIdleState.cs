@@ -62,12 +62,7 @@ public class EnemyIdleState : EnemyBaseState
         // 최대 30번 시도하여 유효한 위치를 찾습니다.
         for(int i = 0; i < 30; i++)
         {
-            float patrolRange;
-            if(!data.TryGetCondition(ConditionType.PatrolRange, out patrolRange))
-            {
-                Debug.LogError($"ConditionType PatrolRange 찾을 수 없습니다. 기본값으로 1.0f를 사용합니다.");
-                patrolRange = 1;
-            }
+            float patrolRange = stateMachine.Enemy.Condition.GetValue(ConditionType.PatrolRange);
 
             Vector2 samplePosV2 = Random.insideUnitCircle * patrolRange;
             Vector3 sample = new Vector3(samplePosV2.x, stateMachine.Enemy.patrolPivot.y, samplePosV2.y);

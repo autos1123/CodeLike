@@ -14,6 +14,7 @@ public class EnemyStateMachine : UnitStateMachine
     public EnemyPatrolState PatrolState { get; }
     public EnemyChaseState ChaseState { get; }
     public EnemyAttackState AttackState { get; }
+    public EnemyDieState DieState { get; }
 
     public EnemyStateMachine(EnemyController enemy)
     {
@@ -25,6 +26,7 @@ public class EnemyStateMachine : UnitStateMachine
         PatrolState = new EnemyPatrolState(this);
         ChaseState = new EnemyChaseState(this);
         AttackState = new EnemyAttackState(this);
+        DieState = new EnemyDieState(this);
 
         Enemy.SetPatrolPivot();
         ChangeState(IdleState);

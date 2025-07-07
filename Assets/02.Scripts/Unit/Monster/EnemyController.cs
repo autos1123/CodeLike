@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public abstract class EnemyController:BaseController<EnemyCondition>
 {
 
-    private EnemyStateMachine stateMachine;
+    public EnemyStateMachine StateMachine { get; private set; }
     [SerializeField] private float rotDamping;
 
     public EnemyAnimationData AnimationData { get; private set; }
@@ -51,7 +51,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         if(!isPlaying)
             return;
 
-        stateMachine.Update();
+        StateMachine.Update();
     }
 
     private void FixedUpdate()
@@ -62,7 +62,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         if(!isPlaying)
             return;
 
-        stateMachine.PhysicsUpdate();
+        StateMachine.PhysicsUpdate();
     }
 
     public void SetPatrolPivot()
@@ -91,7 +91,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         // Controller 초기화
         Condition = new EnemyCondition(InitConditionData());
         AnimationData = new EnemyAnimationData();
-        stateMachine = new EnemyStateMachine(this);
+        StateMachine = new EnemyStateMachine(this);
 
         // 체력 UI 초기화
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
@@ -110,7 +110,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
 
     protected override void Die()
     {
-        gameObject.SetActive(false); // 적 사망시 비활성화
+        StateMachine.ChangeState(StateMachine.DieState);
     }
 
     /// <summary>

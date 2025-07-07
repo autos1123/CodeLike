@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour, IPoolObject
 {
+    private EnemyController owner;
+
     [SerializeField] private PoolType poolType;
     [SerializeField] private int poolSize = 10;
     [SerializeField] private float speed = 10f;
@@ -24,9 +26,17 @@ public class Projectile : MonoBehaviour, IPoolObject
         if(other.TryGetComponent(out IDamagable target) && ((1 << other.gameObject.layer) & LayerMask.GetMask("Player")) != 0)
         {
             // 대상에게 피해를 입히는 로직
-            target.GetDamaged(10f); // 예시로 10의 피해를 입힘
+            if(!target.GetDamaged(10f)) // 예시로 10의 피해를 입힘
+            {
+                owner.StateMachine.ChangeState(owner.StateMachine.IdleState);
+            }
             // 투사체를 풀에 반환
             PoolManager.Instance.ReturnObject(this);
         }
+    }
+
+    public void InitProjectile(EnemyController owner)
+    {
+        this.owner = owner;
     }
 }
