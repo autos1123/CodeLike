@@ -91,7 +91,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotType: 2
   iconImage: {fileID: 2862428835254142918}
-  quantityText: {fileID: 0}
+  EquipText: {fileID: 0}
+  backgroundImage: {fileID: 4773875054474636915}
 --- !u!1 &8490725425388574277
 GameObject:
   m_ObjectHideFlags: 0
