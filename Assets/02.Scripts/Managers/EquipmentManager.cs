@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 /// <summary>
 /// 장비 아이템 교체 및 능력치 적용을 담당하는 매니저 클래스.
 /// 플레이어 상태(Stat)에 아이템 효과를 적용하거나 제거한다.
@@ -6,7 +8,8 @@
 public class EquipmentManager : MonoSingleton<EquipmentManager>
 {
     private PlayerCondition playerCondition;
-
+    [SerializeField] private Inventory playerInventory;
+    
     private void Awake()
     {
         if (GameManager.Instance.Player.TryGetComponent<PlayerController>(out var controller))
@@ -60,5 +63,37 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     {
         if (item == null || type != SlotType.Equip) return;
         playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, -item.value);
+    }
+
+    public void UnEquip(ItemSlot equipSlot)
+    {
+        if(playerCondition == null || equipSlot == null || equipSlot.IsInvenSlotEmpty)
+            return;
+
+        var item = equipSlot.Item;
+        Debug.Log($"[UnEquip] 아이템: {item?.name}, ID: {item?.ID}");
+        // 능력치 제거
+        RemoveItemStat(item, SlotType.Equip);
+
+        // 슬롯 비우기
+        equipSlot.Clear();
+        
+        if (playerInventory == null)
+        {
+            var inventoryUI = UIManager.Instance.GetUI<InventoryUI>();
+            if (inventoryUI != null)
+                playerInventory = inventoryUI.GetComponent<Inventory>();
+        }
+        // 인벤토리에 아이템 넣기
+        if(playerInventory != null)
+        {
+            bool success = playerInventory.AddToInventory(item);
+            Debug.Log($"[UnEquip] 인벤토리 추가 성공 여부: {success}");
+            if(!success)
+            {
+                Debug.LogWarning("[EquipmentManager] 인벤토리가 가득 차서 장착 해제 아이템을 넣을 수 없습니다.");
+                // 필요 시 아이템 복구 또는 메시지 처리
+            }
+        }
     }
 }

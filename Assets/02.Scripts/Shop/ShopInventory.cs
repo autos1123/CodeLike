@@ -47,7 +47,7 @@ public class ShopInventory : MonoBehaviour,IInventory
     /// <summary>
     /// 현재 보유한 모든 아이템 슬롯 반환 (IInventory 구현)
     /// </summary>
-    public List<ItemSlot> GetInventorySlots() => inventorySlots;
+    public List<ItemSlot> GetInventorySlots(bool includeEquip = false) => inventorySlots;
 
     /// <summary>
     /// 아이템을 상점 인벤토리에 추가 (빈 슬롯에만 추가)

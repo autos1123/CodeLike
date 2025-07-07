@@ -29,6 +29,7 @@ public class ShopUI : UIBase
     private List<ShopSlotUI> sellSlots = new();
     private List<ShopSlotUI> buySlots = new ();
     
+    private HashSet<(ItemSlot slot, ItemData item)> selectedSellItems = new(); //선택된 슬롯 기억리스트 (슬롯과 그 안에 아이템 함께기억)
     private HashSet<ItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
     
     /// <summary>
@@ -56,6 +57,15 @@ public class ShopUI : UIBase
     }
     
     /// <summary>
+    /// 상점 닫을시 설정
+    /// </summary>
+    public override void Close()
+    {
+        base.Close();
+        selectedSellItems.Clear();
+    }
+    
+    /// <summary>
     /// 인벤토리들이 완전히 초기화될 때까지 대기한 후 슬롯 생성 및 가격 갱신
     /// </summary>
     private IEnumerator InitAndGenerate()
@@ -77,7 +87,7 @@ public class ShopUI : UIBase
         sellSlots.Clear();
         buySlots.Clear();
 
-        CreateSlots(playerInventory.GetInventorySlots(), sellParent, true, sellSlots);
+        CreateSlots(playerInventory.GetInventorySlots(true), sellParent, true, sellSlots);
         CreateSlots(shopInventory.GetInventorySlots(), buyParent, false, buySlots);
     }
     
@@ -103,6 +113,10 @@ public class ShopUI : UIBase
                 if(!isPlayer && purchaseSlots.Contains(itemSlot))
                 {
                     slotUI.SetInteractable(false);
+                }
+                if (isPlayer && selectedSellItems.Contains((itemSlot, itemSlot.Item)))
+                {
+                    slotUI.ForceSelect();
                 }
             }
         }
@@ -157,7 +171,7 @@ public class ShopUI : UIBase
             {
                 purchaseSlots.Add(slot.ItemSlot);
             }
-
+            selectedSellItems.Clear();
             RefreshAllUI();
         }
         else
@@ -194,11 +208,31 @@ public class ShopUI : UIBase
     /// <summary>
     /// UI갱신메소드 모음
     /// </summary>
-    private void RefreshAllUI()
+    public void RefreshAllUI()
     {
         GenerateSlots();
         UpdateTotalPrices();
         UpdateGoldUI();
     }
+    /// <summary>
+    /// 장착 아이템인지 판별
+    /// </summary>
+    /// <param name="slot">선택한 슬롯</param>
+    /// <returns>그 슬롯이 equipslots인지 불값 반환</returns>
+    public bool IsEquippedSlot(ItemSlot slot)
+    {
+        return playerInventoryRaw.equipSlots.Contains(slot);
+    }
     
+    public void RememberSelectedItem(ItemSlot slot)
+    {
+        if (slot != null && slot.Item != null)
+            selectedSellItems.Add((slot, slot.Item));
+    }
+
+    public void ForgetSelectedItem(ItemSlot slot)
+    {
+        if (slot != null && slot.Item != null)
+            selectedSellItems.Remove((slot, slot.Item));
+    }
 }
