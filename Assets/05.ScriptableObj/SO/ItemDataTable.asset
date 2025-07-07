@@ -31,3 +31,12 @@ MonoBehaviour:
     IconPath: Sprite/SwordIcon
     buyPrice: 100
     sellPrice: 50
+  - ID: 6002
+    name: "\uCD1D"
+    Rarity: 301
+    ConditionType: 3
+    value: 20
+    description: "\uACF5\uACA9\uB825\uC774 20\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/GunIcon
+    buyPrice: 300
+    sellPrice: 150
