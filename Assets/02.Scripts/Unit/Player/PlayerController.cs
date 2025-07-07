@@ -45,8 +45,6 @@ public class PlayerController:BaseController
             GetDamaged(10f);
         }
 
-
-
         if(!isInitialized || !isPlaying)
             return;
 
@@ -54,7 +52,7 @@ public class PlayerController:BaseController
 
         // 점프 입력 처리
         if(inputHandler.JumpPressed && isGrounded)
-            stateMachine.ChangeState(new PlayerJumpState(this, stateMachine));
+            stateMachine.ChangeState(new PlayerJumpState(stateMachine));
 
         // 공격 입력 처리
         if(inputHandler.AttackPressed)
@@ -86,36 +84,6 @@ public class PlayerController:BaseController
         isGrounded = hit;
         Debug.DrawRay(origin, Vector3.down * distance, hit ? Color.green : Color.red);
     }
-
-    /// <summary>
-    /// 플레이어 이동 처리
-    /// </summary>
-    public Vector3 Move(Vector2 input)
-    {
-        if(ViewManager.Instance.IsTransitioning)
-            return Vector3.zero;
-
-        float speed = 0f;
-        if(!data.TryGetCondition(ConditionType.MoveSpeed, out speed))
-        {
-            Debug.LogWarning("[PlayerController] MoveSpeed가 설정되어 있지 않습니다.");
-        }
-
-        Vector3 dir;
-        if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
-            dir = new Vector3(input.x, 0f, 0f);
-        else
-        {
-            var f = Camera.main.transform.forward; f.y = 0; f.Normalize();
-            var r = Camera.main.transform.right; r.y = 0; r.Normalize();
-            dir = r * input.x + f * input.y;
-        }
-
-        Vector3 delta = dir * speed * Time.fixedDeltaTime;
-        _Rigidbody.MovePosition(_Rigidbody.position + delta);
-        return dir;
-    }
-
     /// <summary>
     /// 플레이어의 근접 공격 처리
     /// 주변 Enemy Layer 대상 충돌 검사 후 데미지 적용

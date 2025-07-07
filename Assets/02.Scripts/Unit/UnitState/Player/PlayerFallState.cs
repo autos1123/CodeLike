@@ -27,17 +27,17 @@ public class PlayerFallState:IUnitState
 
     public void StateUpdate()
     {
-        if(player.IsGrounded)
-        {
-            if(player.Input.MoveInput.magnitude > 0.1f)
-                stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
-            else
-                stateMachine.ChangeState(new PlayerIdleState(player, stateMachine));
-        }
+        //if(player.IsGrounded)
+        //{
+        //    if(player.Input.MoveInput.magnitude > 0.1f)
+        //        stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
+        //    else
+        //        stateMachine.ChangeState(new PlayerIdleState(stateMachine));
+        //}
     }
 
     public void StatePhysicsUpdate()
     {
-        player.Move(player.Input.MoveInput);
+        // player.Move(player.Input.MoveInput);
     }
 }

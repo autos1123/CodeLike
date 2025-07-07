@@ -3,36 +3,30 @@ using UnityEngine;
 /// <summary>
 /// 플레이어의 기본 대기 상태
 /// </summary>
-public class PlayerIdleState:IUnitState
+public class PlayerIdleState:PlayerBaseState
 {
-    private PlayerController player;
-    private PlayerStateMachine stateMachine;
+    public PlayerIdleState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public PlayerIdleState(PlayerController player, PlayerStateMachine stateMachine)
-    {
-        this.player = player;
-        this.stateMachine = stateMachine;
-    }
-
-    public void StateEnter()
+    public override void StateEnter()
     {
         Debug.Log("Idle 상태 진입");
-        player._Animator.SetBool("isMoving", false);
+        StartAnimation(Animator.StringToHash("isMoving")); // BaseState 함수 활용 (해당 함수 없으면 직접 _Animator 접근도 OK)
+        // 혹은: stateMachine.Player._Animator.SetBool("isMoving", false);
     }
 
-    public void StateExit()
+    public override void StateExit()
     {
         Debug.Log("Idle 상태 종료");
     }
 
-    public void StateUpdate()
+    public override void StateUpdate()
     {
-        var move = player.Input.MoveInput;
+        var move = stateMachine.Player.Input.MoveInput;
         if(move.magnitude > 0.1f)
         {
-            stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
+            stateMachine.ChangeState(stateMachine.MoveState); // 상태 객체 재사용 패턴!
         }
     }
 
-    public void StatePhysicsUpdate() { }
+    public override void StatePhysicsUpdate() { }
 }

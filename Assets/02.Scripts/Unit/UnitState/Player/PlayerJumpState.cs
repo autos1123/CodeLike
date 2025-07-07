@@ -1,18 +1,12 @@
 using UnityEngine;
 
-public class PlayerJumpState:IUnitState
+public class PlayerJumpState:PlayerBaseState
 {
-    private PlayerController player;
-    private PlayerStateMachine stateMachine;
     private bool hasStartedFalling = false;
 
-    public PlayerJumpState(PlayerController player, PlayerStateMachine stateMachine)
-    {
-        this.player = player;
-        this.stateMachine = stateMachine;
-    }
+    public PlayerJumpState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public void StateEnter()
+    public override void StateEnter()
     {
         Debug.Log("Jump 상태 진입");
 
@@ -29,26 +23,27 @@ public class PlayerJumpState:IUnitState
 
         Debug.Log($"Applied Jump force: {Vector3.up * force}");
         player._Animator.SetBool("isJumping", true);
+
+        hasStartedFalling = false; // Jump 진입할 때 초기화!
     }
 
-
-    public void StateExit()
+    public override void StateExit()
     {
         Debug.Log("Jump 상태 종료");
         player._Animator.SetBool("isJumping", false);
     }
 
-    public void StateUpdate()
+    public override void StateUpdate()
     {
         if(player._Rigidbody.velocity.y < -0.1f && !hasStartedFalling)
         {
-            hasStartedFalling = true;
-            stateMachine.ChangeState(new PlayerFallState(player, stateMachine));
+            //hasStartedFalling = true;
+            //stateMachine.ChangeState(stateMachine.FallState); // 낙하 state전환 애니메이션 기능 추가할 예정
         }
     }
 
-    public void StatePhysicsUpdate()
+    public override void StatePhysicsUpdate()
     {
-        player.Move(player.Input.MoveInput);
+        Move(player.Input.MoveInput);
     }
 }
