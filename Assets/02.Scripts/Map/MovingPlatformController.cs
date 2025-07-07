@@ -25,7 +25,7 @@ public class MovingPlatformController:MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transfom.SetParent(transform);
+            collision.transform.SetParent(transform);
         }
     }
 
@@ -33,7 +33,7 @@ public class MovingPlatformController:MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transfom.SetParent(null);
+            collision.transform.SetParent(null);
         }
     }
 }
