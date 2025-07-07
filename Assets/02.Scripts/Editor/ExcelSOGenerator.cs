@@ -103,6 +103,7 @@ public static class ExcelSOGenerator
                     activeItem.rarity= (Rarity)int.Parse(row[2].ToString());
                     activeItem.skillID = int.Parse(row[3].ToString());
                     activeItem.description = row[4].ToString();
+                    activeItem.IconPath = row[5].ToString();
 
                     activeItemDataTable.dataList.Add(activeItem);
                 }

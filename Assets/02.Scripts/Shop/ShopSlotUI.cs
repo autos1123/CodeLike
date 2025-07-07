@@ -13,7 +13,6 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
 {
     [Header("UI")]
     public Image iconImage;
-    public TextMeshProUGUI quantityText;
     public TextMeshProUGUI priceText;
     public TextMeshProUGUI blockText;
     public Image BackgroundImage;
@@ -49,18 +48,16 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     /// </summary>
     private void Refresh()
     {
-        if (itemSlot == null || itemSlot.IsEmpty)
+        if (itemSlot == null || itemSlot.IsInvenSlotEmpty)
         {
             iconImage.enabled = false;
-            quantityText.text = "";
             priceText.text = "";
             return;
         }
 
         iconImage.enabled = true;
         iconImage.sprite = Resources.Load<Sprite>(itemSlot.Item.IconPath);
-        quantityText.text = itemSlot.Quantity > 1 ? itemSlot.Quantity.ToString() : "";
-
+        
         priceText.text = (isPlayerSlot ? itemSlot.Item.sellPrice : itemSlot.Item.buyPrice) + " G";
     }
     
