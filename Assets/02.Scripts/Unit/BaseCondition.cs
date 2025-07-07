@@ -10,10 +10,9 @@ public enum ModifierType
     BuffEnhance,
     ItemEnhance
 }
-
 public class BaseCondition
 {
-    protected ConditionData data;
+    [SerializeField]protected ConditionData data;
     public ConditionData Data => data;
 
     public Dictionary<ConditionType, float> CurrentConditions { get; private set; }
@@ -68,6 +67,24 @@ public class BaseCondition
 
         return 0f;
     }
+    /// <summary>
+    /// 컨디션 전체 증가치 반환
+    /// </summary>
+    /// <param name="c_Type"></param>
+    /// <returns></returns>
+    public float GetModifierValue(ConditionType c_Type)
+    {
+        if(CondifionModifier.TryGetValue(c_Type, out Dictionary<ModifierType, float> modifierDict))
+        {
+            return CondifionModifier[c_Type].Values.Sum();
+        }
+        else
+        {
+            Debug.LogError($"ConditionType {c_Type}에 대한 Modifier가 존재하지 않습니다.");
+        }
+
+        return 0f;
+    }
 
     /// <summary>
     /// 컨디션을 문자열로 변환하여 반환
@@ -83,7 +100,6 @@ public class BaseCondition
             sb.Append('(');
             sb.Append($"{CondifionModifier[type].Values.Sum()}");
             sb.Append(')');
-
         }
         return sb.ToString();
     }

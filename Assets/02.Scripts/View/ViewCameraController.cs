@@ -12,12 +12,10 @@ public class ViewCameraController:MonoBehaviour
     [SerializeField] private float lookPivotY = 1.0f;
 
     [Header("2D 시점 카메라 위치/회전")]
-    public Vector3 position2D = new Vector3(67, 0, 0);
-    public Vector3 rotation2D = new Vector3(0, -90, 0);
+    public Transform pos2D;
 
     [Header("3D 시점 카메라 위치/회전")]
-    public Vector3 position3D = new Vector3(0, 5, -38);
-    public Vector3 rotation3D = new Vector3(5, 0, 0);
+    public Transform pos3D;
 
     [Header("카메라 전환 시간")]
     public float transitionDuration = 1f;
@@ -63,7 +61,7 @@ public class ViewCameraController:MonoBehaviour
     {
         isTransitioning = true;
 
-        Vector3 localTargetPos = (mode == ViewModeType.View2D) ? position2D : position3D;
+        Vector3 localTargetPos = (mode == ViewModeType.View2D) ? pos2D.position : pos3D.position;
         Vector3 worldTargetPos = transform.parent.TransformPoint(localTargetPos);
 
         HUDAnimator hudAnimator = FindObjectOfType<HUDAnimator>();
@@ -74,15 +72,15 @@ public class ViewCameraController:MonoBehaviour
         if(mode == ViewModeType.View2D)
         {
             startY = lookPivotY;
-            targetY = position2D.y;
+            targetY = pos2D.position.y;
         }
         else
         {
-            startY = position2D.y;
+            startY = pos2D.position.y;
             targetY = lookPivotY;
         }
 
-        moveTween = transform.DOMove(worldTargetPos, transitionDuration)
+        moveTween = transform.DOLocalMove(worldTargetPos, transitionDuration)
             .SetEase(Ease.OutQuad)
             .OnStart(() =>
             {
@@ -114,6 +112,10 @@ public class ViewCameraController:MonoBehaviour
             .OnComplete(() =>
             {
                 isTransitioning = false;
+
+                //마지막에 억지로 붙이기
+                transform.position = (mode == ViewModeType.View2D) ? pos2D.position : pos3D.position;
+                transform.rotation = (mode == ViewModeType.View2D) ? pos2D.rotation : pos3D.rotation;
 
                 if(playerTransform != null)
                 {
