@@ -1,26 +1,30 @@
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class StageManager : MonoSingleton<StageManager>
 {
+    protected override bool Persistent => false;
+
     public ProceduralStageGenerator generator;
     public StageData currentStage;
 
     public int seed = 0;
     public int stageID = 0;
 
-    public void LoadStage(int seed)
+    public void LoadStage()
     {
         int randomSeed = Random.Range(0, int.MaxValue);
-        int randomRoomCount = Random.Range(6, 11);
-
-        generator.roomCount = randomRoomCount;
+        
         ClearStage();
 
         currentStage = new StageData();
         currentStage.stageID = stageID++;
 
-        var generatedRooms = generator.Generate(randomSeed);
+      
+        int RoomCount = GameManager.Instance.stageMapCountData[stageID];
+        int randomRoomCount = Random.Range(RoomCount - 1, RoomCount + 1);
+        generator.roomCount = randomRoomCount;
 
+        var generatedRooms = generator.Generate(randomSeed);
         foreach (var room in generatedRooms)
         {
             currentStage.rooms.Add(room);
@@ -30,14 +34,14 @@ public class StageManager : MonoBehaviour
                 currentStage.playerSpawnPoint = room.transform.position;   
         }
     }
-
+    /// <summary>
+    /// 테스트용
+    /// </summary>
     void Start()
     {
-        LoadStage(0);
+        LoadStage();
         // generatedRooms를 StageData 등으로 저장하는 로직도 필요
     }
-
-    public void RestartStage() => LoadStage(seed);
 
     public void ClearStage()
     {
