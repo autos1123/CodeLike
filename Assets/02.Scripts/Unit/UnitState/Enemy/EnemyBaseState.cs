@@ -128,7 +128,15 @@ public class EnemyBaseState:IUnitState
         if(movementDirection != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
-            stateMachine.Enemy.transform.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
+
+            if(viewMode == ViewModeType.View2D)
+            {
+                stateMachine.Enemy.transform.rotation = targetRotation;
+            }
+            else
+            {
+                stateMachine.Enemy.transform.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
+            }
         }
     }
 
