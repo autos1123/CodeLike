@@ -33,7 +33,7 @@ public class ShopUI : UIBase
     private HashSet<ItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
     
     /// <summary>
-    /// 상점 UI 열기: 초기 인벤토리 참조, 버튼 이벤트 등록, 슬롯 생성 시작
+    /// 상점 UI 열기: 인벤토리 참조 설정 및 거래 버튼 이벤트 등록, 슬롯 초기화 코루틴 시작
     /// </summary>
     public override void Open()
     {
@@ -57,7 +57,7 @@ public class ShopUI : UIBase
     }
     
     /// <summary>
-    /// 상점 닫을시 설정
+    /// 상점 UI 닫기 시 선택된 아이템 상태 초기화
     /// </summary>
     public override void Close()
     {
@@ -66,7 +66,7 @@ public class ShopUI : UIBase
     }
     
     /// <summary>
-    /// 인벤토리들이 완전히 초기화될 때까지 대기한 후 슬롯 생성 및 가격 갱신
+    /// 인벤토리 초기화 대기 후 슬롯 생성 및 UI 업데이트 수행 (코루틴)
     /// </summary>
     private IEnumerator InitAndGenerate()
     {
@@ -78,7 +78,7 @@ public class ShopUI : UIBase
         UpdateTotalPrices();
     }
     /// <summary>
-    /// 판매/구매 슬롯을 전부 삭제 후 새로 생성 (UI 갱신)
+    /// 기존 슬롯 UI 제거 후, 판매/구매 슬롯을 다시 생성
     /// </summary>
     public void GenerateSlots()
     {
@@ -92,7 +92,7 @@ public class ShopUI : UIBase
     }
     
     /// <summary>
-    /// 주어진 ItemSlot 리스트로 UI 슬롯을 생성하여 슬롯 리스트에 추가
+    /// 특정 슬롯 리스트로 상점 슬롯 UI 생성 및 리스트에 저장, 이전 선택 상태 반영
     /// </summary>
     /// <param name="slots">아이템 슬롯들</param>
     /// <param name="parent">UI 부모 오브젝트</param>
@@ -123,7 +123,7 @@ public class ShopUI : UIBase
     }
     
     /// <summary>
-    /// 현재 선택된 슬롯들을 기준으로 판매/구매 금액 계산 및 표시
+    /// 선택된 슬롯들의 판매/구매 금액 계산 후 텍스트 갱신
     /// </summary>
     public void UpdateTotalPrices()
     {
@@ -153,8 +153,7 @@ public class ShopUI : UIBase
     }
     
     /// <summary>
-    /// 거래 실행: 선택된 아이템을 ShopManager에 전달하고 결과 처리.  
-    /// 거래 성공 시 구매 아이템 비활성화 후 UI 갱신
+    /// 선택된 슬롯을 기반으로 거래 시도 → 성공 시 거래 아이템 반영 및 UI 갱신
     /// </summary>
     public void ExecuteTransaction()
     {
@@ -183,7 +182,7 @@ public class ShopUI : UIBase
     }
     
     /// <summary>
-    /// 특정 Transform의 모든 자식 오브젝트 제거
+    /// 부모 Transform의 모든 자식 오브젝트 제거 (슬롯 재생성 전 사용)
     /// </summary>
     private void ClearChildren(Transform t)
     {
@@ -206,7 +205,7 @@ public class ShopUI : UIBase
         }
     }
     /// <summary>
-    /// UI갱신메소드 모음
+    /// UI갱신메소드 모음(슬롯, 가격, 골드 UI 전부 다시 갱신)
     /// </summary>
     public void RefreshAllUI()
     {
@@ -215,7 +214,7 @@ public class ShopUI : UIBase
         UpdateGoldUI();
     }
     /// <summary>
-    /// 장착 아이템인지 판별
+    /// 주어진 슬롯이 장착 슬롯에 포함되어 있는지 여부 확인
     /// </summary>
     /// <param name="slot">선택한 슬롯</param>
     /// <returns>그 슬롯이 equipslots인지 불값 반환</returns>
@@ -223,13 +222,17 @@ public class ShopUI : UIBase
     {
         return playerInventoryRaw.equipSlots.Contains(slot);
     }
-    
+    /// <summary>
+    /// 특정 슬롯+아이템 쌍을 선택된 리스트에 등록
+    /// </summary>
     public void RememberSelectedItem(ItemSlot slot)
     {
         if (slot != null && slot.Item != null)
             selectedSellItems.Add((slot, slot.Item));
     }
-
+    /// <summary>
+    /// 특정 슬롯+아이템 쌍을 선택된 리스트에서 제거
+    /// </summary>
     public void ForgetSelectedItem(ItemSlot slot)
     {
         if (slot != null && slot.Item != null)

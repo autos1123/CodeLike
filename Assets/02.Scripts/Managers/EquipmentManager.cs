@@ -64,14 +64,16 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
         if (item == null || type != SlotType.Equip) return;
         playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, -item.value);
     }
-
+    /// <summary>
+    /// 아이템 장착 해제처리
+    /// </summary>
+    /// <param name="equipSlot"></param>
     public void UnEquip(ItemSlot equipSlot)
     {
         if(playerCondition == null || equipSlot == null || equipSlot.IsInvenSlotEmpty)
             return;
 
         var item = equipSlot.Item;
-        Debug.Log($"[UnEquip] 아이템: {item?.name}, ID: {item?.ID}");
         // 능력치 제거
         RemoveItemStat(item, SlotType.Equip);
 
@@ -88,7 +90,6 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
         if(playerInventory != null)
         {
             bool success = playerInventory.AddToInventory(item);
-            Debug.Log($"[UnEquip] 인벤토리 추가 성공 여부: {success}");
             if(!success)
             {
                 Debug.LogWarning("[EquipmentManager] 인벤토리가 가득 차서 장착 해제 아이템을 넣을 수 없습니다.");

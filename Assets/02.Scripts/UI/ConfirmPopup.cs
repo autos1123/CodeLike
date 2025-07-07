@@ -16,7 +16,10 @@ public class ConfirmPopup : MonoSingleton<ConfirmPopup>
         base.Awake();
         gameObject.SetActive(false); // 시작 시 비활성화
     }
-
+    
+    /// <summary>
+    /// 메시지와 콜백(확인/취소) 설정 후 팝업을 표시하고, 버튼 클릭 시 콜백 호출 및 닫힘
+    /// </summary>
     public static void Show(string message, Action onConfirm, Action onCancel = null)
     {
         if (!HasInstance)
@@ -24,7 +27,8 @@ public class ConfirmPopup : MonoSingleton<ConfirmPopup>
             Debug.LogError("ConfirmPopup 인스턴스가 없습니다.");
             return;
         }
-
+        if (Instance.gameObject.activeSelf) return;
+        
         var popup = Instance;
         popup.gameObject.SetActive(true);
         popup.messageText.text = message;
