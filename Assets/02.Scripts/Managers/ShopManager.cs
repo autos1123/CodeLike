@@ -68,7 +68,7 @@ public class ShopManager:MonoSingleton<ShopManager>
     }
     
     /// <summary>
-    /// 거래 실행: 판매/구매 아이템 확인 및 골드 계산, 인벤토리 반영
+    /// 선택된 아이템 기반으로 골드 계산 후 거래 가능 여부 판단 및 실제 아이템 처리
     /// </summary>
     public bool TryExecuteTransaction(List<ItemSlot> sellItems, List<ItemSlot> buyItems, out string result)
     {

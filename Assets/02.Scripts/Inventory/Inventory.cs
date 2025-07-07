@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IInventory
 {
     bool Initialized { get; }
-    List<ItemSlot> GetInventorySlots(); // 장비슬롯은 제외
+    List<ItemSlot> GetInventorySlots(bool includeEquip = false); // 장비슬롯도 같이 가져올수있게
 
     bool AddToInventory(ItemData item);
     bool RemoveFromInventory(ItemData item); // 필요 시
@@ -90,7 +90,6 @@ public class Inventory : MonoBehaviour, IInventory
             if (slot.IsInvenSlotEmpty)
             {
                 slot.Set(item);
-                Debug.Log($"[Inventory] 아이템 추가됨: {item.name}");
                 return true;
             }
         }
@@ -118,9 +117,14 @@ public class Inventory : MonoBehaviour, IInventory
     /// 인벤토리 슬롯 반환
     /// </summary>
     /// <returns></returns>
-    public List<ItemSlot> GetInventorySlots()
+    public List<ItemSlot> GetInventorySlots(bool includeEquip = false)
     {
-        return inventorySlots;
+        var result = new List<ItemSlot>(inventorySlots);
+    
+        if (includeEquip)
+            result.AddRange(equipSlots);
+
+        return result;
     }
     
     public bool RemoveFromInventory(ItemData item)
