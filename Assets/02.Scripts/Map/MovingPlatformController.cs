@@ -6,21 +6,34 @@ public class MovingPlatformController:MonoBehaviour
     public Transform targetPos2;
     public float speed = 2f;
 
-    private Transform currentTarget;
+    private Vector3 startPos;
+    private Vector3 offset;
 
     void Start()
     {
-        transform.position = targetPos1.position;
-        currentTarget = targetPos2;
+        startPos = targetPos1.position;
+        offset = targetPos2.position - targetPos1.position;
     }
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, speed * Time.deltaTime);
+        float time = Mathf.PingPong(Time.time *  speed, 1f);
+        transform.position = Vector3.Lerp(startPos, startPos + offset, time);
+    }
 
-        if(Vector3.Distance(transform.position, currentTarget.position) < 0.05f)
+    void OnCollisitonEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
         {
-            currentTarget = (currentTarget == targetPos1) ? targetPos2 : targetPos1;
+            collision.transfom.SetParent(transform);
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.transfom.SetParent(null);
         }
     }
 }
