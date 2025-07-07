@@ -64,6 +64,6 @@ public class PlayerCondition:BaseCondition
     /// </summary>
     private void Die()
     {
-        stateMachine.ChangeState(new PlayerDeadState(controller, stateMachine));
+        stateMachine.ChangeState(new PlayerDeadState(stateMachine));
     }
 }

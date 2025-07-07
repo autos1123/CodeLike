@@ -29,10 +29,10 @@ public class PlayerStateMachine:UnitStateMachine
         }
 
         IdleState = new PlayerIdleState(this);
-        MoveState = new PlayerMoveState(Player, this);
-        JumpState = new PlayerJumpState(Player, this);
-        AttackState = new PlayerAttackState(Player, this);
-        DeadState = new PlayerDeadState(Player, this);
+        MoveState = new PlayerMoveState(this);
+        JumpState = new PlayerJumpState(this);
+        AttackState = new PlayerAttackState(this);
+        DeadState = new PlayerDeadState(this);
 
         ChangeState(IdleState);
     }
