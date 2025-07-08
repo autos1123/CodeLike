@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileSkillExecutor : ISkillExecutor
+public class ProjectileSkillExecutor:ISkillExecutor
 {
     public void Execute(ActiveItemEffectData data, Transform caster, Vector3 targetPoint)
     {
@@ -10,7 +10,6 @@ public class ProjectileSkillExecutor : ISkillExecutor
         go.transform.position = caster.position;
         Vector3 dir = (targetPoint).normalized;
 
-       go.GetComponent<Projectile>()?.init(data.Power, 1 , null);
-       go.GetComponent<Projectile>()?.Launch(dir, data.Range);
+        go.GetComponent<Projectile>()?.InitProjectile(dir, 10, data.Power, data.Range);
     }
 }
