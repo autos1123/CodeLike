@@ -2336,10 +2336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &958463848992174881
@@ -3685,7 +3681,7 @@ Transform:
   m_GameObject: {fileID: 1597360364984297690}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.6500006, y: 11.57, z: -12.849998}
+  m_LocalPosition: {x: -1.6500006, y: 11.32, z: -12.849998}
   m_LocalScale: {x: 11.8324995, y: 1.23852, z: 11.839463}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7279,10 +7275,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &1837359111774826937
@@ -7998,10 +7990,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &2092443259490165835
@@ -8644,7 +8632,7 @@ Transform:
   m_GameObject: {fileID: 2397966425848954534}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.931249, y: 2.44, z: -6.834731}
+  m_LocalPosition: {x: 7.931249, y: 2.19, z: -6.834731}
   m_LocalScale: {x: 11.8324995, y: 1.23852, z: 11.839463}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23112,10 +23100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &3516365337769835474
@@ -24896,10 +24880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &4391231916529187736
@@ -25114,10 +25094,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &4422322744834245654
@@ -25723,10 +25699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &4663360604534958569
@@ -26451,7 +26423,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 2676c1ac97cae854ea620783181e5725, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 39849139f1c08794e8c74e315bccc666, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &4949599204994449932
 GameObject:
@@ -26666,10 +26638,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &4988223851557730253
@@ -33358,10 +33326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &7729355654999683047
@@ -35863,10 +35827,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!1 &8763997268966808807
