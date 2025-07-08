@@ -23,7 +23,7 @@ public abstract class BaseCondition
     {
         this.data = data;
         CurrentConditions = data.GetCurrentConditions();
-        ConditionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();
+        ConditionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();        
 
         foreach(var item in CurrentConditions)
         {

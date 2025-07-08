@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -15,7 +16,7 @@ public class UIManager:MonoSingleton<UIManager>
     {
         base.Awake();
         uiPrefabs = new List<GameObject>();
-        InitializeUI();        
+        InitializeUI();
     }
 
     /// <summary>
@@ -23,16 +24,7 @@ public class UIManager:MonoSingleton<UIManager>
     /// </summary>
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F1))
-        {
-            Debug.Log("DestinyBoard");
-            ToggleUI<DestinyBoard>();
-        }
-        if(Input.GetKeyDown(KeyCode.F2))
-        {
-            Debug.Log("EnhanceBoard");
-            ToggleUI<EnhanceBoard>();
-        }
+
         if(Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("상점열림");
@@ -68,8 +60,8 @@ public class UIManager:MonoSingleton<UIManager>
                     TooltipManager.Instance.RegisterTooltipUI(tableObj);
                 }
             }
-            Debug.Log("[TableManager] 테이블 로드 및 등록 완료");
-        };
+            Debug.Log("[TableManager] 테이블 로드 및 등록 완료");            
+        };        
     }
 
     public void ToggleUI<T>() where T : UIBase
@@ -99,5 +91,19 @@ public class UIManager:MonoSingleton<UIManager>
     public T GetUI<T>() where T : UIBase
     {
         return _uiInstances[typeof(T).Name] as T;
+    }
+    
+    public void ShowConfirmPopup(string message, Action onConfirm, Action onCancel = null)
+    {
+        if (_uiInstances.TryGetValue(nameof(ConfirmPopup), out var ui))
+        {
+            var popup = ui as ConfirmPopup;
+            popup.Setup(message, onConfirm, onCancel);
+            popup.Open();
+        }
+        else
+        {
+            Debug.LogError("[UIManager] ConfirmPopup이 로드되지 않았습니다.");
+        }
     }
 }
