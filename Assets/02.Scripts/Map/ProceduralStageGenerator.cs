@@ -7,11 +7,7 @@ public class ProceduralStageGenerator:MonoBehaviour
     public int seed;
     //맵 랜덤화 함수 참조항목
     public System.Random random;
-    //방 리스트
-    public List<Room> rooms;
-    //방 연결지점 리스트
-    public List<RoomConnection> connections;
-    //방 갯수(StageManager에서 랜덤화됨)
+     //방 갯수(StageManager에서 랜덤화됨)
     public int roomCount;
 
     //그리드 반경 및 높이
@@ -30,15 +26,17 @@ public class ProceduralStageGenerator:MonoBehaviour
     public Transform roomParent;
 
     private bool[,] grid;
+    public StageData stageData;
 
     public List<Room> Generate(int seed)
     {
         this.seed = seed;
         random = new System.Random(seed);
-        rooms = new List<Room>();
-        connections = new List<RoomConnection>();
         nextRoomID = 0;
         grid = new bool[gridWidth, gridHeight];
+
+        stageData = new StageData();
+        stageData.InitializeGrid(gridWidth, gridHeight);
 
         //Vector2Int startGridPos = new Vector2Int(gridWidth / 2, gridHeight / 2);
         Vector2Int startGridPos = new Vector2Int(0, 0);
@@ -47,14 +45,14 @@ public class ProceduralStageGenerator:MonoBehaviour
 
         stack.Push(startGridPos);
 
-        while(rooms.Count < roomCount && stack.Count > 0)
+        while(roomIdMap.Count < roomCount && stack.Count > 0)
         {
             Vector2Int current = stack.Pop();
             if(grid[current.x, current.y]) continue;
 
             RoomType type = RoomType.Normal;
-            if(rooms.Count == 0) type = RoomType.Start;
-            else if(rooms.Count == roomCount - 1) type = RoomType.Boss;
+            if(roomIdMap.Count == 0) type = RoomType.Start;
+            else if(roomIdMap.Count == roomCount - 1) type = RoomType.Boss;
 
             List<Direction> connectedDirs = new();
             foreach(var dir in GetShuffledDirections())
@@ -64,14 +62,14 @@ public class ProceduralStageGenerator:MonoBehaviour
                 {
                     int neighborId = roomIdMap[neighbor];
                     RoomConnection conn = new RoomConnection(nextRoomID, neighborId, dir);
-                    connections.Add(conn);
+                    stageData.connections.Add(conn);
                     connectedDirs.Add(dir);
                 }
             }
 
             Room room = CreateRoom(current, type);
             roomIdMap[current] = room.Id;
-            rooms.Add(room);
+            stageData.RegisterRoom(room);
             grid[current.x, current.y] = true;
 
             foreach(var dir in GetShuffledDirections())
@@ -84,7 +82,7 @@ public class ProceduralStageGenerator:MonoBehaviour
             }
         }
         PlaceConnections();
-        return rooms;
+        return new List<Room>(stageData.roomMap.Values);
     }
 
     private Room CreateRoom(Vector2Int gridPos, RoomType type)
@@ -129,17 +127,13 @@ public class ProceduralStageGenerator:MonoBehaviour
     }
     public void PlaceConnections()
     {
-        foreach(var conn in connections)
+        foreach(var conn in stageData.connections)
         {
-            Room fromRoom = rooms.Find(r => r.Id == conn.FromRoomID);
-            Room toRoom = rooms.Find(r => r.Id == conn.ToRoomID);
+            if (!stageData.roomMap.TryGetValue(conn.FromRoomID, out var fromRoom) ||
+                !stageData.roomMap.TryGetValue(conn.ToRoomID, out var toRoom))
+                continue;
 
-            if(fromRoom == null || toRoom == null) continue;
-
-            // ▶ A → B 포탈
             CreatePortal(fromRoom, toRoom, conn.Direction);
-
-            // ▶ B → A 포탈 (반대 방향)
             CreatePortal(toRoom, fromRoom, Room.GetOppositeDirection(conn.Direction));
         }
     }

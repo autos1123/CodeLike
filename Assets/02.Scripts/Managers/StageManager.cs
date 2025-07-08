@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StageManager : MonoSingleton<StageManager>
+public class StageManager:MonoSingleton<StageManager>
 {
     protected override bool Persistent => false;
 
@@ -13,43 +13,41 @@ public class StageManager : MonoSingleton<StageManager>
     public void LoadStage()
     {
         int randomSeed = Random.Range(0, int.MaxValue);
-        
         ClearStage();
 
-        currentStage = new StageData();
-        currentStage.stageID = stageID++;
-
-      
-        int RoomCount = GameManager.Instance.stageMapCountData[stageID];
-        int randomRoomCount = Random.Range(RoomCount - 1, RoomCount + 1);
+        int roomCountBase = GameManager.Instance.stageMapCountData[stageID];
+        int randomRoomCount = Random.Range(roomCountBase - 1, roomCountBase + 1);
         generator.roomCount = randomRoomCount;
 
-        var generatedRooms = generator.Generate(randomSeed);
-        foreach (var room in generatedRooms)
+        // ProceduralStageGenerator 내부에서 stageData를 만들고 등록함
+        generator.Generate(randomSeed);
+        currentStage = generator.stageData;
+        currentStage.stageID = stageID++;
+
+        // 시작 위치 지정
+        if(currentStage.startRoom != null)
         {
-            currentStage.rooms.Add(room);
-            currentStage.RegisterRoom(room);
-
-            if(room.Type == RoomType.Start)
-                currentStage.playerSpawnPoint = room.transform.position;   
+            currentStage.playerSpawnPoint = currentStage.startRoom.GetPlayerSpawnPoint();
+            GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
         }
-
-        GameManager.Instance.Player.transform.position = currentStage.startRoom.playerSpawnPoint.position;
+        else
+        {
+            Debug.LogWarning("시작 방이 존재하지 않습니다.");
+        }
     }
-    /// <summary>
-    /// 테스트용
-    /// </summary>
+
     void Start()
     {
         LoadStage();
-        // generatedRooms를 StageData 등으로 저장하는 로직도 필요
+        // 나중에 저장 로직 추가 가능
     }
 
     public void ClearStage()
     {
-        foreach (var room in FindObjectsOfType<Room>())
+        foreach(var room in FindObjectsOfType<Room>())
             Destroy(room.gameObject);
-            currentStage = null;
+
+        currentStage = null;
     }
 
     // ===== 미니맵 시스템 전달용 데이터 정리 =====
