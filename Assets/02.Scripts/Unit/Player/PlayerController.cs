@@ -118,7 +118,7 @@ public class PlayerController:BaseController<PlayerCondition>
     /// 운명 변경이벤트 발생시 실행할 함수
     /// </summary>
     /// <param name="data"></param>
-    void HandleDestinyChange(DestinyData data)
+    void HandleDestinyChange(DestinyData data, int i)
     {
         DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
         DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
@@ -126,12 +126,12 @@ public class PlayerController:BaseController<PlayerCondition>
 
         if(positiveEffect.effectedTarget == EffectedTarget.Player)
         {
-            Condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value); // 추후에 운명에 의한 증가량 추가
+            Condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value * i); // 추후에 운명에 의한 증가량 추가
         }
 
         if(negativeEffect.effectedTarget == EffectedTarget.Player)
         {
-            Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value); // 추후에 운명에 의한 증가량 추가
+            Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value * i); // 추후에 운명에 의한 증가량 추가
         }
 
     }

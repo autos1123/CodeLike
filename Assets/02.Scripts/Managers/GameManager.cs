@@ -17,7 +17,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public DestinyData curDestinyData;// 현재 적용중인 운명
 
-    public event Action<DestinyData> onDestinyChange;
+    public event Action<DestinyData,int> onDestinyChange;
 
     [SerializeField]private GameObject _player;
     public GameObject Player
@@ -29,9 +29,10 @@ public class GameManager : MonoSingleton<GameManager>
     public event Action onGameStateChange;
 
     public void setCurDestinyData(DestinyData destinyData)
-    {
+    {        
+        onDestinyChange?.Invoke(curDestinyData, -1);//기본 운명 해제
         this.curDestinyData = destinyData;
-        onDestinyChange?.Invoke(curDestinyData);
+        onDestinyChange?.Invoke(curDestinyData, 1);
     }
     public void setState(GameState gameState)
     {
@@ -61,7 +62,7 @@ public class GameManager : MonoSingleton<GameManager>
         _player = GameObject.FindGameObjectWithTag(TagName.Player);
     }
 
-    void HandleDestinyChange(DestinyData data)
+    void HandleDestinyChange(DestinyData data , int i)
     {
         DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
         DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
@@ -69,12 +70,12 @@ public class GameManager : MonoSingleton<GameManager>
 
         if(positiveEffect.effectedTarget == EffectedTarget.Map)
         {
-            stageMapCountData = stageMapCountData.Select(n => n + (int)positiveEffect.value).ToArray();
+            stageMapCountData = stageMapCountData.Select(n => n + (int)positiveEffect.value * i).ToArray();
         }
 
         if(negativeEffect.effectedTarget == EffectedTarget.Map)
         {
-            stageMapCountData = stageMapCountData.Select(n => n - (int)negativeEffect.value).ToArray();
+            stageMapCountData = stageMapCountData.Select(n => n - (int)negativeEffect.value * i).ToArray();
         }
 
     }
