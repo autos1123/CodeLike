@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 
 public enum Skillinput
@@ -19,6 +22,7 @@ public class PlayerActiveItemController : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
     }
+
     private void Start()
     {       
 
@@ -28,7 +32,8 @@ public class PlayerActiveItemController : MonoBehaviour
             { SkillType.AoE , new AoESkillExecutor() },
             { SkillType.Heal , new HealSkillExecutor()}
         };
-        activeItemDatas = new ActiveItemData[2];
+
+        activeItemDatas = GameManager.Instance.Player.GetComponent<Inventory>().activeItemSlots.Select(target => target.ActiveItem).ToArray();   
     }
 
     public void TakeItem(Skillinput skillinput, ActiveItemData activeItemData)
