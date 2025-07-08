@@ -239,38 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134378f331964214488a0695e2951f04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 0
-    characterName: Player
-    initialConditions:
-    - type: 0
-      value: 100
-    - type: 1
-      value: 100
-    - type: 2
-      value: 5
-    - type: 3
-      value: 25
-    - type: 4
-      value: 4
-    - type: 5
-      value: 3
-    - type: 6
-      value: 25
-    - type: 7
-      value: 4
-    - type: 8
-      value: 10
-    - type: 9
-      value: 0.15
-    - type: 10
-      value: 1.5
-    - type: 11
-      value: 0
-    - type: 12
-      value: 0
-    - type: 13
-      value: 0
   ID: 0
   groundLayer:
     serializedVersion: 2
@@ -1555,6 +1523,7 @@ GameObject:
   - component: {fileID: 4223102427382493442}
   - component: {fileID: 7964583283262886918}
   - component: {fileID: 2834581293470904418}
+  - component: {fileID: 1618210732143505081}
   m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1656,6 +1625,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   playerTransform: {fileID: 1985143623796453560}
+--- !u!114 &1618210732143505081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4851177912727492012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47390f229d3f3c24b9968772667fd39b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pixelate: 1
+  _lerpSpeed: 5
+  _showGUI: 0
 --- !u!1 &4933542260092797494
 GameObject:
   m_ObjectHideFlags: 0
