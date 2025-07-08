@@ -72,7 +72,17 @@ public class EnemyBaseState:IUnitState
     /// <returns></returns>
     protected bool IsInRange(ConditionType rangeType)
     {
-        float playerDistanceSqr = (stateMachine.Player.transform.position - stateMachine.Enemy.transform.position).sqrMagnitude;
+        Vector3 targetPos = stateMachine.Player.transform.position;
+        Vector3 curPos = stateMachine.Enemy.transform.position;
+
+        if(viewMode == ViewModeType.View2D)
+        {
+            // 2D인 경우 x축과 y축만 고려하여 거리 계산
+            targetPos.z = 0;
+            curPos.z = 0;
+        }
+
+        float playerDistanceSqr = (targetPos - curPos).sqrMagnitude;
         float range = stateMachine.Enemy.Condition.GetValue(rangeType);
 
         return playerDistanceSqr <= range * range;
@@ -106,6 +116,7 @@ public class EnemyBaseState:IUnitState
         else
         {
             stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
+            stateMachine.Enemy.NavMeshAgent.isStopped = false; 
             stateMachine.Enemy.NavMeshAgent.speed = movementSpeed;
             stateMachine.Enemy.NavMeshAgent.SetDestination(targetPos);
         }

@@ -22,6 +22,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     // 게임 모드에 따라 상태를 변경하기 위한 필드
     private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
     private bool agentStopped; // NavMeshAgent가 정지 상태인지 여부
+    private float agentSpeedTmp; // NavMeshAgent의 속도 저장
 
     protected override void OnEnable()
     {
@@ -133,13 +134,15 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         if(!isPlaying)
         {
             destinationTmp = NavMeshAgent.destination;
-            agentStopped = NavMeshAgent.isStopped;
-            NavMeshAgent.isStopped = true; // NavMeshAgent 정지
+            agentSpeedTmp = NavMeshAgent.speed; // NavMeshAgent 속도 저장
+            NavMeshAgent.speed = 0; // NavMeshAgent 속도 0으로 설정
         }
         else
         {
+            
             NavMeshAgent.destination = destinationTmp; // NavMeshAgent 목적지 복원
-            NavMeshAgent.isStopped = agentStopped; // NavMeshAgent 재개
+            NavMeshAgent.speed = agentSpeedTmp; // NavMeshAgent 속도 복원
+            Debug.LogWarning(NavMeshAgent.isStopped);
         }
     }
 
