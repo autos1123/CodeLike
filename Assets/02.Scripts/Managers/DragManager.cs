@@ -6,7 +6,8 @@ public class DragManager : MonoSingleton<DragManager>
 {
     [Header("드래그용 프리팹")]
     [SerializeField] private GameObject ghostPrefab;
-
+    [SerializeField] private Canvas targetCanvas;
+    
     private List<GameObject> ghostPool = new();
     private GameObject ghostInstance; 
     private Image ghostImage;
@@ -36,7 +37,7 @@ public class DragManager : MonoSingleton<DragManager>
         }
 
         // 풀에 사용 가능한 오브젝트가 없으면 새로 생성
-        var newGhost = Instantiate(ghostPrefab, transform);
+        var newGhost = Instantiate(ghostPrefab, targetCanvas.transform);
         ghostPool.Add(newGhost);
         return newGhost;
     }
