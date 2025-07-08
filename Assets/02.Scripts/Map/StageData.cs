@@ -21,6 +21,15 @@ public class StageData
     public void RegisterRoom(Room room)
     {
         var pos = room.GridPosition;
+
+        if(pos.x < 0 || pos.x >= roomGrid.GetLength(0) || pos.y < 0 || pos.y >= roomGrid.GetLength(1))
+        {
+            Debug.LogError($"❌ Room 위치가 범위를 벗어남: {pos}");
+            return;
+        }
+
+        Debug.Log($"📌 RegisterRoom 호출: ID={room.Id}, Type={room.Type}, Pos={pos}");
+
         roomGrid[pos.x, pos.y] = room;
         roomMap[room.Id] = room;
 

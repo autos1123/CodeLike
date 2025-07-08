@@ -19,12 +19,10 @@ public class StageManager:MonoSingleton<StageManager>
         int randomRoomCount = Random.Range(roomCountBase - 1, roomCountBase + 1);
         generator.roomCount = randomRoomCount;
 
-        // ProceduralStageGenerator 내부에서 stageData를 만들고 등록함
         generator.Generate(randomSeed);
-        currentStage = generator.stageData;
+        currentStage = generator.stageData; //  반드시 generator 내부에서 생성한 인스턴스를 그대로 받아야 함
         currentStage.stageID = stageID++;
 
-        // 시작 위치 지정
         if(currentStage.startRoom != null)
         {
             currentStage.playerSpawnPoint = currentStage.startRoom.GetPlayerSpawnPoint();
