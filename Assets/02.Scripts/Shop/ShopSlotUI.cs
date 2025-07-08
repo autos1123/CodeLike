@@ -85,25 +85,14 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
             var rememberedSlot = itemSlot;
             var rememberedItem = itemSlot.Item;
 
-            ConfirmPopup.Show(
+            UIManager.Instance.ShowConfirmPopup(
                 "장착한 아이템입니다. 장착 해제하시겠습니까?",
                 onConfirm: () =>
                 {
                     var shopUI = UIManager.Instance.GetUI<ShopUI>();
-                    
-                    // 장착 해제 전에 선택 상태로 등록
-                    shopUI.RememberSelectedItem(rememberedSlot);
-                    
+                    shopUI.RememberSelectedItem(itemSlot);
                     EquipmentManager.Instance.UnEquip(itemSlot);
-                    
-                    if (shopUI != null)
-                    {
-                        shopUI.RefreshAllUI(); // 판매 슬롯 다시 구성하고 가격 재계산
-                    }
-                    else
-                    {
-                        Debug.LogWarning("[ConfirmPopup] ShopUI를 찾을 수 없습니다.");
-                    }
+                    shopUI?.RefreshAllUI();
                 },
                 onCancel: () =>
                 {
