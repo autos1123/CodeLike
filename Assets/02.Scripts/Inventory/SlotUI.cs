@@ -21,6 +21,8 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     
     public Image iconImage;
     [CanBeNull] public TextMeshProUGUI EquipText;
+    public Image backgroundImage;
+    
     private InventoryUI inventoryUI;
     public ItemSlot ItemSlot { get; private set; } 
     
@@ -139,6 +141,11 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     /// <param name="eventData">이벤트 데이터</param>
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (backgroundImage != null)
+        {
+            backgroundImage.color = new Color(0.9f, 0.9f, 0.9f, 1f);
+        }
+        
         if (slotType == SlotType.ActiveItem) return; // 액티브아이템슬롯은 리턴
 
         if (ItemSlot == null || ItemSlot.IsInvenSlotEmpty) return;
@@ -155,6 +162,10 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     /// <param name="eventData">이벤트 데이터</param>
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (backgroundImage != null)
+        {
+            backgroundImage.color = new Color(1f, 1f, 1f, 1f);
+        }
         TooltipManager.Instance.Hide();
     }
     

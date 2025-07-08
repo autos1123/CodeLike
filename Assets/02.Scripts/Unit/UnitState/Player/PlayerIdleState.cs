@@ -3,36 +3,33 @@ using UnityEngine;
 /// <summary>
 /// 플레이어의 기본 대기 상태
 /// </summary>
-public class PlayerIdleState:IUnitState
+public class PlayerIdleState:PlayerBaseState
 {
-    private PlayerController player;
-    private PlayerStateMachine stateMachine;
+    public PlayerIdleState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public PlayerIdleState(PlayerController player, PlayerStateMachine stateMachine)
+    public override void StateEnter()
     {
-        this.player = player;
-        this.stateMachine = stateMachine;
+        base.StateEnter();
+        StopAnimation(player.AnimationData.MoveParameterHash);
     }
 
-    public void StateEnter()
+    public override void StateExit()
     {
-        Debug.Log("Idle 상태 진입");
-        player._Animator.SetBool("isMoving", false);
+        base.StateExit();
     }
 
-    public void StateExit()
+    public override void StateUpdate()
     {
-        Debug.Log("Idle 상태 종료");
-    }
-
-    public void StateUpdate()
-    {
-        var move = player.Input.MoveInput;
+        base.StateUpdate();
+        var move = stateMachine.Player.InputHandler.MoveInput;
         if(move.magnitude > 0.1f)
         {
-            stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
+            stateMachine.ChangeState(stateMachine.MoveState); 
         }
     }
 
-    public void StatePhysicsUpdate() { }
+    public override void StatePhysicsUpdate() 
+    {
+        base.StatePhysicsUpdate();
+    }
 }
