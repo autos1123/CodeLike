@@ -15,7 +15,7 @@ public class AoESkillExecutor :ISkillExecutor
         );
         vfx.Play();
 
-        Collider2D[] hits = Physics2D.OverlapCircleAll(targetPoint, data.Range, LayerMask.GetMask(LayerName.Enemy));
+        Collider[] hits = Physics.OverlapSphere(targetPoint, data.Range, LayerMask.GetMask(LayerName.Enemy));
         foreach(var c in hits)
         {
             c.GetComponent<BaseCondition>()?.GetDamaged(data.Power);
