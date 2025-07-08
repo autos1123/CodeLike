@@ -127,7 +127,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
             return hitColliders;
         }
 
-        hitColliders = Physics.OverlapSphere(transform.position, attackRange);
+        hitColliders = Physics.OverlapSphere(transform.position, attackRange, layer);
         List<Collider> filteredColliders = new List<Collider>();
 
         foreach(Collider collider in hitColliders)
