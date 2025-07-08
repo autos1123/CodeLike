@@ -69,7 +69,8 @@ public class UIManager:MonoSingleton<UIManager>
                 }
             }
             Debug.Log("[TableManager] 테이블 로드 및 등록 완료");
-        };
+            ShowUI<HUD>();
+        };        
     }
 
     public void ToggleUI<T>() where T : UIBase

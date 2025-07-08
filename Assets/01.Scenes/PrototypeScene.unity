@@ -1035,10 +1035,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 0
-    characterName: 
-    initialConditions: []
   ID: 1
   rotDamping: 10
 --- !u!1 &862236735
@@ -1364,10 +1360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130dd0329e4deda40b00f40e906e05ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 0
-    characterName: 
-    initialConditions: []
   ID: 1
   rotDamping: 10
   projectileOffset: {fileID: 1010116728}
@@ -2355,7 +2347,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 0
-  rooms: []
   roomCount: 0
   gridWidth: 12
   gridHeight: 12
@@ -2363,6 +2354,9 @@ MonoBehaviour:
   connectionPrefab: {fileID: 7585784696146477249, guid: 184d5a669d7b49a4fa117414e4a74474, type: 3}
   prefabSet: {fileID: 11400000, guid: 19ce6f99000d6ca4cbbf2b96b49527f9, type: 2}
   roomParent: {fileID: 1426877453}
+  stageData:
+    stageID: 0
+    playerSpawnPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &1250406769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2378,7 +2372,6 @@ MonoBehaviour:
   generator: {fileID: 1250406768}
   currentStage:
     stageID: 0
-    rooms: []
     playerSpawnPoint: {x: 0, y: 0, z: 0}
   seed: 0
   stageID: 0
@@ -2997,10 +2990,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b86166756b4ac04096db6f6ed42bfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    id: 1000
-    characterName: 
-    initialConditions: []
   ID: 1000
   rotDamping: 10
 --- !u!195 &1787920733
@@ -3324,7 +3313,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 76540e9444c690946b4a3b26389b6d22, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 2032003809fe22045ac19b04daf1fa6d, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1869205984
 GameObject:
