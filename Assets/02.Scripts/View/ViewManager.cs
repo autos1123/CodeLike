@@ -32,7 +32,6 @@ public class ViewManager : MonoSingleton<ViewManager>
 
 
         CurrentViewMode = mode;
-        Debug.Log($"[ViewManager] 시점 전환: {mode}");
 
         OnViewChanged?.Invoke(mode);
     }

@@ -23,7 +23,6 @@ public class ShopInventory : MonoBehaviour,IInventory
         inventorySlots.Add(CreateSlot(item1));
         inventorySlots.Add(CreateSlot(item2));
         Initialized = true;
-        Debug.Log("Shop Inventory Initialized");
     }
 
     /// <summary>
@@ -83,12 +82,14 @@ public class ShopInventory : MonoBehaviour,IInventory
 
     void OnEnable()
     {
-        GameManager.Instance.onDestinyChange += HandleDestinyChange;
+        if (GameManager.Instance != null)
+            GameManager.Instance.onDestinyChange += HandleDestinyChange;
     }
 
      void OnDisable()
     {
-        GameManager.Instance.onDestinyChange -= HandleDestinyChange;
+        if (GameManager.Instance != null)
+            GameManager.Instance.onDestinyChange -= HandleDestinyChange;
     }
     /// <summary>
     /// 운명 변경이벤트 발생시 실행할 함수

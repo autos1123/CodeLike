@@ -10,9 +10,11 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     private PlayerCondition playerCondition;
     [SerializeField] private Inventory playerInventory;
     
-    private void Awake()
+    protected override void Awake()
     {
-        if (GameManager.Instance.Player.TryGetComponent<PlayerController>(out var controller))
+        base.Awake(); // MonoSingleton<T> 내부 싱글톤 초기화 로직 실행
+
+        if (GameManager.Instance != null && GameManager.Instance.Player.TryGetComponent<PlayerController>(out var controller))
         {
             playerCondition = controller.Condition;
         }
