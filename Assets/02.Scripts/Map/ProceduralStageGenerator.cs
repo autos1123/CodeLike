@@ -32,7 +32,7 @@ public class ProceduralStageGenerator:MonoBehaviour
     {
         this.seed = seed;
         random = new System.Random(seed);
-        nextRoomID = 0;
+        nextRoomID = 0; 
         grid = new bool[gridWidth, gridHeight];
 
         stageData = new StageData();
