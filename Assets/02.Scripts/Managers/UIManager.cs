@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -90,5 +91,19 @@ public class UIManager:MonoSingleton<UIManager>
     public T GetUI<T>() where T : UIBase
     {
         return _uiInstances[typeof(T).Name] as T;
+    }
+    
+    public void ShowConfirmPopup(string message, Action onConfirm, Action onCancel = null)
+    {
+        if (_uiInstances.TryGetValue(nameof(ConfirmPopup), out var ui))
+        {
+            var popup = ui as ConfirmPopup;
+            popup.Setup(message, onConfirm, onCancel);
+            popup.Open();
+        }
+        else
+        {
+            Debug.LogError("[UIManager] ConfirmPopup이 로드되지 않았습니다.");
+        }
     }
 }

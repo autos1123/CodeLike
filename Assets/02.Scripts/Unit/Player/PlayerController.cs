@@ -97,6 +97,12 @@ public class PlayerController:BaseController<PlayerCondition>
         Condition = new PlayerCondition(InitConditionData());
         AnimationData = new PlayerAnimationData();
         stateMachine = new PlayerStateMachine(this);
+        // 인벤토리 초기화 
+        Inventory inventory = GetComponent<Inventory>();
+        if (inventory != null)
+        {
+            inventory.InitializeInventory(); // TableManager 준비될 때까지 대기 후 초기화
+        }
         UIManager.Instance.ShowUI<HUD>();
         isInitialized = true;
     }

@@ -11,9 +11,8 @@ public class ShopUI : UIBase
 {
     public override string UIName => "ShopUI";
 
-    [SerializeField] private Inventory playerInventoryRaw;
+    private IInventory playerInventory => GameManager.Instance.Player?.GetComponent<Inventory>();
     [SerializeField] private ShopInventory shopInventoryRaw;
-    private IInventory playerInventory => playerInventoryRaw;
     private IInventory shopInventory => shopInventoryRaw;
 
     public Transform sellParent;
@@ -38,12 +37,6 @@ public class ShopUI : UIBase
     public override void Open()
     {
         base.Open();
-        if (playerInventoryRaw == null)
-        {
-            var inventoryUI = UIManager.Instance.GetUI<InventoryUI>();
-            if (inventoryUI != null)
-                playerInventoryRaw = inventoryUI.GetComponent<Inventory>();
-        }
 
         if (shopInventoryRaw == null)
             shopInventoryRaw = FindObjectOfType<ShopInventory>();
@@ -71,7 +64,7 @@ public class ShopUI : UIBase
     private IEnumerator InitAndGenerate()
     {
         yield return new WaitUntil(() =>
-            playerInventoryRaw != null && playerInventoryRaw.Initialized &&
+            playerInventory  != null && playerInventory .Initialized &&
             shopInventoryRaw != null && shopInventoryRaw.Initialized);
 
         GenerateSlots();
@@ -220,7 +213,8 @@ public class ShopUI : UIBase
     /// <returns>그 슬롯이 equipslots인지 불값 반환</returns>
     public bool IsEquippedSlot(ItemSlot slot)
     {
-        return playerInventoryRaw.equipSlots.Contains(slot);
+        var inventory = GameManager.Instance.Player?.GetComponent<Inventory>();
+        return inventory != null && inventory.equipSlots.Contains(slot);
     }
     /// <summary>
     /// 특정 슬롯+아이템 쌍을 선택된 리스트에 등록
