@@ -23,16 +23,7 @@ public class UIManager:MonoSingleton<UIManager>
     /// </summary>
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F1))
-        {
-            Debug.Log("DestinyBoard");
-            ToggleUI<DestinyBoard>();
-        }
-        if(Input.GetKeyDown(KeyCode.F2))
-        {
-            Debug.Log("EnhanceBoard");
-            ToggleUI<EnhanceBoard>();
-        }
+
         if(Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("상점열림");
