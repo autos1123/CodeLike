@@ -15,6 +15,8 @@ public class PlayerController:BaseController<PlayerCondition>
 
     public PlayerAnimationData AnimationData { get; private set; } 
 
+    public PlayerActiveItemController ActiveItemController { get; private set; }
+
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.3f;
@@ -29,6 +31,7 @@ public class PlayerController:BaseController<PlayerCondition>
     {
         base.Awake();
         InputHandler = GetComponent<PlayerInputHandler>();
+        ActiveItemController = GetComponent<PlayerActiveItemController>();
         _Rigidbody.freezeRotation = true;
     }
 
