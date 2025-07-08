@@ -127,7 +127,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
             return hitColliders;
         }
 
-        hitColliders = Physics.OverlapSphere(transform.position, attackRange);
+        hitColliders = Physics.OverlapSphere(transform.position, attackRange, layer);
         List<Collider> filteredColliders = new List<Collider>();
 
         foreach(Collider collider in hitColliders)
@@ -177,7 +177,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
         else
         {
             _Rigidbody.velocity = velocityTmp; // 게임이 일시정지되면 Rigidbody 속도 초기화
-            _Rigidbody.useGravity = true; // 중력 비활성화
+            _Rigidbody.useGravity = true; // 중력 활성화
 
             _Animator.speed = 1;
         }

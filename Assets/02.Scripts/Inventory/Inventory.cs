@@ -107,7 +107,6 @@ public class Inventory : MonoBehaviour, IInventory
             if (slot.IsActiveSlotEmpty)
             {
                 slot.ActiveSlotSet(activeItem);
-                Debug.Log($"[activeSlot] 아이템 추가됨: {activeItem.name}");
                 return true;
             }
         }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ISkillExecutor
 {
-    void Execute(ActiveItemEffectData data, Transform caster, Vector2 targetPoint);
+    void Execute(ActiveItemEffectData data, Transform caster, Vector3 targetPoint);
 }

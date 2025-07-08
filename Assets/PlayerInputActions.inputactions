@@ -78,7 +78,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "UseQItem",
+                    "name": "UseXItem",
                     "type": "Button",
                     "id": "9e397504-7344-4727-a116-ff265b220c4e",
                     "expectedControlType": "Button",
@@ -87,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "UseWitem",
+                    "name": "UseCitem",
                     "type": "Button",
                     "id": "f0fd4099-b786-4542-85d1-f8d753c14c9f",
                     "expectedControlType": "Button",
@@ -232,22 +232,22 @@
                 {
                     "name": "",
                     "id": "24e07765-49e0-4624-aa5b-21bc2b58e297",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "UseQItem",
+                    "action": "UseXItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "0ef493b5-9043-4ba3-98cc-7f47d064bec5",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "UseWitem",
+                    "action": "UseCitem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
