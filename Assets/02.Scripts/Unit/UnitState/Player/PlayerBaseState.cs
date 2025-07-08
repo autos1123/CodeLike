@@ -82,6 +82,7 @@ public class PlayerBaseState:IUnitState
         }
 
         Vector3 delta = dir * speed;
+        delta.y = player._Rigidbody.velocity.y;
         player._Rigidbody.velocity = delta;
         return dir;
     }
