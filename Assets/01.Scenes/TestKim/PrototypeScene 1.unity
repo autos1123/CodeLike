@@ -847,11 +847,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!4 &1398711444 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1985143623796453560, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
-  m_PrefabInstance: {fileID: 1535968731}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1426877452
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,39 +987,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2834581293470904418, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
-      propertyPath: playerTransform
-      value: 
-      objectReference: {fileID: 1398711444}
-    - target: {fileID: 4223102427382493442, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
-      propertyPath: far clip plane
-      value: 200
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 725818217871478009, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1535968733}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
---- !u!1 &1535968732 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 725818217871478009, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
-  m_PrefabInstance: {fileID: 1535968731}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1535968733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1535968732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3864f03f305e2cf45929ace386e6ae08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2044144085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,7 +1009,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2044144086
 MonoBehaviour:
   m_ObjectHideFlags: 0

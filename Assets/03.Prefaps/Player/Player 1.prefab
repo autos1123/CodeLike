@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 9129172975222330082}
   - component: {fileID: 7197296124414012102}
   - component: {fileID: 4688552309220638433}
+  - component: {fileID: 8531551348991034092}
   m_Layer: 8
   m_Name: Player 1
   m_TagString: Player
@@ -263,6 +264,19 @@ MonoBehaviour:
     m_Bits: 1024
   interactableRange: 2
   interactTextTr: {fileID: 1618994575482564388}
+--- !u!114 &8531551348991034092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725818217871478009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3864f03f305e2cf45929ace386e6ae08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeItemDatas: []
 --- !u!1 &832905198402415153
 GameObject:
   m_ObjectHideFlags: 0
@@ -1578,7 +1592,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 200
   field of view: 60
   orthographic: 0
   orthographic size: 5
