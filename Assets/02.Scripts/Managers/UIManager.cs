@@ -15,7 +15,7 @@ public class UIManager:MonoSingleton<UIManager>
     {
         base.Awake();
         uiPrefabs = new List<GameObject>();
-        InitializeUI();        
+        InitializeUI();
     }
 
     /// <summary>
@@ -68,8 +68,7 @@ public class UIManager:MonoSingleton<UIManager>
                     TooltipManager.Instance.RegisterTooltipUI(tableObj);
                 }
             }
-            Debug.Log("[TableManager] 테이블 로드 및 등록 완료");
-            ShowUI<HUD>();
+            Debug.Log("[TableManager] 테이블 로드 및 등록 완료");            
         };        
     }
 

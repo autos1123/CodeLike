@@ -108,7 +108,7 @@ public class PlayerController:BaseController<PlayerCondition>
         Condition = new PlayerCondition(InitConditionData());
         AnimationData = new PlayerAnimationData();
         stateMachine = new PlayerStateMachine(this);
-
+        UIManager.Instance.ShowUI<HUD>();
         isInitialized = true;
     }
 
