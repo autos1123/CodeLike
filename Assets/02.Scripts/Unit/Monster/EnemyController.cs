@@ -5,14 +5,13 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(NavMeshAgent))]
-public abstract class EnemyController:BaseController
+public abstract class EnemyController:BaseController<EnemyCondition>
 {
 
-    private EnemyStateMachine stateMachine;
+    public EnemyStateMachine StateMachine { get; private set; }
     [SerializeField] private float rotDamping;
 
     public EnemyAnimationData AnimationData { get; private set; }
-    public EnemyCondition Condition { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
     public float RotationDamping => rotDamping;
     public Vector3 patrolPivot { get; private set; } = Vector3.zero;
@@ -22,6 +21,7 @@ public abstract class EnemyController:BaseController
 
     // 게임 모드에 따라 상태를 변경하기 위한 필드
     private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
+    private bool agentStopped; // NavMeshAgent가 정지 상태인지 여부
 
     protected override void OnEnable()
     {
@@ -34,13 +34,15 @@ public abstract class EnemyController:BaseController
         if(PoolManager.HasInstance)
             PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
 
-        GameManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
+        if(GameManager.HasInstance)
+            GameManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
     }
 
     protected override void Awake()
     {
         base.Awake();
         NavMeshAgent = GetComponent<NavMeshAgent>();
+        NavMeshAgent.speed = 0;
     }
 
     protected virtual void Update()
@@ -51,7 +53,7 @@ public abstract class EnemyController:BaseController
         if(!isPlaying)
             return;
 
-        stateMachine.Update();
+        StateMachine.Update();
     }
 
     private void FixedUpdate()
@@ -62,7 +64,7 @@ public abstract class EnemyController:BaseController
         if(!isPlaying)
             return;
 
-        stateMachine.PhysicsUpdate();
+        StateMachine.PhysicsUpdate();
     }
 
     public void SetPatrolPivot()
@@ -76,22 +78,12 @@ public abstract class EnemyController:BaseController
 
         if(Application.isPlaying && isInitialized)
         {
-            float patrolRange;
-            float chaseRange;
-
-            if(data.TryGetCondition(ConditionType.PatrolRange, out patrolRange))
-            {
-                // 적의 순찰 범위를 시각적으로 표시
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(patrolPivot, patrolRange);
-            }
-
-            if(data.TryGetCondition(ConditionType.ChaseRange, out chaseRange))
-            {
-                // 적의 추적 범위를 시각적으로 표시
-                Gizmos.color = Color.blue;
-                Gizmos.DrawWireSphere(transform.position, chaseRange);
-            }
+            // 적의 순찰 범위를 시각적으로 표시
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(patrolPivot, Condition.GetValue(ConditionType.PatrolRange));
+            // 적의 추적 범위를 시각적으로 표시
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, Condition.GetValue(ConditionType.ChaseRange));
         }
     }
 
@@ -99,37 +91,28 @@ public abstract class EnemyController:BaseController
     {
         base.Initialize();
         // Controller 초기화
-        Condition = new EnemyCondition(data);
+        Condition = new EnemyCondition(InitConditionData());
         AnimationData = new EnemyAnimationData();
-        AnimationData.Initialize();
-        stateMachine = new EnemyStateMachine(this);
+        StateMachine = new EnemyStateMachine(this);
 
         // 체력 UI 초기화
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
         hpBar.transform.SetParent(transform);
         hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
-        HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
+        HpBarUpdate();
+        Condition.statModifiers[ConditionType.HP] += HpBarUpdate; // 체력 변화시 UI 업데이트
 
         isInitialized = true;
     }
 
-    public override bool GetDamaged(float damage)
+    public void HpBarUpdate()
     {
-        if(Condition.GetDamaged(damage))
-        {
-            // 몬스터 사망
-            // 사망 이펙트 재생
-            Invoke(nameof(EnemyDie), 0.1f);
-            return false;
-        }
-
-        HpUI.HpBarUpdate(Condition.GetCurrentHpRatio());
-        return true;
+        HpUI.HpBarUpdate(Condition.GetConditionRatio(ConditionType.HP));
     }
 
-    private void EnemyDie()
+    protected override void Die()
     {
-        gameObject.SetActive(false);
+        StateMachine.ChangeState(StateMachine.DieState);
     }
 
     /// <summary>
@@ -150,17 +133,15 @@ public abstract class EnemyController:BaseController
         if(!isPlaying)
         {
             destinationTmp = NavMeshAgent.destination;
+            agentStopped = NavMeshAgent.isStopped;
             NavMeshAgent.isStopped = true; // NavMeshAgent 정지
         }
         else
         {
             NavMeshAgent.destination = destinationTmp; // NavMeshAgent 목적지 복원
-            NavMeshAgent.isStopped = false; // NavMeshAgent 재개
+            NavMeshAgent.isStopped = agentStopped; // NavMeshAgent 재개
         }
     }
-
-
-
 
     /// <summary>
     /// 운명 변경이벤트 발생시 실행할 함수

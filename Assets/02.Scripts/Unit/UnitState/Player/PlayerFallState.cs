@@ -13,6 +13,7 @@ public class PlayerFallState:IUnitState
 
     public void StateEnter()
     {
+
         Debug.Log("Fall 상태 진입");
         // 추후 활성화 예정
         //player._Animator.SetBool("isFalling", true);
@@ -27,17 +28,17 @@ public class PlayerFallState:IUnitState
 
     public void StateUpdate()
     {
-        if(player.IsGrounded)
-        {
-            if(player.Input.MoveInput.magnitude > 0.1f)
-                stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
-            else
-                stateMachine.ChangeState(new PlayerIdleState(player, stateMachine));
-        }
+        //if(player.IsGrounded)
+        //{
+        //    if(player.Input.MoveInput.magnitude > 0.1f)
+        //        stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
+        //    else
+        //        stateMachine.ChangeState(new PlayerIdleState(stateMachine));
+        //}
     }
 
     public void StatePhysicsUpdate()
     {
-        player.Move(player.Input.MoveInput);
+        // player.Move(player.Input.MoveInput);
     }
 }

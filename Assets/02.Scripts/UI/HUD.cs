@@ -27,10 +27,10 @@ public class HUD:UIBase
         optionButton.onClick.RemoveAllListeners();
         optionButton.onClick.AddListener(UIManager.Instance.ToggleUI<OptionBoard>);
 
-        player.PlayerCondition.statModifiers[ConditionType.Gold] += ChangeGold;
+        player.Condition.statModifiers[ConditionType.Gold] += ChangeGold;
         ChangeGold();
 
-        player.PlayerCondition.statModifiers[ConditionType.HP] += ChangeHP;
+        player.Condition.statModifiers[ConditionType.HP] += ChangeHP;
         ChangeHP();
     }
     public override void Close()
@@ -38,26 +38,26 @@ public class HUD:UIBase
         base.Close();
         if(player == null) return;
 
-        player.PlayerCondition.statModifiers[ConditionType.Gold] -= ChangeGold;
-        player.PlayerCondition.statModifiers[ConditionType.HP] -= ChangeHP;
+        player.Condition.statModifiers[ConditionType.Gold] -= ChangeGold;
+        player.Condition.statModifiers[ConditionType.HP] -= ChangeHP;
     }
 
     void ChangeGold()
     {
-        goldText.text = player.PlayerCondition.GetValue(ConditionType.Gold).ToString();
+        goldText.text = player.Condition.GetValue(ConditionType.Gold).ToString();
     }
 
     void ChangeHP()
     {
-        float currentHP = player.PlayerCondition.GetValue(ConditionType.HP);
+        float currentHP = player.Condition.GetValue(ConditionType.HP);
 
-        if(player.PlayerCondition.Data.TryGetCondition(ConditionType.HP, out float maxHP))
+        if(player.Condition.Data.TryGetCondition(ConditionType.HP, out float maxHP))
         {
             HPFill.fillAmount = currentHP / maxHP;
         }
         else
         {
-            Debug.LogError("[HUD] PlayerCondition에서 maxHP를 받아올 수 없습니다.");
+            Debug.LogError("[HUD] Condition에서 maxHP를 받아올 수 없습니다.");
         }
     }
 

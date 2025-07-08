@@ -15,8 +15,7 @@ public class EnemyAttackState : EnemyBaseState
         stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
         stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
 
-        if(!stateMachine.Enemy.Data.TryGetCondition(ConditionType.AttackSpeed, out float atkSpeed))
-            atkSpeed = 1.0f; // 기본 공격 속도 설정
+        float atkSpeed = stateMachine.Enemy.Condition.GetValue(ConditionType.AttackSpeed);
 
         attackDelay = 1.0f / atkSpeed; // 공격 속도에 따라 딜레이 설정
         startTime = Time.time;

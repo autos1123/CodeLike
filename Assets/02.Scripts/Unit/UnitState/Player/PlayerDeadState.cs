@@ -3,19 +3,14 @@ using UnityEngine;
 /// <summary>
 /// 플레이어 사망 상태
 /// </summary>
-public class PlayerDeadState:IUnitState
+public class PlayerDeadState:PlayerBaseState
 {
-    private PlayerController player;
-    private PlayerStateMachine stateMachine;
 
-    public PlayerDeadState(PlayerController player, PlayerStateMachine stateMachine)
-    {
-        this.player = player;
-        this.stateMachine = stateMachine;
-    }
+    public PlayerDeadState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public void StateEnter()
+    public override void StateEnter()
     {
+        base.StateEnter();
         if(player.TryGetComponent<Rigidbody>(out var rb))
         {
             rb.velocity = Vector3.zero;
@@ -24,23 +19,22 @@ public class PlayerDeadState:IUnitState
 
         player.enabled = false;
 
-        player._Animator.SetBool("isDead", true);
-
-        // 필요시 사망 애니메이션, 사운드, 게임오버 호출 등 가능
+        StartAnimation(player.AnimationData.DeadParameterHash);
     }
 
-    public void StateExit()
+    public override void StateExit()
     {
-
+        base.StateExit();
+        StopAnimation(player.AnimationData.DeadParameterHash); // 부활 등 리셋 상황 대비
     }
 
-    public void StateUpdate()
+    public override void StateUpdate()
     {
-        // 사망 상태에서는 아무 입력도 처리하지 않음
+        base.StateUpdate();
     }
 
-    public void StatePhysicsUpdate()
+    public override void StatePhysicsUpdate()
     {
-        // 물리 갱신도 없음
+       base.StatePhysicsUpdate();
     }
 }

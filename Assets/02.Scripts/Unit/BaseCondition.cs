@@ -10,20 +10,20 @@ public enum ModifierType
     BuffEnhance,
     ItemEnhance
 }
-public class BaseCondition
+public abstract class BaseCondition
 {
-    [SerializeField]protected ConditionData data;
+    protected ConditionData data;
     public ConditionData Data => data;
 
     public Dictionary<ConditionType, float> CurrentConditions { get; private set; }
-    public Dictionary<ConditionType, Dictionary<ModifierType, float>> CondifionModifier { get; private set; }
+    public Dictionary<ConditionType, Dictionary<ModifierType, float>> ConditionModifier { get; private set; }
 
     public Dictionary<ConditionType, Action> statModifiers = new();
     public BaseCondition(ConditionData data)
     {
         this.data = data;
         CurrentConditions = data.GetCurrentConditions();
-        CondifionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();
+        ConditionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();
 
         foreach(var item in CurrentConditions)
         {
@@ -38,8 +38,17 @@ public class BaseCondition
     /// <returns></returns>
     public float GetValue(ConditionType type)
     {
-        if(CurrentConditions.TryGetValue(type, out float value))
-            return value;
+        float curValue = 0;
+        float modifierValue = 0;
+
+        if(CurrentConditions.TryGetValue(type, out curValue))
+        {
+            if(ConditionModifier.ContainsKey(type))
+                modifierValue = ConditionModifier[type].Values.Sum();
+
+            return curValue + modifierValue;
+        }
+
         Debug.LogError($"ConditionType {type}를 찾을 수 없습니다.");
         return 0f;
     }
@@ -52,7 +61,7 @@ public class BaseCondition
     /// <returns></returns>
     public float GetModifierValue(ModifierType m_Type, ConditionType c_Type)
     {
-        if(CondifionModifier.TryGetValue(c_Type, out Dictionary<ModifierType, float> modifierDict))
+        if(ConditionModifier.TryGetValue(c_Type, out Dictionary<ModifierType, float> modifierDict))
         {
             if(modifierDict.TryGetValue(m_Type, out float value))
             {
@@ -67,6 +76,7 @@ public class BaseCondition
 
         return 0f;
     }
+
     /// <summary>
     /// 컨디션 전체 증가치 반환
     /// </summary>
@@ -74,9 +84,9 @@ public class BaseCondition
     /// <returns></returns>
     public float GetModifierValue(ConditionType c_Type)
     {
-        if(CondifionModifier.TryGetValue(c_Type, out Dictionary<ModifierType, float> modifierDict))
+        if(ConditionModifier.TryGetValue(c_Type, out Dictionary<ModifierType, float> modifierDict))
         {
-            return CondifionModifier[c_Type].Values.Sum();
+            return ConditionModifier[c_Type].Values.Sum();
         }
         else
         {
@@ -95,10 +105,10 @@ public class BaseCondition
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(CurrentConditions[type]);
-        if(CondifionModifier.ContainsKey(type))
+        if(ConditionModifier.ContainsKey(type))
         {
             sb.Append('(');
-            sb.Append($"{CondifionModifier[type].Values.Sum()}");
+            sb.Append($"{ConditionModifier[type].Values.Sum()}");
             sb.Append(')');
         }
         return sb.ToString();
@@ -113,7 +123,7 @@ public class BaseCondition
     /// <param name="value"></param>
     public void ChangeModifierValue(ConditionType c_type, ModifierType m_type, float value)
     {
-        if(CondifionModifier.TryGetValue(c_type, out Dictionary<ModifierType, float> modifierDict))
+        if(ConditionModifier.TryGetValue(c_type, out Dictionary<ModifierType, float> modifierDict))
         {
             if(modifierDict.TryGetValue(m_type, out float currentValue))
             {
@@ -126,7 +136,7 @@ public class BaseCondition
         }
         else
         {
-            CondifionModifier[c_type] = new Dictionary<ModifierType, float> { { m_type, value } };
+            ConditionModifier[c_type] = new Dictionary<ModifierType, float> { { m_type, value } };
         }
         
         statModifiers[c_type]?.Invoke();
@@ -138,7 +148,7 @@ public class BaseCondition
     /// </summary>
     public void ResetModifier()
     {
-        CondifionModifier.Clear();
+        ConditionModifier.Clear();
     }
 
     public bool GetDamaged(float damage)
@@ -150,6 +160,8 @@ public class BaseCondition
         }
 
         CurrentConditions[ConditionType.HP] -= damage;
+        statModifiers[ConditionType.HP]?.Invoke(); // 체력 변경 이벤트
+
         if(CurrentConditions[ConditionType.HP] <= 0)
         {
             CurrentConditions[ConditionType.HP] = 0;
@@ -157,5 +169,20 @@ public class BaseCondition
         }
 
         return false; // 사망하지 않음
+    }
+
+    /// <summary>
+    /// 특정 컨디션 비율을 반환합니다. (0.0f ~ 1.0f)
+    /// </summary>
+    /// <returns></returns>
+    public float GetConditionRatio(ConditionType type)
+    {
+        if(!Data.TryGetCondition(type, out float max))
+        {
+            Debug.LogError("ConditionType.HP를 찾을 수 없습니다.");
+            return 0;
+        }
+
+        return GetValue(type) / max;
     }
 }
