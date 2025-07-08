@@ -19,9 +19,10 @@ public class PlayerController:BaseController<PlayerCondition>
 
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float groundRayOffset = 0.3f;
+    [SerializeField] private float groundRayOffset = 0.1f;
 
-    private bool isGrounded;
+    public bool isGrounded { get; private set; } 
+
 
     [Header("Visual Settings")]
     public Transform VisualTransform;
@@ -41,19 +42,7 @@ public class PlayerController:BaseController<PlayerCondition>
             return;
 
         UpdateGrounded();
-
-        // 점프 입력 처리
-        if(InputHandler.JumpPressed && isGrounded)
-            stateMachine.ChangeState(new PlayerJumpState(stateMachine));
-
-        // 공격 입력 처리
-        if(InputHandler.AttackPressed)
-            stateMachine.ChangeState(new PlayerAttackState(stateMachine));
-
-        // 현재 상태 업데이트
         stateMachine.Update();
-
-        // 일회성 입력 리셋
         InputHandler.ResetOneTimeInputs();
     }
 

@@ -10,7 +10,8 @@ public class PlayerMoveState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        StartAnimation(player.AnimationData.MoveParameterHash);
+        if(player.isGrounded)
+            StartAnimation(player.AnimationData.MoveParameterHash);
     }
 
     public override void StateExit()
@@ -51,8 +52,18 @@ public class PlayerMoveState:PlayerBaseState
         }
         else
         {
+            StopAnimation(player.AnimationData.JumpParameterHash);
             stateMachine.ChangeState(stateMachine.IdleState);
         }
+
+        if(player.InputHandler.MoveInput.magnitude < 0.1f)
+            stateMachine.ChangeState(stateMachine.IdleState);
+
+        if(player.InputHandler.JumpPressed && player.isGrounded)
+            stateMachine.ChangeState(stateMachine.JumpState);
+
+        if(player.InputHandler.AttackPressed)
+            stateMachine.ChangeState(stateMachine.AttackState);
     }
 
     public override void StatePhysicsUpdate()

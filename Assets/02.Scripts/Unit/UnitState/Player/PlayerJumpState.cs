@@ -10,6 +10,8 @@ public class PlayerJumpState:PlayerBaseState
     {
         base.StateEnter();
 
+        StartAnimation(player.AnimationData.JumpParameterHash);
+
         float force = player.Condition.GetValue(ConditionType.JumpPower);
 
         Vector3 v = player._Rigidbody.velocity;
@@ -19,7 +21,6 @@ public class PlayerJumpState:PlayerBaseState
 
         player._Rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
 
-        StartAnimation(player.AnimationData.JumpParameterHash);
 
         hasStartedFalling = false; // fall기능 추가 대비용 변수
     }
@@ -33,12 +34,19 @@ public class PlayerJumpState:PlayerBaseState
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if(player._Rigidbody.velocity.y < -0.1f && !hasStartedFalling)
-        {
-            //hasStartedFalling = true;
-            //stateMachine.ChangeState(stateMachine.FallState); // 낙하 state전환 애니메이션 기능 추가할 예정
-        }
+
+        if(!player.isGrounded)
+            return;
+
+        StopAnimation(player.AnimationData.JumpParameterHash);
+
+        if(player.InputHandler.MoveInput.magnitude > 0.1f)
+            stateMachine.ChangeState(stateMachine.MoveState);
+        else
+            stateMachine.ChangeState(stateMachine.IdleState);
+
     }
+
 
     public override void StatePhysicsUpdate()
     {
