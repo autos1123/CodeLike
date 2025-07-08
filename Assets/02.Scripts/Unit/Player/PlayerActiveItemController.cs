@@ -25,6 +25,8 @@ public class PlayerActiveItemController : MonoBehaviour
         executors = new Dictionary<SkillType, ISkillExecutor>
         {
             { SkillType.Projectile, new ProjectileSkillExecutor() },
+            { SkillType.AoE , new AoESkillExecutor() },
+            { SkillType.Heal , new HealSkillExecutor()}
         };
         activeItemDatas = new ActiveItemData[2];
     }
