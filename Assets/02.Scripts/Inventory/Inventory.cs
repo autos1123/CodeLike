@@ -66,7 +66,8 @@ public class Inventory : MonoBehaviour, IInventory
         
         Initialized = true;
 
-        
+        UIManager.Instance.ShowUI<HUD>();
+
     }
     
     /// <summary>
@@ -136,23 +137,46 @@ public class Inventory : MonoBehaviour, IInventory
         return false;
     }
     /// <summary>
-    /// 비어있는 액티브아이템 슬롯에 아이템 추가
+    /// 선택한 인덱스의 액티브아이템 슬롯에(비어있을 때만) 아이템 추가
     /// </summary>
-    /// <param name="activeItem"></param>
-    /// <param name="skillinput"></param>
-    /// <returns></returns>
-    public bool AddtoActiveSlot(ActiveItemData activeItem, Skillinput skillinput)
+    /// <param name="slotIndex">장착할 슬롯 인덱스</param>
+    /// <param name="activeItem">추가할 아이템</param>
+    /// <param name="skillinput">스킬 입력</param>
+    /// <returns>성공 시 true, 실패 시 false</returns>
+    public bool AddtoActiveSlot(int slotIndex, ActiveItemData activeItem, Skillinput skillinput)
     {
-        foreach(var slot in activeItemSlots)
+        // 범위 체크
+        if(slotIndex < 0 || slotIndex >= activeItemSlots.Count)
+            return false;
+
+        var slot = activeItemSlots[slotIndex];
+        if(slot.IsEmpty)
         {
-            if(slot.IsEmpty)
-            {
-                slot.Set(activeItem);
-                PlayerActiveItemController.TakeItem(skillinput, activeItem);
-                return true;
-            }
+            slot.Set(activeItem);
+            PlayerActiveItemController.TakeItem(skillinput, activeItem);
+            return true;
         }
-        return false;
+        return false; // 이미 아이템이 들어있으면 추가 불가
+    }
+
+    public void ReplaceActiveSlot(int slotIndex, ActiveItemData newItem, Skillinput skillinput)
+    {
+        if(slotIndex < 0 || slotIndex >= activeItemSlots.Count)
+            return; // 범위 오류 방지
+
+        // 기존 아이템 정보
+        var oldItem = activeItemSlots[slotIndex].ActiveItem;
+
+        // 새 아이템 세팅(덮어쓰기)
+        activeItemSlots[slotIndex].Set(newItem);
+
+        // 컨트롤러에도 반영
+        if(skillinput != null)
+            PlayerActiveItemController.TakeItem(skillinput, newItem);
+        else
+            PlayerActiveItemController.TakeItem(newItem);
+
+        // (옵션) oldItem을 인벤토리로 돌려주거나, 파기 등 처리 가능
     }
 
     /// <summary>

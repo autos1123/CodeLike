@@ -46,6 +46,12 @@ public class InteractionController : MonoBehaviour
     /// <param name="context"></param>
     public void OnInteractableAction(InputAction.CallbackContext context)
     {
+
+        if(interactableObj == null)
+        {
+            Debug.LogWarning("[InteractionController] No interactable in range!"); // 추가
+            return;
+        }
         if(interactableObj.CanInteract(gameObject))
             interactableObj.Interact(gameObject);
     }
