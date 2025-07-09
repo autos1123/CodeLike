@@ -10,7 +10,7 @@ public class PlayerMoveState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        if(player.isGrounded)
+        if(player.IsGrounded)
             StartAnimation(player.AnimationData.MoveParameterHash);
     }
 
@@ -59,7 +59,7 @@ public class PlayerMoveState:PlayerBaseState
         if(player.InputHandler.MoveInput.magnitude < 0.1f)
             stateMachine.ChangeState(stateMachine.IdleState);
 
-        if(player.InputHandler.JumpPressed && player.isGrounded)
+        if(player.InputHandler.JumpPressed && player.IsGrounded)
             stateMachine.ChangeState(stateMachine.JumpState);
 
         if(player.InputHandler.AttackPressed)
