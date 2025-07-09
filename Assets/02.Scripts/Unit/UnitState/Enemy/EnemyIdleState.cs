@@ -67,7 +67,8 @@ public class EnemyIdleState : EnemyBaseState
             Vector2 samplePosV2 = Random.insideUnitCircle * patrolRange;
             Vector3 sample = new Vector3(samplePosV2.x, stateMachine.Enemy.patrolPivot.y, samplePosV2.y);
 
-            if(NavMesh.SamplePosition(stateMachine.Enemy.patrolPivot + sample, out hit, patrolRange, NavMesh.AllAreas))
+            int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
+            if(NavMesh.SamplePosition(stateMachine.Enemy.patrolPivot + sample, out hit, patrolRange, walkableMask))
             {
                 if(Vector3.Distance(stateMachine.Enemy.transform.position, hit.position) > patrolRange * 0.8f)
                 {
