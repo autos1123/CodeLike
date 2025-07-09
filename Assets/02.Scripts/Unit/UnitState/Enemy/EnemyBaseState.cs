@@ -140,7 +140,7 @@ public class EnemyBaseState:IUnitState
             }
             else
             {
-                stateMachine.Enemy.MeshTr.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
+                stateMachine.Enemy.MeshTr.rotation = Quaternion.Lerp(stateMachine.Enemy.MeshTr.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
             }
         }
     }
