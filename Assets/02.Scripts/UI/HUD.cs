@@ -60,5 +60,4 @@ public class HUD:UIBase
             Debug.LogError("[HUD] Condition에서 maxHP를 받아올 수 없습니다.");
         }
     }
-
 }

@@ -47,8 +47,8 @@ public class PlayerInputHandler:MonoBehaviour
         inputActions.Player.OpenOptions.performed += ctx => UIManager.Instance.ToggleUI<OptionBoard>();
         inputActions.Player.OpenInventory.performed += ctx => UIManager.Instance.ToggleUI<InventoryUI>();
         inputActions.Player.OpenStatus.performed += ctx => UIManager.Instance.ToggleUI<StatusBoard>();
-        inputActions.Player.UseXItem.performed += ctx => Debug.Log("X");
-        inputActions.Player.UseCitem.performed += ctx => Debug.Log("C");
+        inputActions.Player.UseXItem.performed += ctx => GameManager.Instance.Player.transform.GetComponent<PlayerActiveItemController>().UseItem(Skillinput.X);
+        inputActions.Player.UseCitem.performed += ctx => GameManager.Instance.Player.transform.GetComponent<PlayerActiveItemController>().UseItem(Skillinput.C);
         // 상호작용 입력 (F키)
         inputActions.Player.Interaction.performed += OnInteraction;
     }
