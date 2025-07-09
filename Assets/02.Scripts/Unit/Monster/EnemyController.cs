@@ -145,7 +145,6 @@ public abstract class EnemyController:BaseController<EnemyCondition>
             
             NavMeshAgent.destination = destinationTmp; // NavMeshAgent 목적지 복원
             NavMeshAgent.speed = agentSpeedTmp; // NavMeshAgent 속도 복원
-            Debug.LogWarning(NavMeshAgent.isStopped);
         }
     }
 
