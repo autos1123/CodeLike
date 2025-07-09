@@ -11,17 +11,15 @@ using UnityEngine.SceneManagement;
 public class PlayerController:BaseController<PlayerCondition>
 {
     public PlayerInputHandler InputHandler { get; private set; }
-    public PlayerStateMachine stateMachine { get; private set; }
-
+    public PlayerStateMachine StateMachine { get; private set; }
     public PlayerAnimationData AnimationData { get; private set; } 
-
     public PlayerActiveItemController ActiveItemController { get; private set; }
 
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.1f;
 
-    public bool isGrounded { get; private set; } 
+    public bool IsGrounded { get; private set; } 
 
 
     [Header("Visual Settings")]
@@ -42,7 +40,7 @@ public class PlayerController:BaseController<PlayerCondition>
             return;
 
         UpdateGrounded();
-        stateMachine.Update();
+        StateMachine.Update();
         InputHandler.ResetOneTimeInputs();
     }
 
@@ -51,7 +49,7 @@ public class PlayerController:BaseController<PlayerCondition>
         if(!isInitialized || !isPlaying)
             return;
 
-        stateMachine.PhysicsUpdate();
+        StateMachine.PhysicsUpdate();
     }
 
     /// <summary>
@@ -62,7 +60,7 @@ public class PlayerController:BaseController<PlayerCondition>
         Vector3 origin = col.bounds.center;
         float distance = col.bounds.extents.y + groundRayOffset;
         bool hit = Physics.Raycast(origin, Vector3.down, distance, groundLayer, QueryTriggerInteraction.Ignore);
-        isGrounded = hit;
+        IsGrounded = hit;
         Debug.DrawRay(origin, Vector3.down * distance, hit ? Color.green : Color.red);
     }
     /// <summary>
@@ -84,7 +82,7 @@ public class PlayerController:BaseController<PlayerCondition>
 
     protected override void Die()
     {
-        stateMachine.ChangeState(stateMachine.DeadState);
+        StateMachine.ChangeState(StateMachine.DeadState);
     }
 
     /// <summary>
@@ -96,7 +94,13 @@ public class PlayerController:BaseController<PlayerCondition>
 
         Condition = new PlayerCondition(InitConditionData());
         AnimationData = new PlayerAnimationData();
-        stateMachine = new PlayerStateMachine(this);
+        StateMachine = new PlayerStateMachine(this);
+        // 인벤토리 초기화 
+        Inventory inventory = GetComponent<Inventory>();
+        if (inventory != null)
+        {
+            inventory.InitializeInventory(); // TableManager 준비될 때까지 대기 후 초기화
+        }
         UIManager.Instance.ShowUI<HUD>();
         isInitialized = true;
     }

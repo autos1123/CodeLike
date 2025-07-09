@@ -725,7 +725,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4846628217901586182}
   - component: {fileID: 7766683399806986386}
-  - component: {fileID: 836664430511430985}
   - component: {fileID: 581751402618224839}
   m_Layer: 5
   m_Name: Inventory
@@ -762,21 +761,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8048037723422132388}
   m_CullTransparentMesh: 1
---- !u!114 &836664430511430985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8048037723422132388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aee99e08ad4ca4a4fa32ba2f9248a86e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventorySlots: []
-  equipSlots: []
-  activeItemSlots: []
 --- !u!114 &581751402618224839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -789,7 +773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da035eb6e257eae40adc144d5f606baa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 836664430511430985}
+  inventory: {fileID: 0}
   inventorySlotUIs:
   - {fileID: 7467581601099323127}
   - {fileID: 6482634894507129144}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public interface IInventory
 {
@@ -18,9 +19,9 @@ public class Inventory : MonoBehaviour, IInventory
 {
     private ItemDataTable itemDataTable;
     private ActiveItemDataTable activeItemDataTable;
-    
+    private PlayerActiveItemController PlayerActiveItemController;
     /// <summary> 실제 인벤토리 슬롯 리스트 (16칸) </summary>
-    
+
     public List<ItemSlot> inventorySlots = new List<ItemSlot>();
     /// <summary> 실제 장비 슬롯 리스트 (4칸) </summary>
     
@@ -31,14 +32,20 @@ public class Inventory : MonoBehaviour, IInventory
     /// <summary> 인벤토리가 초기화 완료되었는지 여부 </summary>
     public bool Initialized { get; private set; } = false;
     
+    public void InitializeInventory()
+    {
+        StartCoroutine(WaitAndInitialize());
+    }
+    
     /// <summary>
     /// 테이블 매니저가 로드 완료될 때까지 대기 후, 슬롯 초기화 및 테스트 아이템 추가
     /// </summary>
-    private IEnumerator Start()
+    private IEnumerator WaitAndInitialize()
     {
         yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         activeItemDataTable = TableManager.Instance.GetTable<ActiveItemDataTable>();
+        PlayerActiveItemController = transform.GetComponent<PlayerActiveItemController>();
         Init();
         
         // 테스트 아이템 추가 (인벤토리슬로ㅓㅅ)
@@ -57,6 +64,8 @@ public class Inventory : MonoBehaviour, IInventory
         
         
         Initialized = true;
+
+        
     }
     
     /// <summary>
@@ -107,11 +116,32 @@ public class Inventory : MonoBehaviour, IInventory
             if (slot.IsActiveSlotEmpty)
             {
                 slot.ActiveSlotSet(activeItem);
+                PlayerActiveItemController.TakeItem(activeItem);
                 return true;
             }
         }
         return false;
     }
+    /// <summary>
+    /// 비어있는 액티브아이템 슬롯에 아이템 추가
+    /// </summary>
+    /// <param name="activeItem"></param>
+    /// <param name="skillinput"></param>
+    /// <returns></returns>
+    public bool AddtoActiveSlot(ActiveItemData activeItem, Skillinput skillinput)
+    {
+        foreach(var slot in activeItemSlots)
+        {
+            if(slot.IsActiveSlotEmpty)
+            {
+                slot.ActiveSlotSet(activeItem);
+                PlayerActiveItemController.TakeItem(skillinput, activeItem);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// 인벤토리 슬롯 반환
     /// </summary>

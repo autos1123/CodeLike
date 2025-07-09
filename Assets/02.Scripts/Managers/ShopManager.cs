@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class ShopManager:MonoSingleton<ShopManager>
 {
-    private ConditionData playerCondition;
+    private BaseCondition playerCondition;
     private IInventory playerInventory;
     
     /// <summary>
@@ -33,38 +33,38 @@ public class ShopManager:MonoSingleton<ShopManager>
             return;
         }
 
-        playerCondition = conditionTable.GetDataByID(0); // 플레이어 ID = 0
-        if (playerCondition == null)
+        var playerData = conditionTable.GetDataByID(0); // 플레이어 ID = 0
+        if (playerData == null)
         {
             Debug.LogError("ID 0인 ConditionData를 찾을 수 없습니다.");
             return;
         }
 
-        playerCondition.InitConditionDictionary();
+        playerData.InitConditionDictionary();
+        playerCondition = new PlayerCondition(playerData);
         
-        // 인벤토리 로딩은 비동기 UI 로딩 완료까지 대기
-        StartCoroutine(SetupInventoryWhenReady());
+        SetupInventory();
     }
     
     /// <summary>
-    /// UIManager에서 InventoryUI가 준비될 때까지 대기 후 인벤토리 참조 설정
+    /// 플레이어 오브젝트에서 직접 인벤토리 참조
     /// </summary>
-    private IEnumerator SetupInventoryWhenReady()
+    private void SetupInventory()
     {
-        Dictionary<string, UIBase> dic = typeof(UIManager)
-            .GetField("_uiInstances", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            ?.GetValue(UIManager.Instance) as Dictionary<string, UIBase>;
+        var player = GameManager.Instance?.Player;
 
-        if (dic == null)
+        if (player == null)
         {
-            Debug.LogError("UIManager 내부 딕셔너리를 찾을 수 없습니다.");
-            yield break;
+            Debug.LogError("GameManager.Instance.Player가 null입니다.");
+            return;
         }
 
-        yield return new WaitUntil(() => dic.ContainsKey(nameof(InventoryUI)));
+        playerInventory = player.GetComponent<Inventory>();
 
-        var inventoryUI = dic[nameof(InventoryUI)] as InventoryUI;
-        playerInventory = inventoryUI.GetComponent<Inventory>();
+        if (playerInventory == null)
+        {
+            Debug.LogError("Player 오브젝트에서 Inventory 컴포넌트를 찾을 수 없습니다.");
+        }
     }
     
     /// <summary>
@@ -72,6 +72,7 @@ public class ShopManager:MonoSingleton<ShopManager>
     /// </summary>
     public bool TryExecuteTransaction(List<ItemSlot> sellItems, List<ItemSlot> buyItems, out string result)
     {
+        
         int sellTotal = CalculateTotalPrice(sellItems, true, out string sellError);
         if (sellTotal < 0)
         {
@@ -85,8 +86,12 @@ public class ShopManager:MonoSingleton<ShopManager>
             result = buyError;
             return false;
         }
-
-        if(!playerCondition.TryGetCondition(ConditionType.Gold, out float currentGold))
+        if (playerCondition == null)
+        {
+            result = "플레이어 상태 정보가 초기화되지 않았습니다.";
+            return false;
+        }
+        if(!playerCondition.CurrentConditions.TryGetValue(ConditionType.Gold, out float currentGold))
         {
             result = "골드 정보 없음";
             return false;
@@ -100,7 +105,7 @@ public class ShopManager:MonoSingleton<ShopManager>
         }
 
         // 골드 반영
-        playerCondition.Conditions[ConditionType.Gold].SetValue(newGold);
+        playerCondition.CurrentConditions[ConditionType.Gold] = newGold;
 
         // 아이템 제거/추가 (기존 메서드 사용)
         foreach(var slot in sellItems)
@@ -118,7 +123,7 @@ public class ShopManager:MonoSingleton<ShopManager>
     /// </summary>
     public bool TryGetGold(out float gold)
     {
-        if(playerCondition != null && playerCondition.TryGetCondition(ConditionType.Gold, out float currentGold))
+        if (playerCondition != null && playerCondition.CurrentConditions.TryGetValue(ConditionType.Gold, out float currentGold))
         {
             gold = currentGold;
             return true;

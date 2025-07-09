@@ -84,9 +84,16 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
         
         if (playerInventory == null)
         {
-            var inventoryUI = UIManager.Instance.GetUI<InventoryUI>();
-            if (inventoryUI != null)
-                playerInventory = inventoryUI.GetComponent<Inventory>();
+            if (GameManager.Instance != null && GameManager.Instance.Player != null)
+            {
+                playerInventory = GameManager.Instance.Player.GetComponent<Inventory>();
+            }
+
+            if (playerInventory == null)
+            {
+                Debug.LogWarning("[EquipmentManager] 플레이어의 Inventory 컴포넌트를 찾을 수 없습니다.");
+                return;
+            }
         }
         // 인벤토리에 아이템 넣기
         if(playerInventory != null)
