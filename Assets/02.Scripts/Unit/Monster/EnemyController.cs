@@ -9,14 +9,9 @@ public abstract class EnemyController:BaseController<EnemyCondition>
 {
 
     public EnemyStateMachine StateMachine { get; private set; }
-    [SerializeField] private float rotDamping;
 
     public EnemyAnimationData AnimationData { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
-
-    [SerializeField] private Transform meshTr;
-    public Transform MeshTr => meshTr;
-    public float RotationDamping => rotDamping;
     public Vector3 patrolPivot { get; private set; } = Vector3.zero;
 
     private GameObject hpBar;

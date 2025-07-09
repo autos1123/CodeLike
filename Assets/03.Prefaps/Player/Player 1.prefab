@@ -243,12 +243,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   fullSize: 20
+  visualTransform: {fileID: 4562072362125629841}
+  visualRotateSpeed: 10
   groundLayer:
     serializedVersion: 2
     m_Bits: 6272
   groundRayOffset: 0.1
-  VisualTransform: {fileID: 4562072362125629841}
-  VisualRotateSpeed: 10
 --- !u!114 &4688552309220638433
 MonoBehaviour:
   m_ObjectHideFlags: 0

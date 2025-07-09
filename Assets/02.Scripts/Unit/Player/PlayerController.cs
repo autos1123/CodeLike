@@ -22,11 +22,6 @@ public class PlayerController:BaseController<PlayerCondition>
 
     public bool IsGrounded { get; private set; }
 
-
-    [Header("Visual Settings")]
-    public Transform VisualTransform;
-    public float VisualRotateSpeed = 10f;
-
     protected override void Awake()
     {
         base.Awake();

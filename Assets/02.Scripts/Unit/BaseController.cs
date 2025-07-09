@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : BaseCondition
 {
@@ -27,6 +25,13 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     // 캐릭터 정지 관련
     protected bool isPlaying = true;
     protected Vector3 velocityTmp;
+
+    [Header("Visual Settings")]
+    [SerializeField] protected Transform visualTransform;
+    [SerializeField] protected float visualRotateSpeed = 10f;
+
+    public Transform VisualTransform => visualTransform;
+    public float VisualRotateSpeed => visualRotateSpeed;
 
     protected virtual void Awake()
     {
@@ -123,7 +128,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
         {
             // 공격 범위의 중심점 설정
             // 중심점 위치는 오브젝트의 전방 방향으로 설정
-            Vector3 pivot = transform.position + (forwardDir * (attackRange / 2.0f)) + Vector3.up;
+            Vector3 pivot = transform.position + (visualTransform.forward * (attackRange / 2.0f)) + Vector3.up;
 
             hitColliders = Physics.OverlapBox(pivot, new Vector3(attackRange, 1.5f, 100), Quaternion.identity, layer);
             return hitColliders;
@@ -135,7 +140,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
         foreach(Collider collider in hitColliders)
         {
             Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
-            float angle = Vector3.Angle(transform.forward, directionToTarget);
+            float angle = Vector3.Angle(visualTransform.forward, directionToTarget);
 
             if(angle <= attackAngle) // 원하는 각도
             {
@@ -259,7 +264,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
             Gizmos.color = Color.red;
             if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
             {
-                Vector3 pivot = transform.position + (transform.forward * (attackRange / 2.0f)) + Vector3.up;
+                Vector3 pivot = transform.position + (visualTransform.forward * (attackRange / 2.0f)) + Vector3.up;
                 Gizmos.DrawWireCube(pivot, new Vector3(attackRange, 1.5f, ViewManager.Instance.CurrentViewMode == ViewModeType.View2D ? 100 : attackRange));
             }
             else
@@ -270,8 +275,8 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
                 float angle1 = -attackAngle / 2f;
                 float angle2 = attackAngle / 2f;
 
-                Vector3 dir1 = Quaternion.Euler(0, angle1, 0) * transform.forward;
-                Vector3 dir2 = Quaternion.Euler(0, angle2, 0) * transform.forward;
+                Vector3 dir1 = Quaternion.Euler(0, angle1, 0) * visualTransform.forward;
+                Vector3 dir2 = Quaternion.Euler(0, angle2, 0) * visualTransform.forward;
 
                 Vector3 point1 = transform.position + dir1 * attackRange;
                 Vector3 point2 = transform.position + dir2 * attackRange;

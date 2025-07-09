@@ -152,8 +152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1000
   fullSize: 0
-  rotDamping: 10
-  meshTr: {fileID: 1089129758148175617}
+  visualTransform: {fileID: 1089129758148175617}
+  visualRotateSpeed: 10
 --- !u!1 &45207045665930824
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,8 +421,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1000
   fullSize: 0
-  rotDamping: 10
-  meshTr: {fileID: 734554582581816026}
+  visualTransform: {fileID: 734554582581816026}
+  visualRotateSpeed: 10
 --- !u!1 &240074126564198381
 GameObject:
   m_ObjectHideFlags: 0
@@ -7865,8 +7865,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1001
   fullSize: 0
-  rotDamping: 10
-  meshTr: {fileID: 4173872705500919778}
+  visualTransform: {fileID: 4173872705500919778}
+  visualRotateSpeed: 10
   projectileOffset: {fileID: 4755539107502650685}
 --- !u!1 &9195626350948984634
 GameObject:
