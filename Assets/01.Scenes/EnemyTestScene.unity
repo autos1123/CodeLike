@@ -348,6 +348,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: DummyRoom_2
       objectReference: {fileID: 0}
+    - target: {fileID: 6292281900720632753, guid: 2783e0b19299a624a924f6cf52ed208a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.6510031
+      objectReference: {fileID: 0}
+    - target: {fileID: 6292281900720632753, guid: 2783e0b19299a624a924f6cf52ed208a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.743
+      objectReference: {fileID: 0}
     - target: {fileID: 6435659546934836142, guid: 2783e0b19299a624a924f6cf52ed208a, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 512

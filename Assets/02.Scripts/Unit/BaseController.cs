@@ -188,9 +188,12 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     {
         if(viewMode == ViewModeType.View2D)
         {
+            _Rigidbody.isKinematic = true; 
             colliderSizeTmp = col.size;
             col.center = new Vector3(transform.position.z, col.center.y, 0); // 2D 모드에서는 콜라이더 중심을 약간 위로 이동
             col.size = new Vector3(fullSize, colliderSizeTmp.y, colliderSizeTmp.z); // 2D 모드에서는 z축을 늘려서 공격 범위 확장
+            _Rigidbody.isKinematic = false; 
+            _Rigidbody.AddForce(Vector3.up * 0.1f, ForceMode.Impulse); // 약간 위로 밀어내기
         }
         else if(viewMode == ViewModeType.View3D)
         {
