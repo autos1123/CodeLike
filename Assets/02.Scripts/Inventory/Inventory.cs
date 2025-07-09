@@ -63,6 +63,7 @@ public class Inventory : MonoBehaviour, IInventory
         AddtoActiveSlot(item_5);
         
         
+        
         Initialized = true;
 
         
@@ -102,6 +103,12 @@ public class Inventory : MonoBehaviour, IInventory
                 return true;
             }
         }
+        UIManager.Instance.ShowConfirmPopup(
+            "인벤토리가 가득 차서 아이템을 추가할 수 없습니다.",
+            onConfirm: () => { },
+            onCancel: null,
+            confirmText: "확인"
+        );
         return false;
     }
     /// <summary>
@@ -120,6 +127,12 @@ public class Inventory : MonoBehaviour, IInventory
                 return true;
             }
         }
+        UIManager.Instance.ShowConfirmPopup(
+            "액티브아이템 슬롯이 가득 차서 아이템을 추가할 수 없습니다.",
+            onConfirm: () => { },
+            onCancel: null,
+            confirmText: "확인"
+        );
         return false;
     }
     /// <summary>
