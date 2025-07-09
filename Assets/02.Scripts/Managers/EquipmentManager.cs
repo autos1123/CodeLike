@@ -27,22 +27,22 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     /// <param name="typeA">첫 번째 슬롯 타입</param>
     /// <param name="slotB">두 번째 슬롯</param>
     /// <param name="typeB">두 번째 슬롯 타입</param>
-    public void SwapItemEffects(ItemSlot slotA, SlotType typeA, ItemSlot slotB, SlotType typeB)
+    public void SwapItemEffects(InventoryItemSlot slotA, SlotType typeA, InventoryItemSlot slotB, SlotType typeB)
     {
         if (playerCondition == null) return;
         if(typeA == SlotType.ActiveItem || typeB == SlotType.ActiveItem) return;
         // 기존 스탯 제거
-        RemoveItemStat(slotA.Item, typeA);
-        RemoveItemStat(slotB.Item, typeB);
+        RemoveItemStat(slotA.InventoryItem, typeA);
+        RemoveItemStat(slotB.InventoryItem, typeB);
 
         // 스왑
-        var tempItem = slotA.Item;
-        slotA.Set(slotB.Item);
+        var tempItem = slotA.InventoryItem;
+        slotA.Set(slotB.InventoryItem);
         slotB.Set(tempItem);
 
         // 스탯 재적용
-        ApplyItemStat(slotA.Item, typeA);
-        ApplyItemStat(slotB.Item, typeB);
+        ApplyItemStat(slotA.InventoryItem, typeA);
+        ApplyItemStat(slotB.InventoryItem, typeB);
     }
     
     /// <summary>
@@ -70,12 +70,12 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     /// 아이템 장착 해제처리
     /// </summary>
     /// <param name="equipSlot"></param>
-    public void UnEquip(ItemSlot equipSlot)
+    public void UnEquip(InventoryItemSlot equipSlot)
     {
-        if(playerCondition == null || equipSlot == null || equipSlot.IsInvenSlotEmpty)
+        if(playerCondition == null || equipSlot == null || equipSlot.IsEmpty)
             return;
 
-        var item = equipSlot.Item;
+        var item = equipSlot.InventoryItem;
         // 능력치 제거
         RemoveItemStat(item, SlotType.Equip);
 

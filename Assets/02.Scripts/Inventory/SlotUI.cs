@@ -24,7 +24,8 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     public Image backgroundImage;
     
     private InventoryUI inventoryUI;
-    public ItemSlot ItemSlot { get; private set; } 
+    public InventoryItemSlot InventorySlot { get; private set; }
+    public ActiveItemSlot ActiveSlot { get; private set; }
     
     private bool isBeingDragged = false;
     public void Init(InventoryUI ui)
@@ -34,9 +35,17 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     /// <summary>
     /// 슬롯 데이터에 따라 UI를 갱신
     /// </summary>
-    public void Set(ItemSlot slot)
+    public void Set(InventoryItemSlot slot)
     {
-        ItemSlot = slot;
+        InventorySlot = slot;
+        ActiveSlot = null;
+        RefreshVisual();
+    }
+
+    public void Set(ActiveItemSlot slot)
+    {
+        ActiveSlot = slot;
+        InventorySlot = null;
         RefreshVisual();
     }
     
@@ -45,45 +54,40 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     /// </summary>
     private void RefreshVisual()
     {
-        if (ItemSlot == null)
-            return;
         //액티브 아이템
         if (slotType == SlotType.ActiveItem)
         {
-            if (ItemSlot.ActiveItem == null)
+            if (ActiveSlot == null || ActiveSlot.IsEmpty)
             {
                 iconImage.sprite = null;
                 iconImage.enabled = false;
                 return;
             }
 
-            iconImage.sprite = Resources.Load<Sprite>(ItemSlot.ActiveItem.IconPath);
+            iconImage.sprite = Resources.Load<Sprite>(ActiveSlot.ActiveItem.IconPath);
             iconImage.enabled = true;
             iconImage.color = isBeingDragged ? new Color(1, 1, 1, 0.3f) : Color.white;
-
             return;
         }
 
-        // 일반 아이템 (ItemData)
-        if (ItemSlot.IsInvenSlotEmpty)
+        // 일반 아이템
+        if (InventorySlot == null || InventorySlot.IsEmpty)
         {
             iconImage.sprite = null;
             iconImage.enabled = false;
-            
-            // 장비 텍스트 비활성화
+
             if (slotType == SlotType.Equip && EquipText != null)
             {
                 EquipText.gameObject.SetActive(false);
             }
-            
+
             return;
         }
 
-        iconImage.sprite = Resources.Load<Sprite>(ItemSlot.Item.IconPath);
+        iconImage.sprite = Resources.Load<Sprite>(InventorySlot.InventoryItem.IconPath);
         iconImage.enabled = true;
         iconImage.color = isBeingDragged ? new Color(1, 1, 1, 0.3f) : Color.white;
-        
-        // 장비 텍스트 활성화
+        //장비 텍스트 활성화
         if (slotType == SlotType.Equip && EquipText != null)
         {
             EquipText.gameObject.SetActive(true);
@@ -93,7 +97,7 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     // 드래그 시작
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (slotType == SlotType.ActiveItem || ItemSlot == null || ItemSlot.IsInvenSlotEmpty)
+        if (slotType == SlotType.ActiveItem || InventorySlot  == null || InventorySlot.IsEmpty)
         {
             eventData.pointerDrag = null;
             return;
@@ -108,7 +112,7 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     // 드래그 중
     public void OnDrag(PointerEventData eventData)
     {
-        if (ItemSlot == null || ItemSlot.IsInvenSlotEmpty)
+        if (InventorySlot  == null || InventorySlot.IsEmpty)
             return;
 
         DragManager.Instance.UpdateGhostPosition(eventData.position);
@@ -128,7 +132,7 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     public void OnDrop(PointerEventData eventData)
     {
         SlotUI draggedSlotUI = eventData.pointerDrag?.GetComponent<SlotUI>();
-        if (draggedSlotUI == null || draggedSlotUI == this || draggedSlotUI.ItemSlot == null)
+        if (draggedSlotUI == null || draggedSlotUI == this || draggedSlotUI.InventorySlot == null)
             return;
         
         inventoryUI.HandleSlotSwap(this, draggedSlotUI);
@@ -148,11 +152,11 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
         
         if (slotType == SlotType.ActiveItem) return; // 액티브아이템슬롯은 리턴
 
-        if (ItemSlot == null || ItemSlot.IsInvenSlotEmpty) return;
+        if (InventorySlot  == null || InventorySlot .IsEmpty) return;
         
         // 툴팁 중복 호출 방지
         if (!TooltipManager.Instance.IsVisible)
-            TooltipManager.Instance.Show(ItemSlot.GetDescription(slotType), eventData.position);
+            TooltipManager.Instance.Show(InventorySlot .GetDescription(slotType), eventData.position);
 
     }
 
@@ -178,10 +182,10 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
         Debug.Log("OnPointerClick");
 
         // 액티브 아이템 슬롯만 infoText 표시
-        if (slotType != SlotType.ActiveItem || ItemSlot == null || ItemSlot.ActiveItem == null)
+        if (slotType != SlotType.ActiveItem || ActiveSlot  == null || ActiveSlot .ActiveItem == null)
             return;
         
-        string description = ItemSlot.GetDescription(slotType);
+        string description = ActiveSlot.GetDescription();
         inventoryUI?.SetInfoText(description);
         
     }

@@ -7,7 +7,7 @@ using UnityEngine;
 public class ShopInventory : MonoBehaviour,IInventory
 {
     private ItemDataTable itemDataTable;
-    public List<ItemSlot> inventorySlots = new List<ItemSlot>();
+    public List<InventoryItemSlot> inventorySlots = new List<InventoryItemSlot>();
     public bool Initialized { get; private set; } = false;
 
     /// <summary>
@@ -36,9 +36,9 @@ public class ShopInventory : MonoBehaviour,IInventory
     /// <summary>
     /// 지정된 아이템과 수량으로 새로운 ItemSlot 생성
     /// </summary>
-    private ItemSlot CreateSlot(ItemData item)
+    private InventoryItemSlot CreateSlot(ItemData item)
     {
-        var slot = new ItemSlot();
+        var slot = new InventoryItemSlot();
         slot.Set(item);
         return slot;
     }
@@ -46,7 +46,7 @@ public class ShopInventory : MonoBehaviour,IInventory
     /// <summary>
     /// 현재 보유한 모든 아이템 슬롯 반환 (IInventory 구현)
     /// </summary>
-    public List<ItemSlot> GetInventorySlots(bool includeEquip = false) => inventorySlots;
+    public List<InventoryItemSlot> GetInventorySlots(bool includeEquip = false) => inventorySlots;
 
     /// <summary>
     /// 아이템을 상점 인벤토리에 추가 (빈 슬롯에만 추가)
@@ -55,7 +55,7 @@ public class ShopInventory : MonoBehaviour,IInventory
     {
         foreach (var slot in inventorySlots)
         {
-            if (slot.IsInvenSlotEmpty)
+            if (slot.IsEmpty)
             {
                 slot.Set(item);
                 return true;
@@ -71,7 +71,7 @@ public class ShopInventory : MonoBehaviour,IInventory
     {
         foreach (var slot in inventorySlots)
         {
-            if (!slot.IsInvenSlotEmpty && slot.Item == item)
+            if (!slot.IsEmpty && slot.InventoryItem == item)
             {
                 slot.Clear();
                 return true;
