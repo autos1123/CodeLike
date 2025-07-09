@@ -5,7 +5,7 @@ using static UnityEngine.UI.Image;
 public class EnemyPatrolState : EnemyMoveState
 {
     private float startTime;
-    private float minimumPatrolTime = 0.5f; // 최소 순찰 시간
+    private float minimumPatrolTime = 3f; // 최소 순찰 시간
 
     public EnemyPatrolState(EnemyStateMachine playerStateMachine) : base(playerStateMachine)
     {

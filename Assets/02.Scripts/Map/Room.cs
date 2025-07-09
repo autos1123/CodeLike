@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public enum RoomType
@@ -26,6 +27,11 @@ public class Room : MonoBehaviour
 
 
     public List<RoomConnection> Connections { get; private set; } = new();
+
+    private void Start()
+    {
+        GetComponent<NavMeshSurface>()?.BuildNavMesh(); // NavMeshSurface가 있다면 빌드
+    }
 
     public void Initialize(int id, Vector2Int gridPos, RoomType type)
     {
