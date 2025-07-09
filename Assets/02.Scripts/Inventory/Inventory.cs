@@ -56,11 +56,11 @@ public class Inventory : MonoBehaviour, IInventory
         var item_3 = itemDataTable.GetDataByID(6000);
         AddToInventory(item_3);
         
-        // 테스트 아이템 추가 (액티브아이템 슬롯)
-        var item_4 = activeItemDataTable.GetDataByID(4000);
-        AddtoActiveSlot(item_4);
-        var item_5 = activeItemDataTable.GetDataByID(4001);
-        AddtoActiveSlot(item_5);
+        //// 테스트 아이템 추가 (액티브아이템 슬롯)
+        //var item_4 = activeItemDataTable.GetDataByID(4000);
+        //AddtoActiveSlot(0, item_4, Skillinput.X);
+        //var item_5 = activeItemDataTable.GetDataByID(4001);
+        //AddtoActiveSlot(1, item_5, Skillinput.C);
         
         
         

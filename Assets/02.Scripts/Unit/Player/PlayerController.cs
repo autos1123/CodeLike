@@ -102,7 +102,7 @@ public class PlayerController:BaseController<PlayerCondition>
         {
             inventory.InitializeInventory(); // TableManager 준비될 때까지 대기 후 초기화
         }
-        UIManager.Instance.ShowUI<HUD>();
+        //UIManager.Instance.ShowUI<HUD>();
         isInitialized = true;
     }
 
