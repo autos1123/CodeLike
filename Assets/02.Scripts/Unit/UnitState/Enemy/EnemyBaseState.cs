@@ -136,11 +136,11 @@ public class EnemyBaseState:IUnitState
 
             if(viewMode == ViewModeType.View2D)
             {
-                stateMachine.Enemy.transform.rotation = targetRotation;
+                stateMachine.Enemy.MeshTr.rotation = targetRotation;
             }
             else
             {
-                stateMachine.Enemy.transform.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
+                stateMachine.Enemy.MeshTr.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
             }
         }
     }

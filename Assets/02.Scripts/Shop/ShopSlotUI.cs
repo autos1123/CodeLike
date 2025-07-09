@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -21,7 +22,7 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     private ShopUI shopUI;
 
     private InventoryItemSlot inventoryItemSlot;
-    private bool isPlayerSlot;
+    public bool isPlayerSlot;
     private bool isSelected;
     private bool isInteractable = true;
 
@@ -30,6 +31,8 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     public Color disabledColor = Color.gray;
     public bool IsSelected => isSelected;
     public InventoryItemSlot InventoryItemSlot => inventoryItemSlot;
+    
+    public event Action<ShopSlotUI> OnClicked;
     
     /// <summary>
     /// 아이템 슬롯 UI 초기화: 아이템 정보, 소유자 타입, 참조 설정
@@ -79,31 +82,7 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
         if(!isInteractable)
             return;
         // 장착중인 아이템인지 확인 (플레이어 슬롯일 때만)
-        if (isPlayerSlot && !inventoryItemSlot.IsEmpty && shopUI.IsEquippedSlot(inventoryItemSlot))
-        {
-            // 현재 슬롯 + 아이템 기억해둠
-            var rememberedSlot = inventoryItemSlot;
-            var rememberedItem = inventoryItemSlot.InventoryItem;
-
-            UIManager.Instance.ShowConfirmPopup(
-                "장착한 아이템입니다. 장착 해제하시겠습니까?",
-                onConfirm: () =>
-                {
-                    var shopUI = UIManager.Instance.GetUI<ShopUI>();
-                    shopUI.RememberSelectedItem(inventoryItemSlot);
-                    EquipmentManager.Instance.UnEquip(inventoryItemSlot);
-                    shopUI?.RefreshAllUI();
-                },
-                onCancel: () =>
-                {
-                    Debug.Log("선택 취소됨");
-                }
-            );
-        }
-        else
-        {
-            SelectSlot();
-        }
+        OnClicked?.Invoke(this); 
     }
     
     /// <summary>
@@ -117,21 +96,37 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
         BackgroundImage.color = interactable ? defaultColor : disabledColor;
         blockText.gameObject.SetActive(!interactable);
     }
-    /// <summary>
-    /// 선택 상태 토글 및 UI 반영, 선택된 슬롯을 ShopUI에 등록/해제
-    /// </summary>
-    private void SelectSlot()
+    // /// <summary>
+    // /// 선택 상태 토글 및 UI 반영, 선택된 슬롯을 ShopUI에 등록/해제
+    // /// </summary>
+    // private void SelectSlot()
+    // {
+    //     isSelected = !isSelected;
+    //     BackgroundImage.color = isSelected ? selectedColor : defaultColor;
+    //     if (isPlayerSlot)
+    //     {
+    //         if (isSelected)
+    //             shopUI.RememberSelectedItem(inventoryItemSlot); // 선택 기억
+    //         else
+    //             shopUI.ForgetSelectedItem(inventoryItemSlot);   // 선택 해제
+    //     }
+    //     shopUI.UpdateTotalPrices();
+    // }
+    public void ToggleSelect()
     {
         isSelected = !isSelected;
+
+        // UI 색상 변경
         BackgroundImage.color = isSelected ? selectedColor : defaultColor;
+
+        // 플레이어 슬롯이면 기억/해제 처리
         if (isPlayerSlot)
         {
             if (isSelected)
-                shopUI.RememberSelectedItem(inventoryItemSlot); // 선택 기억
+                shopUI.RememberSelectedItem(inventoryItemSlot);
             else
-                shopUI.ForgetSelectedItem(inventoryItemSlot);   // 선택 해제
+                shopUI.ForgetSelectedItem(inventoryItemSlot);
         }
-        shopUI.UpdateTotalPrices();
     }
     /// <summary>
     /// 강제로 선택된 상태로 설정 (색상 변경만 적용됨)

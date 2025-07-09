@@ -13,6 +13,9 @@ public abstract class EnemyController:BaseController<EnemyCondition>
 
     public EnemyAnimationData AnimationData { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
+
+    [SerializeField] private Transform meshTr;
+    public Transform MeshTr => meshTr;
     public float RotationDamping => rotDamping;
     public Vector3 patrolPivot { get; private set; } = Vector3.zero;
 
@@ -44,6 +47,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         base.Awake();
         NavMeshAgent = GetComponent<NavMeshAgent>();
         NavMeshAgent.speed = 0;
+        NavMeshAgent.updateRotation = false; // NavMeshAgent가 회전을 처리하지 않도록 설정
     }
 
     protected virtual void Update()
