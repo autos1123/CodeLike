@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class ShopInventory : MonoBehaviour,IInventory
     private ItemDataTable itemDataTable;
     public List<InventoryItemSlot> inventorySlots = new List<InventoryItemSlot>();
     public bool Initialized { get; private set; } = false;
-
+    public event Action OnInitialized;
     /// <summary>
     /// 테이블 로드가 완료될 때까지 대기 후 상점 아이템 초기화
     /// </summary>
@@ -23,6 +24,7 @@ public class ShopInventory : MonoBehaviour,IInventory
         inventorySlots.Add(CreateSlot(item1));
         inventorySlots.Add(CreateSlot(item2));
         Initialized = true;
+        OnInitialized?.Invoke();
     }
 
     /// <summary>
