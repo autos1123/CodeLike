@@ -12,15 +12,15 @@ public class PlayerController:BaseController<PlayerCondition>
 {
     public PlayerInputHandler InputHandler { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
-    public PlayerAnimationData AnimationData { get; private set; } 
+    public PlayerAnimationData AnimationData { get; private set; }
     public PlayerActiveItemController ActiveItemController { get; private set; }
-    public Room CurrentRoom {  get; private set; }
+    public Room CurrentRoom { get; private set; }
 
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.1f;
 
-    public bool IsGrounded { get; private set; } 
+    public bool IsGrounded { get; private set; }
 
 
     [Header("Visual Settings")]
@@ -35,12 +35,17 @@ public class PlayerController:BaseController<PlayerCondition>
         _Rigidbody.freezeRotation = true;
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        InvokeRepeating(nameof(UpdateGrounded), 0f, 0.2f); // 바닥 체크 주기적으로 실행
+    }
+
     private void Update()
     {
         if(!isInitialized || !isPlaying)
             return;
 
-        UpdateGrounded();
         StateMachine.Update();
         InputHandler.ResetOneTimeInputs();
     }
@@ -58,11 +63,18 @@ public class PlayerController:BaseController<PlayerCondition>
     /// </summary>
     private void UpdateGrounded()
     {
-        Vector3 origin = col.bounds.center;
-        float distance = col.bounds.extents.y + groundRayOffset;
-        bool hit = Physics.Raycast(origin, Vector3.down, distance, groundLayer, QueryTriggerInteraction.Ignore);
-        IsGrounded = hit;
-        Debug.DrawRay(origin, Vector3.down * distance, hit ? Color.green : Color.red);
+        Vector3 center = col.bounds.center;
+        Vector3 extents = col.bounds.extents;
+
+        // 아래 방향으로 약간 이동한 박스 중심 위치
+        Vector3 boxCenter = center + Vector3.down * (extents.y + groundRayOffset * 0.5f);
+
+        // 박스 크기 (살짝 얇게 Y축 조정)
+        Vector3 boxHalfExtents = new Vector3(extents.x, groundRayOffset * 0.5f, extents.z);
+
+        bool isGrounded = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, groundLayer, QueryTriggerInteraction.Ignore).Length > 0;
+
+        IsGrounded = isGrounded;
     }
     /// <summary>
     /// 플레이어의 근접 공격 처리
@@ -98,7 +110,7 @@ public class PlayerController:BaseController<PlayerCondition>
         StateMachine = new PlayerStateMachine(this);
         // 인벤토리 초기화 
         Inventory inventory = GetComponent<Inventory>();
-        if (inventory != null)
+        if(inventory != null)
         {
             inventory.InitializeInventory(); // TableManager 준비될 때까지 대기 후 초기화
         }
