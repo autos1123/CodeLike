@@ -89,10 +89,10 @@ public class InventoryUI : UIBase
     
     public void HandleSlotSwap(SlotUI slotA, SlotUI slotB)
     {
-        EquipmentManager.Instance.SwapItemEffects(slotA.ItemSlot, slotA.slotType, slotB.ItemSlot, slotB.slotType);
+        EquipmentManager.Instance.SwapItemEffects(slotA.InventorySlot, slotA.slotType, slotB.InventorySlot, slotB.slotType);
         
         // UI 갱신
-        slotA.Set(slotA.ItemSlot);
-        slotB.Set(slotB.ItemSlot);
+        slotA.Set(slotA.InventorySlot);
+        slotB.Set(slotB.InventorySlot);
     }
 }

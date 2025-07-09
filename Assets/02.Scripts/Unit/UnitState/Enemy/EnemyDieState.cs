@@ -16,6 +16,8 @@ public class EnemyDieState:EnemyBaseState
         stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.DieParameterHash);
 
         // 아이템 드랍, 골드 획득 로직
+        stateMachine.Player.GetComponent<PlayerController>()?.Condition.ChangeGold(stateMachine.Enemy.Condition.GetValue(ConditionType.Gold));
+
     }
 
     public override void StateUpdate()

@@ -185,4 +185,16 @@ public abstract class BaseCondition
 
         return GetValue(type) / max;
     }
+
+    public void ChangeGold(float value)
+    {
+        if(!CurrentConditions.ContainsKey(ConditionType.Gold))
+        {
+            Debug.LogError("Gold ConditionType이 존재하지 않습니다.");
+            return;
+        }
+
+        CurrentConditions[ConditionType.Gold] += value;
+        statModifiers[ConditionType.Gold]?.Invoke(); // 골드 변경 이벤트
+    }
 }

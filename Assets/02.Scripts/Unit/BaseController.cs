@@ -17,6 +17,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
     // 캐릭터 충돌체 변환 관련
     protected Vector3 colliderSizeTmp;
+    [SerializeField] private float fullSize;
 
     // 공격 범위 관련
     protected Vector3 forwardDir;
@@ -188,10 +189,12 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
         if(viewMode == ViewModeType.View2D)
         {
             colliderSizeTmp = col.size;
-            col.size = new Vector3(100, colliderSizeTmp.y, colliderSizeTmp.z); // 2D 모드에서는 z축을 늘려서 공격 범위 확장
+            col.center = new Vector3(transform.position.z, col.center.y, 0); // 2D 모드에서는 콜라이더 중심을 약간 위로 이동
+            col.size = new Vector3(fullSize, colliderSizeTmp.y, colliderSizeTmp.z); // 2D 모드에서는 z축을 늘려서 공격 범위 확장
         }
         else if(viewMode == ViewModeType.View3D)
         {
+            col.center = new Vector3(0, col.center.y, 0); // 2D 모드에서는 콜라이더 중심을 약간 위로 이동
             col.size = colliderSizeTmp; // 3D 모드에서는 원래 크기로 복원
         }
     }

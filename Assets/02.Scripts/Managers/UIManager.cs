@@ -35,6 +35,33 @@ public class UIManager:MonoSingleton<UIManager>
             Debug.Log("스테이터스");
             ToggleUI<StatusBoard>();
         }
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("액티브");
+
+            // 1. Inventory는 플레이어나 싱글턴 등에서 가져오기
+            var player = GameObject.FindWithTag("Player");
+            if(player == null)
+            {
+                Debug.LogError("플레이어 오브젝트를 찾을 수 없습니다!");
+                return;
+            }
+            var inventory = player.GetComponent<Inventory>();
+            if(inventory == null)
+            {
+                Debug.LogError("Inventory 컴포넌트를 찾을 수 없습니다!");
+                return;
+            }
+
+            var activeItemSlots = inventory.activeItemSlots.ToArray();
+
+            // 2. 테스트용 획득 아이템
+            var testAcquiredItem = TableManager.Instance.GetTable<ActiveItemDataTable>().GetDataByID(4000);
+
+            // 3. UIManager에서 TakeActiveItem UI 오픈
+            var takeActiveItemUI = UIManager.Instance.GetUI<TakeActiveItem>();
+            takeActiveItemUI.Open(activeItemSlots, testAcquiredItem, inventory);
+        }
     }
     private void InitializeUI()
     {
@@ -93,12 +120,12 @@ public class UIManager:MonoSingleton<UIManager>
         return _uiInstances[typeof(T).Name] as T;
     }
     
-    public void ShowConfirmPopup(string message, Action onConfirm, Action onCancel = null)
+    public void ShowConfirmPopup(string message, Action onConfirm, Action onCancel = null,string confirmText = "예", string cancelText = "아니오")
     {
         if (_uiInstances.TryGetValue(nameof(ConfirmPopup), out var ui))
         {
             var popup = ui as ConfirmPopup;
-            popup.Setup(message, onConfirm, onCancel);
+            popup.Setup(message, onConfirm, onCancel,confirmText, cancelText);
             popup.Open();
         }
         else

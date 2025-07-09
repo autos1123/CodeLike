@@ -115,7 +115,6 @@ public class ViewCameraController:MonoBehaviour
 
                 //마지막에 억지로 붙이기
                 transform.position = (mode == ViewModeType.View2D) ? pos2D.position : pos3D.position;
-                transform.rotation = (mode == ViewModeType.View2D) ? pos2D.rotation : pos3D.rotation;
 
                 if(playerTransform != null)
                 {

@@ -70,7 +70,7 @@ public class ShopManager:MonoSingleton<ShopManager>
     /// <summary>
     /// 선택된 아이템 기반으로 골드 계산 후 거래 가능 여부 판단 및 실제 아이템 처리
     /// </summary>
-    public bool TryExecuteTransaction(List<ItemSlot> sellItems, List<ItemSlot> buyItems, out string result)
+    public bool TryExecuteTransaction(List<InventoryItemSlot> sellItems, List<InventoryItemSlot> buyItems, out string result)
     {
         
         int sellTotal = CalculateTotalPrice(sellItems, true, out string sellError);
@@ -109,10 +109,10 @@ public class ShopManager:MonoSingleton<ShopManager>
 
         // 아이템 제거/추가 (기존 메서드 사용)
         foreach(var slot in sellItems)
-            playerInventory.RemoveFromInventory(slot.Item);
+            playerInventory.RemoveFromInventory(slot.InventoryItem);
 
         foreach(var slot in buyItems)
-            playerInventory.AddToInventory(slot.Item);
+            playerInventory.AddToInventory(slot.InventoryItem);
 
         result = $"거래 완료! 현재 골드: {newGold}";
         return true;
@@ -135,14 +135,14 @@ public class ShopManager:MonoSingleton<ShopManager>
     /// <summary>
     /// 아이템 슬롯 리스트의 총 가격 계산 및 유효성 확인
     /// </summary>
-    private int CalculateTotalPrice(List<ItemSlot> slots, bool isSell, out string error)
+    private int CalculateTotalPrice(List<InventoryItemSlot> slots, bool isSell, out string error)
     {
         int total = 0;
         error = string.Empty;
 
         foreach (var slot in slots)
         {
-            total += isSell ? slot.Item.sellPrice : slot.Item.buyPrice;
+            total += isSell ? slot.InventoryItem.sellPrice : slot.InventoryItem.buyPrice;
         }
 
         return total;

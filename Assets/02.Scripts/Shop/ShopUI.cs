@@ -28,8 +28,8 @@ public class ShopUI : UIBase
     private List<ShopSlotUI> sellSlots = new();
     private List<ShopSlotUI> buySlots = new ();
     
-    private HashSet<(ItemSlot slot, ItemData item)> selectedSellItems = new(); //선택된 슬롯 기억리스트 (슬롯과 그 안에 아이템 함께기억)
-    private HashSet<ItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
+    private HashSet<(InventoryItemSlot slot, ItemData item)> selectedSellItems = new(); //선택된 슬롯 기억리스트 (슬롯과 그 안에 아이템 함께기억)
+    private HashSet<InventoryItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
     
     /// <summary>
     /// 상점 UI 열기: 인벤토리 참조 설정 및 거래 버튼 이벤트 등록, 슬롯 초기화 코루틴 시작
@@ -91,11 +91,11 @@ public class ShopUI : UIBase
     /// <param name="parent">UI 부모 오브젝트</param>
     /// <param name="isPlayer">플레이어 인벤토리인지 여부</param>
     /// <param name="targetList">슬롯 저장 리스트</param>
-    private void CreateSlots(List<ItemSlot> slots, Transform parent, bool isPlayer, List<ShopSlotUI> targetList)
+    private void CreateSlots(List<InventoryItemSlot> slots, Transform parent, bool isPlayer, List<ShopSlotUI> targetList)
     {
         foreach (var itemSlot in slots)
         {
-            if (!itemSlot.IsInvenSlotEmpty)
+            if (!itemSlot.IsEmpty)
             {
                 var go = Instantiate(shopSlotPrefab, parent);
                 var slotUI = go.GetComponent<ShopSlotUI>();
@@ -107,7 +107,7 @@ public class ShopUI : UIBase
                 {
                     slotUI.SetInteractable(false);
                 }
-                if (isPlayer && selectedSellItems.Contains((itemSlot, itemSlot.Item)))
+                if (isPlayer && selectedSellItems.Contains((itemSlot, itemSlot.InventoryItem)))
                 {
                     slotUI.ForceSelect();
                 }
@@ -124,15 +124,15 @@ public class ShopUI : UIBase
         int buyTotal = 0;
 
         foreach (var s in sellSlots)
-            if(s.IsSelected && s.ItemSlot != null && !s.ItemSlot.IsInvenSlotEmpty)
+            if(s.IsSelected && s.InventoryItemSlot != null && !s.InventoryItemSlot.IsEmpty)
             {
-                sellTotal += s.ItemSlot.Item.sellPrice;
+                sellTotal += s.InventoryItemSlot.InventoryItem.sellPrice;
             }
 
         foreach (var b in buySlots)
-            if(b.IsSelected  && b.ItemSlot != null && !b.ItemSlot.IsInvenSlotEmpty)
+            if(b.IsSelected  && b.InventoryItemSlot != null && !b.InventoryItemSlot.IsEmpty)
             {
-                buyTotal += b.ItemSlot.Item.buyPrice;
+                buyTotal += b.InventoryItemSlot.InventoryItem.buyPrice;
             }
 
         sellTotalText.text = $"판매 금액: {sellTotal} G";
@@ -153,15 +153,15 @@ public class ShopUI : UIBase
         var sellSlotSelected = sellSlots.FindAll(s => s.IsSelected);
         var buySlotSelected = buySlots.FindAll(s => s.IsSelected);
         
-        var sellItems = sellSlotSelected.ConvertAll(s => s.ItemSlot);
-        var buyItems = buySlotSelected.ConvertAll(s => s.ItemSlot);
+        var sellItems = sellSlotSelected.ConvertAll(s => s.InventoryItemSlot);
+        var buyItems = buySlotSelected.ConvertAll(s => s.InventoryItemSlot);
         
         if (ShopManager.Instance.TryExecuteTransaction(sellItems, buyItems, out var result))
         {
             Debug.Log(result);
             foreach(var slot in buySlotSelected)
             {
-                purchaseSlots.Add(slot.ItemSlot);
+                purchaseSlots.Add(slot.InventoryItemSlot);
             }
             selectedSellItems.Clear();
             RefreshAllUI();
@@ -211,7 +211,7 @@ public class ShopUI : UIBase
     /// </summary>
     /// <param name="slot">선택한 슬롯</param>
     /// <returns>그 슬롯이 equipslots인지 불값 반환</returns>
-    public bool IsEquippedSlot(ItemSlot slot)
+    public bool IsEquippedSlot(InventoryItemSlot slot)
     {
         var inventory = GameManager.Instance.Player?.GetComponent<Inventory>();
         return inventory != null && inventory.equipSlots.Contains(slot);
@@ -219,17 +219,17 @@ public class ShopUI : UIBase
     /// <summary>
     /// 특정 슬롯+아이템 쌍을 선택된 리스트에 등록
     /// </summary>
-    public void RememberSelectedItem(ItemSlot slot)
+    public void RememberSelectedItem(InventoryItemSlot slot)
     {
-        if (slot != null && slot.Item != null)
-            selectedSellItems.Add((slot, slot.Item));
+        if (slot != null && slot.InventoryItem != null)
+            selectedSellItems.Add((slot, slot.InventoryItem));
     }
     /// <summary>
     /// 특정 슬롯+아이템 쌍을 선택된 리스트에서 제거
     /// </summary>
-    public void ForgetSelectedItem(ItemSlot slot)
+    public void ForgetSelectedItem(InventoryItemSlot slot)
     {
-        if (slot != null && slot.Item != null)
-            selectedSellItems.Remove((slot, slot.Item));
+        if (slot != null && slot.InventoryItem != null)
+            selectedSellItems.Remove((slot, slot.InventoryItem));
     }
 }
