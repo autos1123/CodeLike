@@ -10,7 +10,7 @@ public class InventoryUI : UIBase
 {
     public override string UIName => "InventoryUI"; 
     
-    public Inventory inventory;
+    private Inventory inventory;
     
     public SlotUI[] inventorySlotUIs; // 중간 16칸
     
@@ -21,6 +21,12 @@ public class InventoryUI : UIBase
     [SerializeField] private TextMeshProUGUI infoText;
     
     private EquipmentManager equipmentManager;
+    
+    private void Awake()
+    {
+        inventory = GameManager.Instance.Player.GetComponent<Inventory>();
+    }
+    
     /// <summary>
     /// UI 열기 시 슬롯 정보를 동기화
     /// </summary>

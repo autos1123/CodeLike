@@ -31,10 +31,15 @@ public class Inventory : MonoBehaviour, IInventory
     /// <summary> 인벤토리가 초기화 완료되었는지 여부 </summary>
     public bool Initialized { get; private set; } = false;
     
+    public void InitializeInventory()
+    {
+        StartCoroutine(WaitAndInitialize());
+    }
+    
     /// <summary>
     /// 테이블 매니저가 로드 완료될 때까지 대기 후, 슬롯 초기화 및 테스트 아이템 추가
     /// </summary>
-    private IEnumerator Start()
+    private IEnumerator WaitAndInitialize()
     {
         yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();

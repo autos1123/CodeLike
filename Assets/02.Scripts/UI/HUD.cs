@@ -51,5 +51,4 @@ public class HUD:UIBase
     {
         HPFill.fillAmount = player.Condition.GetConditionRatio(ConditionType.HP);
     }
-
 }
