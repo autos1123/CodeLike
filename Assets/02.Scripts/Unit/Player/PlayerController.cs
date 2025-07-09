@@ -8,6 +8,18 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class PlayerController:BaseController
 {
+<<<<<<< Updated upstream
+=======
+    public PlayerInputHandler InputHandler { get; private set; }
+    public PlayerStateMachine stateMachine { get; private set; }
+
+    public PlayerAnimationData AnimationData { get; private set; } 
+
+    public PlayerActiveItemController ActiveItemController { get; private set; }
+
+    public Room CurrentRoom {  get; private set; } 
+
+>>>>>>> Stashed changes
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.3f;
@@ -182,5 +194,56 @@ public class PlayerController:BaseController
     /// </summary>
     public PlayerInputHandler Input => inputHandler;
 
+<<<<<<< Updated upstream
     
+=======
+
+        if(positiveEffect.effectedTarget == EffectedTarget.Player)
+        {
+            Condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value * i); // 추후에 운명에 의한 증가량 추가
+        }
+
+        if(negativeEffect.effectedTarget == EffectedTarget.Player)
+        {
+            Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value * i); // 추후에 운명에 의한 증가량 추가
+        }
+
+    }
+
+    public override void OnViewChange(ViewModeType viewMode)
+    {
+        base.OnViewChange(viewMode);
+        if(viewMode == ViewModeType.View2D)
+        {
+            col.excludeLayers = LayerMask.GetMask("Enemy"); // 2D 모드에서는 Enemy 레이어 제외
+        }
+        else if(viewMode == ViewModeType.View3D)
+        {
+            col.excludeLayers = 0;
+        }
+    }
+
+    public void SetCurrentRoom(Room room)
+    {
+        if(CurrentRoom == room) return;
+
+        CurrentRoom = room;
+        Debug.Log($"[Player] 현재 Room 변경됨 {room.Id}");
+
+        RequestMinimapUpdate();
+    }
+
+
+    private void RequestMinimapUpdate()
+    {
+        var stage = StageManager.Instance.currentStage;
+        var minimapData = MinimapBuilder.BuildFromStage(stage, stage.connections);
+
+        foreach(var data in minimapData)
+            data.isCurrent = data.roomID == CurrentRoom.Id;
+
+        UIManager.Instance.GetUI<MinimapUI>().GenerateMinimap(minimapData);
+    }
+
+>>>>>>> Stashed changes
 }

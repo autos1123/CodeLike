@@ -7,4 +7,6 @@ public class MinimapRoomData //사용법 StageManager.cs 참조
     public Vector3 worldPosition;
     public RoomType type;
     public List<Direction> connectedDirections;
+
+    public bool isCurrent = false;
 }

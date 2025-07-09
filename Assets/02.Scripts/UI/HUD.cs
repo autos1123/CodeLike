@@ -8,6 +8,7 @@ public class HUD:UIBase
 
     [SerializeField] Button minMapButton;
     [SerializeField] Button optionButton;
+    [SerializeField] Button minimapButton;
     [SerializeField] TextMeshProUGUI goldText;
 
     [SerializeField] Image HPFill;
@@ -32,6 +33,12 @@ public class HUD:UIBase
 
         player.PlayerCondition.statModifiers[ConditionType.HP] += ChangeHP;
         ChangeHP();
+
+        minimapButton.onClick.RemoveAllListeners();
+        minimapButton.onClick.AddListener(() =>
+        {
+            UIManager.Instance.ToggleUI<MinimapUI>();
+        });
     }
     public override void Close()
     {
