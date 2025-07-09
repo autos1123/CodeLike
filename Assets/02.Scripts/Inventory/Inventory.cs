@@ -123,6 +123,26 @@ public class Inventory : MonoBehaviour, IInventory
         return false;
     }
     /// <summary>
+    /// 비어있는 액티브아이템 슬롯에 아이템 추가
+    /// </summary>
+    /// <param name="activeItem"></param>
+    /// <param name="skillinput"></param>
+    /// <returns></returns>
+    public bool AddtoActiveSlot(ActiveItemData activeItem, Skillinput skillinput)
+    {
+        foreach(var slot in activeItemSlots)
+        {
+            if(slot.IsActiveSlotEmpty)
+            {
+                slot.ActiveSlotSet(activeItem);
+                PlayerActiveItemController.TakeItem(skillinput, activeItem);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
     /// 인벤토리 슬롯 반환
     /// </summary>
     /// <returns></returns>
