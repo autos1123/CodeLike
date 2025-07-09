@@ -16,7 +16,7 @@ public class PlayerActiveItemController : MonoBehaviour
 {
     private Dictionary<SkillType, ISkillExecutor> executors;
     private PlayerController playerController;
-    public ActiveItemData[] activeItemDatas;
+    public List<ActiveItemData> activeItemDatas = new();
 
     private void Awake()
     {
@@ -32,8 +32,14 @@ public class PlayerActiveItemController : MonoBehaviour
             { SkillType.AoE , new AoESkillExecutor() },
             { SkillType.Heal , new HealSkillExecutor()}
         };
-
-        activeItemDatas = GameManager.Instance.Player.GetComponent<Inventory>().activeItemSlots.Select(target => target.ActiveItem).ToArray();   
+    }
+    /// <summary>
+    /// 테스트용
+    /// </summary>
+    /// <param name="activeItemData"></param>
+    public void TakeItem(ActiveItemData activeItemData)
+    {
+        activeItemDatas.Add(activeItemData);
     }
 
     public void TakeItem(Skillinput skillinput, ActiveItemData activeItemData)

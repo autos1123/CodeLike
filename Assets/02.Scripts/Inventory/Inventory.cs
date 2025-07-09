@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public interface IInventory
 {
@@ -18,9 +19,9 @@ public class Inventory : MonoBehaviour, IInventory
 {
     private ItemDataTable itemDataTable;
     private ActiveItemDataTable activeItemDataTable;
-    
+    private PlayerActiveItemController PlayerActiveItemController;
     /// <summary> 실제 인벤토리 슬롯 리스트 (16칸) </summary>
-    
+
     public List<ItemSlot> inventorySlots = new List<ItemSlot>();
     /// <summary> 실제 장비 슬롯 리스트 (4칸) </summary>
     
@@ -44,6 +45,7 @@ public class Inventory : MonoBehaviour, IInventory
         yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         activeItemDataTable = TableManager.Instance.GetTable<ActiveItemDataTable>();
+        PlayerActiveItemController = transform.GetComponent<PlayerActiveItemController>();
         Init();
         
         // 테스트 아이템 추가 (인벤토리슬로ㅓㅅ)
@@ -62,6 +64,8 @@ public class Inventory : MonoBehaviour, IInventory
         
         
         Initialized = true;
+
+        
     }
     
     /// <summary>
@@ -112,6 +116,7 @@ public class Inventory : MonoBehaviour, IInventory
             if (slot.IsActiveSlotEmpty)
             {
                 slot.ActiveSlotSet(activeItem);
+                PlayerActiveItemController.TakeItem(activeItem);
                 return true;
             }
         }
