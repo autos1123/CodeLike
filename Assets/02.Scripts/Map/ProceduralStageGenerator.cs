@@ -30,6 +30,7 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     public List<Room> Generate(int seed)
     {
+        Debug.Log($"🚀 Generate 시작! seed={seed}, roomCount={roomCount}, grid={gridWidth}x{gridHeight}");
         this.seed = seed;
         random = new System.Random(seed);
         nextRoomID = 0; 
@@ -38,8 +39,7 @@ public class ProceduralStageGenerator:MonoBehaviour
         stageData = new StageData();
         stageData.InitializeGrid(gridWidth, gridHeight);
 
-        //Vector2Int startGridPos = new Vector2Int(gridWidth / 2, gridHeight / 2);
-        Vector2Int startGridPos = new Vector2Int(0, 0);
+        Vector2Int startGridPos = new Vector2Int(gridWidth / 2, gridHeight / 2);
         Stack<Vector2Int> stack = new();
         Dictionary<Vector2Int, int> roomIdMap = new();
 
@@ -47,6 +47,7 @@ public class ProceduralStageGenerator:MonoBehaviour
 
         while(roomIdMap.Count < roomCount && stack.Count > 0)
         {
+
             Vector2Int current = stack.Pop();
             if(grid[current.x, current.y]) continue;
 
@@ -64,6 +65,8 @@ public class ProceduralStageGenerator:MonoBehaviour
                     RoomConnection conn = new RoomConnection(nextRoomID, neighborId, dir);
                     stageData.connections.Add(conn);
                     connectedDirs.Add(dir);
+
+
                 }
             }
 
@@ -80,6 +83,12 @@ public class ProceduralStageGenerator:MonoBehaviour
                     stack.Push(next);
                 }
             }
+            Debug.Log($" 현재 위치: {current}");
+            if(grid[current.x, current.y])
+            {
+                Debug.Log($" 이미 방문한 좌표: {current}");
+                continue;
+            }
         }
         PlaceConnections();
         return new List<Room>(stageData.roomMap.Values);
@@ -87,14 +96,29 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     private Room CreateRoom(Vector2Int gridPos, RoomType type)
     {
+        Debug.Log($"🧪 CreateRoom 호출됨: gridPos={gridPos}, type={type}");
+
+        GameObject prefab = prefabSet.GetRandomPrefab(type);
+        if(prefab == null)
+        {
+            Debug.LogError($"❌ 프리팹이 존재하지 않음! RoomType: {type}");
+            return null;
+        }
+
         int gridSpacing = 250;
         Vector3 worldPos = new Vector3(gridPos.x * gridSpacing, gridPos.y * gridSpacing, 0f);
 
-        GameObject prefab = prefabSet.GetRandomPrefab(type);
+  
         GameObject roomGO = Instantiate(prefab, worldPos, Quaternion.identity, roomParent);
-
         Room room = roomGO.GetComponent<Room>();
+        if(room == null)
+        {
+            Debug.LogError($"❌ Room 컴포넌트가 프리팹 '{prefab.name}'에 없음!");
+            return null;
+        }
+
         room.Initialize(nextRoomID++, gridPos, type);
+        Debug.Log($"✅ Room 생성 완료: ID={room.Id}, Type={type}, Pos={gridPos}");
         return room;
     }
 
@@ -132,6 +156,7 @@ public class ProceduralStageGenerator:MonoBehaviour
             if (!stageData.roomMap.TryGetValue(conn.FromRoomID, out var fromRoom) ||
                 !stageData.roomMap.TryGetValue(conn.ToRoomID, out var toRoom))
                 continue;
+
 
             CreatePortal(fromRoom, toRoom, conn.Direction);
             CreatePortal(toRoom, fromRoom, Room.GetOppositeDirection(conn.Direction));

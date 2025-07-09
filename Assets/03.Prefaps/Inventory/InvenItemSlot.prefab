@@ -298,6 +298,9 @@ GameObject:
   - component: {fileID: 6121635682099250431}
   - component: {fileID: 100800404768862157}
   - component: {fileID: 8874512869602496056}
+  - component: {fileID: -2652129858035560210}
+  - component: {fileID: 884245358211965243}
+  - component: {fileID: 1236391591053063456}
   m_Layer: 5
   m_Name: InvenItemSlot
   m_TagString: Untagged
@@ -361,3 +364,39 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &-2652129858035560210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5800349593635815395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0db43168f984845a834a80a8c6eebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &884245358211965243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5800349593635815395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf88ff26316072448b233cec392d9c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1236391591053063456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5800349593635815395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc5218fd7a080a4e8fc9cb4063f465a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

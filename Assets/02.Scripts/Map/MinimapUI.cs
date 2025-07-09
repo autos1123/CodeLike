@@ -2,11 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MinimapUI:MonoBehaviour
+public class MinimapUI: UIBase
 {
     public RectTransform minimapPanel;
     public GameObject roomIconPrefab;
     public float roomSpacing = 50f; // 방 간격
+
+    public override string UIName => "MinimapUI"; // 중요!
+
+    public Sprite defaultIcon;
+    public Sprite currentIcon;
 
     public void GenerateMinimap(List<MinimapRoomData> roomDataList)
     {

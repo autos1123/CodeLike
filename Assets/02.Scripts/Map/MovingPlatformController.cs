@@ -21,7 +21,7 @@ public class MovingPlatformController:MonoBehaviour
         transform.position = Vector3.Lerp(startPos, startPos + offset, time);
     }
 
-    void OnCollisitonEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
