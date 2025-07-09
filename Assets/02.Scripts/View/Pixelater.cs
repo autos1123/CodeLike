@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -8,7 +9,7 @@ using UnityEngine;
 public class Pixelater : MonoBehaviour
 {
     [Range(1, 100)]
-    public int _pixelate = 1;
+    public int _pixelate = 30;
     
     private float _currentPixelate = 0f;   // 현재 적용 중 강도
     private float _targetPixelate = 0f;    // 목표 강도
@@ -20,9 +21,14 @@ public class Pixelater : MonoBehaviour
     /// <summary>
     /// 초기화 시 ViewManager로부터 현재 ViewMode 정보를 받아 픽셀화 상태 초기 설정
     /// </summary>
-    private void Awake()
+    private IEnumerator Start()
     {
-        TryUpdatePixelateState();
+        // ViewManager가 생성될 때까지 기다림
+        yield return new WaitUntil(() => ViewManager.HasInstance);
+
+        ViewManager.Instance.OnViewChanged += OnViewModeChanged;
+
+        TryUpdatePixelateState(); // ViewMode에 따라 픽셀값 갱신
     }
     
     /// <summary>
@@ -69,8 +75,10 @@ public class Pixelater : MonoBehaviour
     /// </summary>
     private void TryUpdatePixelateState()
     {
+        Debug.Log("TryUpdatePixelateState1");
         if (ViewManager.HasInstance)
         {
+            Debug.Log("TryUpdatePixelateState2");
             var mode = ViewManager.Instance.CurrentViewMode;
             _targetPixelate = (mode == ViewModeType.View2D) ? _pixelate : 0f;
         }
@@ -92,7 +100,7 @@ public class Pixelater : MonoBehaviour
 
         RenderTexture resultTexture = RenderTexture.GetTemporary(width, height, 0, source.format);
         resultTexture.filterMode = FilterMode.Point;
-
+        
         Graphics.Blit(source, resultTexture);
         Graphics.Blit(resultTexture, destination);
         RenderTexture.ReleaseTemporary(resultTexture);

@@ -8,29 +8,31 @@ public class ItemSlot
 {
     /// <summary> 슬롯에 담긴 아이템 데이터 </summary>
     public ItemData Item { get; private set; }
+    public ActiveItemData ActiveItem { get; private set; }
     
-    /// <summary> 아이템 수량 </summary>
-    public int Quantity { get; private set; }
-
+    
     /// <summary> 슬롯이 비어있는지 여부 </summary>
-    public bool IsEmpty => Item == null;
+    public bool IsInvenSlotEmpty => Item == null;
+    public bool IsActiveSlotEmpty => ActiveItem == null;
 
     /// <summary>
     /// 슬롯에 아이템과 수량을 설정
     /// </summary>
-    public void Set(ItemData item, int quantity)
+    public void Set(ItemData item)
     {
         Item = item;
-        Quantity = quantity;
     }
-    
+
+    public void ActiveSlotSet(ActiveItemData activeItem)
+    {
+        ActiveItem = activeItem;
+    }
     /// <summary>
     /// 슬롯을 비움
     /// </summary>
     public void Clear()
     {
         Item = null;
-        Quantity = 0;
     }
     
     /// <summary>
@@ -40,26 +42,37 @@ public class ItemSlot
     public ItemSlot Clone()
     {
         var clone = new ItemSlot();
-        if (!IsEmpty)
-            clone.Set(Item, Quantity);
         return clone;
     }
 
-    /// <summary>
-    /// 슬롯의 아이템이 특정 아이템과 동일한지 비교
-    /// </summary>
-    /// <param name="target">비교할 아이템</param>
-    /// <returns>동일 여부</returns>
-    public bool IsSameItem(ItemData target)
-    {
-        return !IsEmpty && Item.ID == target.ID;
-    }
+    // /// <summary>
+    // /// 슬롯의 아이템이 특정 아이템과 동일한지 비교
+    // /// </summary>
+    // /// <param name="target">비교할 아이템</param>
+    // /// <returns>동일 여부</returns>
+    // public bool IsSameItem(ItemData target)
+    // {
+    //     return !IsEmpty && Item.ID == target.ID;
+    // }
 
     /// <summary>
     /// 현재 슬롯에 있는 아이템의 설명 반환 (툴팁 등에서 사용)
     /// </summary>
-    public string GetDescription()
+    public string GetDescription(SlotType type)
     {
-        return IsEmpty ? "" : Item.description;
+        if (type == SlotType.ActiveItem && ActiveItem != null)
+            return ActiveItem.description;
+
+        if(Item != null)
+        {
+            if(type == SlotType.Equip)
+            {
+                return $"<color=#ff0000>[장착중]</color>\n {Item.description}";
+            }
+            return Item.description;
+        }
+            
+
+        return "";
     }
 }

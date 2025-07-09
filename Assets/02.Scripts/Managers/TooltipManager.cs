@@ -46,7 +46,6 @@ public class TooltipManager : MonoSingleton<TooltipManager>
         UpdatePosition(position);
     }
     
-    ///
     /// <summary>
     /// 툴팁의 화면 위치
     /// </summary>

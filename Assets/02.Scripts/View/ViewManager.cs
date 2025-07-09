@@ -13,7 +13,7 @@ public class ViewManager : MonoSingleton<ViewManager>
     /// <summary>
     /// 현재 활성화된 시점 모드
     /// </summary>
-    public ViewModeType CurrentViewMode { get; private set; }
+    public ViewModeType CurrentViewMode { get; private set; } = ViewModeType.View3D;
     /// <summary>
     /// 시점이 변경될 때 호출되는 이벤트
     /// </summary>
@@ -32,7 +32,6 @@ public class ViewManager : MonoSingleton<ViewManager>
 
 
         CurrentViewMode = mode;
-        Debug.Log($"[ViewManager] 시점 전환: {mode}");
 
         OnViewChanged?.Invoke(mode);
     }

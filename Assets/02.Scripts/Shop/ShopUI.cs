@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
+/// <summary>
+/// 상점 UI. 판매/구매 슬롯 생성, 거래 처리, 금액 계산 및 UI 갱신을 담당
+/// </summary>
 public class ShopUI : UIBase
 {
     public override string UIName => "ShopUI";
@@ -18,87 +22,220 @@ public class ShopUI : UIBase
 
     public TextMeshProUGUI sellTotalText;
     public TextMeshProUGUI buyTotalText;
-
-    private List<ShopSlotUI> sellSlots = new List<ShopSlotUI>();
-    private List<ShopSlotUI> buySlots = new List<ShopSlotUI>();
+    public TextMeshProUGUI calculateText;
+    public Button dealBtn;
+    public TextMeshProUGUI curGoldText;
     
+    private List<ShopSlotUI> sellSlots = new();
+    private List<ShopSlotUI> buySlots = new ();
+    
+    private HashSet<(ItemSlot slot, ItemData item)> selectedSellItems = new(); //선택된 슬롯 기억리스트 (슬롯과 그 안에 아이템 함께기억)
+    private HashSet<ItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
+    
+    /// <summary>
+    /// 상점 UI 열기: 인벤토리 참조 설정 및 거래 버튼 이벤트 등록, 슬롯 초기화 코루틴 시작
+    /// </summary>
     public override void Open()
     {
         base.Open();
-        if(playerInventoryRaw == null)
+        if (playerInventoryRaw == null)
         {
             var inventoryUI = UIManager.Instance.GetUI<InventoryUI>();
-            if(inventoryUI != null)
-            {
+            if (inventoryUI != null)
                 playerInventoryRaw = inventoryUI.GetComponent<Inventory>();
-            }
         }
-        if(shopInventoryRaw == null)
-        {
-            shopInventoryRaw = FindObjectOfType<ShopInventory>();
-        }
-        StartCoroutine(WaitForInventoryThenGenerate());
-    }
 
+        if (shopInventoryRaw == null)
+            shopInventoryRaw = FindObjectOfType<ShopInventory>();
+        
+        UpdateGoldUI();
+            
+        dealBtn.onClick.RemoveAllListeners();
+        dealBtn.onClick.AddListener(ExecuteTransaction);
+        
+        StartCoroutine(InitAndGenerate());
+    }
+    
+    /// <summary>
+    /// 상점 UI 닫기 시 선택된 아이템 상태 초기화
+    /// </summary>
     public override void Close()
     {
         base.Close();
-        // 필요 시 슬롯 정리 등 추가 가능
+        selectedSellItems.Clear();
     }
-
-    private IEnumerator WaitForInventoryThenGenerate()
+    
+    /// <summary>
+    /// 인벤토리 초기화 대기 후 슬롯 생성 및 UI 업데이트 수행 (코루틴)
+    /// </summary>
+    private IEnumerator InitAndGenerate()
     {
-        // 인벤토리 초기화 대기
-        yield return new WaitUntil(() => 
+        yield return new WaitUntil(() =>
             playerInventoryRaw != null && playerInventoryRaw.Initialized &&
             shopInventoryRaw != null && shopInventoryRaw.Initialized);
-        
-        GenerateSlots();
-    }
 
+        GenerateSlots();
+        UpdateTotalPrices();
+    }
+    /// <summary>
+    /// 기존 슬롯 UI 제거 후, 판매/구매 슬롯을 다시 생성
+    /// </summary>
     public void GenerateSlots()
     {
-        foreach (Transform child in sellParent) Destroy(child.gameObject);
-        foreach (Transform child in buyParent) Destroy(child.gameObject);
+        ClearChildren(sellParent);
+        ClearChildren(buyParent);
         sellSlots.Clear();
         buySlots.Clear();
 
-        CreateSlots(playerInventory.GetInventorySlots(), sellParent, true, sellSlots);
+        CreateSlots(playerInventory.GetInventorySlots(true), sellParent, true, sellSlots);
         CreateSlots(shopInventory.GetInventorySlots(), buyParent, false, buySlots);
     }
-
+    
+    /// <summary>
+    /// 특정 슬롯 리스트로 상점 슬롯 UI 생성 및 리스트에 저장, 이전 선택 상태 반영
+    /// </summary>
+    /// <param name="slots">아이템 슬롯들</param>
+    /// <param name="parent">UI 부모 오브젝트</param>
+    /// <param name="isPlayer">플레이어 인벤토리인지 여부</param>
+    /// <param name="targetList">슬롯 저장 리스트</param>
     private void CreateSlots(List<ItemSlot> slots, Transform parent, bool isPlayer, List<ShopSlotUI> targetList)
     {
         foreach (var itemSlot in slots)
         {
-            if (!itemSlot.IsEmpty)
+            if (!itemSlot.IsInvenSlotEmpty)
             {
                 var go = Instantiate(shopSlotPrefab, parent);
                 var slotUI = go.GetComponent<ShopSlotUI>();
-                slotUI.shopUI = this;
-                slotUI.Set(itemSlot, isPlayer);
+                
+                slotUI.Set(itemSlot, isPlayer,this);
                 targetList.Add(slotUI);
+
+                if(!isPlayer && purchaseSlots.Contains(itemSlot))
+                {
+                    slotUI.SetInteractable(false);
+                }
+                if (isPlayer && selectedSellItems.Contains((itemSlot, itemSlot.Item)))
+                {
+                    slotUI.ForceSelect();
+                }
             }
         }
     }
-
+    
+    /// <summary>
+    /// 선택된 슬롯들의 판매/구매 금액 계산 후 텍스트 갱신
+    /// </summary>
     public void UpdateTotalPrices()
     {
         int sellTotal = 0;
-        foreach (var slot in sellSlots)
-        {
-            if (slot.IsSelected && !slot.ItemSlot.IsEmpty)
-                sellTotal += slot.ItemSlot.Item.sellPrice * slot.ItemSlot.Quantity;
-        }
-
         int buyTotal = 0;
-        foreach (var slot in buySlots)
-        {
-            if (slot.IsSelected && !slot.ItemSlot.IsEmpty)
-                buyTotal += slot.ItemSlot.Item.buyPrice * slot.ItemSlot.Quantity;
-        }
+
+        foreach (var s in sellSlots)
+            if(s.IsSelected && s.ItemSlot != null && !s.ItemSlot.IsInvenSlotEmpty)
+            {
+                sellTotal += s.ItemSlot.Item.sellPrice;
+            }
+
+        foreach (var b in buySlots)
+            if(b.IsSelected  && b.ItemSlot != null && !b.ItemSlot.IsInvenSlotEmpty)
+            {
+                buyTotal += b.ItemSlot.Item.buyPrice;
+            }
 
         sellTotalText.text = $"판매 금액: {sellTotal} G";
         buyTotalText.text = $"구매 금액: {buyTotal} G";
+        
+        float calculatePrice = sellTotal - buyTotal;
+        string sign = calculatePrice >= 0 ? "+" : "-";
+        string calculatePriceText = $"{sign}{Mathf.Abs(calculatePrice)}";
+        
+        calculateText.text = $"총 계산된 금액: {calculatePriceText} G";
+    }
+    
+    /// <summary>
+    /// 선택된 슬롯을 기반으로 거래 시도 → 성공 시 거래 아이템 반영 및 UI 갱신
+    /// </summary>
+    public void ExecuteTransaction()
+    {
+        var sellSlotSelected = sellSlots.FindAll(s => s.IsSelected);
+        var buySlotSelected = buySlots.FindAll(s => s.IsSelected);
+        
+        var sellItems = sellSlotSelected.ConvertAll(s => s.ItemSlot);
+        var buyItems = buySlotSelected.ConvertAll(s => s.ItemSlot);
+        
+        if (ShopManager.Instance.TryExecuteTransaction(sellItems, buyItems, out var result))
+        {
+            Debug.Log(result);
+            foreach(var slot in buySlotSelected)
+            {
+                purchaseSlots.Add(slot.ItemSlot);
+            }
+            selectedSellItems.Clear();
+            RefreshAllUI();
+        }
+        else
+        {
+            Debug.LogWarning(result);
+        }
+
+        UpdateTotalPrices();
+    }
+    
+    /// <summary>
+    /// 부모 Transform의 모든 자식 오브젝트 제거 (슬롯 재생성 전 사용)
+    /// </summary>
+    private void ClearChildren(Transform t)
+    {
+        foreach (Transform child in t)
+            Destroy(child.gameObject);
+    }
+    
+    /// <summary>
+    /// 현재 플레이어 골드를 UI에 표시
+    /// </summary>
+    private void UpdateGoldUI()
+    {
+        if(ShopManager.Instance.TryGetGold(out float gold))
+        {
+            curGoldText.text = $"보유골드: {gold}G";
+        }
+        else
+        {
+            curGoldText.text = "보유골드: ???";
+        }
+    }
+    /// <summary>
+    /// UI갱신메소드 모음(슬롯, 가격, 골드 UI 전부 다시 갱신)
+    /// </summary>
+    public void RefreshAllUI()
+    {
+        GenerateSlots();
+        UpdateTotalPrices();
+        UpdateGoldUI();
+    }
+    /// <summary>
+    /// 주어진 슬롯이 장착 슬롯에 포함되어 있는지 여부 확인
+    /// </summary>
+    /// <param name="slot">선택한 슬롯</param>
+    /// <returns>그 슬롯이 equipslots인지 불값 반환</returns>
+    public bool IsEquippedSlot(ItemSlot slot)
+    {
+        return playerInventoryRaw.equipSlots.Contains(slot);
+    }
+    /// <summary>
+    /// 특정 슬롯+아이템 쌍을 선택된 리스트에 등록
+    /// </summary>
+    public void RememberSelectedItem(ItemSlot slot)
+    {
+        if (slot != null && slot.Item != null)
+            selectedSellItems.Add((slot, slot.Item));
+    }
+    /// <summary>
+    /// 특정 슬롯+아이템 쌍을 선택된 리스트에서 제거
+    /// </summary>
+    public void ForgetSelectedItem(ItemSlot slot)
+    {
+        if (slot != null && slot.Item != null)
+            selectedSellItems.Remove((slot, slot.Item));
     }
 }

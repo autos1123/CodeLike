@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IInventory
 {
     bool Initialized { get; }
-    List<ItemSlot> GetInventorySlots(); // 장비슬롯은 제외
+    List<ItemSlot> GetInventorySlots(bool includeEquip = false); // 장비슬롯도 같이 가져올수있게
 
     bool AddToInventory(ItemData item);
     bool RemoveFromInventory(ItemData item); // 필요 시
@@ -17,13 +17,16 @@ public interface IInventory
 public class Inventory : MonoBehaviour, IInventory
 {
     private ItemDataTable itemDataTable;
+    private ActiveItemDataTable activeItemDataTable;
     
     /// <summary> 실제 인벤토리 슬롯 리스트 (16칸) </summary>
-    [HideInInspector]
+    
     public List<ItemSlot> inventorySlots = new List<ItemSlot>();
     /// <summary> 실제 장비 슬롯 리스트 (4칸) </summary>
-    [HideInInspector]
+    
     public List<ItemSlot> equipSlots = new List<ItemSlot>();
+    
+    public List<ItemSlot> activeItemSlots = new List<ItemSlot>();
     
     /// <summary> 인벤토리가 초기화 완료되었는지 여부 </summary>
     public bool Initialized { get; private set; } = false;
@@ -35,13 +38,23 @@ public class Inventory : MonoBehaviour, IInventory
     {
         yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
+        activeItemDataTable = TableManager.Instance.GetTable<ActiveItemDataTable>();
         Init();
         
-        // 테스트 아이템 추가
+        // 테스트 아이템 추가 (인벤토리슬로ㅓㅅ)
         var item_1 = itemDataTable.GetDataByID(6000);
         AddToInventory(item_1);
         var item_2 = itemDataTable.GetDataByID(6001);
         AddToInventory(item_2);
+        var item_3 = itemDataTable.GetDataByID(6000);
+        AddToInventory(item_3);
+        
+        // 테스트 아이템 추가 (액티브아이템 슬롯)
+        var item_4 = activeItemDataTable.GetDataByID(4000);
+        AddtoActiveSlot(item_4);
+        var item_5 = activeItemDataTable.GetDataByID(4001);
+        AddtoActiveSlot(item_5);
+        
         
         Initialized = true;
     }
@@ -58,6 +71,10 @@ public class Inventory : MonoBehaviour, IInventory
         equipSlots.Clear();
         for (int i = 0; i < 4; i++)
             equipSlots.Add(new ItemSlot());
+        
+        activeItemSlots.Clear();
+        for(int i = 0; i<2; i++)
+            activeItemSlots.Add(new ItemSlot());
     }
     
     
@@ -70,24 +87,50 @@ public class Inventory : MonoBehaviour, IInventory
     {
         foreach (var slot in inventorySlots)
         {
-            if (slot.IsEmpty)
+            if (slot.IsInvenSlotEmpty)
             {
-                slot.Set(item, 1);
+                slot.Set(item);
                 return true;
             }
         }
         return false;
     }
-    public List<ItemSlot> GetInventorySlots()
+    /// <summary>
+    /// 비어있는 액티브아이템 슬롯에 아이템 추가
+    /// </summary>
+    /// <param name="activeItem">추가할 액티브아이템</param>
+    /// <returns>성공적으로 추가되었는지 여부</returns>
+    public bool AddtoActiveSlot(ActiveItemData activeItem)
     {
-        return inventorySlots;
+        foreach(var slot in activeItemSlots)
+        {
+            if (slot.IsActiveSlotEmpty)
+            {
+                slot.ActiveSlotSet(activeItem);
+                return true;
+            }
+        }
+        return false;
     }
+    /// <summary>
+    /// 인벤토리 슬롯 반환
+    /// </summary>
+    /// <returns></returns>
+    public List<ItemSlot> GetInventorySlots(bool includeEquip = false)
+    {
+        var result = new List<ItemSlot>(inventorySlots);
+    
+        if (includeEquip)
+            result.AddRange(equipSlots);
 
+        return result;
+    }
+    
     public bool RemoveFromInventory(ItemData item)
     {
         foreach (var slot in inventorySlots)
         {
-            if (!slot.IsEmpty && slot.Item == item)
+            if (!slot.IsInvenSlotEmpty && slot.Item == item)
             {
                 slot.Clear();
                 return true;
@@ -95,4 +138,5 @@ public class Inventory : MonoBehaviour, IInventory
         }
         return false;
     }
+    
 }

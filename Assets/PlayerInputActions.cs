@@ -62,6 +62,60 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeView"",
+                    ""type"": ""Button"",
+                    ""id"": ""d5f9b13c-b326-4342-a8d9-678aff7d34a2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenOptions"",
+                    ""type"": ""Button"",
+                    ""id"": ""7c4384b0-2ea1-469f-a237-6e0be6fdb8d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""d8529adb-e2f7-4ca1-bab4-96056b5f7670"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenStatus"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d26abd7-7a3f-4059-9263-49a72166ffde"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseXItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e397504-7344-4727-a116-ff265b220c4e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseCitem"",
+                    ""type"": ""Button"",
+                    ""id"": ""f0fd4099-b786-4542-85d1-f8d753c14c9f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +206,72 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf8d6f3b-2c26-414f-98e4-319bdec84ded"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeView"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ab66dec-54c7-4c8e-8b48-791614f2da36"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenOptions"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cdb73b11-372b-48ed-8c33-88ba40247a98"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7243536c-c4da-4483-8f54-01925d29ec95"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenStatus"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24e07765-49e0-4624-aa5b-21bc2b58e297"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseXItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ef493b5-9043-4ba3-98cc-7f47d064bec5"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseCitem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +284,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+        m_Player_ChangeView = m_Player.FindAction("ChangeView", throwIfNotFound: true);
+        m_Player_OpenOptions = m_Player.FindAction("OpenOptions", throwIfNotFound: true);
+        m_Player_OpenInventory = m_Player.FindAction("OpenInventory", throwIfNotFound: true);
+        m_Player_OpenStatus = m_Player.FindAction("OpenStatus", throwIfNotFound: true);
+        m_Player_UseXItem = m_Player.FindAction("UseXItem", throwIfNotFound: true);
+        m_Player_UseCitem = m_Player.FindAction("UseCitem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +355,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Interaction;
+    private readonly InputAction m_Player_ChangeView;
+    private readonly InputAction m_Player_OpenOptions;
+    private readonly InputAction m_Player_OpenInventory;
+    private readonly InputAction m_Player_OpenStatus;
+    private readonly InputAction m_Player_UseXItem;
+    private readonly InputAction m_Player_UseCitem;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -237,6 +369,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
+        public InputAction @ChangeView => m_Wrapper.m_Player_ChangeView;
+        public InputAction @OpenOptions => m_Wrapper.m_Player_OpenOptions;
+        public InputAction @OpenInventory => m_Wrapper.m_Player_OpenInventory;
+        public InputAction @OpenStatus => m_Wrapper.m_Player_OpenStatus;
+        public InputAction @UseXItem => m_Wrapper.m_Player_UseXItem;
+        public InputAction @UseCitem => m_Wrapper.m_Player_UseCitem;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +396,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
+            @ChangeView.started += instance.OnChangeView;
+            @ChangeView.performed += instance.OnChangeView;
+            @ChangeView.canceled += instance.OnChangeView;
+            @OpenOptions.started += instance.OnOpenOptions;
+            @OpenOptions.performed += instance.OnOpenOptions;
+            @OpenOptions.canceled += instance.OnOpenOptions;
+            @OpenInventory.started += instance.OnOpenInventory;
+            @OpenInventory.performed += instance.OnOpenInventory;
+            @OpenInventory.canceled += instance.OnOpenInventory;
+            @OpenStatus.started += instance.OnOpenStatus;
+            @OpenStatus.performed += instance.OnOpenStatus;
+            @OpenStatus.canceled += instance.OnOpenStatus;
+            @UseXItem.started += instance.OnUseXItem;
+            @UseXItem.performed += instance.OnUseXItem;
+            @UseXItem.canceled += instance.OnUseXItem;
+            @UseCitem.started += instance.OnUseCitem;
+            @UseCitem.performed += instance.OnUseCitem;
+            @UseCitem.canceled += instance.OnUseCitem;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -274,6 +430,24 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
+            @ChangeView.started -= instance.OnChangeView;
+            @ChangeView.performed -= instance.OnChangeView;
+            @ChangeView.canceled -= instance.OnChangeView;
+            @OpenOptions.started -= instance.OnOpenOptions;
+            @OpenOptions.performed -= instance.OnOpenOptions;
+            @OpenOptions.canceled -= instance.OnOpenOptions;
+            @OpenInventory.started -= instance.OnOpenInventory;
+            @OpenInventory.performed -= instance.OnOpenInventory;
+            @OpenInventory.canceled -= instance.OnOpenInventory;
+            @OpenStatus.started -= instance.OnOpenStatus;
+            @OpenStatus.performed -= instance.OnOpenStatus;
+            @OpenStatus.canceled -= instance.OnOpenStatus;
+            @UseXItem.started -= instance.OnUseXItem;
+            @UseXItem.performed -= instance.OnUseXItem;
+            @UseXItem.canceled -= instance.OnUseXItem;
+            @UseCitem.started -= instance.OnUseCitem;
+            @UseCitem.performed -= instance.OnUseCitem;
+            @UseCitem.canceled -= instance.OnUseCitem;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -297,5 +471,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
+        void OnChangeView(InputAction.CallbackContext context);
+        void OnOpenOptions(InputAction.CallbackContext context);
+        void OnOpenInventory(InputAction.CallbackContext context);
+        void OnOpenStatus(InputAction.CallbackContext context);
+        void OnUseXItem(InputAction.CallbackContext context);
+        void OnUseCitem(InputAction.CallbackContext context);
     }
 }

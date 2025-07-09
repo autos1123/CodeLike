@@ -1,54 +1,56 @@
 using UnityEngine;
 
-public class PlayerJumpState:IUnitState
+public class PlayerJumpState:PlayerBaseState
 {
-    private PlayerController player;
-    private PlayerStateMachine stateMachine;
     private bool hasStartedFalling = false;
 
-    public PlayerJumpState(PlayerController player, PlayerStateMachine stateMachine)
-    {
-        this.player = player;
-        this.stateMachine = stateMachine;
-    }
+    public PlayerJumpState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public void StateEnter()
+    public override void StateEnter()
     {
-        Debug.Log("Jump 상태 진입");
+        base.StateEnter();
 
-        float force = player.PlayerCondition.GetValue(ConditionType.JumpPower);
-        Debug.Log($"Jump force: {force}");
+        StartAnimation(player.AnimationData.JumpParameterHash);
+
+        float force = player.Condition.GetValue(ConditionType.JumpPower);
 
         Vector3 v = player._Rigidbody.velocity;
-        Debug.Log($"Current Velocity Before Jump: {v}");
 
         v.y = 0;
         player._Rigidbody.velocity = v;
 
         player._Rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
 
-        Debug.Log($"Applied Jump force: {Vector3.up * force}");
-        player._Animator.SetBool("isJumping", true);
+
+        hasStartedFalling = false; // fall기능 추가 대비용 변수
+    }
+
+    public override void StateExit()
+    {
+        base.StateExit();
+        StopAnimation(player.AnimationData.JumpParameterHash);
+    }
+
+    public override void StateUpdate()
+    {
+        base.StateUpdate();
+
+        if(!player.isGrounded)
+            return;
+
+        StopAnimation(player.AnimationData.JumpParameterHash);
+
+        if(player.InputHandler.MoveInput.magnitude > 0.1f)
+            stateMachine.ChangeState(stateMachine.MoveState);
+        else
+            stateMachine.ChangeState(stateMachine.IdleState);
+
     }
 
 
-    public void StateExit()
+    public override void StatePhysicsUpdate()
     {
-        Debug.Log("Jump 상태 종료");
-        player._Animator.SetBool("isJumping", false);
-    }
-
-    public void StateUpdate()
-    {
-        if(player._Rigidbody.velocity.y < -0.1f && !hasStartedFalling)
-        {
-            hasStartedFalling = true;
-            stateMachine.ChangeState(new PlayerFallState(player, stateMachine));
-        }
-    }
-
-    public void StatePhysicsUpdate()
-    {
-        player.Move(player.Input.MoveInput);
+        base.StatePhysicsUpdate();
+        Move(player.InputHandler.MoveInput);
     }
 }

@@ -9,7 +9,7 @@ public class EnemyMoveState : EnemyBaseState
 
     public override void StateEnter()
     {
-        stateMachine.Enemy.NavMeshAgent.isStopped = false; // NavMeshAgent를 정지시킴
+        stateMachine.Enemy.NavMeshAgent.isStopped = false; 
         base.StateEnter();
     }
 

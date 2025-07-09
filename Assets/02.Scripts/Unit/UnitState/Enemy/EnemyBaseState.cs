@@ -15,7 +15,7 @@ public class EnemyBaseState:IUnitState
     public EnemyBaseState(EnemyStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
-        data = stateMachine.Enemy.Data;
+        data = stateMachine.Enemy.Condition.Data;
     }
 
     public virtual void StateEnter()
@@ -72,14 +72,18 @@ public class EnemyBaseState:IUnitState
     /// <returns></returns>
     protected bool IsInRange(ConditionType rangeType)
     {
-        float playerDistanceSqr = (stateMachine.Player.transform.position - stateMachine.Enemy.transform.position).sqrMagnitude;
-        float range = 0f;
+        Vector3 targetPos = stateMachine.Player.transform.position;
+        Vector3 curPos = stateMachine.Enemy.transform.position;
 
-        if(!data.TryGetCondition(rangeType, out range))
+        if(viewMode == ViewModeType.View2D)
         {
-            Debug.LogError($"ConditionType ChaseRange를 찾을 수 없습니다. 기본값으로 10.0f를 사용합니다.");
-            range = 10.0f; // 기본값 설정
+            // 2D인 경우 x축과 y축만 고려하여 거리 계산
+            targetPos.z = 0;
+            curPos.z = 0;
         }
+
+        float playerDistanceSqr = (targetPos - curPos).sqrMagnitude;
+        float range = stateMachine.Enemy.Condition.GetValue(rangeType);
 
         return playerDistanceSqr <= range * range;
     }
@@ -112,6 +116,7 @@ public class EnemyBaseState:IUnitState
         else
         {
             stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
+            stateMachine.Enemy.NavMeshAgent.isStopped = false; 
             stateMachine.Enemy.NavMeshAgent.speed = movementSpeed;
             stateMachine.Enemy.NavMeshAgent.SetDestination(targetPos);
         }
@@ -128,7 +133,15 @@ public class EnemyBaseState:IUnitState
         if(movementDirection != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(movementDirection);
-            stateMachine.Enemy.transform.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
+
+            if(viewMode == ViewModeType.View2D)
+            {
+                stateMachine.Enemy.transform.rotation = targetRotation;
+            }
+            else
+            {
+                stateMachine.Enemy.transform.rotation = Quaternion.Lerp(stateMachine.Enemy.transform.rotation, targetRotation, stateMachine.Enemy.RotationDamping * Time.deltaTime);
+            }
         }
     }
 

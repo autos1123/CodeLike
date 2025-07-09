@@ -78,8 +78,8 @@ public static class ExcelSOGenerator
                     destinyEffect.ID = int.Parse(row[0].ToString());
                     destinyEffect.Name = row[1].ToString();
                     destinyEffect.effectType = (EffectType)int.Parse(row[2].ToString());
-                    destinyEffect.affectedTarget = (AffectedTarget)int.Parse(row[3].ToString());
-                    destinyEffect.PConditionType = (ConditionType) Enum.Parse(typeof(ConditionType), row[4].ToString());
+                    destinyEffect.effectedTarget = (EffectedTarget)int.Parse(row[3].ToString());
+                    destinyEffect.conditionType = (ConditionType) Enum.Parse(typeof(ConditionType), row[4].ToString());
                     destinyEffect.value = int.Parse(row[5].ToString());
                     destinyEffect.dsecription = row[6].ToString().Replace("@", destinyEffect.value.ToString());
                     destinyEffectDataTable.dataList.Add(destinyEffect);
@@ -103,6 +103,7 @@ public static class ExcelSOGenerator
                     activeItem.rarity= (Rarity)int.Parse(row[2].ToString());
                     activeItem.skillID = int.Parse(row[3].ToString());
                     activeItem.description = row[4].ToString();
+                    activeItem.IconPath = row[5].ToString();
 
                     activeItemDataTable.dataList.Add(activeItem);
                 }

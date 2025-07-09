@@ -15,17 +15,17 @@ public class Status : MonoBehaviour
     {
         if(text == null) text = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
-        GameManager.Instance.Player.GetComponent<PlayerController>().PlayerCondition.statModifiers[_conditionType] += onChangeText;
+        GameManager.Instance.Player.GetComponent<PlayerController>().Condition.statModifiers[_conditionType] += onChangeText;
         onChangeText();
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.Player.GetComponent<PlayerController>().PlayerCondition.statModifiers[_conditionType] -= onChangeText;
+        GameManager.Instance.Player.GetComponent<PlayerController>().Condition.statModifiers[_conditionType] -= onChangeText;
     }
 
     void onChangeText()
     {
-        text.text = GameManager.Instance.Player.GetComponent<PlayerController>().PlayerCondition.GetValue(_conditionType).ToString();
+        text.text = GameManager.Instance.Player.GetComponent<PlayerController>().Condition.GetStatus(_conditionType);
     }
 }

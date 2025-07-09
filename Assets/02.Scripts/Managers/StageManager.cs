@@ -1,49 +1,51 @@
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class StageManager:MonoSingleton<StageManager>
 {
+    protected override bool Persistent => false;
+
     public ProceduralStageGenerator generator;
     public StageData currentStage;
 
     public int seed = 0;
     public int stageID = 0;
 
-    public void LoadStage(int seed)
+    public void LoadStage()
     {
         int randomSeed = Random.Range(0, int.MaxValue);
-        int randomRoomCount = Random.Range(6, 11);
-
-        generator.roomCount = randomRoomCount;
         ClearStage();
 
-        currentStage = new StageData();
+        int roomCountBase = GameManager.Instance.stageMapCountData[stageID];
+        int randomRoomCount = Random.Range(roomCountBase - 1, roomCountBase + 1);
+        generator.roomCount = randomRoomCount;
+
+        generator.Generate(randomSeed);
+        currentStage = generator.stageData; //  반드시 generator 내부에서 생성한 인스턴스를 그대로 받아야 함
         currentStage.stageID = stageID++;
 
-        var generatedRooms = generator.Generate(randomSeed);
-
-        foreach (var room in generatedRooms)
+        if(currentStage.startRoom != null)
         {
-            currentStage.rooms.Add(room);
-            currentStage.RegisterRoom(room);
-
-            if(room.Type == RoomType.Start)
-                currentStage.playerSpawnPoint = room.transform.position;   
+            currentStage.playerSpawnPoint = currentStage.startRoom.GetPlayerSpawnPoint();
+            GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
+        }
+        else
+        {
+            Debug.LogWarning("시작 방이 존재하지 않습니다.");
         }
     }
 
     void Start()
     {
-        LoadStage(0);
-        // generatedRooms를 StageData 등으로 저장하는 로직도 필요
+        LoadStage();
+        // 나중에 저장 로직 추가 가능
     }
-
-    public void RestartStage() => LoadStage(seed);
 
     public void ClearStage()
     {
-        foreach (var room in FindObjectsOfType<Room>())
+        foreach(var room in FindObjectsOfType<Room>())
             Destroy(room.gameObject);
-            currentStage = null;
+
+        currentStage = null;
     }
 
     // ===== 미니맵 시스템 전달용 데이터 정리 =====

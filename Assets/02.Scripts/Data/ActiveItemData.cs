@@ -8,4 +8,5 @@ public class ActiveItemData
     public Rarity rarity;
     public int skillID;
     public string description;
+    public string IconPath;
 }
