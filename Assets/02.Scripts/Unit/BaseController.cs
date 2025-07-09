@@ -189,19 +189,16 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     {
         if(viewMode == ViewModeType.View2D)
         {
-            _Rigidbody.isKinematic = true; 
+            _Rigidbody.isKinematic = true;
+
+            // 콜라이더 사이즈 확장
             colliderSizeTmp = col.size;
             col.center = new Vector3(transform.position.z, col.center.y, 0); // 2D 모드에서는 콜라이더 중심을 약간 위로 이동
             col.size = new Vector3(fullSize, colliderSizeTmp.y, colliderSizeTmp.z); // 2D 모드에서는 z축을 늘려서 공격 범위 확장
 
-            Collider[] hit = Physics.OverlapBox(col.bounds.center, col.bounds.extents, Quaternion.identity, LayerMask.GetMask("Obstacle"), QueryTriggerInteraction.Ignore);
-            for(int i = 0; i < hit.Length; i++)
-            {
-                if(hit[i].gameObject != gameObject) // 자기 자신 제외
-                {
-                    SetPositionWhenViewChanged(hit[i]);
-                }
-            }
+            // 겹치는 오브젝트가 있을 경우 콜라이더 위치 조정
+            SetPositionWhenViewChanged();
+
             _Rigidbody.isKinematic = false; 
         }
         else if(viewMode == ViewModeType.View3D)
@@ -215,16 +212,36 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     /// 2D 모드에서 뷰가 변경될 때 콜라이더의 위치를 조정합니다.
     /// </summary>
     /// <param name="col"></param>
-    private void SetPositionWhenViewChanged(Collider col)
+    private void SetPositionWhenViewChanged()
     {
+        // 현재 콜라이더의 경계 박스에서 충돌한 오브젝트들을 가져옴
+        Collider[] hit = Physics.OverlapBox(col.bounds.center, col.bounds.extents, Quaternion.identity, LayerMask.GetMask("Obstacle"), QueryTriggerInteraction.Ignore);
+
+        if(hit.Length == 0) return;
+
+        // 충돌한 콜라이더의 최대 x좌표와 최소 x좌표를 계산
+        float maxX = hit[0].bounds.max.x;
+        float minX = hit[0].bounds.min.x;
+        for(int i = 1; i < hit.Length; i++)
+        {
+            if(hit[i].bounds.max.x > maxX)
+            {
+                maxX = hit[i].bounds.max.x;
+            }
+            if(hit[i].bounds.min.x < minX)
+            {
+                minX = hit[i].bounds.min.x;
+            }
+        }
+
         // 충돌한 콜라이더(col)의 왼쪽 경계(min.x)로부터 현재 위치까지의 x 거리 계산(+여유값 0.5f 추가)
-        float distance = transform.position.x - col.bounds.min.x + 0.5f;
+        float distance = transform.position.x - minX + 0.5f;
         Vector3 direction = Vector3.left;
 
         if(gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             // 적 캐릭터는 오른쪽으로 이동
-            distance = col.bounds.max.x - transform.position.x + 0.5f;
+            distance = col.bounds.max.x - maxX + 0.5f;
             direction = Vector3.right; 
         }
 
