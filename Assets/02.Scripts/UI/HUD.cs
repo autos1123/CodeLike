@@ -5,18 +5,15 @@ using UnityEngine.UI;
 public class HUD:UIBase
 {
     private PlayerController player;
+    private PlayerActiveItemController activeItemController;
 
     [SerializeField] Button minMapButton;
     [SerializeField] Button optionButton;
     [SerializeField] Button minimapButton;
     [SerializeField] TextMeshProUGUI goldText;
-
     [SerializeField] Image HPFill;
-
     [SerializeField] Image ItemSlot1;
     [SerializeField] Image ItemSlot2;
-
-    bool isOptionOpen = false;
 
     public override string UIName => "HUD";
 
@@ -24,6 +21,7 @@ public class HUD:UIBase
     {
         base.Open();
         player = GameManager.Instance.Player.GetComponent<PlayerController>();
+        activeItemController = GameManager.Instance.Player.GetComponent<PlayerActiveItemController>();
 
         optionButton.onClick.RemoveAllListeners();
         optionButton.onClick.AddListener(UIManager.Instance.ToggleUI<OptionBoard>);
@@ -39,6 +37,8 @@ public class HUD:UIBase
         {
             UIManager.Instance.ToggleUI<MinimapUI>();
         });
+
+        UpdateActiveItemIcons();
     }
     public override void Close()
     {
@@ -58,4 +58,28 @@ public class HUD:UIBase
     {
         HPFill.fillAmount = player.Condition.GetConditionRatio(ConditionType.HP);
     }
+
+    public void UpdateActiveItemIcons()
+    {
+        Debug.Log($"[HUD] 아이템 슬롯 갱신 시도: {activeItemController.activeItemDatas.Count}개");
+        // 0번 슬롯
+        if(activeItemController != null && activeItemController.activeItemDatas.Count > 0 && activeItemController.activeItemDatas[0] != null)
+        {
+            Debug.Log($"[HUD] 슬롯1: {activeItemController.activeItemDatas[0].name}, {activeItemController.activeItemDatas[0].IconPath}");
+            ItemSlot1.sprite = Resources.Load<Sprite>(activeItemController.activeItemDatas[0].IconPath);
+        }
+        else
+            ItemSlot1.sprite = null;
+
+        // 1번 슬롯
+        if(activeItemController != null && activeItemController.activeItemDatas.Count > 1 && activeItemController.activeItemDatas[1] != null)
+        {
+            Debug.Log($"[HUD] 슬롯2: {activeItemController.activeItemDatas[1].name}, {activeItemController.activeItemDatas[1].IconPath}");
+            ItemSlot2.sprite = Resources.Load<Sprite>(activeItemController.activeItemDatas[1].IconPath);
+        }
+        else
+            ItemSlot2.sprite = null;
+    }
+
 }
+
