@@ -14,6 +14,7 @@ public class PlayerController:BaseController<PlayerCondition>
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerAnimationData AnimationData { get; private set; } 
     public PlayerActiveItemController ActiveItemController { get; private set; }
+    public Room CurrentRoom {  get; private set; }
 
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
@@ -151,5 +152,27 @@ public class PlayerController:BaseController<PlayerCondition>
         {
             col.excludeLayers = 0;
         }
+    }
+
+    public void SetCurrentRoom(Room room)
+    {
+        if(CurrentRoom == room) return;
+
+        CurrentRoom = room;
+        Debug.Log($"[Player] 현재 Room 변경됨 → {room.Id}");
+
+        // 미니맵 갱신 요청
+        RequestMinimapUpdate();
+    }
+
+    private void RequestMinimapUpdate()
+    {
+        var stage = StageManager.Instance.currentStage;
+        var minimapData = MinimapBuilder.BuildFromStage(stage, stage.connections);
+
+        foreach(var data in minimapData)
+            data.isCurrent = data.roomID == CurrentRoom.Id;
+
+        UIManager.Instance.GetUI<MinimapUI>().GenerateMinimap(minimapData);
     }
 }
