@@ -12,25 +12,29 @@ public enum SlotType
 }
 /// <summary>
 /// 하나의 인벤토리 또는 장비 슬롯을 표현하는 UI 컴포넌트
-/// 아이템의 아이콘, 수량 표시 및 툴팁, 드래그 앤 드롭 기능을 처리
 /// </summary>
-public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHandler, 
-    IDropHandler,IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
+public class SlotUI : MonoBehaviour
 {
     public SlotType slotType;
     
     public Image iconImage;
     [CanBeNull] public TextMeshProUGUI EquipText;
     public Image backgroundImage;
-    
-    private InventoryUI inventoryUI;
+    public InventoryUI inventoryUI { get; private set; }
     public InventoryItemSlot InventorySlot { get; private set; }
     public ActiveItemSlot ActiveSlot { get; private set; }
     
-    private bool isBeingDragged = false;
     public void Init(InventoryUI ui)
     {
         inventoryUI = ui;
+        
+        // 핸들러 자동 등록
+        if (GetComponent<SlotDragHandler>() == null)
+            gameObject.AddComponent<SlotDragHandler>();
+        if (GetComponent<SlotTooltipHandler>() == null)
+            gameObject.AddComponent<SlotTooltipHandler>();
+        if (GetComponent<SlotClickHandler>() == null)
+            gameObject.AddComponent<SlotClickHandler>();
     }
     /// <summary>
     /// 슬롯 데이터에 따라 UI를 갱신
@@ -41,7 +45,6 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
         ActiveSlot = null;
         RefreshVisual();
     }
-
     public void Set(ActiveItemSlot slot)
     {
         ActiveSlot = slot;
@@ -52,7 +55,7 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
     /// <summary>
     /// 현재 슬롯 데이터에 따라 아이콘과 수량 등의 시각적 요소를 갱신
     /// </summary>
-    private void RefreshVisual()
+    public void RefreshVisual()
     {
         //액티브 아이템
         if (slotType == SlotType.ActiveItem)
@@ -66,7 +69,6 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
 
             iconImage.sprite = Resources.Load<Sprite>(ActiveSlot.ActiveItem.IconPath);
             iconImage.enabled = true;
-            iconImage.color = isBeingDragged ? new Color(1, 1, 1, 0.3f) : Color.white;
             return;
         }
 
@@ -86,7 +88,6 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
 
         iconImage.sprite = Resources.Load<Sprite>(InventorySlot.InventoryItem.IconPath);
         iconImage.enabled = true;
-        iconImage.color = isBeingDragged ? new Color(1, 1, 1, 0.3f) : Color.white;
         //장비 텍스트 활성화
         if (slotType == SlotType.Equip && EquipText != null)
         {
@@ -94,99 +95,4 @@ public class SlotUI : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHan
         }
     }
     
-    // 드래그 시작
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if (slotType == SlotType.ActiveItem || InventorySlot  == null || InventorySlot.IsEmpty)
-        {
-            eventData.pointerDrag = null;
-            return;
-        }
-        isBeingDragged = true;
-        iconImage.raycastTarget = false;
-        TooltipManager.Instance.Hide();
-        
-        RefreshVisual();
-        DragManager.Instance.CreateGhost(iconImage.sprite);
-    }
-    // 드래그 중
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (InventorySlot  == null || InventorySlot.IsEmpty)
-            return;
-
-        DragManager.Instance.UpdateGhostPosition(eventData.position);
-    }
-
-    // 드래그 끝 (드롭 여부와 관계없이)
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        iconImage.raycastTarget = true;
-        isBeingDragged = false;
-        
-        RefreshVisual();
-        DragManager.Instance.ClearGhost();
-    }
-
-    // 드롭 처리
-    public void OnDrop(PointerEventData eventData)
-    {
-        SlotUI draggedSlotUI = eventData.pointerDrag?.GetComponent<SlotUI>();
-        if (draggedSlotUI == null || draggedSlotUI == this || draggedSlotUI.InventorySlot == null)
-            return;
-        
-        inventoryUI.HandleSlotSwap(this, draggedSlotUI);
-        
-    }
-    
-    /// <summary>
-    /// 마우스가 슬롯 위에 올라갔을 때 호출, 툴팁 표시
-    /// </summary>
-    /// <param name="eventData">이벤트 데이터</param>
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (backgroundImage != null)
-        {
-            backgroundImage.color = new Color(0.9f, 0.9f, 0.9f, 1f);
-        }
-        
-        if (slotType == SlotType.ActiveItem) return; // 액티브아이템슬롯은 리턴
-
-        if (InventorySlot  == null || InventorySlot .IsEmpty) return;
-        
-        // 툴팁 중복 호출 방지
-        if (!TooltipManager.Instance.IsVisible)
-            TooltipManager.Instance.Show(InventorySlot .GetDescription(slotType), eventData.position);
-
-    }
-
-    /// <summary>
-    /// 마우스가 슬롯에서 벗어났을 때 호출, 툴팁 숨김
-    /// </summary>
-    /// <param name="eventData">이벤트 데이터</param>
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (backgroundImage != null)
-        {
-            backgroundImage.color = new Color(1f, 1f, 1f, 1f);
-        }
-        TooltipManager.Instance.Hide();
-    }
-    
-    /// <summary>
-    /// 슬롯 클릭시 (현재는 액티브아이템 슬롯만 적용)
-    /// </summary>
-    /// <param name="eventData"></param>
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log("OnPointerClick");
-
-        // 액티브 아이템 슬롯만 infoText 표시
-        if (slotType != SlotType.ActiveItem || ActiveSlot  == null || ActiveSlot .ActiveItem == null)
-            return;
-        
-        string description = ActiveSlot.GetDescription();
-        inventoryUI?.SetInfoText(description);
-        
-    }
 }
