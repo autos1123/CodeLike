@@ -244,7 +244,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -1575,7 +1575,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -6749,8 +6749,8 @@ Transform:
   m_GameObject: {fileID: 4673934313266604327}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.04979543, z: -0, w: 0.99875945}
-  m_LocalPosition: {x: -21.5, y: 0.82, z: 5.87}
-  m_LocalScale: {x: 3.7413, y: 1.8051039, z: 3.0709}
+  m_LocalPosition: {x: -21.5, y: 0.63, z: 5.87}
+  m_LocalScale: {x: 3.7413, y: 1.805104, z: 3.0709}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6109899338006116231}
@@ -8559,7 +8559,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -9024,7 +9024,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 1
   m_VoxelSize: 0.1
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 898577392d0e2c4468d62418530162ce, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 1111f1468380ca34894cf6eb1acdd9e2, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &6129773138282846722
 GameObject:
@@ -10555,7 +10555,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -12523,7 +12523,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -12844,6 +12844,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 3942933540224006927, guid: 4e8cca6882b9e9e409064c0796798d59, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 6335205048683076298, guid: 4e8cca6882b9e9e409064c0796798d59, type: 3}
       propertyPath: m_LocalScale.x
       value: 4.194595
@@ -12922,6 +12926,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 3942933540224006927, guid: 4e8cca6882b9e9e409064c0796798d59, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 6335205048683076298, guid: 4e8cca6882b9e9e409064c0796798d59, type: 3}
       propertyPath: m_LocalScale.x
       value: 10.335
@@ -12999,6 +13007,10 @@ PrefabInstance:
     - target: {fileID: 1066456546570032772, guid: 4e8cca6882b9e9e409064c0796798d59, type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3942933540224006927, guid: 4e8cca6882b9e9e409064c0796798d59, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 6335205048683076298, guid: 4e8cca6882b9e9e409064c0796798d59, type: 3}
       propertyPath: m_LocalScale.x
