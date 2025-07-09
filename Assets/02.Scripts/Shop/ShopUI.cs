@@ -28,9 +28,10 @@ public class ShopUI : UIBase
     private List<ShopSlotUI> sellSlots = new();
     private List<ShopSlotUI> buySlots = new ();
     
-    private HashSet<(InventoryItemSlot slot, ItemData item)> selectedSellItems = new(); //선택된 슬롯 기억리스트 (슬롯과 그 안에 아이템 함께기억)
+    private HashSet<InventoryItemSlot> selectedSellItems = new(); //선택된 슬롯 기억리스트 (슬롯과 그 안에 아이템 함께기억)
     private HashSet<InventoryItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
     
+    private int inventoryInitCount = 0;
     /// <summary>
     /// 상점 UI 열기: 인벤토리 참조 설정 및 거래 버튼 이벤트 등록, 슬롯 초기화 코루틴 시작
     /// </summary>
@@ -40,13 +41,15 @@ public class ShopUI : UIBase
 
         if (shopInventoryRaw == null)
             shopInventoryRaw = FindObjectOfType<ShopInventory>();
-        
+
         UpdateGoldUI();
-            
         dealBtn.onClick.RemoveAllListeners();
         dealBtn.onClick.AddListener(ExecuteTransaction);
-        
-        StartCoroutine(InitAndGenerate());
+
+        if (shopInventoryRaw.Initialized && playerInventory.Initialized)
+            InitAndGenerate();
+        else
+            WaitForInit();
     }
     
     /// <summary>
@@ -58,21 +61,44 @@ public class ShopUI : UIBase
         selectedSellItems.Clear();
     }
     
-    /// <summary>
-    /// 인벤토리 초기화 대기 후 슬롯 생성 및 UI 업데이트 수행 (코루틴)
-    /// </summary>
-    private IEnumerator InitAndGenerate()
+    // /// <summary>
+    // /// 인벤토리 초기화 대기 후 슬롯 생성 및 UI 업데이트 수행 (코루틴)
+    // /// </summary>
+    // private IEnumerator InitAndGenerate()
+    // {
+    //     yield return new WaitUntil(() =>
+    //         playerInventory  != null && playerInventory .Initialized &&
+    //         shopInventoryRaw != null && shopInventoryRaw.Initialized);
+    //
+    //     GenerateSlots();
+    //     UpdateTotalPrices();
+    // }
+    private void WaitForInit()
     {
-        yield return new WaitUntil(() =>
-            playerInventory  != null && playerInventory .Initialized &&
-            shopInventoryRaw != null && shopInventoryRaw.Initialized);
+        shopInventoryRaw.OnInitialized += OnInventoryReady;
+        playerInventory.OnInitialized += OnInventoryReady;
+    }
 
+    private void OnInventoryReady()
+    {
+        inventoryInitCount++;
+        if (inventoryInitCount >= 2)
+        {
+            shopInventoryRaw.OnInitialized -= OnInventoryReady;
+            playerInventory.OnInitialized -= OnInventoryReady;
+            InitAndGenerate();
+        }
+    }
+
+    private void InitAndGenerate()
+    {
         GenerateSlots();
         UpdateTotalPrices();
     }
     /// <summary>
     /// 기존 슬롯 UI 제거 후, 판매/구매 슬롯을 다시 생성
     /// </summary>
+    /// 
     public void GenerateSlots()
     {
         ClearChildren(sellParent);
@@ -102,19 +128,46 @@ public class ShopUI : UIBase
                 
                 slotUI.Set(itemSlot, isPlayer,this);
                 targetList.Add(slotUI);
-
+                slotUI.OnClicked += HandleSlotClick;
+                
                 if(!isPlayer && purchaseSlots.Contains(itemSlot))
                 {
                     slotUI.SetInteractable(false);
                 }
-                if (isPlayer && selectedSellItems.Contains((itemSlot, itemSlot.InventoryItem)))
+                if (isPlayer && selectedSellItems.Contains(itemSlot))
                 {
                     slotUI.ForceSelect();
                 }
             }
         }
     }
-    
+    private void HandleSlotClick(ShopSlotUI slotUI)
+    {
+        var slot = slotUI.InventoryItemSlot;
+
+        // 플레이어 아이템이고 장착 상태라면
+        if (slotUI.isPlayerSlot && IsEquippedSlot(slot))
+        {
+            UIManager.Instance.ShowConfirmPopup(
+                "장착한 아이템입니다. 장착 해제하시겠습니까?",
+                onConfirm: () =>
+                {
+                    RememberSelectedItem(slot); // 거래 대상으로 등록
+                    EquipmentManager.Instance.UnEquip(slot); // 장착 해제
+                    RefreshAllUI(); // 전체 UI 다시 그림
+                },
+                onCancel: () =>
+                {
+                    Debug.Log("선택 취소됨");
+                });
+        }
+        else
+        {
+            // 선택 상태만 변경
+            slotUI.ToggleSelect();
+            UpdateTotalPrices();
+        }
+    }
     /// <summary>
     /// 선택된 슬롯들의 판매/구매 금액 계산 후 텍스트 갱신
     /// </summary>
@@ -221,15 +274,15 @@ public class ShopUI : UIBase
     /// </summary>
     public void RememberSelectedItem(InventoryItemSlot slot)
     {
-        if (slot != null && slot.InventoryItem != null)
-            selectedSellItems.Add((slot, slot.InventoryItem));
+        if (slot != null)
+            selectedSellItems.Add(slot);
     }
     /// <summary>
     /// 특정 슬롯+아이템 쌍을 선택된 리스트에서 제거
     /// </summary>
     public void ForgetSelectedItem(InventoryItemSlot slot)
     {
-        if (slot != null && slot.InventoryItem != null)
-            selectedSellItems.Remove((slot, slot.InventoryItem));
+        if (slot != null)
+            selectedSellItems.Remove(slot);
     }
 }

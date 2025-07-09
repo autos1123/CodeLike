@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using static UnityEditor.Progress;
 public interface IInventory
 {
     bool Initialized { get; }
+    event Action OnInitialized;
     List<InventoryItemSlot> GetInventorySlots(bool includeEquip = false); // 장비슬롯도 같이 가져올수있게
 
     bool AddToInventory(ItemData item);
@@ -31,7 +33,7 @@ public class Inventory : MonoBehaviour, IInventory
     
     /// <summary> 인벤토리가 초기화 완료되었는지 여부 </summary>
     public bool Initialized { get; private set; } = false;
-    
+    public event Action OnInitialized;
     public void InitializeInventory()
     {
         StartCoroutine(WaitAndInitialize());
@@ -65,7 +67,8 @@ public class Inventory : MonoBehaviour, IInventory
         
         
         Initialized = true;
-
+        OnInitialized?.Invoke();
+        
         UIManager.Instance.ShowUI<HUD>();
 
     }
