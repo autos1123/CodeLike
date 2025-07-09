@@ -24,7 +24,6 @@ public abstract class EnemyController:BaseController<EnemyCondition>
 
     // 게임 모드에 따라 상태를 변경하기 위한 필드
     private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
-    private bool agentStopped; // NavMeshAgent가 정지 상태인지 여부
     private float agentSpeedTmp; // NavMeshAgent의 속도 저장
 
     protected override void OnEnable()
