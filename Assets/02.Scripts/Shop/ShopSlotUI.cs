@@ -20,7 +20,7 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     
     private ShopUI shopUI;
 
-    private ItemSlot itemSlot;
+    private InventoryItemSlot inventoryItemSlot;
     private bool isPlayerSlot;
     private bool isSelected;
     private bool isInteractable = true;
@@ -29,20 +29,20 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     public Color selectedColor = Color.red;
     public Color disabledColor = Color.gray;
     public bool IsSelected => isSelected;
-    public ItemSlot ItemSlot => itemSlot;
+    public InventoryItemSlot InventoryItemSlot => inventoryItemSlot;
     
     /// <summary>
     /// 아이템 슬롯 UI 초기화: 아이템 정보, 소유자 타입, 참조 설정
     /// </summary>
-    public void Set(ItemSlot slot, bool isPlayerSlot,ShopUI shopUI)
+    public void Set(InventoryItemSlot slot, bool isPlayerSlot,ShopUI shopUI)
     {
-        this.itemSlot = slot;
+        this.inventoryItemSlot = slot;
         this.isPlayerSlot = isPlayerSlot;
         this.shopUI = shopUI;
         isSelected = false;
         isInteractable = true;
         // 장착중인 슬롯이면 equipText 활성화
-        if (isPlayerSlot && shopUI.IsEquippedSlot(itemSlot))
+        if (isPlayerSlot && shopUI.IsEquippedSlot(inventoryItemSlot))
         {
             equipText.gameObject.SetActive(true);
         }
@@ -58,7 +58,7 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     /// </summary>
     private void Refresh()
     {
-        if (itemSlot == null || itemSlot.IsInvenSlotEmpty)
+        if (inventoryItemSlot == null || inventoryItemSlot.IsEmpty)
         {
             iconImage.enabled = false;
             priceText.text = "";
@@ -66,9 +66,9 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
         }
 
         iconImage.enabled = true;
-        iconImage.sprite = Resources.Load<Sprite>(itemSlot.Item.IconPath);
+        iconImage.sprite = Resources.Load<Sprite>(inventoryItemSlot.InventoryItem.IconPath);
         
-        priceText.text = (isPlayerSlot ? itemSlot.Item.sellPrice : itemSlot.Item.buyPrice) + " G";
+        priceText.text = (isPlayerSlot ? inventoryItemSlot.InventoryItem.sellPrice : inventoryItemSlot.InventoryItem.buyPrice) + " G";
     }
     
     /// <summary>
@@ -79,19 +79,19 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
         if(!isInteractable)
             return;
         // 장착중인 아이템인지 확인 (플레이어 슬롯일 때만)
-        if (isPlayerSlot && !itemSlot.IsInvenSlotEmpty && shopUI.IsEquippedSlot(itemSlot))
+        if (isPlayerSlot && !inventoryItemSlot.IsEmpty && shopUI.IsEquippedSlot(inventoryItemSlot))
         {
             // 현재 슬롯 + 아이템 기억해둠
-            var rememberedSlot = itemSlot;
-            var rememberedItem = itemSlot.Item;
+            var rememberedSlot = inventoryItemSlot;
+            var rememberedItem = inventoryItemSlot.InventoryItem;
 
             UIManager.Instance.ShowConfirmPopup(
                 "장착한 아이템입니다. 장착 해제하시겠습니까?",
                 onConfirm: () =>
                 {
                     var shopUI = UIManager.Instance.GetUI<ShopUI>();
-                    shopUI.RememberSelectedItem(itemSlot);
-                    EquipmentManager.Instance.UnEquip(itemSlot);
+                    shopUI.RememberSelectedItem(inventoryItemSlot);
+                    EquipmentManager.Instance.UnEquip(inventoryItemSlot);
                     shopUI?.RefreshAllUI();
                 },
                 onCancel: () =>
@@ -127,9 +127,9 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
         if (isPlayerSlot)
         {
             if (isSelected)
-                shopUI.RememberSelectedItem(itemSlot); // 선택 기억
+                shopUI.RememberSelectedItem(inventoryItemSlot); // 선택 기억
             else
-                shopUI.ForgetSelectedItem(itemSlot);   // 선택 해제
+                shopUI.ForgetSelectedItem(inventoryItemSlot);   // 선택 해제
         }
         shopUI.UpdateTotalPrices();
     }

@@ -93,12 +93,12 @@ public class UIManager:MonoSingleton<UIManager>
         return _uiInstances[typeof(T).Name] as T;
     }
     
-    public void ShowConfirmPopup(string message, Action onConfirm, Action onCancel = null)
+    public void ShowConfirmPopup(string message, Action onConfirm, Action onCancel = null,string confirmText = "예", string cancelText = "아니오")
     {
         if (_uiInstances.TryGetValue(nameof(ConfirmPopup), out var ui))
         {
             var popup = ui as ConfirmPopup;
-            popup.Setup(message, onConfirm, onCancel);
+            popup.Setup(message, onConfirm, onCancel,confirmText, cancelText);
             popup.Open();
         }
         else
