@@ -35,17 +35,12 @@ public class PlayerController:BaseController<PlayerCondition>
         _Rigidbody.freezeRotation = true;
     }
 
-    protected override void Start()
-    {
-        base.Start();
-        InvokeRepeating(nameof(UpdateGrounded), 0f, 0.2f); // 바닥 체크 주기적으로 실행
-    }
-
     private void Update()
     {
         if(!isInitialized || !isPlaying)
             return;
 
+        UpdateGrounded();
         StateMachine.Update();
         InputHandler.ResetOneTimeInputs();
     }
@@ -72,10 +67,27 @@ public class PlayerController:BaseController<PlayerCondition>
         // 박스 크기 (살짝 얇게 Y축 조정)
         Vector3 boxHalfExtents = new Vector3(extents.x, groundRayOffset * 0.5f, extents.z);
 
-        bool isGrounded = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, groundLayer, QueryTriggerInteraction.Ignore).Length > 0;
+        bool isGrounded = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, groundLayer).Length > 0;
 
         IsGrounded = isGrounded;
     }
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+
+        if(Application.isPlaying)
+        {
+            Vector3 center = col.bounds.center;
+            Vector3 extents = col.bounds.extents;
+            Vector3 boxCenter = center + Vector3.down * (extents.y + groundRayOffset * 0.5f);
+            Vector3 boxHalfExtents = new Vector3(extents.x, groundRayOffset * 0.5f, extents.z);
+
+            Gizmos.color = IsGrounded ? Color.blue : Color.black;
+            Gizmos.DrawWireCube(boxCenter, boxHalfExtents * 2);
+        }
+    }
+
     /// <summary>
     /// 플레이어의 근접 공격 처리
     /// 주변 Enemy Layer 대상 충돌 검사 후 데미지 적용
