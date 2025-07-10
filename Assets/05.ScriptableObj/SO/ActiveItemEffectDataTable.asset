@@ -22,7 +22,8 @@ MonoBehaviour:
     Cooldown: 5
     CostType: 402
     Cost: 10
-    EffectPrefab: 
+    VFX: 
+    SFX: 
     Description: "\uD654\uC0B4 \uACF5\uACA9"
   - SkillID: 5001
     Name: Fire Arrow
@@ -33,7 +34,8 @@ MonoBehaviour:
     Cooldown: 6
     CostType: 402
     Cost: 12
-    EffectPrefab: 
+    VFX: 
+    SFX: 
     Description: "\uD654\uC5FC \uD654\uC0B4 \uACF5\uACA9"
   - SkillID: 5002
     Name: FireWall
@@ -44,7 +46,8 @@ MonoBehaviour:
     Cooldown: 6
     CostType: 402
     Cost: 20
-    EffectPrefab: 
+    VFX: 
+    SFX: 
     Description: "\uD654\uC5FC \uBC94\uC704 \uACF5\uACA9"
   - SkillID: 5003
     Name: Heal
@@ -55,5 +58,6 @@ MonoBehaviour:
     Cooldown: 6
     CostType: 402
     Cost: 20
-    EffectPrefab: 
+    VFX: 
+    SFX: 
     Description: "\uCCB4\uB825 \uD68C\uBCF5"

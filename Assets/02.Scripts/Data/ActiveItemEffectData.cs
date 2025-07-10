@@ -14,6 +14,7 @@ public class ActiveItemEffectData
     public float Cooldown;
     public CostType CostType;
     public float Cost;
-    public string EffectPrefab;
+    public string VFX;
+    public string SFX;
     public string Description;
 }

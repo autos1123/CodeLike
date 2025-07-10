@@ -130,8 +130,9 @@ public static class ExcelSOGenerator
                     activeItemEffect.Cooldown = int.Parse(row[6].ToString());
                     activeItemEffect.CostType = (CostType)int.Parse(row[7].ToString());
                     activeItemEffect.Cost = int.Parse(row[8].ToString());
-                    activeItemEffect.EffectPrefab = row[9].ToString();
-                    activeItemEffect.Description = row[10].ToString();
+                    activeItemEffect.VFX = row[9].ToString();
+                    activeItemEffect.SFX = row[10].ToString();
+                    activeItemEffect.Description = row[11].ToString();
 
                     activeItemEffectDataTable.dataList.Add(activeItemEffect);
                 }
