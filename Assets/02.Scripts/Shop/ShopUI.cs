@@ -23,6 +23,7 @@ public class ShopUI : UIBase
     public TextMeshProUGUI buyTotalText;
     public TextMeshProUGUI calculateText;
     public Button dealBtn;
+    public Button exitBtn;
     public TextMeshProUGUI curGoldText;
     
     private List<ShopSlotUI> sellSlots = new();
@@ -32,15 +33,29 @@ public class ShopUI : UIBase
     private HashSet<InventoryItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
     
     private int inventoryInitCount = 0;
-    /// <summary>
-    /// 상점 UI 열기: 인벤토리 참조 설정 및 거래 버튼 이벤트 등록, 슬롯 초기화 코루틴 시작
-    /// </summary>
-    public override void Open()
+    // /// <summary>
+    // /// 상점 UI 열기: 인벤토리 참조 설정 및 거래 버튼 이벤트 등록, 슬롯 초기화 코루틴 시작
+    // /// </summary>
+    // public override void Open()
+    // {
+    //     base.Open();
+    //
+    //     if (shopInventoryRaw == null)
+    //         shopInventoryRaw = FindObjectOfType<ShopInventory>();
+    //
+    //     UpdateGoldUI();
+    //     dealBtn.onClick.RemoveAllListeners();
+    //     dealBtn.onClick.AddListener(ExecuteTransaction);
+    //
+    //     if (shopInventoryRaw.Initialized && playerInventory.Initialized)
+    //         InitAndGenerate();
+    //     else
+    //         WaitForInit();
+    // }
+    public void OpenWithInventory(ShopInventory inventory)
     {
+        shopInventoryRaw = inventory;
         base.Open();
-
-        if (shopInventoryRaw == null)
-            shopInventoryRaw = FindObjectOfType<ShopInventory>();
 
         UpdateGoldUI();
         dealBtn.onClick.RemoveAllListeners();
@@ -51,7 +66,6 @@ public class ShopUI : UIBase
         else
             WaitForInit();
     }
-    
     /// <summary>
     /// 상점 UI 닫기 시 선택된 아이템 상태 초기화
     /// </summary>
