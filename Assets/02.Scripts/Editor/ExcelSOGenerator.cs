@@ -151,7 +151,7 @@ public static class ExcelSOGenerator
                     itemData.ID = int.Parse(row[0].ToString());
                     itemData.name = row[1].ToString();
                     itemData.Rarity = (Rarity)int.Parse(row[2].ToString());                    
-                    itemData.ConditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[3].ToString());
+                    itemData.ConditionType = ParseEnumFromCell<ConditionType>(row[3]);
                     itemData.value = int.Parse(row[4].ToString());
                     itemData.description = row[5].ToString().Replace("@", itemData.value.ToString());
                     itemData.IconPath = row[6].ToString();
@@ -185,7 +185,7 @@ public static class ExcelSOGenerator
                     var enhanceData = new EnhanceData();
                     enhanceData.ID = int.Parse(row[0].ToString());
                     enhanceData.name = row[1].ToString();
-                    enhanceData.ConditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[2].ToString().Trim().Replace("\u00A0", ""));
+                    enhanceData.ConditionType = ParseEnumFromCell<ConditionType>(row[2]);
                     enhanceData.value = int.Parse(row[3].ToString());
                     enhanceData.dsecription = row[4].ToString().Replace("@", enhanceData.value.ToString());
 
