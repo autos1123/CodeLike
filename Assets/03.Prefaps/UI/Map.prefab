@@ -549,7 +549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimapPanel: {fileID: 1704708927346709604}
   roomIconPrefab: {fileID: 3716347934082607810, guid: ded652e5b1a23ba479b3cf11bb3d2a28, type: 3}
-  roomSpacing: 1
+  roomSpacing: 0.85
   minimapRoot: {fileID: 1704708927346709604}
 --- !u!1 &7966712579708410665
 GameObject:

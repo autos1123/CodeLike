@@ -27,6 +27,8 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     private bool[,] grid;
     public StageData stageData;
+    public List<Room> AllRooms { get; private set; } = new();
+
 
     public List<Room> Generate(int seed)
     {
@@ -116,7 +118,13 @@ public class ProceduralStageGenerator:MonoBehaviour
             return null;
         }
 
+
         room.Initialize(nextRoomID++, gridPos, type);
+
+        room.SetRoomActive(false);
+
+        AllRooms.Add(room);
+
         Debug.Log($"✅ Room 생성 완료: ID={room.Id}, Type={type}, Pos={gridPos}");
         return room;
     }

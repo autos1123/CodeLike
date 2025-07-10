@@ -50,6 +50,11 @@ public class Room : MonoBehaviour
         return playerSpawnPoint != null  ? playerSpawnPoint.position : transform.position; 
     }
 
+    public void SetRoomActive(bool isactive)
+    {
+        gameObject.SetActive(isactive);
+    }
+
     public MinimapRoomData GetMinimapData()
     {
         var data = new MinimapRoomData

@@ -10,6 +10,7 @@ public class StageManager:MonoSingleton<StageManager>
     public int seed = 0;
     public int stageID = 0;
 
+
     public void LoadStage()
     {
         int randomSeed = Random.Range(0, int.MaxValue);
@@ -32,6 +33,8 @@ public class StageManager:MonoSingleton<StageManager>
         {
             Debug.LogWarning("시작 방이 존재하지 않습니다.");
         }
+
+
     }
 
     void Start()

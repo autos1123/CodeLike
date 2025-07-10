@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
@@ -181,6 +182,7 @@ public class PlayerController:BaseController<PlayerCondition>
         Debug.Log($"[Player] 현재 Room 변경됨 → {room.Id}");
 
         // 미니맵 갱신 요청
+        UpdateRoomActivation();
         RequestMinimapUpdate();
     }
 
@@ -210,5 +212,25 @@ public class PlayerController:BaseController<PlayerCondition>
                 Debug.LogWarning("[Player] MinimapUI가 UIManager에 아직 등록되지 않았습니다.");
             }
         });
+    }
+
+    private void UpdateRoomActivation()
+    {
+        var allRooms = StageManager.Instance.generator.AllRooms;
+        HashSet<Room> activeSet = new();
+
+        activeSet.Add(CurrentRoom);
+        foreach(var conn in CurrentRoom.Connections)
+        {
+            Room neighbor = StageManager.Instance.currentStage.roomMap.TryGetValue(conn.ToRoomID, out var r1) ? r1 :
+                            StageManager.Instance.currentStage.roomMap.TryGetValue(conn.FromRoomID, out var r2) ? r2 : null;
+
+            if(neighbor != null)
+                activeSet.Add(neighbor);
+        }
+
+
+        foreach(var room in allRooms)
+            room.SetRoomActive(activeSet.Contains(room));
     }
 }
