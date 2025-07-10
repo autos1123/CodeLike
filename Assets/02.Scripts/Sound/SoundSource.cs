@@ -1,9 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundSource : MonoBehaviour ,IPoolObject
 {
-    public AudioSource audioSource;
+    AudioSource audioSource;
+    [SerializeField] AudioMixer audioMixer;
+
     [SerializeField] private PoolType poolType;
     [SerializeField] private int poolSize;
     public GameObject GameObject => gameObject;
@@ -25,6 +28,9 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     public void Play(AudioClip clip,bool issfx)
     {
+        if(issfx) audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
+        else audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("BGM")[0];
+
         audioSource.clip = clip;
         audioSource.Play();
         if(issfx) { StartCoroutine(wiatEnd(clip.length)); }
@@ -38,16 +44,14 @@ public class SoundSource : MonoBehaviour ,IPoolObject
     IEnumerator wiatEnd(float duration)
     {
         yield return new WaitForSeconds(duration);
+        audioSource.clip = null;
         returnPool();
     }
 
     IEnumerator DelayRoutine(float delaeTime, AudioClip clip, bool issfx)
     {
         yield return new WaitForSeconds(delaeTime);
-
-        audioSource.clip = clip;
-        audioSource.Play();
-        if(issfx) { StartCoroutine(wiatEnd(clip.length)); }
+        Play(clip, issfx);
     }
 
     public void returnPool()

@@ -150,6 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5a87a65ba8f5e4da491acb7a8703ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 3870725972681910971}
+  audioMixer: {fileID: 24100000, guid: 7c9a649ba3cc1b145aba0eb4e5974975, type: 2}
   poolType: 4
   poolSize: 10
