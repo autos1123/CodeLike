@@ -17,6 +17,12 @@ public class SoundSource : MonoBehaviour ,IPoolObject
         audioSource = GetComponent<AudioSource>();
     }
 
+    public void Play(float delaeTime, AudioClip clip, bool issfx)
+    {
+        StartCoroutine(DelayRoutine(delaeTime, clip, issfx));
+    }
+
+
     public void Play(AudioClip clip,bool issfx)
     {
         audioSource.clip = clip;
@@ -34,6 +40,16 @@ public class SoundSource : MonoBehaviour ,IPoolObject
         yield return new WaitForSeconds(duration);
         returnPool();
     }
+
+    IEnumerator DelayRoutine(float delaeTime, AudioClip clip, bool issfx)
+    {
+        yield return new WaitForSeconds(delaeTime);
+
+        audioSource.clip = clip;
+        audioSource.Play();
+        if(issfx) { StartCoroutine(wiatEnd(clip.length)); }
+    }
+
     public void returnPool()
     {
         PoolManager.Instance.ReturnObject(this);
