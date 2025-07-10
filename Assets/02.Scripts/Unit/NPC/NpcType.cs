@@ -1,0 +1,6 @@
+
+public enum NPCType
+{
+    Normal,     // 일반 NPC
+    Merchant,   // 상인 NPC
+}
