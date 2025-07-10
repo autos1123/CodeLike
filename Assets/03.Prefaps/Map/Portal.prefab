@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 928640226954834363}
   - component: {fileID: 1696442357631211007}
   - component: {fileID: 2191835096598852284}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Portal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,6 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
+  promptPivot: {fileID: 0}
   destinationPoint: {fileID: 0}
   exitDirection: 0
   offsetDistance: 3

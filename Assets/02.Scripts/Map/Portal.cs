@@ -2,8 +2,13 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-public class Portal:MonoBehaviour
+public class Portal:MonoBehaviour,IInteractable
 {
+    [SerializeField] private string interactionPrompt = "[F] 문열기";
+    [SerializeField] private Transform promptPivot;
+    [SerializeField] Room room;
+    [SerializeField] MeshRenderer rendererMesh;
+    [SerializeField] BoxCollider boxCollider;
     public Transform destinationPoint;
     public Direction exitDirection;
     public float offsetDistance = 3f;
@@ -11,8 +16,49 @@ public class Portal:MonoBehaviour
 
     private static readonly Dictionary<GameObject, float> lastTeleportTimes = new();
 
-    private void OnTriggerEnter(Collider other)
+    public string InteractionPrompt => interactionPrompt;
+
+    public Transform PromptPivot => promptPivot;
+
+    private void Start()
     {
+        room = GetComponentInParent<Room>();
+        rendererMesh = GetComponent<MeshRenderer>();
+        boxCollider = GetComponent<BoxCollider>();
+        rendererMesh.enabled = false;
+        boxCollider.enabled = false;
+        room.onRoomClear += onPotal;
+    }
+    private Vector3 GetDirectionVector(Direction dir)
+    {
+        return dir switch
+        {
+            Direction.Up => Vector3.up,
+            Direction.Down => Vector3.down,
+            Direction.Left => Vector3.left,
+            Direction.Right => Vector3.right,
+            _ => Vector3.zero
+        };
+    }
+
+    public void onPotal()
+    {
+        rendererMesh.enabled = true;
+        boxCollider.enabled = true;
+    }
+
+    public void OnEnable()
+    {
+        if(room == null) return;
+        room.onRoomClear -= onPotal;
+    }
+    public void Interact(GameObject other)
+    {
+
+        if(!room.isClearRoom)
+        {
+            return;
+        }
         if(!other.CompareTag("Player") || destinationPoint == null)
             return;
 
@@ -37,15 +83,8 @@ public class Portal:MonoBehaviour
         }
     }
 
-    private Vector3 GetDirectionVector(Direction dir)
+    public bool CanInteract(GameObject interactor)
     {
-        return dir switch
-        {
-            Direction.Up => Vector3.up,
-            Direction.Down => Vector3.down,
-            Direction.Left => Vector3.left,
-            Direction.Right => Vector3.right,
-            _ => Vector3.zero
-        };
+        return true;
     }
 }

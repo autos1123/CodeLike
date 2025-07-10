@@ -2153,6 +2153,11 @@ MonoBehaviour:
   entranceDown: {fileID: 3598907572811582873}
   entranceLeft: {fileID: 4262883836919111594}
   entranceRight: {fileID: 3102020920777457343}
+  isClearRoom: 0
+  Enumys:
+  - {fileID: 43300976759564042}
+  - {fileID: 230820140611475235}
+  - {fileID: 9184470624226619069}
 --- !u!1 &2304599852635042147
 GameObject:
   m_ObjectHideFlags: 0
