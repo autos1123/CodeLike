@@ -815,6 +815,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
+  promptPivot: {fileID: 0}
+  room: {fileID: 0}
+  rendererMesh: {fileID: 0}
   destinationPoint: {fileID: 0}
   exitDirection: 3
   offsetDistance: 3
@@ -3383,6 +3387,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
+  promptPivot: {fileID: 0}
+  room: {fileID: 0}
+  rendererMesh: {fileID: 0}
   destinationPoint: {fileID: 0}
   exitDirection: 0
   offsetDistance: 3
@@ -6652,6 +6660,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
+  promptPivot: {fileID: 0}
+  room: {fileID: 0}
+  rendererMesh: {fileID: 0}
   destinationPoint: {fileID: 0}
   exitDirection: 2
   offsetDistance: 3
@@ -8373,6 +8385,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
+  promptPivot: {fileID: 0}
+  room: {fileID: 0}
+  rendererMesh: {fileID: 0}
   destinationPoint: {fileID: 0}
   exitDirection: 1
   offsetDistance: 3
@@ -9076,6 +9092,13 @@ MonoBehaviour:
   entranceDown: {fileID: 8930712636206517612}
   entranceLeft: {fileID: 9030664848834441458}
   entranceRight: {fileID: 1113129519883180985}
+  isClearRoom: 0
+  Enumys:
+  - {fileID: 930449340592688254}
+  - {fileID: 8933326054943615676}
+  - {fileID: 5884440048800509554}
+  - {fileID: 95722429502611473}
+  - {fileID: 7712082885872421348}
 --- !u!1 &6129773138282846722
 GameObject:
   m_ObjectHideFlags: 0

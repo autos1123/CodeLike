@@ -23,10 +23,12 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
     private float agentSpeedTmp; // NavMeshAgent의 속도 저장
 
+    public Room room;
     protected override void OnEnable()
     {
         base.OnEnable();
         GameManager.Instance.onDestinyChange += HandleDestinyChange;//운명변경 이벤트 연결
+        room = GetComponentInParent<Room>();
     }
     protected override void OnDisable()
     {

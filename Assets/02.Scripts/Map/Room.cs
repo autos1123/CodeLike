@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 
@@ -25,12 +27,20 @@ public class Room : MonoBehaviour
     public Transform entranceLeft;
     public Transform entranceRight;
 
+    public bool isClearRoom = false;
 
+    public event Action onRoomClear;
+
+    public GameObject[] Enumys;
     public List<RoomConnection> Connections { get; private set; } = new();
 
     private void Start()
     {
         GetComponent<NavMeshSurface>()?.BuildNavMesh(); // NavMeshSurface가 있다면 빌드
+        if(Enumys.Count() == 0)
+        {
+            RoomClear();
+        }
     }
 
     public void Initialize(int id, Vector2Int gridPos, RoomType type)
@@ -38,8 +48,23 @@ public class Room : MonoBehaviour
         Id = id;
         GridPosition = gridPos;
         Type = type;
-    }
 
+        ChackClear();
+    }
+    public void ChackClear()
+    {
+        foreach(var item in Enumys)
+        {
+            if(item.activeInHierarchy == true) return;
+        }
+        StartCoroutine(RoomClear());
+    }
+    public IEnumerator RoomClear()
+    {
+        yield return new WaitForSeconds(1f);
+        isClearRoom = true;
+        onRoomClear?.Invoke();
+    }
     public void AddConnection(RoomConnection conn)
     {
         Connections.Add(conn);
