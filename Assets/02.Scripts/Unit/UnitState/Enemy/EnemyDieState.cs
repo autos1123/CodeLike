@@ -29,6 +29,7 @@ public class EnemyDieState:EnemyBaseState
             stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
             stateMachine.Enemy.gameObject.SetActive(false); // 적 오브젝트를 비활성화
+            stateMachine.Enemy.room.ChackClear();
         }
     }
 }

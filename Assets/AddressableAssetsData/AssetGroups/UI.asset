@@ -72,6 +72,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd29016b8bb6c3946b9f587da90b5c5f
+    m_Address: Assets/03.Prefaps/UI/TakeItemBox.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:

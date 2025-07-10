@@ -173,7 +173,8 @@ public class ProceduralStageGenerator:MonoBehaviour
     private void CreatePortal(Room fromRoom, Room toRoom, Direction direction)
     {
         Transform fromAnchor = fromRoom.GetEntranceAnchor(direction);
-        Transform toAnchor = toRoom.GetEntranceAnchor(Room.GetOppositeDirection(direction));
+        //Transform toAnchor = toRoom.GetEntranceAnchor(Room.GetOppositeDirection(direction));
+        Transform toAnchor = toRoom.GetSponPos();
 
         if(fromAnchor == null || toAnchor == null)
         {
