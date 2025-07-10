@@ -66,7 +66,6 @@ public class ProceduralStageGenerator:MonoBehaviour
                     stageData.connections.Add(conn);
                     connectedDirs.Add(dir);
 
-
                 }
             }
 

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PlayerAttackState:PlayerBaseState
 {
     public PlayerAttackState(PlayerStateMachine stateMachine) : base(stateMachine) { }
@@ -6,6 +8,7 @@ public class PlayerAttackState:PlayerBaseState
     {
         base.StateEnter();
         player._Animator.SetTrigger("attack");
+        SoundManager.Instance.PlaySFX(player.transform.position, SoundAddressbleName.sfx1);
         stateMachine.ChangeState(stateMachine.IdleState);
     }
 
