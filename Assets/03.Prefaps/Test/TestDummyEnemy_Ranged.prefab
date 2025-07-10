@@ -1472,8 +1472,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 1001
   fullSize: 0
-  rotDamping: 10
-  meshTr: {fileID: 8254118700667431879}
+  visualTransform: {fileID: 8254118700667431879}
+  visualRotateSpeed: 10
   projectileOffset: {fileID: 2812119007696502176}
 --- !u!1 &4259463442291401274
 GameObject:

@@ -88,6 +88,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1828295789103407061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3312194589663525948}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3312194589663525948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828295789103407061}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -29.04, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8190512294716244692}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2014239061457682412
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,7 +169,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014239061457682412}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -313,7 +344,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3590880942184622955}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -727,6 +758,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8190512294716244692}
   - component: {fileID: 3139282283465354383}
+  - component: {fileID: -974368500315563753}
   m_Layer: 0
   m_Name: DummyStartRoom
   m_TagString: Untagged
@@ -750,6 +782,7 @@ Transform:
   - {fileID: 989606179285785087}
   - {fileID: 1442922605168007132}
   - {fileID: 7805462319804230566}
+  - {fileID: 3312194589663525948}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3139282283465354383
@@ -765,7 +798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_CollectObjects: 0
+  m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
@@ -783,6 +816,23 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
+--- !u!114 &-974368500315563753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918807779703867543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f570024187ba669498487fb906fb58ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSpawnPoint: {fileID: 3312194589663525948}
+  entranceUp: {fileID: 7004056754583302015}
+  entranceDown: {fileID: 2932483701123731304}
+  entranceLeft: {fileID: 6811355913851004307}
+  entranceRight: {fileID: 1339232650081553687}
 --- !u!1 &7718449950630065232
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,7 +850,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2674042657565748649
 Transform:
@@ -938,7 +988,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8011903658103517533}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1129,7 +1179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e230241e0b2c405498058bd7bf318869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropDuration: 0.5
   physicalCollider: {fileID: 6467324332819217190}
 --- !u!1 &8991322800338392062
 GameObject:
@@ -1286,7 +1335,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9030491588080359175}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1477,5 +1526,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e230241e0b2c405498058bd7bf318869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropDuration: 0.5
   physicalCollider: {fileID: 5488607050881988729}

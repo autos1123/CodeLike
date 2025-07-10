@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : BaseCondition
 {
@@ -26,6 +25,13 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     // 캐릭터 정지 관련
     protected bool isPlaying = true;
     protected Vector3 velocityTmp;
+
+    [Header("Visual Settings")]
+    [SerializeField] protected Transform visualTransform;
+    [SerializeField] protected float visualRotateSpeed = 10f;
+
+    public Transform VisualTransform => visualTransform;
+    public float VisualRotateSpeed => visualRotateSpeed;
 
     protected virtual void Awake()
     {
@@ -122,7 +128,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
         {
             // 공격 범위의 중심점 설정
             // 중심점 위치는 오브젝트의 전방 방향으로 설정
-            Vector3 pivot = transform.position + (forwardDir * (attackRange / 2.0f)) + Vector3.up;
+            Vector3 pivot = transform.position + (visualTransform.forward * (attackRange / 2.0f)) + Vector3.up;
 
             hitColliders = Physics.OverlapBox(pivot, new Vector3(attackRange, 1.5f, 100), Quaternion.identity, layer);
             return hitColliders;
@@ -134,7 +140,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
         foreach(Collider collider in hitColliders)
         {
             Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
-            float angle = Vector3.Angle(transform.forward, directionToTarget);
+            float angle = Vector3.Angle(visualTransform.forward, directionToTarget);
 
             if(angle <= attackAngle) // 원하는 각도
             {
@@ -188,15 +194,64 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     {
         if(viewMode == ViewModeType.View2D)
         {
+            _Rigidbody.isKinematic = true;
+
+            // 콜라이더 사이즈 확장
             colliderSizeTmp = col.size;
             col.center = new Vector3(transform.position.z, col.center.y, 0); // 2D 모드에서는 콜라이더 중심을 약간 위로 이동
             col.size = new Vector3(fullSize, colliderSizeTmp.y, colliderSizeTmp.z); // 2D 모드에서는 z축을 늘려서 공격 범위 확장
+
+            // 겹치는 오브젝트가 있을 경우 콜라이더 위치 조정
+            SetPositionWhenViewChanged();
+
+            _Rigidbody.isKinematic = false; 
         }
         else if(viewMode == ViewModeType.View3D)
         {
             col.center = new Vector3(0, col.center.y, 0); // 2D 모드에서는 콜라이더 중심을 약간 위로 이동
             col.size = colliderSizeTmp; // 3D 모드에서는 원래 크기로 복원
         }
+    }
+
+    /// <summary>
+    /// 2D 모드에서 뷰가 변경될 때 콜라이더의 위치를 조정합니다.
+    /// </summary>
+    /// <param name="col"></param>
+    private void SetPositionWhenViewChanged()
+    {
+        // 현재 콜라이더의 경계 박스에서 충돌한 오브젝트들을 가져옴
+        Collider[] hit = Physics.OverlapBox(col.bounds.center, col.bounds.extents, Quaternion.identity, LayerMask.GetMask("Obstacle"), QueryTriggerInteraction.Ignore);
+
+        if(hit.Length == 0) return;
+
+        // 충돌한 콜라이더의 최대 x좌표와 최소 x좌표를 계산
+        float maxX = hit[0].bounds.max.x;
+        float minX = hit[0].bounds.min.x;
+        for(int i = 1; i < hit.Length; i++)
+        {
+            if(hit[i].bounds.max.x > maxX)
+            {
+                maxX = hit[i].bounds.max.x;
+            }
+            if(hit[i].bounds.min.x < minX)
+            {
+                minX = hit[i].bounds.min.x;
+            }
+        }
+
+        // 충돌한 콜라이더(col)의 왼쪽 경계(min.x)로부터 현재 위치까지의 x 거리 계산(+여유값 0.5f 추가)
+        float distance = transform.position.x - minX + 0.5f;
+        Vector3 direction = Vector3.left;
+
+        if(gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            // 적 캐릭터는 오른쪽으로 이동
+            distance = col.bounds.max.x - maxX + 0.5f;
+            direction = Vector3.right; 
+        }
+
+        // 현재 오브젝트를 왼쪽으로 distance만큼 이동시켜, 콜라이더에서 완전히 벗어나게 함
+        transform.position = transform.position + direction * distance;
     }
 
     protected virtual void OnDrawGizmos()
@@ -209,7 +264,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
             Gizmos.color = Color.red;
             if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
             {
-                Vector3 pivot = transform.position + (transform.forward * (attackRange / 2.0f)) + Vector3.up;
+                Vector3 pivot = transform.position + (visualTransform.forward * (attackRange / 2.0f)) + Vector3.up;
                 Gizmos.DrawWireCube(pivot, new Vector3(attackRange, 1.5f, ViewManager.Instance.CurrentViewMode == ViewModeType.View2D ? 100 : attackRange));
             }
             else
@@ -220,8 +275,8 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
                 float angle1 = -attackAngle / 2f;
                 float angle2 = attackAngle / 2f;
 
-                Vector3 dir1 = Quaternion.Euler(0, angle1, 0) * transform.forward;
-                Vector3 dir2 = Quaternion.Euler(0, angle2, 0) * transform.forward;
+                Vector3 dir1 = Quaternion.Euler(0, angle1, 0) * visualTransform.forward;
+                Vector3 dir2 = Quaternion.Euler(0, angle2, 0) * visualTransform.forward;
 
                 Vector3 point1 = transform.position + dir1 * attackRange;
                 Vector3 point2 = transform.position + dir2 * attackRange;

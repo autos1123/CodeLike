@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class PlatformController:MonoBehaviour
 { 
-    private float dropTimer = 0f; //충돌 타이머
-    public float dropDuration = 0.5f; // 충돌 비활성화 시간
-
     [Tooltip("플레이어가 실제로 충돌하는 플랫폼 콜라이더 (isTrigger = false 상태여야 함)")]
     public Collider physicalCollider;
 
