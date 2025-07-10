@@ -7,6 +7,8 @@ public class UIManager:MonoSingleton<UIManager>
 {
     private Dictionary<string, UIBase> _uiInstances = new Dictionary<string, UIBase>();
     private List<GameObject> uiPrefabs;
+    private bool uiLoaded = false;
+    private List<Action> _onUILoaded = new();
 
     [SerializeField] private string currentSceneName;
 
@@ -97,7 +99,19 @@ public class UIManager:MonoSingleton<UIManager>
     {
         return _uiInstances[typeof(T).Name] as T;
     }
-    
+
+    public bool TryGetUI<T>(out T result) where T : UIBase
+    {
+        if(_uiInstances.TryGetValue(typeof(T).Name, out var ui))
+        {
+            result = ui as T;
+            return true;
+        }
+
+        result = null;
+        return false;
+    }
+
     public void ShowConfirmPopup(string message, Action onConfirm, Action onCancel = null,string confirmText = "예", string cancelText = "아니오")
     {
         if (_uiInstances.TryGetValue(nameof(ConfirmPopup), out var ui))
@@ -110,5 +124,10 @@ public class UIManager:MonoSingleton<UIManager>
         {
             Debug.LogError("[UIManager] ConfirmPopup이 로드되지 않았습니다.");
         }
+    }
+    public void OnAllUIReady(Action callback)
+    {
+        if(uiLoaded) callback?.Invoke();
+        else _onUILoaded.Add(callback);
     }
 }
