@@ -13,7 +13,7 @@ public class AoESkillExecutor :ISkillExecutor
 
         var pos = caster.transform.position;
         var vfx = Object.Instantiate(
-            Resources.Load<ParticleSystem>(data.EffectPrefab),
+            Resources.Load<ParticleSystem>(data.VFX),
             targetPoint,
             Quaternion.identity
         );

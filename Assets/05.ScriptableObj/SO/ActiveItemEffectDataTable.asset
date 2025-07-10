@@ -23,7 +23,7 @@ MonoBehaviour:
     CostType: 402
     Cost: 10
     EffectPrefab: 
-    Description: "\uD654\uC0B4 \uACF5\uACA9"
+    Description: 
   - SkillID: 5001
     Name: Fire Arrow
     Type: 501
@@ -34,7 +34,7 @@ MonoBehaviour:
     CostType: 402
     Cost: 12
     EffectPrefab: 
-    Description: "\uD654\uC5FC \uD654\uC0B4 \uACF5\uACA9"
+    Description: 
   - SkillID: 5002
     Name: FireWall
     Type: 502
@@ -45,7 +45,7 @@ MonoBehaviour:
     CostType: 402
     Cost: 20
     EffectPrefab: 
-    Description: "\uD654\uC5FC \uBC94\uC704 \uACF5\uACA9"
+    Description: 
   - SkillID: 5003
     Name: Heal
     Type: 503
@@ -56,4 +56,4 @@ MonoBehaviour:
     CostType: 402
     Cost: 20
     EffectPrefab: 
-    Description: "\uCCB4\uB825 \uD68C\uBCF5"
+    Description: 

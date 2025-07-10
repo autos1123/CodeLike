@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using System.Collections.Generic;
+
 [System.Serializable]
 public class ActiveItemEffectData
 {
@@ -12,6 +14,7 @@ public class ActiveItemEffectData
     public float Cooldown;
     public CostType CostType;
     public float Cost;
-    public string EffectPrefab;
+    public string VFX;
+    public string SFX;
     public string Description;
 }

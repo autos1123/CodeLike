@@ -14,6 +14,8 @@ public static class ClassGenerator
 
         sb.AppendLine("using UnityEngine;");
         sb.AppendLine();
+        sb.AppendLine("using System.Collections.Generic;");
+        sb.AppendLine();
         sb.AppendLine("[System.Serializable]");
         sb.AppendLine($"public class {className}");
         sb.AppendLine("{");

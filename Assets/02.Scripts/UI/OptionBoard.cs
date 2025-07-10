@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -22,12 +23,41 @@ public class OptionBoard : UIBase
     [SerializeField] private Button exitToGameButton; // 게임으로 돌아가기 버튼
     [SerializeField] private string gameSceneName;
 
+    [Header("AudioMixe")]
+    [SerializeField] private AudioMixer audioMixer;
+
+    [Header("Audio Slider")]
+    [SerializeField] private Slider masterSlider;
+    [SerializeField] private Slider bgmSlider;
+    [SerializeField] private Slider sfxSlider;
+
+    private const string Master = "Master";
+    private const string BGM = "BGM";
+    private const string SFX = "SFX";
+
+    [Header("Audio Mute")]
+    [SerializeField] private Toggle masterToggle;
+    [SerializeField] private Toggle bgmToggle;
+    [SerializeField] private Toggle sfxToggle;
+
     private void Awake()
     {
         resolutionData = new ResolutionData(); // 해상도 데이터 초기화
         resolutions = resolutionData.resolutions.ToArray(); // 해상도 리스트를 배열로 변환
         InitResolutionDropdown();
         InitFullScreenModeDropDown();
+
+        SetSliderValue(masterSlider, Master);
+        SetSliderValue(bgmSlider, BGM);
+        SetSliderValue(sfxSlider, SFX);
+
+        masterSlider.onValueChanged.AddListener((Volume) => SetSFXVolume(Master, Volume));
+        bgmSlider.onValueChanged.AddListener((Volume) => SetSFXVolume(BGM, Volume));
+        sfxSlider.onValueChanged.AddListener((Volume) => SetSFXVolume(SFX, Volume));
+
+        masterToggle.onValueChanged.AddListener((isOn) => { audioMixer.SetFloat(Master, isOn ? 0f : -80f); });
+        bgmToggle.onValueChanged.AddListener((isOn) => { audioMixer.SetFloat(BGM, isOn ? 0f : -80f); });
+        sfxToggle.onValueChanged.AddListener((isOn) => { audioMixer.SetFloat(SFX, isOn ? 0f : -80f); });
     }
 
     public override void Open()
@@ -39,6 +69,7 @@ public class OptionBoard : UIBase
 
         exitToGameButton.onClick.AddListener(OnClickExitToGameButton); // 게임으로 돌아가는 버튼 클릭 이벤트 등록
         exitToLobbyButton.onClick.AddListener(OnClickExitToLobbyButton); // 로비로 돌아가는 버튼 클릭 이벤트 등록
+
 
         // 로비로 돌아가는 버튼은 게임씬에서만 활성화
         if(SceneManager.GetActiveScene().name != gameSceneName)
@@ -151,6 +182,19 @@ public class OptionBoard : UIBase
             default:
                 return FullScreenMode.ExclusiveFullScreen; // 기본값은 전체화면
         }
+    }
+    private void SetSliderValue(Slider slider, string paramName)
+    {
+        if(audioMixer.GetFloat(paramName, out float dB))
+        {
+            slider.value = Mathf.Pow(10f, dB / 20f);
+        }
+    }
+    private void SetSFXVolume(string path,float value)
+    {
+        // linear(0~1) → dB 변환
+        float dB = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
+        audioMixer.SetFloat(path, dB);
     }
 
     private void OnClickExitToLobbyButton()

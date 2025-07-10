@@ -7,10 +7,26 @@ using UnityEngine;
 /// </summary>
 public class ShopInventory : MonoBehaviour,IInventory
 {
+    public int npcID;
+    
     private ItemDataTable itemDataTable;
+    private NPCDataTable npcDataTable;
+    
     public List<InventoryItemSlot> inventorySlots = new List<InventoryItemSlot>();
     public bool Initialized { get; private set; } = false;
     public event Action OnInitialized;
+    
+    private void Awake()
+    {
+        if (TryGetComponent<NPCController>(out var npcController))
+        {
+            npcID = npcController.ID;
+        }
+        else
+        {
+            Debug.LogWarning("[ShopInventory] NPCController를 찾을 수 없습니다.");
+        }
+    }
     /// <summary>
     /// 테이블 로드가 완료될 때까지 대기 후 상점 아이템 초기화
     /// </summary>
@@ -18,11 +34,26 @@ public class ShopInventory : MonoBehaviour,IInventory
     {
         yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
+        npcDataTable = TableManager.Instance.GetTable<NPCDataTable>();
+        
         Init();
-        var item1 = itemDataTable.GetDataByID(6000);
-        var item2 = itemDataTable.GetDataByID(6001);
-        inventorySlots.Add(CreateSlot(item1));
-        inventorySlots.Add(CreateSlot(item2));
+        var npcData = npcDataTable.GetDataByID(npcID);
+        if (npcData == null)
+        {
+            Debug.LogError($"[ShopInventory] NPCData를 찾을 수 없습니다. ID: {npcID}");
+            yield break;
+        }
+
+        foreach (var id in npcData.shopItemIDs)
+        {
+            var item = itemDataTable.GetDataByID(id);
+            if (item != null)
+                inventorySlots.Add(CreateSlot(item));
+        }
+        // var item1 = itemDataTable.GetDataByID(6000);
+        // var item2 = itemDataTable.GetDataByID(6001);
+        // inventorySlots.Add(CreateSlot(item1));
+        // inventorySlots.Add(CreateSlot(item2));
         Initialized = true;
         OnInitialized?.Invoke();
     }

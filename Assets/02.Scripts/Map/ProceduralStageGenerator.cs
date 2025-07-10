@@ -39,7 +39,7 @@ public class ProceduralStageGenerator:MonoBehaviour
         stageData = new StageData();
         stageData.InitializeGrid(gridWidth, gridHeight);
 
-        Vector2Int startGridPos = new Vector2Int(gridWidth / 2, gridHeight / 2);
+        Vector2Int startGridPos = new Vector2Int(0, 0);
         Stack<Vector2Int> stack = new();
         Dictionary<Vector2Int, int> roomIdMap = new();
 
@@ -65,7 +65,6 @@ public class ProceduralStageGenerator:MonoBehaviour
                     RoomConnection conn = new RoomConnection(nextRoomID, neighborId, dir);
                     stageData.connections.Add(conn);
                     connectedDirs.Add(dir);
-
 
                 }
             }

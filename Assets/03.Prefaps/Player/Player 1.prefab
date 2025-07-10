@@ -1389,6 +1389,7 @@ GameObject:
   - component: {fileID: 4562072362125629841}
   - component: {fileID: 9054588143962337213}
   - component: {fileID: 2257356693559515879}
+  - component: {fileID: 5407544074353644519}
   m_Layer: 8
   m_Name: HumanDummy_M Blue
   m_TagString: Untagged
@@ -1446,6 +1447,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ca55f33c073c6e4693ada0aeeb367f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!81 &5407544074353644519
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4794328799711282197}
+  m_Enabled: 1
 --- !u!1 &4804379003157491153
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,7 +1561,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5105196748517208616}
   - component: {fileID: 4223102427382493442}
-  - component: {fileID: 7964583283262886918}
   - component: {fileID: 2834581293470904418}
   - component: {fileID: 1618210732143505081}
   m_Layer: 8
@@ -1628,14 +1636,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &7964583283262886918
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4851177912727492012}
-  m_Enabled: 1
 --- !u!114 &2834581293470904418
 MonoBehaviour:
   m_ObjectHideFlags: 0

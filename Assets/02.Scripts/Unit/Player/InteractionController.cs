@@ -12,10 +12,18 @@ public class InteractionController : MonoBehaviour
     [SerializeField] private float interactableRange = 2.0f;
     [SerializeField] private Transform interactTextTr;
     private TextMeshProUGUI interactText;
-
+    
+    //interactTextTr에 외부에서 접근할 수 있도록
+    public Transform GetInteractTextTransform()
+    {
+        return interactTextTr;
+    }
     private void Awake()
     {
-        interactText = interactTextTr.GetComponentInChildren<TextMeshProUGUI>();
+        if (interactTextTr != null) // null 체크 추가
+        {
+            interactText = interactTextTr.GetComponentInChildren<TextMeshProUGUI>();
+        }
         inputHandler = GetComponent<PlayerInputHandler>();
     }
 
@@ -58,6 +66,7 @@ public class InteractionController : MonoBehaviour
 
     private void InteractableCheck()
     {
+        if (interactTextTr == null) return; // 텍스트 Transform이 없으면 더 이상 진행하지 않음
         // 상호작용 오브젝트 탐색
         Collider[] hitColliders = Physics.OverlapSphere(
             transform.position,
@@ -65,31 +74,55 @@ public class InteractionController : MonoBehaviour
             interactableLayer
         );
 
-        if(hitColliders.Length == 0)
-        {
-            if(interactableObj != null)
-            {
-                interactableObj = null;
-                SetInteractTextTransform(transform);
-                interactTextTr.gameObject.SetActive(false);
-            }
-            return;
-        }
+        IInteractable currentBestInteractable = null;
+        float minDistanceSq = float.MaxValue;
 
         for(int i = 0; i < hitColliders.Length; i++)
         {
             if(hitColliders[i].TryGetComponent(out IInteractable interactable))
             {
-                interactableObj = interactable;
-                SetInteractTextTransform(interactableObj.PromptPivot, interactableObj.InteractionPrompt);
-                interactTextTr.gameObject.SetActive(true);
-                return; // 첫 번째 상호작용만 처리
+                // 오브젝트가 유효한지 확인
+                if((interactable as MonoBehaviour) != null)
+                {
+                    float distSq = (hitColliders[i].transform.position - transform.position).sqrMagnitude;
+                    if(distSq < minDistanceSq)
+                    {
+                        minDistanceSq = distSq;
+                        currentBestInteractable = interactable;
+                    }
+                }
+            }
+        }
+        // 텍스트 표시/숨기기 및 위치 업데이트 로직
+        if (currentBestInteractable != null)
+        {
+            interactableObj = currentBestInteractable;
+            SetInteractTextTransform(interactableObj.PromptPivot, interactableObj.InteractionPrompt);
+            interactTextTr.gameObject.SetActive(true); // 활성화
+        }
+        else // 범위 내에 상호작용할 오브젝트가 없음
+        {
+            if (interactableObj != null) // 이전에 상호작용 중인 오브젝트가 있었다면
+            {
+                interactableObj = null; // 참조 해제
+            }
+            // 범위 밖이거나, 이미 파괴된 오브젝트가 있었다면 숨김
+            if (interactTextTr.gameObject.activeSelf) // 이미 비활성화되어 있지 않은 경우에만
+            {
+                SetInteractTextTransform(transform); 
+                interactTextTr.gameObject.SetActive(false); 
             }
         }
     }
 
     private void SetInteractTextTransform(Transform parent, string text = "")
     {
+        // Null 체크 추가
+        if (interactTextTr == null || parent == null || parent.gameObject == null)
+        {
+            if (interactTextTr != null) interactTextTr.gameObject.SetActive(false); // 숨기기
+            return;
+        }
         interactTextTr.parent = parent;
         interactTextTr.localPosition = Vector3.zero;
         interactText.text = text;

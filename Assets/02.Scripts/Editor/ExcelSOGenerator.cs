@@ -1,5 +1,6 @@
 using Codice.CM.Client.Differences.Graphic;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using Unity.VisualScripting;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
@@ -129,8 +130,9 @@ public static class ExcelSOGenerator
                     activeItemEffect.Cooldown = int.Parse(row[6].ToString());
                     activeItemEffect.CostType = (CostType)int.Parse(row[7].ToString());
                     activeItemEffect.Cost = int.Parse(row[8].ToString());
-                    activeItemEffect.EffectPrefab = row[9].ToString();
-                    activeItemEffect.Description = row[10].ToString();
+                    activeItemEffect.VFX = row[9].ToString();
+                    activeItemEffect.SFX = row[10].ToString();
+                    activeItemEffect.Description = row[11].ToString();
 
                     activeItemEffectDataTable.dataList.Add(activeItemEffect);
                 }
@@ -150,7 +152,7 @@ public static class ExcelSOGenerator
                     itemData.ID = int.Parse(row[0].ToString());
                     itemData.name = row[1].ToString();
                     itemData.Rarity = (Rarity)int.Parse(row[2].ToString());                    
-                    itemData.ConditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[3].ToString());
+                    itemData.ConditionType = ParseEnumFromCell<ConditionType>(row[3]);
                     itemData.value = int.Parse(row[4].ToString());
                     itemData.description = row[5].ToString().Replace("@", itemData.value.ToString());
                     itemData.IconPath = row[6].ToString();
@@ -184,7 +186,7 @@ public static class ExcelSOGenerator
                     var enhanceData = new EnhanceData();
                     enhanceData.ID = int.Parse(row[0].ToString());
                     enhanceData.name = row[1].ToString();
-                    enhanceData.ConditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[2].ToString().Trim().Replace("\u00A0", ""));
+                    enhanceData.ConditionType = ParseEnumFromCell<ConditionType>(row[2]);
                     enhanceData.value = int.Parse(row[3].ToString());
                     enhanceData.dsecription = row[4].ToString().Replace("@", enhanceData.value.ToString());
 
@@ -207,8 +209,9 @@ public static class ExcelSOGenerator
                     var npcData = new NPCData();
                     npcData.ID = int.Parse(row[0].ToString());
                     npcData.Name = row[1].ToString();
-
-
+                    npcData.shopItemIDs = ParseIntListFromCell(row[2]);
+                    npcData.Type = ParseEnumFromCell<NPCType>(row[3]);
+                    
                     npcDataTable.dataList.Add(npcData);
                 }
 
@@ -246,6 +249,46 @@ public static class ExcelSOGenerator
                 Debug.LogError($"{sheetName}이상한 반복 확인");
                 break;
 
+        }
+    }
+    /// <summary>
+    /// 리스트 파싱
+    /// </summary>
+    /// <param name="cell"></param>
+    /// <returns></returns>
+    private static List<int> ParseIntListFromCell(object cell)
+    {
+        var raw = cell.ToString();
+        Debug.Log($"🧪 Raw cell: '{raw}'");
+        var split = raw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        var list = new List<int>();
+
+        foreach (var part in split)
+        {
+            if (int.TryParse(part.Trim(), out int val))
+                list.Add(val);
+        }
+
+        return list;
+    }
+    
+    /// <summary>
+    /// Enum 파싱
+    /// </summary>
+    /// <param name="cell"></param>
+    /// <returns></returns>
+    private static T ParseEnumFromCell<T>(object cell) where T : System.Enum
+    {
+        var raw = cell.ToString().Trim();
+        try
+        {
+            // Enum.Parse를 사용하여 문자열을 Enum 값으로 변환
+            return (T)System.Enum.Parse(typeof(T), raw, true); // true는 대소문자 무시
+        }
+        catch (System.ArgumentException)
+        {
+            Debug.LogError($"Failed to parse '{raw}' as enum type {typeof(T).Name}. Returning default value.");
+            return default(T); // 파싱 실패 시 Enum의 기본값 (보통 0번째 값) 반환
         }
     }
 }
