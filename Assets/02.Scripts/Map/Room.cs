@@ -118,6 +118,11 @@ public class Room : MonoBehaviour
             _ => null
         };
     }
+
+    public Transform GetSponPos()
+    {
+        return playerSpawnPoint;
+    }
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
