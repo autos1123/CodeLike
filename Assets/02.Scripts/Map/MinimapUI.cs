@@ -6,25 +6,26 @@ public class MinimapUI: UIBase
 {
     public RectTransform minimapPanel;
     public GameObject roomIconPrefab;
-    public float roomSpacing = 50f; // 방 간격
+    public float roomSpacing = 5f; // 방 간격
 
     public override string UIName => "MinimapUI"; // 중요!
 
-    public Sprite defaultIcon;
-    public Sprite currentIcon;
+    public Transform minimapRoot; // 빈 오브젝트, 미니맵 아이콘 모음용
 
     public void GenerateMinimap(List<MinimapRoomData> roomDataList)
     {
-        // 기존 미니맵 아이콘 제거
-        foreach(Transform child in minimapPanel)
-            Destroy(child.gameObject);
+        Debug.Log($" 미니맵 생성 시작 - 방 수: {roomDataList.Count}");
+        foreach(Transform child in minimapRoot)
+            Destroy(child.gameObject); // 또는 Pool에서 회수
 
-        // 새로운 미니맵 아이콘 생성
         foreach(var room in roomDataList)
         {
-            var icon = Instantiate(roomIconPrefab, minimapPanel);
+            var icon = Instantiate(roomIconPrefab, minimapRoot);
             var rt = icon.GetComponent<RectTransform>();
-            rt.anchoredPosition = new Vector2(room.worldPosition.x * roomSpacing, room.worldPosition.y * roomSpacing);
+            rt.anchoredPosition = new Vector2(
+                room.worldPosition.x * roomSpacing,
+                room.worldPosition.y * roomSpacing
+            );
 
             var img = icon.GetComponent<Image>();
             img.color = GetColorByRoomType(room.type);
