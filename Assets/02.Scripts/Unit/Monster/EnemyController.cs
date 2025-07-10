@@ -93,6 +93,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         Condition = new EnemyCondition(InitConditionData());
         AnimationData = new EnemyAnimationData();
         StateMachine = new EnemyStateMachine(this);
+        SetEnemyState()
 
         // 체력 UI 초기화
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
@@ -104,6 +105,12 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         isInitialized = true;
     }
 
+    /// <summary>
+    /// 적의 상태를 설정하는 추상 메서드
+    /// 각 적 유형에 따라 사용 될 상태를 추가
+    /// </summary>
+    protected abstract void SetEnemyState();
+
     public void HpBarUpdate()
     {
         HpUI.HpBarUpdate(Condition.GetConditionRatio(ConditionType.HP));
@@ -111,7 +118,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
 
     protected override void Die()
     {
-        StateMachine.ChangeState(StateMachine.DieState);
+        StateMachine.ChangeState(EnemyStateType.Die);
     }
 
     /// <summary>

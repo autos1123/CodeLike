@@ -1,4 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum EnemyStateType
+{
+    Idle,
+    Patrol,
+    Chase,
+    Attack,
+    Die
+}
 
 public class EnemyStateMachine : UnitStateMachine
 {
@@ -9,27 +19,42 @@ public class EnemyStateMachine : UnitStateMachine
     public GameObject Player { get; private set; }
     public Vector3 PatrolPoint { get; private set; }
 
-    // State
-    public EnemyIdleState IdleState { get; }
-    public EnemyPatrolState PatrolState { get; }
-    public EnemyChaseState ChaseState { get; }
-    public EnemyAttackState AttackState { get; }
-    public EnemyDieState DieState { get; }
+    public Dictionary<EnemyStateType, EnemyBaseState> States { get; } = new Dictionary<EnemyStateType, EnemyBaseState>();
 
     public EnemyStateMachine(EnemyController enemy)
     {
         this.Enemy = enemy;
         Player = GameManager.Instance.Player;
         MovementSpeed = Enemy.Condition.GetValue(ConditionType.MoveSpeed);
+    }
 
-        IdleState = new EnemyIdleState(this);
-        PatrolState = new EnemyPatrolState(this);
-        ChaseState = new EnemyChaseState(this);
-        AttackState = new EnemyAttackState(this);
-        DieState = new EnemyDieState(this);
+    public void AddState(EnemyStateType stateType, EnemyBaseState state)
+    {
+        States[stateType] = state;
+    }
 
+
+    public void StartStateMachine(EnemyStateType stateType)
+    {
         Enemy.SetPatrolPivot();
-        ChangeState(IdleState);
+        ChangeState(States[stateType]);
+    }
+
+    public bool HasState(EnemyStateType stateType)
+    {
+        return States.ContainsKey(stateType);
+    }
+
+    public void ChangeState(EnemyStateType stateType)
+    {
+        if(States.TryGetValue(stateType, out EnemyBaseState state))
+        {
+            ChangeState(state);
+        }
+        else
+        {
+            Debug.LogError($"State {stateType} not found in EnemyStateMachine.");
+        }
     }
 
     /// <summary>

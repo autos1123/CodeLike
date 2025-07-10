@@ -19,8 +19,12 @@ public class EnemyIdleState : EnemyBaseState
         base.StateEnter();
 
         StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
-        waitingStartTime = Time.time;
-        nextPoint = GetWanderLocation();
+
+        if(stateMachine.HasState(EnemyStateType.Patrol))
+        {
+            waitingStartTime = Time.time;
+            nextPoint = GetWanderLocation();
+        }
     }
 
     public override void StateExit()
@@ -36,16 +40,19 @@ public class EnemyIdleState : EnemyBaseState
         if(IsInRange(ConditionType.ChaseRange))
         {
             // MoveState로 변환
-            stateMachine.ChangeState(stateMachine.ChaseState);
+            stateMachine.ChangeState(EnemyStateType.Chase);
             return;
         }
 
-        if(waitingEndTime <= Time.time - waitingStartTime)
+        if(stateMachine.HasState(EnemyStateType.Patrol))
         {
-            // 대기 시간이 끝나면 Target을 다음 PatrolPoint로 설정 후 MoveState로 전환
-            stateMachine.SetPatrolPoint(nextPoint);
-            stateMachine.ChangeState(stateMachine.PatrolState);
-            return;
+            if(waitingEndTime <= Time.time - waitingStartTime)
+            {
+                // 대기 시간이 끝나면 Target을 다음 PatrolPoint로 설정 후 MoveState로 전환
+                stateMachine.SetPatrolPoint(nextPoint);
+                stateMachine.ChangeState(EnemyStateType.Patrol);
+                return;
+            }
         }
     }
 

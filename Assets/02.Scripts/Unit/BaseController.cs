@@ -246,7 +246,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
         if(gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             // 적 캐릭터는 오른쪽으로 이동
-            distance = col.bounds.max.x - maxX + 0.5f;
+            distance = maxX - transform.position.x + 0.5f;
             direction = Vector3.right; 
         }
 

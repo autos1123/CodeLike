@@ -33,4 +33,15 @@ public class RangedEnemyController : EnemyController
         projectile.transform.position = projectileOffset.position;
         projectile.GetComponent<Projectile>()?.InitProjectile(direction, 10f, Condition.GetValue(ConditionType.AttackPower));
     }
+
+    protected override void SetEnemyState()
+    {
+        StateMachine.AddState(EnemyStateType.Idle, new EnemyIdleState(StateMachine));
+        StateMachine.AddState(EnemyStateType.Patrol, new EnemyPatrolState(StateMachine));
+        StateMachine.AddState(EnemyStateType.Chase, new EnemyChaseState(StateMachine));
+        StateMachine.AddState(EnemyStateType.Attack, new EnemyAttackState(StateMachine));
+        StateMachine.AddState(EnemyStateType.Die, new EnemyDieState(StateMachine));
+
+        StateMachine.StartStateMachine(EnemyStateType.Idle);
+    }
 }
