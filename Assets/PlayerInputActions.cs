@@ -116,6 +116,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenMinmap"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ad773b1-e0c4-4bf7-a70b-544ef12653dd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""UseCitem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""856f5985-4f8e-4447-8cdd-560c31e5f774"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenMinmap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -290,6 +310,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_OpenStatus = m_Player.FindAction("OpenStatus", throwIfNotFound: true);
         m_Player_UseXItem = m_Player.FindAction("UseXItem", throwIfNotFound: true);
         m_Player_UseCitem = m_Player.FindAction("UseCitem", throwIfNotFound: true);
+        m_Player_OpenMinmap = m_Player.FindAction("OpenMinmap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -361,6 +382,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_OpenStatus;
     private readonly InputAction m_Player_UseXItem;
     private readonly InputAction m_Player_UseCitem;
+    private readonly InputAction m_Player_OpenMinmap;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -375,6 +397,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @OpenStatus => m_Wrapper.m_Player_OpenStatus;
         public InputAction @UseXItem => m_Wrapper.m_Player_UseXItem;
         public InputAction @UseCitem => m_Wrapper.m_Player_UseCitem;
+        public InputAction @OpenMinmap => m_Wrapper.m_Player_OpenMinmap;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -414,6 +437,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @UseCitem.started += instance.OnUseCitem;
             @UseCitem.performed += instance.OnUseCitem;
             @UseCitem.canceled += instance.OnUseCitem;
+            @OpenMinmap.started += instance.OnOpenMinmap;
+            @OpenMinmap.performed += instance.OnOpenMinmap;
+            @OpenMinmap.canceled += instance.OnOpenMinmap;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -448,6 +474,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @UseCitem.started -= instance.OnUseCitem;
             @UseCitem.performed -= instance.OnUseCitem;
             @UseCitem.canceled -= instance.OnUseCitem;
+            @OpenMinmap.started -= instance.OnOpenMinmap;
+            @OpenMinmap.performed -= instance.OnOpenMinmap;
+            @OpenMinmap.canceled -= instance.OnOpenMinmap;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -477,5 +506,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnOpenStatus(InputAction.CallbackContext context);
         void OnUseXItem(InputAction.CallbackContext context);
         void OnUseCitem(InputAction.CallbackContext context);
+        void OnOpenMinmap(InputAction.CallbackContext context);
     }
 }

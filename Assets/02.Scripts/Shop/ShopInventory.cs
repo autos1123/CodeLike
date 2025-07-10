@@ -15,6 +15,18 @@ public class ShopInventory : MonoBehaviour,IInventory
     public List<InventoryItemSlot> inventorySlots = new List<InventoryItemSlot>();
     public bool Initialized { get; private set; } = false;
     public event Action OnInitialized;
+    
+    private void Awake()
+    {
+        if (TryGetComponent<NPCController>(out var npcController))
+        {
+            npcID = npcController.ID;
+        }
+        else
+        {
+            Debug.LogWarning("[ShopInventory] NPCController를 찾을 수 없습니다.");
+        }
+    }
     /// <summary>
     /// 테이블 로드가 완료될 때까지 대기 후 상점 아이템 초기화
     /// </summary>

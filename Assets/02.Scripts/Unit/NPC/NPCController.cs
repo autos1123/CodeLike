@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour, IInteractable
 {
-    [SerializeField] private int ID;
+    public int ID;
 
     [SerializeField] private string interactionPrompt = "[F] 대화하기";
     [SerializeField] private Transform promptPivot;
@@ -18,9 +18,53 @@ public class NPCController : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        UIManager.Instance.ShowUI<DialogueBoard>();
+        var npcDataTable = TableManager.Instance.GetTable<NPCDataTable>();
+        var npcData = npcDataTable.GetDataByID(ID);
 
+        if (npcData == null)
+        {
+            Debug.LogWarning($"[NPCController] ID {ID}에 해당하는 NPCData를 찾을 수 없습니다.");
+            return;
+        }
+
+        switch (npcData.Type)
+        {
+            case NPCType.Normal:
+                OpenDialogue(interactor);
+                break;
+
+            case NPCType.Merchant:
+                TryOpenShop();
+                break;
+        }
+    }
+    private void OpenDialogue(GameObject interactor)
+    {
+        UIManager.Instance.ShowUI<DialogueBoard>();
         DialogueManager.Instance.onDialogue(interactor.transform, this.transform);
-        // TODO : 대화 시작 로직 추가
+    }
+    
+    private void TryOpenShop()
+    {
+        if (!TryGetComponent(out ShopInventory shopInventory))
+        {
+            Debug.LogWarning($"[NPCController] 이 NPC({ID})에 ShopInventory 컴포넌트가 없습니다.");
+            return;
+        }
+
+        if (!UIManager.Instance.TryGetUI<ShopUI>(out var shopUI))
+        {
+            Debug.LogError("[NPCController] ShopUI를 찾을 수 없습니다.");
+            return;
+        }
+
+        if (!shopInventory.Initialized)
+        {
+            shopInventory.OnInitialized += () => shopUI.OpenWithInventory(shopInventory);
+        }
+        else
+        {
+            shopUI.OpenWithInventory(shopInventory);
+        }
     }
 }
