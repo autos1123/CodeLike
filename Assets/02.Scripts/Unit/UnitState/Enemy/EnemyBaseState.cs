@@ -66,28 +66,6 @@ public class EnemyBaseState:IUnitState
         viewMode = mode;
     }
 
-    /// <summary>
-    /// 미리 캐싱한 플레이어가 추적 범위에 들어왔는지 확인하는 메서드
-    /// </summary>
-    /// <returns></returns>
-    protected bool IsInRange(ConditionType rangeType)
-    {
-        Vector3 targetPos = stateMachine.Player.transform.position;
-        Vector3 curPos = stateMachine.Enemy.transform.position;
-
-        if(viewMode == ViewModeType.View2D)
-        {
-            // 2D인 경우 x축과 y축만 고려하여 거리 계산
-            targetPos.z = 0;
-            curPos.z = 0;
-        }
-
-        float playerDistanceSqr = (targetPos - curPos).sqrMagnitude;
-        float range = stateMachine.Enemy.Condition.GetValue(rangeType);
-
-        return playerDistanceSqr <= range * range;
-    }
-
     protected Vector3 GetMovementDirection(Vector3 target)
     {
         Vector3 dir = target - stateMachine.Enemy.transform.position;

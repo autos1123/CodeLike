@@ -25,14 +25,14 @@ public class EnemyChaseState : EnemyMoveState
     {
         base.StateUpdate();
 
-        if(!IsInRange(ConditionType.ChaseRange))
+        if(!stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
         {
             // IdleState로 변환
             stateMachine.Enemy.SetPatrolPivot();
             stateMachine.ChangeState(EnemyStateType.Idle);
             return;
         }
-        if(IsInRange(ConditionType.AttackRange))
+        if(stateMachine.HasState(EnemyStateType.Attack) && stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
         {
             // AttackState로 변환
             stateMachine.ChangeState(EnemyStateType.Attack);

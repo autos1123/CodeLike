@@ -32,7 +32,7 @@ public class EnemyPatrolState : EnemyMoveState
     {
         base.StateUpdate();
 
-        if(IsInRange(ConditionType.ChaseRange))
+        if(stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
         {
             // ChaseState로 전환
             stateMachine.ChangeState(EnemyStateType.Chase);

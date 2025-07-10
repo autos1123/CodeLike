@@ -21,6 +21,8 @@ public class EnemyStateMachine : UnitStateMachine
 
     public Dictionary<EnemyStateType, EnemyBaseState> States { get; } = new Dictionary<EnemyStateType, EnemyBaseState>();
 
+    public EnemyStateType CurrentStateType { get; private set; }
+
     public EnemyStateMachine(EnemyController enemy)
     {
         this.Enemy = enemy;
@@ -49,6 +51,7 @@ public class EnemyStateMachine : UnitStateMachine
     {
         if(States.TryGetValue(stateType, out EnemyBaseState state))
         {
+            CurrentStateType = stateType;
             ChangeState(state);
         }
         else

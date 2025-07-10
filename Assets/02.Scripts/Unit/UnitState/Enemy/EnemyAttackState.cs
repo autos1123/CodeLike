@@ -34,7 +34,7 @@ public class EnemyAttackState : EnemyBaseState
     {
         base.StateUpdate();
 
-        if(!IsInRange(ConditionType.AttackRange))
+        if(!stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
         {
             // AttackState로 변환
             stateMachine.ChangeState(EnemyStateType.Chase);

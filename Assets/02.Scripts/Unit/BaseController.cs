@@ -20,7 +20,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
     // 공격 범위 관련
     protected Vector3 forwardDir;
-    private float attackAngle = 120f; // 공격 각도
+    protected float attackAngle = 100f; // 공격 각도
 
     // 캐릭터 정지 관련
     protected bool isPlaying = true;
@@ -194,7 +194,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     {
         if(viewMode == ViewModeType.View2D)
         {
-            _Rigidbody.isKinematic = true;
+            _Rigidbody.detectCollisions = false;
 
             // 콜라이더 사이즈 확장
             colliderSizeTmp = col.size;
@@ -204,7 +204,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
             // 겹치는 오브젝트가 있을 경우 콜라이더 위치 조정
             SetPositionWhenViewChanged();
 
-            _Rigidbody.isKinematic = false; 
+            _Rigidbody.detectCollisions = true;
         }
         else if(viewMode == ViewModeType.View3D)
         {

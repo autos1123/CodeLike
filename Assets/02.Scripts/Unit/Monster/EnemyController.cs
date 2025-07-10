@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Profiling.HierarchyFrameDataView;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
@@ -13,6 +14,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     public EnemyAnimationData AnimationData { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
     public Vector3 patrolPivot { get; private set; } = Vector3.zero;
+    public GameObject Player { get; private set; } // 플레이어 오브젝트
 
     private GameObject hpBar;
     public PoolingHPBar HpUI => hpBar.GetComponent<PoolingHPBar>();
@@ -89,11 +91,13 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     protected override void Initialize()
     {
         base.Initialize();
+        Player = GameManager.Instance.Player; // 플레이어 오브젝트 초기화
+
         // Controller 초기화
         Condition = new EnemyCondition(InitConditionData());
         AnimationData = new EnemyAnimationData();
         StateMachine = new EnemyStateMachine(this);
-        SetEnemyState()
+        SetEnemyState();
 
         // 체력 UI 초기화
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
@@ -125,6 +129,28 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     /// 적의 공격 액션을 수행하는 메서드
     /// </summary>
     public abstract void AttackAction();
+
+    /// <summary>
+    /// 미리 캐싱한 플레이어가 추적 범위에 들어왔는지 확인하는 메서드
+    /// </summary>
+    /// <returns></returns>
+    public virtual bool IsInRange(ConditionType rangeType)
+    {
+        Vector3 targetPos = Player.transform.position;
+        Vector3 curPos = transform.position;
+
+        if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
+        {
+            // 2D인 경우 x축과 y축만 고려하여 거리 계산
+            targetPos.z = 0;
+            curPos.z = 0;
+        }
+
+        float playerDistanceSqr = (targetPos - curPos).sqrMagnitude;
+        float range = Condition.GetValue(rangeType);
+
+        return playerDistanceSqr <= range * range;
+    }
 
     protected override IEnumerator WaitForDataLoad()
     {
