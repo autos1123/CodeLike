@@ -112,7 +112,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 800}
+  m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4982803935566067355
 CanvasRenderer:
@@ -600,7 +600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1199449473198645264
 RectTransform:
   m_ObjectHideFlags: 0
@@ -639,8 +639,8 @@ MonoBehaviour:
   minimapPanel: {fileID: 1944642527006275900}
   roomIconPrefab: {fileID: 2788238214490250701}
   roomSpacing: 50
-  defaultIcon: {fileID: 0}
-  currentIcon: {fileID: 0}
+  defaultIcon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  currentIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &7966712579708410665
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +678,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 350, y: 250}
+  m_SizeDelta: {x: 1000, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6844749610083162596
 CanvasRenderer:
