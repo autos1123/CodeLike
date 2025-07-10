@@ -34,12 +34,6 @@ public class UIManager:MonoSingleton<UIManager>
     /// </summary>
     private void Update()
     {
-
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("상점열림");
-            ToggleUI<ShopUI>();
-        }
         if(Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log("스테이터스");
