@@ -42,6 +42,12 @@ public class PlayerJumpState:PlayerBaseState
             stateMachine.ChangeState(stateMachine.AttackState);
             return;
         }
+        Vector2 move = player.InputHandler.MoveInput;
+
+        if(move.magnitude > 0.1f)
+        {
+            PlayerLookAt();
+        }
 
         // jumpGrace 기간 동안 착지 체크 안 함
         if(Time.time - jumpStartTime < jumpGroundGrace)
@@ -51,13 +57,8 @@ public class PlayerJumpState:PlayerBaseState
             return;
 
         // 착지시 상태 전환
-        if(player.InputHandler.MoveInput.magnitude > 0.1f)
-            stateMachine.ChangeState(stateMachine.MoveState);
-        else
-            stateMachine.ChangeState(stateMachine.IdleState);
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
-
-
 
     public override void StatePhysicsUpdate()
     {
