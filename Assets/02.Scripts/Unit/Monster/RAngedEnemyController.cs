@@ -41,6 +41,7 @@ public class RangedEnemyController : EnemyController
         StateMachine.AddState(EnemyStateType.Chase, new EnemyChaseState(StateMachine));
         StateMachine.AddState(EnemyStateType.Attack, new EnemyAttackState(StateMachine));
         StateMachine.AddState(EnemyStateType.Die, new EnemyDieState(StateMachine));
+        StateMachine.AddState(EnemyStateType.Hit, new EnemyHitState(StateMachine));
 
         StateMachine.StartStateMachine(EnemyStateType.Idle);
     }

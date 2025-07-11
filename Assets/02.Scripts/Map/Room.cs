@@ -32,6 +32,8 @@ public class Room : MonoBehaviour
     public event Action onRoomClear;
 
     public GameObject[] Enumys;
+    private int enemyCount;
+
     public List<RoomConnection> Connections { get; private set; } = new();
 
     private IEnumerator Start()
@@ -50,6 +52,8 @@ public class Room : MonoBehaviour
         {
             StartCoroutine(RoomClear());
         }
+
+        enemyCount = Enumys.Length;
     }
 
     public void Initialize(int id, Vector2Int gridPos, RoomType type)
@@ -60,10 +64,10 @@ public class Room : MonoBehaviour
     }
     public void ChackClear()
     {
-        foreach(var item in Enumys)
-        {
-            if(item.activeInHierarchy == true) return;
-        }
+        enemyCount--;
+
+        if(enemyCount > 0) return;
+
         StartCoroutine(RoomClear());
     }
     public IEnumerator RoomClear()

@@ -47,8 +47,7 @@ public class ExplosionEnemyController:EnemyController
         Player.GetComponent<IDamagable>().GetDamaged(100);
 
         // 본인은 자폭
-        GetDamaged(Condition.GetValue(ConditionType.HP));
-        StateMachine.ChangeState(EnemyStateType.Die);
+        GetDamaged(Condition.GetValue(ConditionType.HP) + 1);
     }
 
     protected override void SetEnemyState()
@@ -56,6 +55,7 @@ public class ExplosionEnemyController:EnemyController
         StateMachine.AddState(EnemyStateType.Idle, new EnemyIdleState(StateMachine));
         StateMachine.AddState(EnemyStateType.Chase, new EnemyChaseState(StateMachine));
         StateMachine.AddState(EnemyStateType.Die, new EnemyDieState(StateMachine));
+        StateMachine.AddState(EnemyStateType.Hit, new EnemyHitState(StateMachine));
 
         StateMachine.StartStateMachine(EnemyStateType.Idle);
     }

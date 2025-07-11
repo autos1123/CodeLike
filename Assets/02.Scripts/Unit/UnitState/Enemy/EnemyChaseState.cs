@@ -29,14 +29,14 @@ public class EnemyChaseState : EnemyMoveState
         {
             // IdleState로 변환
             stateMachine.Enemy.SetPatrolPivot();
-            stateMachine.ChangeState(EnemyStateType.Idle);
-            return;
+            if(stateMachine.ChangeState(EnemyStateType.Idle))
+                return;
         }
         if(stateMachine.HasState(EnemyStateType.Attack) && stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
         {
             // AttackState로 변환
-            stateMachine.ChangeState(EnemyStateType.Attack);
-            return;
+            if(stateMachine.ChangeState(EnemyStateType.Attack))
+                return;
         }
     }
 

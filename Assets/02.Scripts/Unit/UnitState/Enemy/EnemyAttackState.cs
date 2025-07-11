@@ -41,16 +41,16 @@ public class EnemyAttackState : EnemyBaseState
             if(!stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
             {
                 // AttackState로 변환
-                stateMachine.ChangeState(EnemyStateType.Idle);
-                return;
+                if(stateMachine.ChangeState(EnemyStateType.Idle))
+                    return;
             }
 
             // 추적 범위는 벗어나지 않았고 공격 범위를 벗어남
             if(!stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
             {
                 // AttackState로 변환
-                stateMachine.ChangeState(EnemyStateType.Chase);
-                return;
+                if(stateMachine.ChangeState(EnemyStateType.Chase))
+                    return;
             }
         }
 
