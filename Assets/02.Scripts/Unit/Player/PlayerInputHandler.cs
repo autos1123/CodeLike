@@ -44,7 +44,7 @@ public class PlayerInputHandler:MonoBehaviour
         inputActions.Player.Jump.performed += ctx => JumpPressed = true;
         inputActions.Player.Attack.performed += ctx => AttackPressed = true;
         inputActions.Player.ChangeView.performed += ctx => ViewManager.Instance.ToggleView();
-        inputActions.Player.OpenOptions.performed += ctx => UIManager.Instance.ToggleUI<OptionBoard>();
+        inputActions.Player.OpenOptions.performed += OnOpenOption;
         inputActions.Player.OpenInventory.performed += ctx => UIManager.Instance.ToggleUI<InventoryUI>();
         inputActions.Player.OpenStatus.performed += ctx => UIManager.Instance.ToggleUI<StatusBoard>();
         inputActions.Player.OpenMinmap.performed += ctx => UIManager.Instance.ToggleUI<MinimapUI>();
@@ -96,5 +96,15 @@ public class PlayerInputHandler:MonoBehaviour
     public bool TestDamageKeyPressed()
     {
         return Keyboard.current.hKey.wasPressedThisFrame;
+    }
+
+    private void OnOpenOption(InputAction.CallbackContext context)
+    {
+        if(UIManager.Instance.GetUI<OptionBoard>().gameObject.activeSelf == false)
+            GameManager.Instance.setState(GameState.Stop);
+        else
+            GameManager.Instance.setState(GameState.Play);
+
+        UIManager.Instance.ToggleUI<OptionBoard>();
     }
 }
