@@ -11,7 +11,6 @@ public class PlayerAttackState:PlayerBaseState
     {
         base.StateEnter();
         player._Animator.SetTrigger("attack");
-        SoundManager.Instance.PlaySFX(player.transform.position, SoundAddressbleName.sfx1);
         startTime = Time.time;
     }
 

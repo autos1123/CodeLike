@@ -99,7 +99,15 @@ public class SoundManager : MonoSingleton<SoundManager>
         var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
         sound.transform.position = pos;
         SoundSource soundSource = sound.GetComponent<SoundSource>();
-        soundSource.Play(0.2f,sfxdic[key], true);
+        soundSource.Play(sfxdic[key], true);
+    }
+
+    public void PlaySFX(float time ,Vector3 pos, string key)
+    {
+        var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
+        sound.transform.position = pos;
+        SoundSource soundSource = sound.GetComponent<SoundSource>();
+        soundSource.Play(time, sfxdic[key], true);
     }
     public void PlayBGM(Vector3 pos, string key)
     {
