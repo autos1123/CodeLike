@@ -18,7 +18,6 @@ public class PlayerAttackState:PlayerBaseState
     public override void StateExit()
     {
         base.StateExit();
-        StartAnimation(player.AnimationData.IdleParameterHash);
     }
 
     public override void StateUpdate()

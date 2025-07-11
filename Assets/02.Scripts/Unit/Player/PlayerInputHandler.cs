@@ -70,6 +70,11 @@ public class PlayerInputHandler:MonoBehaviour
     private void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
+        if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
+        {
+            // 2D 모드에서는 y축 입력을 무시
+            MoveInput = new Vector2(MoveInput.x, 0);
+        }
         // 입력이 취소되면 (0, 0)이 자동으로 들어옴
     }
 

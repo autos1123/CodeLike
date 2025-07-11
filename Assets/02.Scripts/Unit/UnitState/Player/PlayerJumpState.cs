@@ -11,8 +11,6 @@ public class PlayerJumpState:PlayerBaseState
     {
         base.StateEnter();
 
-        StopAnimation(player.AnimationData.MoveParameterHash);
-
         StartAnimation(player.AnimationData.JumpParameterHash);
 
         float force = player.Condition.GetValue(ConditionType.JumpPower);
@@ -58,7 +56,6 @@ public class PlayerJumpState:PlayerBaseState
         if(!player.IsGrounded)
             return;
 
-        StopAnimation(player.AnimationData.JumpParameterHash);
         // 착지시 상태 전환
         stateMachine.ChangeState(stateMachine.IdleState);
     }

@@ -5,18 +5,20 @@ using UnityEngine;
 /// </summary>
 public class PlayerMoveState:PlayerBaseState
 {
+    private float inputDelay = 0f; // 입력 지연 시간
+    private float inputDelayTime = 0.1f; // 입력 지연 시간 설정
     public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) { }
-
+    
     public override void StateEnter()
     {
         base.StateEnter();
-        if(player.IsGrounded)
-            StartAnimation(player.AnimationData.MoveParameterHash);
+        StartAnimation(player.AnimationData.MoveParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
+        StopAnimation(player.AnimationData.MoveParameterHash);
     }
 
     public override void StateUpdate()
@@ -24,22 +26,25 @@ public class PlayerMoveState:PlayerBaseState
         base.StateUpdate();
         Vector2 move = player.InputHandler.MoveInput;
 
-        if(move.magnitude > 0.1f)
+        if(move != Vector2.zero)
         {
+            inputDelay = 0f;
             PlayerLookAt();
         }
         else
         {
-            StopAnimation(player.AnimationData.MoveParameterHash);
-            stateMachine.ChangeState(stateMachine.IdleState);
+            inputDelay += Time.deltaTime;
+            if(inputDelay >= inputDelayTime)
+            {
+                stateMachine.ChangeState(stateMachine.IdleState);
+            }
         }
 
         if(player.InputHandler.JumpPressed && player.IsGrounded)
         {
-            StopAnimation(player.AnimationData.MoveParameterHash);
             stateMachine.ChangeState(stateMachine.JumpState);
         }
-        
+
 
         if(player.InputHandler.AttackPressed)
             stateMachine.ChangeState(stateMachine.AttackState);

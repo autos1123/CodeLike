@@ -10,20 +10,20 @@ public class PlayerIdleState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-
-        StopAnimation(player.AnimationData.MoveParameterHash);
+        StartAnimation(player.AnimationData.IdleParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
+        StopAnimation(player.AnimationData.IdleParameterHash);
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        var move = stateMachine.Player.InputHandler.MoveInput;
-        if(move.magnitude > 0.1f)
+        Vector2 move = stateMachine.Player.InputHandler.MoveInput;
+        if(move != Vector2.zero)
         {
             stateMachine.ChangeState(stateMachine.MoveState); 
         }
