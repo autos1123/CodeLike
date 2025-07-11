@@ -64,9 +64,7 @@ public class UIManager:MonoSingleton<UIManager>
                     TooltipManager.Instance.RegisterTooltipUI(tableObj);
                 }
             }
-            Debug.Log("[TableManager] 테이블 로드 및 등록 완료");            
         };
-        Debug.Log("[UIManager] 등록된 UI 목록:");
         foreach(var kvp in _uiInstances)
         {
             Debug.Log($"- {kvp.Key}");

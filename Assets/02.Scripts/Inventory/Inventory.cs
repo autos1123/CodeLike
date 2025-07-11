@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public interface IInventory
 {
@@ -40,7 +39,7 @@ public class Inventory : MonoBehaviour, IInventory
     }
     
     /// <summary>
-    /// 테이블 매니저가 로드 완료될 때까지 대기 후, 슬롯 초기화 및 테스트 아이템 추가
+    /// 테이블 매니저가 로드 완료될 때까지 대기 후, 슬롯 초기화
     /// </summary>
     private IEnumerator WaitAndInitialize()
     {
@@ -50,27 +49,8 @@ public class Inventory : MonoBehaviour, IInventory
         PlayerActiveItemController = transform.GetComponent<PlayerActiveItemController>();
         Init();
         
-        // // 테스트 아이템 추가 (인벤토리슬로ㅓㅅ)
-        // var item_1 = itemDataTable.GetDataByID(6000);
-        // AddToInventory(item_1);
-        // var item_2 = itemDataTable.GetDataByID(6001);
-        // AddToInventory(item_2);
-        // var item_3 = itemDataTable.GetDataByID(6000);
-        // AddToInventory(item_3);
-        //
-        // //// 테스트 아이템 추가 (액티브아이템 슬롯)
-        // //var item_4 = activeItemDataTable.GetDataByID(4000);
-        // //AddtoActiveSlot(0, item_4, Skillinput.X);
-        // //var item_5 = activeItemDataTable.GetDataByID(4001);
-        // //AddtoActiveSlot(1, item_5, Skillinput.C);
-        
-        
-        
         Initialized = true;
         OnInitialized?.Invoke();
-        
-        UIManager.Instance.ShowUI<HUD>();
-
     }
     
     /// <summary>
@@ -90,15 +70,52 @@ public class Inventory : MonoBehaviour, IInventory
         for(int i = 0; i<2; i++)
             activeItemSlots.Add(new ActiveItemSlot());
     }
-    
-    
+
     /// <summary>
-    /// 비어 있는 슬롯에 아이템을 추가
+    /// 인벤토리에 아이템을 추가할 수 있는지 확인
+    /// 빈 슬롯이 있는지 여부만 확인
     /// </summary>
-    /// <param name="item">추가할 아이템</param>
-    /// <returns>성공적으로 추가되었는지 여부</returns>
+    /// <param name="item">추가하려는 아이템 데이터</param>
+    /// <returns>아이템을 추가할 수 있으면 true, 그렇지 않으면 false</returns>
+    public bool CanAddItem(ItemData item)
+    {
+        if(item == null)
+        {
+            Debug.LogWarning("Inventory: 추가하려는 아이템이 null입니다.");
+            return false;
+        }
+
+        // 빈슬롯 있는지 확인
+        foreach(var slot in inventorySlots)
+        {
+            if(slot.IsEmpty)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 인벤토리의 빈 슬롯에 아이템을 추가
+    /// 추가 불가 시 팝업 메시지 표시
+    /// </summary>
+    /// <param name="item">추가할 아이템 데이터</param>
+    /// <returns>성공 시 true, 실패 시 false</returns>
     public bool AddToInventory(ItemData item)
     {
+        // 먼저 추가 가능한지 확인
+        if (!CanAddItem(item))
+        {
+            UIManager.Instance.ShowConfirmPopup(
+                "인벤토리가 가득 차서 아이템을 추가할 수 없습니다.",
+                onConfirm: () => { },
+                onCancel: null,
+                confirmText: "확인"
+            );
+            return false;
+        }
         foreach (var slot in inventorySlots)
         {
             if (slot.IsEmpty)
@@ -107,6 +124,7 @@ public class Inventory : MonoBehaviour, IInventory
                 return true;
             }
         }
+        //혹시몰라 방어 코드임다
         UIManager.Instance.ShowConfirmPopup(
             "인벤토리가 가득 차서 아이템을 추가할 수 없습니다.",
             onConfirm: () => { },
@@ -195,9 +213,15 @@ public class Inventory : MonoBehaviour, IInventory
 
         return result;
     }
-    
+    /// <summary>
+    /// 인벤토리에서 특정 아이템을 제거
+    /// (해당 아이템이 있는 첫 번째 슬롯을 비움)
+    /// </summary>
+    /// <param name="item">제거할 아이템 데이터</param>
+    /// <returns>성공적으로 제거되었는지 여부</returns>
     public bool RemoveFromInventory(ItemData item)
     {
+        if (item == null) return false;
         foreach (var slot in inventorySlots)
         {
             if (!slot.IsEmpty && slot.InventoryItem == item)

@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -94,7 +95,6 @@ public class InteractionController:MonoBehaviour
 
         IInteractable currentBestInteractable = null;
         float minDistanceSq = float.MaxValue;
-
         for(int i = 0; i < hitColliders.Length; i++)
         {
             if(hitColliders[i].TryGetComponent(out IInteractable interactable))
@@ -141,7 +141,7 @@ public class InteractionController:MonoBehaviour
             if(interactTextTr != null) interactTextTr.gameObject.SetActive(false); // 숨기기
             return;
         }
-        interactTextTr.parent = parent;
+        interactTextTr.SetParent(parent,false);
         interactTextTr.localPosition = Vector3.zero;
         interactText.text = text;
     }
