@@ -17,8 +17,7 @@ public class StageManager:MonoSingleton<StageManager>
         ClearStage();
 
         int roomCountBase = GameManager.Instance.stageMapCountData[stageID];
-        int randomRoomCount = Random.Range(roomCountBase - 1, roomCountBase + 1);
-        generator.roomCount = randomRoomCount;
+        generator.roomCount = roomCountBase;
 
         generator.Generate(randomSeed);
         currentStage = generator.stageData; //  반드시 generator 내부에서 생성한 인스턴스를 그대로 받아야 함
