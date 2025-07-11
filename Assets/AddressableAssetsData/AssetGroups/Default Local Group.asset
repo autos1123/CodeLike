@@ -54,6 +54,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - DataTable
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9cdcb0d14e7d563408df30876b719d9f
+    m_Address: Assets/03.Prefaps/Pool/PlayerProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:

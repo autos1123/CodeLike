@@ -957,7 +957,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5876263009522624810}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2215,8 +2215,7 @@ GameObject:
   - component: {fileID: 3627773040631782984}
   - component: {fileID: 5371182808872668795}
   - component: {fileID: 8959532070832361162}
-  - component: {fileID: 5970882782395912081}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: StartPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2309,22 +2308,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &5970882782395912081
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2309354762340571195}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 1.91}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &2326363858131455725
 GameObject:
   m_ObjectHideFlags: 0
@@ -3222,7 +3205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7266983900237479201}
   - component: {fileID: 1044571974126046838}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MovementObstacle_PingPong
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3822,7 +3805,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3970572049665026508}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StartPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4974,7 +4957,7 @@ GameObject:
   - component: {fileID: 7129634453131460425}
   - component: {fileID: 4853027579469609061}
   - component: {fileID: 1043459354851564116}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: LaserCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5748,7 +5731,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4619829689293461590}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6169,7 +6152,7 @@ GameObject:
   - component: {fileID: 2157919316576468121}
   - component: {fileID: 6418604533071198948}
   - component: {fileID: 6494508088809543423}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: TestLaserObstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6717,8 +6700,7 @@ GameObject:
   - component: {fileID: 5985833282184165504}
   - component: {fileID: 3064689198033699160}
   - component: {fileID: 5828049722378493400}
-  - component: {fileID: 8980846436263218763}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: EndPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6811,22 +6793,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &8980846436263218763
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7240078270899838101}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &7247060191807369435
 GameObject:
   m_ObjectHideFlags: 0
@@ -7068,7 +7034,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 488418733474143644}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EndPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

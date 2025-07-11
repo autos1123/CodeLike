@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour, IPoolObject
 {
+    [SerializeField] private LayerMask layer;
     [SerializeField] private PoolType poolType;
     [SerializeField] private int poolSize = 10;
 

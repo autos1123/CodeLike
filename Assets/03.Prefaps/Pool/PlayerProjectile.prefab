@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3748381785341767325}
   - component: {fileID: 5540358359038538508}
   m_Layer: 0
-  m_Name: TestProjectile
+  m_Name: PlayerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,6 +120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layer:
     serializedVersion: 2
-    m_Bits: 256
-  poolType: 2
+    m_Bits: 512
+  poolType: 3
   poolSize: 10
