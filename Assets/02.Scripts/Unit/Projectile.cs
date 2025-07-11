@@ -21,12 +21,19 @@ public class Projectile : MonoBehaviour, IPoolObject
     private void Update()
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        
+        lifeTime -= Time.deltaTime;
+        if(lifeTime <= 0)
+        {
+            PoolManager.Instance.ReturnObject(this);
+            return;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         // 충돌 시 처리 로직
-        if(other.TryGetComponent(out IDamagable target) && ((1 << other.gameObject.layer) & LayerMask.GetMask("Player")) != 0)
+        if(other.TryGetComponent(out IDamagable target) && ((1 << other.gameObject.layer) & layer) != 0)
         {
             // 대상에게 피해를 입히는 로직
             target.GetDamaged(damage);
