@@ -61,7 +61,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
     public virtual bool GetDamaged(float damage)
     {
-        Knockback();
+        // Knockback();
 
         float defense = Condition.GetValue(ConditionType.Defense);
         float reducedDamage = Mathf.Max(0, damage - defense);
@@ -77,13 +77,13 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
     protected abstract void Die();
 
-    private void Knockback()
-    {
-        Vector3 dir = -transform.forward;  // 항상 내 뒤쪽
-        float knockbackStrength = 7f;      // 고정 세기
+    //private void Knockback()
+    //{
+    //    Vector3 dir = -transform.forward;  // 항상 내 뒤쪽
+    //    float knockbackStrength = 7f;      // 고정 세기
 
-        _Rigidbody.AddForce(dir * knockbackStrength, ForceMode.Impulse);
-    }
+    //    _Rigidbody.AddForce(dir * knockbackStrength, ForceMode.Impulse);
+    //}
 
     protected virtual void Initialize()
     {
