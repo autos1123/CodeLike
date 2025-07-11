@@ -8,7 +8,7 @@ public class PlayerAttackState:PlayerBaseState
     {
         base.StateEnter();
         player._Animator.SetTrigger("attack");
-        SoundManager.Instance.PlaySFX(player.transform.position, SoundAddressbleName.sfx1);
+        SoundManager.Instance.PlaySFX(player.transform.position, SoundAddressbleName.SWORD_09);
         stateMachine.ChangeState(stateMachine.IdleState);
     }
 

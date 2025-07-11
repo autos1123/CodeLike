@@ -24,6 +24,7 @@ public static class SoundAddressbleName
 {
     public const string bgm1 = "bgm1";
     public const string sfx1 = "sfx1";
+    public const string SWORD_09 = "SWORD_09";
 }
 public static class TableAddressble
 {
