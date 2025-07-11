@@ -15,11 +15,6 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     public int PoolSize => poolSize;
 
-    private void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
-
     public void Play(float delaeTime, AudioClip clip, bool issfx)
     {
         StartCoroutine(DelayRoutine(delaeTime, clip, issfx));
