@@ -37,6 +37,11 @@ public class Room : MonoBehaviour
     private void Start()
     {
         GetComponent<NavMeshSurface>()?.BuildNavMesh(); // NavMeshSurface가 있다면 빌드
+
+        foreach(var item in Enumys)
+        {
+            item.SetActive(true);
+        }
         if(Enumys.Count() == 0)
         {
             RoomClear();
