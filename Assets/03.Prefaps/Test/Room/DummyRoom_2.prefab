@@ -9140,6 +9140,7 @@ GameObject:
   - component: {fileID: 745710622255722570}
   - component: {fileID: 4989978590004810915}
   - component: {fileID: 6203069154772650647}
+  - component: {fileID: 3565017566184861383}
   m_Layer: 0
   m_Name: DummyRoom_2
   m_TagString: Untagged
@@ -9211,6 +9212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f570024187ba669498487fb906fb58ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  x: 0
+  y: 0
   playerSpawnPoint: {fileID: 828405001755484577}
   entranceUp: {fileID: 6827453344048884478}
   entranceDown: {fileID: 8930712636206517612}
@@ -9223,6 +9226,27 @@ MonoBehaviour:
   - {fileID: 5884440048800509554}
   - {fileID: 95722429502611473}
   - {fileID: 7712082885872421348}
+--- !u!65 &3565017566184861383
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6077389564974058983}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 100, y: 100, z: 100}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6129773138282846722
 GameObject:
   m_ObjectHideFlags: 0

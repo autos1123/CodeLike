@@ -225,7 +225,8 @@ Transform:
   m_LocalPosition: {x: 30.09, y: 1.15, z: 0}
   m_LocalScale: {x: 2.4946, y: 2.4946, z: 2.4946}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 9179810736135820225}
   m_Father: {fileID: 2417502924645606960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7728871786932447095
@@ -312,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPrompt: "[F] \uC2A4\uD14C\uC774\uC9C0 \uD074\uB9AC\uC5B4"
-  promptPivot: {fileID: 0}
+  promptPivot: {fileID: 9179810736135820225}
   room: {fileID: 0}
   rendererMesh: {fileID: 0}
   boxCollider: {fileID: 0}
@@ -639,6 +640,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicalCollider: {fileID: 6106647053912176125}
+--- !u!1 &5700401748637658593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9179810736135820225}
+  m_Layer: 10
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9179810736135820225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5700401748637658593}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 400966059775448477}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5711726819162286940
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,6 +1060,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2417502924645606960}
   - component: {fileID: -2219324679457793043}
+  - component: {fileID: 14000362877640985}
   m_Layer: 0
   m_Name: DummyEndRoom
   m_TagString: Untagged
@@ -1067,6 +1100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f570024187ba669498487fb906fb58ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  x: 0
+  y: 0
   playerSpawnPoint: {fileID: 8418808647358077813}
   entranceUp: {fileID: 3055756401103309608}
   entranceDown: {fileID: 348197337090350133}
@@ -1074,6 +1109,27 @@ MonoBehaviour:
   entranceRight: {fileID: 7349725530057876295}
   isClearRoom: 0
   Enumys: []
+--- !u!65 &14000362877640985
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6644655524022018225}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 100, y: 100, z: 100}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6811793177485034582
 GameObject:
   m_ObjectHideFlags: 0
