@@ -29,6 +29,8 @@ public class ProceduralStageGenerator:MonoBehaviour
     public StageData stageData;
     public List<Room> AllRooms { get; private set; } = new();
 
+    private bool isShopRoomSpawned;
+    private int shopRoomPlacementOrder;
 
     public List<Room> Generate(int seed)
     {
@@ -41,6 +43,9 @@ public class ProceduralStageGenerator:MonoBehaviour
         stageData = new StageData();
         stageData.InitializeGrid(gridWidth, gridHeight);
 
+        isShopRoomSpawned = false;
+        shopRoomPlacementOrder = random.Next(1, roomCount - 1);
+        
         Vector2Int startGridPos = new Vector2Int(0, 0);
         Stack<Vector2Int> stack = new();
         Dictionary<Vector2Int, int> roomIdMap = new();
@@ -56,7 +61,10 @@ public class ProceduralStageGenerator:MonoBehaviour
             RoomType type = RoomType.Normal;
             if(roomIdMap.Count == 0) type = RoomType.Start;
             else if(roomIdMap.Count == roomCount - 1) type = RoomType.Boss;
-
+            else if(roomIdMap.Count == shopRoomPlacementOrder && !isShopRoomSpawned)
+            {
+                type = RoomType.Shop;
+            }
             List<Direction> connectedDirs = new();
             foreach(var dir in GetShuffledDirections())
             {
