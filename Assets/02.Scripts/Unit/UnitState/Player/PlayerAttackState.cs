@@ -2,35 +2,37 @@ using UnityEngine;
 
 public class PlayerAttackState:PlayerBaseState
 {
+    private float attackDuration = 0.5f;
+    private float startTime;
+
     public PlayerAttackState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void StateEnter()
     {
         base.StateEnter();
         player._Animator.SetTrigger("attack");
-        stateMachine.ChangeState(stateMachine.IdleState);
-        
+        startTime = Time.time;
     }
 
     public override void StateExit()
     {
         base.StateExit();
     }
-    
+
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if(player.InputHandler.MoveInput.magnitude < 0.1f)
+
+        if(Time.time - startTime >= attackDuration)
+        {
             stateMachine.ChangeState(stateMachine.IdleState);
-
-        if(player.InputHandler.JumpPressed && player.IsGrounded)
-            stateMachine.ChangeState(stateMachine.JumpState);
-
-        if(player.InputHandler.AttackPressed)
-            stateMachine.ChangeState(stateMachine.AttackState);
+            return;
+        }
     }
+
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
+        Move(player.InputHandler.MoveInput); // 공격 중 이동 허용
     }
 }

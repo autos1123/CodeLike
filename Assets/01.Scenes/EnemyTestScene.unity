@@ -1279,6 +1279,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DummyRoom_4
       objectReference: {fileID: 0}
+    - target: {fileID: 2436820062996141847, guid: 0c317a4cec274d5458783422f3ccf1a3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6417799827322013712, guid: 0c317a4cec274d5458783422f3ccf1a3, type: 3}
       propertyPath: Enumys.Array.data[0]
       value: 
@@ -1586,7 +1590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &6344454215919170982
 MeshRenderer:
   m_ObjectHideFlags: 0

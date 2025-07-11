@@ -85,7 +85,7 @@ public class EnemyBaseState:IUnitState
     {
         float movementSpeed = GetMovementSpeed();
 
-        if(GetDistanceToTarget() < 1.0f)
+        if(GetDistanceToTarget() < 0.2f)
         {
             movementSpeed = 0f;
             stateMachine.Enemy.NavMeshAgent.acceleration = 0f; // NavMeshAgent의 가속도를 0으로 설정하여 정지 상태 유지
