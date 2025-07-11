@@ -262,10 +262,7 @@ MonoBehaviour:
   entranceLeft: {fileID: 4788205265329703020}
   entranceRight: {fileID: 4204111744703570904}
   isClearRoom: 0
-  Enumys:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  Enumys: []
 --- !u!1 &2778327371013505176
 GameObject:
   m_ObjectHideFlags: 0

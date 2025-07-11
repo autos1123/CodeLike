@@ -38,10 +38,7 @@ public class Room : MonoBehaviour
     {
         GetComponent<NavMeshSurface>()?.BuildNavMesh(); // NavMeshSurface가 있다면 빌드
 
-        foreach(var item in Enumys)
-        {
-            item.SetActive(true);
-        }
+
         if(Enumys.Count() == 0)
         {
             RoomClear();
@@ -54,6 +51,10 @@ public class Room : MonoBehaviour
         GridPosition = gridPos;
         Type = type;
 
+        foreach(var item in Enumys)
+        {
+            item.SetActive(true);
+        }
         ChackClear();
     }
     public void ChackClear()
