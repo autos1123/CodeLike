@@ -34,11 +34,18 @@ public class Room : MonoBehaviour
     public GameObject[] Enumys;
     public List<RoomConnection> Connections { get; private set; } = new();
 
-    private void Start()
+    private IEnumerator Start()
     {
-        GetComponent<NavMeshSurface>()?.BuildNavMesh(); // NavMeshSurface가 있다면 빌드
-
-
+        var surface = GetComponent<NavMeshSurface>();
+        if(surface != null)
+        {
+            surface.BuildNavMesh();
+            yield return null;
+        }
+        foreach(var item in Enumys)
+        {
+            item.SetActive(true);
+        }
         if(Enumys.Count() == 0)
         {
             RoomClear();
@@ -50,12 +57,6 @@ public class Room : MonoBehaviour
         Id = id;
         GridPosition = gridPos;
         Type = type;
-
-        foreach(var item in Enumys)
-        {
-            item.SetActive(true);
-        }
-        ChackClear();
     }
     public void ChackClear()
     {
