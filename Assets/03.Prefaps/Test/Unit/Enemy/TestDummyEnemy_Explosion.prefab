@@ -829,7 +829,8 @@ MonoBehaviour:
   fullSize: 20
   visualTransform: {fileID: 3280770444801531554}
   visualRotateSpeed: 10
-  stayTime: 2
+  room: {fileID: 0}
+  stayTime: 1
 --- !u!1 &2772843672967747882
 GameObject:
   m_ObjectHideFlags: 0
