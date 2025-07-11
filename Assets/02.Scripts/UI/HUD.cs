@@ -61,11 +61,9 @@ public class HUD:UIBase
 
     public void UpdateActiveItemIcons()
     {
-        Debug.Log($"[HUD] 아이템 슬롯 갱신 시도: {activeItemController.activeItemDatas.Count}개");
         // 0번 슬롯
         if(activeItemController != null && activeItemController.activeItemDatas.Count > 0 && activeItemController.activeItemDatas[0] != null)
         {
-            Debug.Log($"[HUD] 슬롯1: {activeItemController.activeItemDatas[0].name}, {activeItemController.activeItemDatas[0].IconPath}");
             ItemSlot1.sprite = Resources.Load<Sprite>(activeItemController.activeItemDatas[0].IconPath);
         }
         else
@@ -74,7 +72,6 @@ public class HUD:UIBase
         // 1번 슬롯
         if(activeItemController != null && activeItemController.activeItemDatas.Count > 1 && activeItemController.activeItemDatas[1] != null)
         {
-            Debug.Log($"[HUD] 슬롯2: {activeItemController.activeItemDatas[1].name}, {activeItemController.activeItemDatas[1].IconPath}");
             ItemSlot2.sprite = Resources.Load<Sprite>(activeItemController.activeItemDatas[1].IconPath);
         }
         else

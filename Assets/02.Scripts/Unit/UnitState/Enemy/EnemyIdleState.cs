@@ -75,7 +75,6 @@ public class EnemyIdleState : EnemyBaseState
             Vector3 sample = new Vector3(samplePosV2.x, 0, samplePosV2.y);
 
             int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
-            Debug.LogWarning($"Sample Position: {stateMachine.Enemy.patrolPivot + sample}, Walkable Mask: {walkableMask}");
             if(NavMesh.SamplePosition(stateMachine.Enemy.patrolPivot + sample, out hit, patrolRange, walkableMask))
             {
                 if(Vector3.Distance(stateMachine.Enemy.transform.position, hit.position) > patrolRange * 0.8f)
@@ -85,7 +84,6 @@ public class EnemyIdleState : EnemyBaseState
             }
         }
 
-        Debug.LogWarning("No valid wander location found within patrol range. Falling back to patrol pivot.");
         return stateMachine.Enemy.patrolPivot; // Fallback to patrol pivot if no valid position found
     }
 }

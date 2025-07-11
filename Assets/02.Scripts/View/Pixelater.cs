@@ -75,10 +75,8 @@ public class Pixelater : MonoBehaviour
     /// </summary>
     private void TryUpdatePixelateState()
     {
-        Debug.Log("TryUpdatePixelateState1");
         if (ViewManager.HasInstance)
         {
-            Debug.Log("TryUpdatePixelateState2");
             var mode = ViewManager.Instance.CurrentViewMode;
             _targetPixelate = (mode == ViewModeType.View2D) ? _pixelate : 0f;
         }
