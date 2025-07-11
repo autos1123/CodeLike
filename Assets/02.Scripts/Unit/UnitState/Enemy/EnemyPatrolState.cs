@@ -14,7 +14,6 @@ public class EnemyPatrolState : EnemyMoveState
     public override void StateEnter()
     {
         moveSpeedModifier = 1f;
-        stateMachine.Enemy.NavMeshAgent.isStopped = false; // NavMeshAgent를 정지시킴
         base.StateEnter();
 
         targetPos = stateMachine.PatrolPoint;
