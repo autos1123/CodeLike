@@ -10,23 +10,28 @@ public class StageManager:MonoSingleton<StageManager>
     public int seed = 0;
     public int stageID = 0;
 
+    private void Start()
+    {
+        LoadStage();
+    }
 
     public void LoadStage()
     {
         int randomSeed = Random.Range(0, int.MaxValue);
         ClearStage();
 
-        int roomCountBase = GameManager.Instance.stageMapCountData[stageID];
-        int randomRoomCount = Random.Range(roomCountBase - 1, roomCountBase + 1);
+        int baseCount = GameManager.Instance.stageMapCountData[stageID];
+        int randomRoomCount = Random.Range(baseCount - 1, baseCount + 1);
         generator.roomCount = randomRoomCount;
 
         generator.Generate(randomSeed);
-        currentStage = generator.stageData; //  반드시 generator 내부에서 생성한 인스턴스를 그대로 받아야 함
+        currentStage = generator.stageData;
         currentStage.stageID = stageID++;
 
         if(currentStage.startRoom != null)
         {
-           // currentStage.startRoom.SetRoomActive(true);
+            // 시작 방만 우선 활성화
+            currentStage.startRoom.SetRoomActive(true);
 
             currentStage.playerSpawnPoint = currentStage.startRoom.GetPlayerSpawnPoint();
             GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
@@ -35,18 +40,11 @@ public class StageManager:MonoSingleton<StageManager>
         {
             Debug.LogWarning("시작 방이 존재하지 않습니다.");
         }
-
-
-    }
-
-    void Start()
-    {
-        LoadStage();
-        // 나중에 저장 로직 추가 가능
     }
 
     public void ClearStage()
     {
+        // Destroy → 풀링 방출 로직으로 교체 가능
         foreach(var room in FindObjectsOfType<Room>())
             Destroy(room.gameObject);
 
