@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class StageManager:MonoSingleton<StageManager>
@@ -10,14 +11,15 @@ public class StageManager:MonoSingleton<StageManager>
     public int seed = 0;
     public int stageID = 0;
 
+    public event Action ChangeStage;
 
     public void LoadStage()
     {
-        int randomSeed = Random.Range(0, int.MaxValue);
+        int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
         ClearStage();
 
         int roomCountBase = GameManager.Instance.stageMapCountData[stageID];
-        int randomRoomCount = Random.Range(roomCountBase - 1, roomCountBase + 1);
+        int randomRoomCount = UnityEngine.Random.Range(roomCountBase - 1, roomCountBase + 1);
         generator.roomCount = randomRoomCount;
 
         generator.Generate(randomSeed);
@@ -35,13 +37,12 @@ public class StageManager:MonoSingleton<StageManager>
         {
             Debug.LogWarning("시작 방이 존재하지 않습니다.");
         }
-
-
+        ChangeStage?.Invoke();
     }
 
     void Start()
     {
-        LoadStage();
+        LoadStage();        
         // 나중에 저장 로직 추가 가능
     }
 
