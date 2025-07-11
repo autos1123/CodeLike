@@ -164,6 +164,9 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     {
         base.SetCharacterPauseMode(isPlaying);
 
+        if(StateMachine.CurrentStateType == EnemyStateType.Die)
+            return; // 죽은 상태에서는 일시정지 모드 변경을 하지 않음
+
         if(!isPlaying)
         {
             destinationTmp = NavMeshAgent.destination;
