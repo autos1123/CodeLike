@@ -7,42 +7,18 @@ using UnityEngine;
 /// </summary>
 public class ShopManager:MonoSingleton<ShopManager>
 {
-    private BaseCondition playerCondition;
+    
     private IInventory playerInventory;
     
-    /// <summary>
-    /// 테이블 로딩 여부 확인 후, 참조 초기화 메서드 등록 또는 실행
-    /// </summary>
     private void Start()
     {
-        if (!TableManager.Instance.loadComplete)
-            TableManager.Instance.loadComplet += SetupReferences;
-        else
-            SetupReferences();
+        StartCoroutine(InitializeShopManager());
     }
 
-    /// <summary>
-    /// 플레이어의 ConditionData 및 인벤토리 참조 설정
-    /// </summary>
-    private void SetupReferences()
+    
+    private IEnumerator InitializeShopManager()
     {
-        var conditionTable = TableManager.Instance.GetTable<ConditionDataTable>();
-        if (conditionTable == null)
-        {
-            Debug.LogError("ConditionDataTable을 찾을 수 없습니다.");
-            return;
-        }
-
-        var playerData = conditionTable.GetDataByID(0); // 플레이어 ID = 0
-        if (playerData == null)
-        {
-            Debug.LogError("ID 0인 ConditionData를 찾을 수 없습니다.");
-            return;
-        }
-
-        playerData.InitConditionDictionary();
-        playerCondition = new PlayerCondition(playerData);
-        
+        yield return new WaitUntil(() => GameManager.Instance != null && GameManager.Instance.Player != null);
         SetupInventory();
     }
     
@@ -72,6 +48,15 @@ public class ShopManager:MonoSingleton<ShopManager>
     /// </summary>
     public bool TryExecuteTransaction(List<InventoryItemSlot> sellItems, List<InventoryItemSlot> buyItems, out string result)
     {
+        PlayerController playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
+        BaseCondition playerCondition = playerController?.Condition;
+        
+        if (playerCondition == null)
+        {
+            result = "거래 실패: 플레이어 상태 정보가 초기화되지 않았습니다.";
+            Debug.LogError(result);
+            return false;
+        }
         
         int sellTotal = CalculateTotalPrice(sellItems, true, out string sellError);
         if (sellTotal < 0)
@@ -86,11 +71,7 @@ public class ShopManager:MonoSingleton<ShopManager>
             result = buyError;
             return false;
         }
-        if (playerCondition == null)
-        {
-            result = "플레이어 상태 정보가 초기화되지 않았습니다.";
-            return false;
-        }
+        
         if(!playerCondition.CurrentConditions.TryGetValue(ConditionType.Gold, out float currentGold))
         {
             result = "골드 정보 없음";
@@ -105,7 +86,7 @@ public class ShopManager:MonoSingleton<ShopManager>
         }
 
         // 골드 반영
-        playerCondition.CurrentConditions[ConditionType.Gold] = newGold;
+        playerCondition.ChangeGold(newGold - currentGold);
 
         // 아이템 제거/추가 (기존 메서드 사용)
         foreach(var slot in sellItems)
@@ -116,20 +97,6 @@ public class ShopManager:MonoSingleton<ShopManager>
 
         result = $"거래 완료! 현재 골드: {newGold}";
         return true;
-    }
-
-    /// <summary>
-    /// 플레이어의 현재 골드를 가져옴
-    /// </summary>
-    public bool TryGetGold(out float gold)
-    {
-        if (playerCondition != null && playerCondition.CurrentConditions.TryGetValue(ConditionType.Gold, out float currentGold))
-        {
-            gold = currentGold;
-            return true;
-        }
-        gold = 0;
-        return false;
     }
     
     /// <summary>

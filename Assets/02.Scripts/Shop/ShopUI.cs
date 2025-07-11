@@ -11,7 +11,10 @@ public class ShopUI : UIBase
 {
     public override string UIName => "ShopUI";
 
+    private PlayerController player;
     private IInventory playerInventory => GameManager.Instance.Player?.GetComponent<Inventory>();
+    private BaseCondition playerCondition => player?.Condition;
+    
     [SerializeField] private ShopInventory shopInventoryRaw;
     private IInventory shopInventory => shopInventoryRaw;
 
@@ -32,39 +35,15 @@ public class ShopUI : UIBase
     private HashSet<InventoryItemSlot> selectedSellItems = new(); //선택된 슬롯 기억리스트 (슬롯과 그 안에 아이템 함께기억)
     private HashSet<InventoryItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
     
-    private int inventoryInitCount = 0;
-    // /// <summary>
-    // /// 상점 UI 열기: 인벤토리 참조 설정 및 거래 버튼 이벤트 등록, 슬롯 초기화 코루틴 시작
-    // /// </summary>
-    // public override void Open()
-    // {
-    //     base.Open();
-    //
-    //     if (shopInventoryRaw == null)
-    //         shopInventoryRaw = FindObjectOfType<ShopInventory>();
-    //
-    //     UpdateGoldUI();
-    //     dealBtn.onClick.RemoveAllListeners();
-    //     dealBtn.onClick.AddListener(ExecuteTransaction);
-    //
-    //     if (shopInventoryRaw.Initialized && playerInventory.Initialized)
-    //         InitAndGenerate();
-    //     else
-    //         WaitForInit();
-    // }
     public void OpenWithInventory(ShopInventory inventory)
     {
         shopInventoryRaw = inventory;
         base.Open();
-
-        UpdateGoldUI();
+        
         dealBtn.onClick.RemoveAllListeners();
         dealBtn.onClick.AddListener(ExecuteTransaction);
 
-        if (shopInventoryRaw.Initialized && playerInventory.Initialized)
-            InitAndGenerate();
-        else
-            WaitForInit();
+        StartCoroutine(WaitForInitAndBind());
     }
     /// <summary>
     /// 상점 UI 닫기 시 선택된 아이템 상태 초기화
@@ -73,37 +52,39 @@ public class ShopUI : UIBase
     {
         base.Close();
         selectedSellItems.Clear();
+        UnsubscribeGoldUpdate();
     }
-    
-    // /// <summary>
-    // /// 인벤토리 초기화 대기 후 슬롯 생성 및 UI 업데이트 수행 (코루틴)
-    // /// </summary>
-    // private IEnumerator InitAndGenerate()
-    // {
-    //     yield return new WaitUntil(() =>
-    //         playerInventory  != null && playerInventory .Initialized &&
-    //         shopInventoryRaw != null && shopInventoryRaw.Initialized);
-    //
-    //     GenerateSlots();
-    //     UpdateTotalPrices();
-    // }
-    private void WaitForInit()
+    private IEnumerator WaitForInitAndBind()
     {
-        shopInventoryRaw.OnInitialized += OnInventoryReady;
-        playerInventory.OnInitialized += OnInventoryReady;
-    }
+        yield return new WaitUntil(() =>
+            GameManager.Instance != null && GameManager.Instance.Player != null && // 플레이어 존재 확인
+            GameManager.Instance.Player.GetComponent<PlayerController>() != null && // PlayerController 존재 확인
+            shopInventoryRaw != null && shopInventoryRaw.Initialized &&
+            playerInventory != null && playerInventory.Initialized &&
+            TableManager.Instance != null && TableManager.Instance.loadComplete);
 
-    private void OnInventoryReady()
-    {
-        inventoryInitCount++;
-        if (inventoryInitCount >= 2)
+        player = GameManager.Instance.Player.GetComponent<PlayerController>();
+        
+        yield return new WaitUntil(() => player.Condition != null);
+        Debug.Log("ShopUI: 플레이어 Condition 준비 완료.");
+        
+        InitAndGenerate();
+
+        if (playerCondition != null)
         {
-            shopInventoryRaw.OnInitialized -= OnInventoryReady;
-            playerInventory.OnInitialized -= OnInventoryReady;
-            InitAndGenerate();
+            if(playerCondition.statModifiers.ContainsKey(ConditionType.Gold))
+            {
+                playerCondition.statModifiers[ConditionType.Gold] -= UpdateGoldUI; // 기존 구독 해제
+                playerCondition.statModifiers[ConditionType.Gold] += UpdateGoldUI; // 새롭게 구독
+            }
+
+            UpdateGoldUI(); // 초기 UI 세팅
+        }
+        else
+        {
+            Debug.LogError("ShopUI: playerCondition을 찾을 수 없습니다.");
         }
     }
-
     private void InitAndGenerate()
     {
         GenerateSlots();
@@ -255,9 +236,9 @@ public class ShopUI : UIBase
     /// </summary>
     private void UpdateGoldUI()
     {
-        if(ShopManager.Instance.TryGetGold(out float gold))
+        if (playerCondition != null)
         {
-            curGoldText.text = $"보유골드: {gold}G";
+            curGoldText.text = $"보유골드: {playerCondition.GetValue(ConditionType.Gold)}G";
         }
         else
         {
@@ -298,5 +279,13 @@ public class ShopUI : UIBase
     {
         if (slot != null)
             selectedSellItems.Remove(slot);
+    }
+    
+    private void UnsubscribeGoldUpdate()
+    {
+        if (playerCondition != null && playerCondition.statModifiers.ContainsKey(ConditionType.Gold))
+        {
+            playerCondition.statModifiers[ConditionType.Gold] -= UpdateGoldUI;
+        }
     }
 }
