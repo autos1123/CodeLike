@@ -154,6 +154,7 @@ MonoBehaviour:
   fullSize: 0
   visualTransform: {fileID: 1089129758148175617}
   visualRotateSpeed: 10
+  room: {fileID: 0}
 --- !u!1 &45207045665930824
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,6 +424,7 @@ MonoBehaviour:
   fullSize: 0
   visualTransform: {fileID: 734554582581816026}
   visualRotateSpeed: 10
+  room: {fileID: 0}
 --- !u!1 &240074126564198381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1719,7 +1721,6 @@ GameObject:
   - component: {fileID: 4262883836919111594}
   - component: {fileID: 2685993836900236118}
   - component: {fileID: 1762081086340373442}
-  - component: {fileID: 1233596155585039700}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -1757,7 +1758,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803081102438210348}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1792,27 +1793,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1233596155585039700
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803081102438210348}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1815594053560627431
 GameObject:
   m_ObjectHideFlags: 0
@@ -4514,7 +4494,6 @@ GameObject:
   - component: {fileID: 2534542187573786741}
   - component: {fileID: 6750628244846790132}
   - component: {fileID: 1666866628170265820}
-  - component: {fileID: 5324545822009461403}
   m_Layer: 0
   m_Name: Portal (3)
   m_TagString: Untagged
@@ -4552,7 +4531,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5133988228425459569}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4587,27 +4566,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5324545822009461403
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5133988228425459569}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5157110439590042573
 GameObject:
   m_ObjectHideFlags: 0
@@ -5238,7 +5196,6 @@ GameObject:
   - component: {fileID: 3598907572811582873}
   - component: {fileID: 4243947357753119152}
   - component: {fileID: 5620764978409075371}
-  - component: {fileID: 6217542121344820854}
   m_Layer: 0
   m_Name: Portal (2)
   m_TagString: Untagged
@@ -5276,7 +5233,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5834796373922534197}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5311,27 +5268,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6217542121344820854
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5834796373922534197}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5922324358389978095
 GameObject:
   m_ObjectHideFlags: 0
@@ -7872,6 +7808,7 @@ MonoBehaviour:
   fullSize: 0
   visualTransform: {fileID: 4173872705500919778}
   visualRotateSpeed: 10
+  room: {fileID: 0}
   projectileOffset: {fileID: 4755539107502650685}
 --- !u!1 &9195626350948984634
 GameObject:
@@ -7916,7 +7853,6 @@ GameObject:
   - component: {fileID: 3102020920777457343}
   - component: {fileID: 7731192274746181925}
   - component: {fileID: 5008574335993506075}
-  - component: {fileID: 5638753628187684032}
   m_Layer: 0
   m_Name: Portal (1)
   m_TagString: Untagged
@@ -7954,7 +7890,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9196644205302447185}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7989,24 +7925,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5638753628187684032
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9196644205302447185}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

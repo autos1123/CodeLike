@@ -311,6 +311,7 @@ MonoBehaviour:
   fullSize: 20
   visualTransform: {fileID: 64554931285819077}
   visualRotateSpeed: 10
+  room: {fileID: 0}
   projectileOffset: {fileID: 993699582602667015}
 --- !u!1 &99926678706599133
 GameObject:
@@ -881,8 +882,6 @@ GameObject:
   - component: {fileID: 1113129519883180985}
   - component: {fileID: 9182242250021056042}
   - component: {fileID: 6374087296035367099}
-  - component: {fileID: 5187111504036287301}
-  - component: {fileID: 4800663897368218617}
   m_Layer: 0
   m_Name: Portal (1)
   m_TagString: Untagged
@@ -920,7 +919,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364199129917517677}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -955,47 +954,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5187111504036287301
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 364199129917517677}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4800663897368218617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 364199129917517677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
-  promptPivot: {fileID: 0}
-  room: {fileID: 0}
-  rendererMesh: {fileID: 0}
-  destinationPoint: {fileID: 0}
-  exitDirection: 3
-  offsetDistance: 3
-  cooldownDuration: 1
 --- !u!1 &394220371659558495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,6 +1777,7 @@ MonoBehaviour:
   fullSize: 20
   visualTransform: {fileID: 181191807082861497}
   visualRotateSpeed: 10
+  room: {fileID: 0}
 --- !u!1 &960418069276975594
 GameObject:
   m_ObjectHideFlags: 0
@@ -3573,8 +3532,6 @@ GameObject:
   - component: {fileID: 6827453344048884478}
   - component: {fileID: 3664465532053903565}
   - component: {fileID: 6397312153944834494}
-  - component: {fileID: 1245915775901579544}
-  - component: {fileID: 7820133577375066129}
   m_Layer: 0
   m_Name: Portal (3)
   m_TagString: Untagged
@@ -3612,7 +3569,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2190456411013195986}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3647,47 +3604,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1245915775901579544
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2190456411013195986}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7820133577375066129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2190456411013195986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
-  promptPivot: {fileID: 0}
-  room: {fileID: 0}
-  rendererMesh: {fileID: 0}
-  destinationPoint: {fileID: 0}
-  exitDirection: 0
-  offsetDistance: 3
-  cooldownDuration: 1
 --- !u!1 &2201902851650108646
 GameObject:
   m_ObjectHideFlags: 0
@@ -6846,8 +6762,6 @@ GameObject:
   - component: {fileID: 9030664848834441458}
   - component: {fileID: 8936412143562515322}
   - component: {fileID: 3521148238432957155}
-  - component: {fileID: 1841566314959348406}
-  - component: {fileID: 3240073586520046677}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -6885,7 +6799,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4599413012428146642}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6920,47 +6834,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1841566314959348406
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4599413012428146642}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3240073586520046677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4599413012428146642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
-  promptPivot: {fileID: 0}
-  room: {fileID: 0}
-  rendererMesh: {fileID: 0}
-  destinationPoint: {fileID: 0}
-  exitDirection: 2
-  offsetDistance: 3
-  cooldownDuration: 1
 --- !u!1 &4621164762444733334
 GameObject:
   m_ObjectHideFlags: 0
@@ -8571,8 +8444,6 @@ GameObject:
   - component: {fileID: 8930712636206517612}
   - component: {fileID: 4482037099454307225}
   - component: {fileID: 5084486407139756322}
-  - component: {fileID: 8606259122956929588}
-  - component: {fileID: 3976510200954420779}
   m_Layer: 0
   m_Name: Portal (2)
   m_TagString: Untagged
@@ -8610,7 +8481,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5706674467699018483}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8645,47 +8516,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8606259122956929588
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5706674467699018483}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3976510200954420779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5706674467699018483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
-  promptPivot: {fileID: 0}
-  room: {fileID: 0}
-  rendererMesh: {fileID: 0}
-  destinationPoint: {fileID: 0}
-  exitDirection: 1
-  offsetDistance: 3
-  cooldownDuration: 1
 --- !u!1 &5722562684166973444
 GameObject:
   m_ObjectHideFlags: 0
@@ -8966,6 +8796,7 @@ MonoBehaviour:
   fullSize: 20
   visualTransform: {fileID: 6048669791218186046}
   visualRotateSpeed: 10
+  room: {fileID: 0}
 --- !u!1 &5919937131914704909
 GameObject:
   m_ObjectHideFlags: 0
@@ -11108,6 +10939,7 @@ MonoBehaviour:
   fullSize: 20
   visualTransform: {fileID: 7055125570021638598}
   visualRotateSpeed: 10
+  room: {fileID: 0}
   projectileOffset: {fileID: 2385835033783120222}
 --- !u!1 &7716029826227782602
 GameObject:
@@ -13182,6 +13014,7 @@ MonoBehaviour:
   fullSize: 20
   visualTransform: {fileID: 2276899052788307458}
   visualRotateSpeed: 10
+  room: {fileID: 0}
 --- !u!1 &8938115893991380621
 GameObject:
   m_ObjectHideFlags: 0

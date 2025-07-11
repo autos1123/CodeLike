@@ -130,8 +130,6 @@ GameObject:
   - component: {fileID: 7004056754583302015}
   - component: {fileID: 6939208950743551996}
   - component: {fileID: 705603264377335615}
-  - component: {fileID: 4466022161522323218}
-  - component: {fileID: 3452403646111501510}
   m_Layer: 0
   m_Name: Portal (3)
   m_TagString: Untagged
@@ -204,43 +202,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4466022161522323218
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2014239061457682412}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3452403646111501510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2014239061457682412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destinationPoint: {fileID: 0}
-  exitDirection: 0
-  offsetDistance: 3
-  cooldownDuration: 1
 --- !u!1 &2367944128582134016
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,8 +266,6 @@ GameObject:
   - component: {fileID: 6811355913851004307}
   - component: {fileID: 607858466853767003}
   - component: {fileID: 9117123701448544525}
-  - component: {fileID: 6510365834022437300}
-  - component: {fileID: 4958169413952909218}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -379,43 +338,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6510365834022437300
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3590880942184622955}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4958169413952909218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3590880942184622955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destinationPoint: {fileID: 0}
-  exitDirection: 2
-  offsetDistance: 3
-  cooldownDuration: 1
 --- !u!1 &4175629315322130080
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,6 +762,8 @@ MonoBehaviour:
   entranceDown: {fileID: 2932483701123731304}
   entranceLeft: {fileID: 6811355913851004307}
   entranceRight: {fileID: 1339232650081553687}
+  isClearRoom: 0
+  Enumys: []
 --- !u!1 &7718449950630065232
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,8 +880,6 @@ GameObject:
   - component: {fileID: 2932483701123731304}
   - component: {fileID: 3700301319352819742}
   - component: {fileID: 6869365602314917395}
-  - component: {fileID: 5557070575046596691}
-  - component: {fileID: 2980778166678927045}
   m_Layer: 0
   m_Name: Portal (2)
   m_TagString: Untagged
@@ -1030,43 +952,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5557070575046596691
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8011903658103517533}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2980778166678927045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8011903658103517533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destinationPoint: {fileID: 0}
-  exitDirection: 1
-  offsetDistance: 3
-  cooldownDuration: 1
 --- !u!1 &8814144119790423437
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,8 +1188,6 @@ GameObject:
   - component: {fileID: 1339232650081553687}
   - component: {fileID: 39618569341380888}
   - component: {fileID: 4428705245769225912}
-  - component: {fileID: 762946784272396973}
-  - component: {fileID: 5272950388810648059}
   m_Layer: 0
   m_Name: Portal (1)
   m_TagString: Untagged
@@ -1377,43 +1260,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &762946784272396973
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9030491588080359175}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5272950388810648059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9030491588080359175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88760ad79f80d604b82fe82a35bf0bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destinationPoint: {fileID: 0}
-  exitDirection: 3
-  offsetDistance: 3
-  cooldownDuration: 1
 --- !u!1 &9158429646772190766
 GameObject:
   m_ObjectHideFlags: 0
