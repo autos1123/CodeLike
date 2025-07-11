@@ -37,6 +37,13 @@ public class EnemyIdleState : EnemyBaseState
     {
         base.StateUpdate();
 
+        if(stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
+        {
+            // AttackState로 변환
+            stateMachine.ChangeState(EnemyStateType.Attack);
+            return;
+        }
+
         if(stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
         {
             // MoveState로 변환
