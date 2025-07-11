@@ -26,7 +26,7 @@ public class StageManager:MonoSingleton<StageManager>
 
         if(currentStage.startRoom != null)
         {
-            currentStage.startRoom.SetRoomActive(true);
+           // currentStage.startRoom.SetRoomActive(true);
 
             currentStage.playerSpawnPoint = currentStage.startRoom.GetPlayerSpawnPoint();
             GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;

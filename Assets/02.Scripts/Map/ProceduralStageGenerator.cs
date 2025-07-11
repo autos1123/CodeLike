@@ -121,7 +121,7 @@ public class ProceduralStageGenerator:MonoBehaviour
 
         room.Initialize(nextRoomID++, gridPos, type);
 
-        room.SetRoomActive(false);
+       // room.SetRoomActive(false);
 
         AllRooms.Add(room);
 
@@ -158,11 +158,15 @@ public class ProceduralStageGenerator:MonoBehaviour
     }
     public void PlaceConnections()
     {
+
         foreach(var conn in stageData.connections)
         {
             if (!stageData.roomMap.TryGetValue(conn.FromRoomID, out var fromRoom) ||
                 !stageData.roomMap.TryGetValue(conn.ToRoomID, out var toRoom))
                 continue;
+
+            fromRoom.AddConnection(conn);
+            toRoom.AddConnection(new RoomConnection(conn.ToRoomID, conn.FromRoomID, Room.GetOppositeDirection(conn.Direction)));
 
 
             CreatePortal(fromRoom, toRoom, conn.Direction);

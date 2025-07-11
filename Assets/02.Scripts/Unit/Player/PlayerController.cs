@@ -230,7 +230,7 @@ public class PlayerController:BaseController<PlayerCondition>
         }
 
 
-        foreach(var room in allRooms)
-            room.SetRoomActive(activeSet.Contains(room));
+     //   foreach(var room in allRooms)
+        //    room.SetRoomActive(activeSet.Contains(room));
     }
 }
