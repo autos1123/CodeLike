@@ -116,6 +116,8 @@ public class PlayerController:BaseController<PlayerCondition>
         Condition = new PlayerCondition(InitConditionData());
         AnimationData = new PlayerAnimationData();
         StateMachine = new PlayerStateMachine(this);
+
+        UIManager.Instance.ShowUI<HUD>();
         // 인벤토리 초기화 
         Inventory inventory = GetComponent<Inventory>();
         if(inventory != null)

@@ -8,8 +8,8 @@ public class PlayerAttackState:PlayerBaseState
     {
         base.StateEnter();
         player._Animator.SetTrigger("attack");
-        SoundManager.Instance.PlaySFX(player.transform.position, SoundAddressbleName.SWORD_09);
         stateMachine.ChangeState(stateMachine.IdleState);
+        SoundManager.Instance.PlaySFX(player.transform.position, SoundAddressbleName.SWORD_09);
     }
 
     public override void StateExit()
