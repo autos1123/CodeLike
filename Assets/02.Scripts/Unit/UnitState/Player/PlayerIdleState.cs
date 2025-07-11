@@ -10,6 +10,7 @@ public class PlayerIdleState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
+
         StopAnimation(player.AnimationData.MoveParameterHash);
     }
 
