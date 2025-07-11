@@ -8,7 +8,9 @@ public class RoomPrefabSet : ScriptableObject
     public GameObject bossRoom;
 
     [SerializeField]
-    public List<GameObject> normalRooms; 
+    public List<GameObject> normalRooms;
+
+    public GameObject shopRoom;
 
     public GameObject GetRandomPrefab(RoomType type)
     {
@@ -17,7 +19,9 @@ public class RoomPrefabSet : ScriptableObject
             RoomType.Start => startRoom,
             RoomType.Boss => bossRoom,
             RoomType.Normal => normalRooms[Random.Range(0, normalRooms.Count)],
+            RoomType.Shop => shopRoom,
             _ => normalRooms[0],
+            
         };
     }
 }
