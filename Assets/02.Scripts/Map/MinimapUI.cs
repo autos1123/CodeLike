@@ -21,7 +21,7 @@ public class MinimapUI: UIBase
         if(player == null) player = GameManager.Instance.Player.GetComponent<PlayerController>();
 
         BuildMinimap(StageManager.Instance.currentStage);        
-        minimapRoot.GetComponent<RectTransform>().anchoredPosition = -1 * new Vector2( player.CurrentRoom.x* 200, player.CurrentRoom.y * 200);
+        minimapRoot.GetComponent<RectTransform>().anchoredPosition = -1 * new Vector2( player.CurrentRoom.x* 250, player.CurrentRoom.y * 250);
 
         Rooms[(player.CurrentRoom.x, player.CurrentRoom.y)].transform.GetComponent<Outline>().enabled = true;
     }
