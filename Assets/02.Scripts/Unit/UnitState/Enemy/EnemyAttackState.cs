@@ -34,11 +34,24 @@ public class EnemyAttackState : EnemyBaseState
     {
         base.StateUpdate();
 
-        if(!stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
+        if(stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
+            stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
-            // AttackState로 변환
-            stateMachine.ChangeState(EnemyStateType.Chase);
-            return;
+            // 추적 범위를 벗어남
+            if(!stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
+            {
+                // AttackState로 변환
+                if(stateMachine.ChangeState(EnemyStateType.Idle))
+                    return;
+            }
+
+            // 추적 범위는 벗어나지 않았고 공격 범위를 벗어남
+            if(!stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
+            {
+                // AttackState로 변환
+                if(stateMachine.ChangeState(EnemyStateType.Chase))
+                    return;
+            }
         }
 
         Vector3 movementDirection = GetMovementDirection(stateMachine.Player.transform.position);

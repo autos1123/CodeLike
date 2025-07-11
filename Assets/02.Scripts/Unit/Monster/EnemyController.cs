@@ -117,6 +117,18 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     /// </summary>
     protected abstract void SetEnemyState();
 
+    public override bool GetDamaged(float damage)
+    {
+        bool isAllive = base.GetDamaged(damage);
+
+        if(isAllive)
+        {
+            StateMachine.ChangeState(EnemyStateType.Hit); // 데미지를 받았을 때 상태 변경
+        }
+
+        return isAllive;
+    }
+
     public void HpBarUpdate()
     {
         HpUI.HpBarUpdate(Condition.GetConditionRatio(ConditionType.HP));
@@ -163,6 +175,9 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     protected override void SetCharacterPauseMode(bool isPlaying)
     {
         base.SetCharacterPauseMode(isPlaying);
+
+        if(StateMachine.CurrentStateType == EnemyStateType.Die)
+            return; // 죽은 상태에서는 일시정지 모드 변경을 하지 않음
 
         if(!isPlaying)
         {

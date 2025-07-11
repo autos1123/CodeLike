@@ -5,6 +5,7 @@ public enum PoolType
     none,
     temp,
     projectile,
+    PlayerProjectile,
     hpBar,
     SoundSource
 }

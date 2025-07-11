@@ -1107,7 +1107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5885360083011213054, guid: 2b62eb8cd2173b34cb6d8d5cd044f860, type: 3}
       propertyPath: stageMapCountData.Array.data[0]
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7977861511716975344, guid: 2b62eb8cd2173b34cb6d8d5cd044f860, type: 3}
       propertyPath: m_LocalPosition.x

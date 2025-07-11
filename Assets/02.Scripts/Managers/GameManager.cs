@@ -51,6 +51,10 @@ public class GameManager : MonoSingleton<GameManager>
         onDestinyChange -= HandleDestinyChange;
     }
 
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {

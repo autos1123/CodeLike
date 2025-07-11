@@ -23,21 +23,10 @@ public class EndPoint : MonoBehaviour, IInteractable
         boxCollider = GetComponent<BoxCollider>();
         rendererMesh.enabled = false;
         boxCollider.enabled = false;
-        room.onRoomClear += onPotal;
-    }
-    private Vector3 GetDirectionVector(Direction dir)
-    {
-        return dir switch
-        {
-            Direction.Up => Vector3.up,
-            Direction.Down => Vector3.down,
-            Direction.Left => Vector3.left,
-            Direction.Right => Vector3.right,
-            _ => Vector3.zero
-        };
+        room.onRoomClear += on;
     }
 
-    public void onPotal()
+    public void on()
     {
         rendererMesh.enabled = true;
         boxCollider.enabled = true;
@@ -46,11 +35,11 @@ public class EndPoint : MonoBehaviour, IInteractable
     public void OnEnable()
     {
         if(room == null) return;
-        room.onRoomClear -= onPotal;
+        room.onRoomClear -= on;
     }
     public void Interact(GameObject other)
     {
-
+        StageManager.Instance.LoadStage();
         Debug.Log("끝");
         return;
 

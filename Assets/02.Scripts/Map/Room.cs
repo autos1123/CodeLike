@@ -14,10 +14,10 @@ public enum RoomType
     Event
 }
 
-public class Room:MonoBehaviour
+public class Room : MonoBehaviour
 {
-    public int Id { get; private set; }
-    public Vector2Int GridPosition { get; private set; }
+    public int Id {  get; private set; }
+    public Vector2Int GridPosition { get; private set; } // 생성 시 사용한 그리드 위치
     public RoomType Type { get; private set; }
 
     [Header("Anchor")]
@@ -28,16 +28,32 @@ public class Room:MonoBehaviour
     public Transform entranceRight;
 
     public bool isClearRoom = false;
+
     public event Action onRoomClear;
 
     public GameObject[] Enumys;
+    private int enemyCount;
+
     public List<RoomConnection> Connections { get; private set; } = new();
 
-    private void Start()
+    private IEnumerator Start()
     {
-        GetComponent<NavMeshSurface>()?.BuildNavMesh();
-        if(Enumys.Length == 0)
+        var surface = GetComponent<NavMeshSurface>();
+        if(surface != null)
+        {
+            surface.BuildNavMesh();
+            yield return null;
+        }
+        foreach(var item in Enumys)
+        {
+            item.SetActive(true);
+        }
+        if(Enumys.Count() == 0)
+        {
             StartCoroutine(RoomClear());
+        }
+
+        enemyCount = Enumys.Length;
     }
 
     public void Initialize(int id, Vector2Int gridPos, RoomType type)
@@ -45,28 +61,35 @@ public class Room:MonoBehaviour
         Id = id;
         GridPosition = gridPos;
         Type = type;
-        ChackClear();
     }
-
     public void ChackClear()
     {
-        foreach(var e in Enumys)
-            if(e.activeInHierarchy)
-                return;
+        enemyCount--;
+
+        if(enemyCount > 0) return;
+
         StartCoroutine(RoomClear());
     }
-
     public IEnumerator RoomClear()
     {
         yield return new WaitForSeconds(1f);
         isClearRoom = true;
         onRoomClear?.Invoke();
     }
+    public void AddConnection(RoomConnection conn)
+    {
+        Connections.Add(conn);
+    }
 
-    public void AddConnection(RoomConnection conn) => Connections.Add(conn);
+    public Vector3 GetPlayerSpawnPoint()
+    {
+        return playerSpawnPoint != null  ? playerSpawnPoint.position : transform.position; 
+    }
 
-    public Vector3 GetPlayerSpawnPoint() =>
-        playerSpawnPoint != null ? playerSpawnPoint.position : transform.position;
+    public void SetRoomActive(bool isactive)
+    {
+        gameObject.SetActive(isactive);
+    }
 
     public MinimapRoomData GetMinimapData()
     {
@@ -78,9 +101,9 @@ public class Room:MonoBehaviour
             connectedDirections = new List<Direction>()
         };
 
-        foreach(var conn in Connections)
+        foreach (var conn in Connections)
         {
-            if(conn.FromRoomID == Id)
+            if (conn.FromRoomID == Id)
                 data.connectedDirections.Add(conn.Direction);
             else if(conn.ToRoomID == Id)
                 data.connectedDirections.Add(GetOppositeDirection(conn.Direction));
@@ -89,42 +112,42 @@ public class Room:MonoBehaviour
         return data;
     }
 
-    public static Direction GetOppositeDirection(Direction dir) => dir switch
+    public static Direction GetOppositeDirection(Direction dir)
     {
-        Direction.Up => Direction.Down,
-        Direction.Down => Direction.Up,
-        Direction.Left => Direction.Right,
-        Direction.Right => Direction.Left,
-        _ => dir,
-    };
-
-    public Transform GetEntranceAnchor(Direction dir) => dir switch
-    {
-        Direction.Up => entranceUp,
-        Direction.Down => entranceDown,
-        Direction.Left => entranceLeft,
-        Direction.Right => entranceRight,
-        _ => null,
-    };
-
-    public Transform GetSponPos() => playerSpawnPoint;
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player"))
+        return dir switch
         {
-            var pc = other.GetComponent<PlayerController>();
-            if(pc != null)
-                pc.SetCurrentRoom(this);
-        }
+            Direction.Up => Direction.Down,
+            Direction.Down => Direction.Up,
+            Direction.Left => Direction.Right,
+            Direction.Right => Direction.Left,
+            _ => dir
+        };
+    }
+    public Transform GetEntranceAnchor(Direction dir)
+    {
+        return dir switch
+        {
+            Direction.Up => entranceUp,
+            Direction.Down => entranceDown,
+            Direction.Left => entranceLeft,
+            Direction.Right => entranceRight,
+            _ => null
+        };
     }
 
-    // 방 활성화/비활성화 (풀링 시 오브젝트 할당 해제 대신 사용)
-    public void SetRoomActive(bool isActive)
+    public Transform GetSponPos()
     {
-        gameObject.SetActive(isActive);
-        // 방 비활성화 시에도 포탈은 항상 활성화
-        foreach(var portal in GetComponentsInChildren<Portal>(true))
-            portal.gameObject.SetActive(true);
+        return playerSpawnPoint;
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerController pc = other.GetComponent<PlayerController>();
+            if (pc != null)
+            {
+                pc.SetCurrentRoom(this);
+            }
+        }
     }
 }

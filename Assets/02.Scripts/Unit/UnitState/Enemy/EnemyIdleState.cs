@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyIdleState : EnemyBaseState
+public class EnemyIdleState:EnemyBaseState
 {
     private float waitingStartTime;
     private float waitingEndTime = 2f;
@@ -37,11 +37,18 @@ public class EnemyIdleState : EnemyBaseState
     {
         base.StateUpdate();
 
+        if(stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
+        {
+            // AttackState로 변환
+            if(stateMachine.ChangeState(EnemyStateType.Attack))
+                return;
+        }
+
         if(stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
         {
             // MoveState로 변환
-            stateMachine.ChangeState(EnemyStateType.Chase);
-            return;
+            if(stateMachine.ChangeState(EnemyStateType.Chase))
+                return;
         }
 
         if(stateMachine.HasState(EnemyStateType.Patrol))
@@ -50,8 +57,8 @@ public class EnemyIdleState : EnemyBaseState
             {
                 // 대기 시간이 끝나면 Target을 다음 PatrolPoint로 설정 후 MoveState로 전환
                 stateMachine.SetPatrolPoint(nextPoint);
-                stateMachine.ChangeState(EnemyStateType.Patrol);
-                return;
+                if(stateMachine.ChangeState(EnemyStateType.Patrol))
+                    return;
             }
         }
     }

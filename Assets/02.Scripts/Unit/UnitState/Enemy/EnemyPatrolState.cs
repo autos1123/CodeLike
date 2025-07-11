@@ -35,16 +35,16 @@ public class EnemyPatrolState : EnemyMoveState
         if(stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
         {
             // ChaseState로 전환
-            stateMachine.ChangeState(EnemyStateType.Chase);
-            return;
+            if(stateMachine.ChangeState(EnemyStateType.Chase))
+                return;
         }
 
         // 목표 지점에 도착한 경우
         if(IsArrivePatrolPoint())
         {
             // IdleState로 전환
-            stateMachine.ChangeState(EnemyStateType.Idle);
-            return;
+            if(stateMachine.ChangeState(EnemyStateType.Idle))
+                return;
         }
     }
 

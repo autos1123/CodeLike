@@ -17,8 +17,9 @@ public class TableManager:MonoSingleton<TableManager>
 
     public event Action loadComplet;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         LoadTablesAsync();
     }
 
