@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 
 public class SoundSource : MonoBehaviour ,IPoolObject
 {
-    AudioSource audioSource;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] AudioMixer audioMixer;
 
     [SerializeField] private PoolType poolType;
@@ -28,8 +28,10 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     public void Play(AudioClip clip,bool issfx)
     {
-        if(issfx) audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
-        else audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("BGM")[0];
+        if(issfx) 
+            audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
+        else 
+            audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("BGM")[0];
 
         audioSource.clip = clip;
         audioSource.Play();
