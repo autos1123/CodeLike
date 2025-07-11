@@ -48,7 +48,7 @@ public class Room : MonoBehaviour
         }
         if(Enumys.Count() == 0)
         {
-            RoomClear();
+            StartCoroutine(RoomClear());
         }
     }
 
