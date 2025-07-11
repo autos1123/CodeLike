@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 
+[System.Serializable]
 public enum RoomType
 {
     Start,
@@ -34,6 +35,11 @@ public class Room : MonoBehaviour
     public GameObject[] Enumys;
     public List<RoomConnection> Connections { get; private set; } = new();
 
+
+
+    public int x;
+    public int y;
+
     private IEnumerator Start()
     {
         var surface = GetComponent<NavMeshSurface>();
@@ -56,6 +62,7 @@ public class Room : MonoBehaviour
     {
         Id = id;
         GridPosition = gridPos;
+        x = gridPos.x; y = gridPos.y;
         Type = type;
     }
     public void ChackClear()

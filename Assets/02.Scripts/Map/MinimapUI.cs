@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,21 +9,25 @@ public class MinimapUI: UIBase
     public GameObject roomIconPrefab;
     public float roomSpacing = 5f; // 방 간격
 
-    Transform player;
+    Dictionary<(int x, int y), GameObject> Rooms = new();
+
+    PlayerController player;
     public override string UIName => "MinimapUI"; // 중요!
 
     public Transform minimapRoot; // 빈 오브젝트, 미니맵 아이콘 모음용
     public override void Open()
     {
         base.Open();
-        if(player == null) player = GameManager.Instance.Player.transform;
+        if(player == null) player = GameManager.Instance.Player.GetComponent<PlayerController>();
 
         BuildMinimap(StageManager.Instance.currentStage);        
-        minimapRoot.GetComponent<RectTransform>().anchoredPosition = -1 * new Vector2( (int)(player.localPosition.x/250+0.5)* 200, (int)(player.localPosition.y / 250+ 0.5) * 200);
+        minimapRoot.GetComponent<RectTransform>().anchoredPosition = -1 * new Vector2( player.CurrentRoom.x* 200, player.CurrentRoom.y * 200);
+
+        Rooms[(player.CurrentRoom.x, player.CurrentRoom.y)].transform.GetComponent<Outline>().enabled = true;
     }
     public override void Close()
     {
-
+        Rooms[(player.CurrentRoom.x, player.CurrentRoom.y)].transform.GetComponent<Outline>().enabled = false;
         base.Close();
     }
 
@@ -42,6 +47,8 @@ public class MinimapUI: UIBase
                 room.worldPosition.x * roomSpacing,
                 room.worldPosition.y * roomSpacing
             );
+
+            Rooms[((int)(room.worldPosition.x/250),(int)(room.worldPosition.y / 250))] = icon;
 
             var img = icon.GetComponent<Image>();
             img.color = GetColorByRoomType(room.type);
