@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UI
+  m_EditorClassIdentifier: 
+  m_GroupName: UI
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 7b0208339ac7c344a838cd7398534604
+  m_SerializeEntries:
+  - m_GUID: 9b31fbe034564294ca786abd968d0974
+    m_Address: DestinyBoard
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 502ce5f10d34a30409395a2255681c05
+    m_Address: EnhanceBoard
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4b742a1ce8b106438b3e8be3185cf96
+    m_Address: Inventory
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e5186ca63bf7c64e990f6d05d92f301
+    m_Address: Assets/03.Prefaps/UI/Option.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    - TitleUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6e5b415a198f61419cbcfbc3489f174
+    m_Address: Assets/03.Prefaps/UI/Shop.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: faba5c5bb478bc045881debd7522ab2c
+    m_Address: Assets/03.Prefaps/UI/TooltipUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 801ec74aa321ed54e9161244be571202
+    m_Address: Assets/03.Prefaps/UI/ConfirmPopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1baf2cfdc6fed34bbf887e39803ab12
+    m_Address: Assets/03.Prefaps/UI/TakeActiveItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de49063e26f6fbf4e9c7a1960af7cef9
+    m_Address: Assets/03.Prefaps/UI/Map.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd29016b8bb6c3946b9f587da90b5c5f
+    m_Address: Assets/03.Prefaps/UI/TakeItemBox.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 75ebb685a3269b441895e14c4c71dc05, type: 2}
+    - {fileID: 11400000, guid: a7ed35362022b3e4890d50e2f6cbd915, type: 2}
