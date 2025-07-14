@@ -33,16 +33,6 @@ public class SoundManager : MonoSingleton<SoundManager>
         sfxdic = new Dictionary<string, AudioClip>();
     }
 
-    //테스트용 추후에 지움
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.F1))
-        {
-            Debug.Log("f1");
-            PlayBGM(GameManager.Instance.Player.transform , SoundAddressbleName.bgm1);
-        }
-    }
-
     /// <summary>
     /// 어드레서블에 등록된 BGM , SFX불러오기
     /// </summary>

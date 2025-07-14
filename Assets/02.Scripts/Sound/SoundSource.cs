@@ -63,7 +63,6 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     private void HandleViewModeChange(ViewModeType viewModeType)
     {
-        if(viewModeType == ViewModeType.View2D) audioSource.spatialBlend = 0;
-        else audioSource.spatialBlend = 1;
+        audioSource.spatialBlend = (viewModeType == ViewModeType.View2D) ? 0f : 1f;
     }
 }
