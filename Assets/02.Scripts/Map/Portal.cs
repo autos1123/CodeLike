@@ -82,8 +82,8 @@ public class Portal:MonoBehaviour,IInteractable
             rb.velocity = Vector3.zero;
         }
 
-        Vector3 offset = GetDirectionVector(exitDirection) * offsetDistance;
-        other.transform.position = destinationPoint.position + offset;
+        // Vector3 offset = GetDirectionVector(exitDirection) * offsetDistance;
+        other.transform.position = destinationPoint.position;
 
         rb.interpolation = RigidbodyInterpolation.Interpolate;
 
