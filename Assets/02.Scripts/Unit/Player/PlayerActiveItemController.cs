@@ -18,6 +18,7 @@ public class PlayerActiveItemController:MonoBehaviour
     private Dictionary<SkillType, ISkillExecutor> executors;
     private PlayerController playerController;
     public List<ActiveItemData> activeItemDatas = new();
+    [SerializeField] private Transform projectileSpawnPos;
 
     private void Awake()
     {
@@ -75,6 +76,6 @@ public class PlayerActiveItemController:MonoBehaviour
         }
 
         var used = TableManager.Instance.GetTable<ActiveItemEffectDataTable>().GetDataByID(activeItemDatas[index].skillID);
-        executors[used.Type].Execute(used, playerController.VisualTransform, playerController.VisualTransform.forward);
+        executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
     }
 }

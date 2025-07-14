@@ -25,8 +25,6 @@ public class UIManager:MonoSingleton<UIManager>
     {
         // Addressables 로딩이 끝나고
         yield return new WaitUntil(() => StageManager.Instance.currentStage != null);
-
-        BuildMinimap(StageManager.Instance.currentStage);
     }
 
     /// <summary>
@@ -131,17 +129,5 @@ public class UIManager:MonoSingleton<UIManager>
         else _onUILoaded.Add(callback);
     }
 
-    public void BuildMinimap(StageData stageData)
-    {
-        if(TryGetUI<MinimapUI>(out var minimap))
-        {
-            var minimapData = MinimapBuilder.BuildFromStage(stageData, stageData.connections);
-            minimap.GenerateMinimap(minimapData);
-            Debug.Log($" Minimap 생성 완료: {minimapData.Count}개 방");
-        }
-        else
-        {
-            Debug.LogError(" MinimapUI를 찾을 수 없습니다.");
-        }
-    }
+
 }

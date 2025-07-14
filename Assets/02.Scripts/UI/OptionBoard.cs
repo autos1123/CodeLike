@@ -205,7 +205,7 @@ public class OptionBoard : UIBase
 
     private void OnClickExitToGameButton()
     {
-        Debug.Log("게임으로 돌아갑니다."); // 게임으로 돌아가는 버튼 클릭 이벤트
+        GameManager.Instance.setState(GameState.Play); // 게임 상태를 Playing으로 변경
         UIManager.Instance.Hide<OptionBoard>(); // 옵션 UI 비활성화
     }
 }

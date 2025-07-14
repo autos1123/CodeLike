@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 6898284051146785974}
   - component: {fileID: 1708482709215495350}
   - component: {fileID: 6417799827322013712}
+  - component: {fileID: -6285370284964411668}
   m_Layer: 0
   m_Name: DummyRoom_4
   m_TagString: Untagged
@@ -256,6 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f570024187ba669498487fb906fb58ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  x: 0
+  y: 0
   playerSpawnPoint: {fileID: 8994699783086558584}
   entranceUp: {fileID: 625232888586804716}
   entranceDown: {fileID: 337986642345884801}
@@ -263,6 +266,27 @@ MonoBehaviour:
   entranceRight: {fileID: 4204111744703570904}
   isClearRoom: 0
   Enumys: []
+--- !u!65 &-6285370284964411668
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2436820062996141847}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 100, y: 100, z: 100}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2778327371013505176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,7 +1068,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8161348411682705870}
   m_Layer: 0
-  m_Name: Obstacles
+  m_Name: GroundObstacles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
