@@ -1,10 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 
 public enum Skillinput
@@ -55,7 +50,6 @@ public class PlayerActiveItemController:MonoBehaviour
         }
 
         activeItemDatas[index] = activeItemData;
-        Debug.Log($"슬롯 {index}에 아이템 {activeItemData?.name} 장착 완료");
     }
 
     public void UseItem(Skillinput skillinput)
@@ -71,7 +65,6 @@ public class PlayerActiveItemController:MonoBehaviour
 
         if(activeItemDatas[index] == null)
         {
-            Debug.Log("아이템 창이 비어 있음");
             return;
         }
 

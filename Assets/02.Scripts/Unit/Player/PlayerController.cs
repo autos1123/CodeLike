@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 플레이어 이동, 공격, 점프, 데미지 처리 및 FSM 관리
