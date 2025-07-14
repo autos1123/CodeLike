@@ -34,7 +34,6 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     public List<Room> Generate(int seed)
     {
-        Debug.Log($"🚀 Generate 시작! seed={seed}, roomCount={roomCount}, grid={gridWidth}x{gridHeight}");
         this.seed = seed;
         random = new System.Random(seed);
         nextRoomID = 0; 
@@ -200,6 +199,7 @@ public class ProceduralStageGenerator:MonoBehaviour
         {
             portal.destinationPoint = toAnchor;
             portal.exitDirection = direction; // ✅ 여기 수정!
+            portal.destinationRoom = toRoom;
         }
     }
 
