@@ -86,6 +86,8 @@ public class ViewCameraController:MonoBehaviour
             {
                 GameManager.Instance.setState(GameState.ViewChange);
                 transitionTime = 0;
+
+                
             })
             .OnUpdate(() =>
             {
@@ -101,11 +103,23 @@ public class ViewCameraController:MonoBehaviour
                     {
                         if(transitionPer >= 0.8f)
                             cam.orthographic = true;
+
+                        if(transitionPer >= 0.3f)
+                        {
+                            cam.cullingMask &= ~layerToControl;
+                        }
                     }
                     else
                     {
                         if(transitionPer >= 0.2f)
+                        {
                             cam.orthographic = false;
+                        }
+
+                        if(transitionPer >= 0.3f)
+                        {
+                            cam.cullingMask |= layerToControl;
+                        }
                     }
                 }
             })
@@ -127,10 +141,10 @@ public class ViewCameraController:MonoBehaviour
             });
 
         // 레이어 렌더링 마스크 설정 (2D에서는 비활성화, 3D에서는 활성화)
-        if(mode == ViewModeType.View2D)
-            cam.cullingMask &= ~layerToControl;
-        else
-            cam.cullingMask |= layerToControl;
+        //if(mode == ViewModeType.View2D)
+        //    cam.cullingMask &= ~layerToControl;
+        //else
+        //    cam.cullingMask |= layerToControl;
 
         previousMode = mode;
     }
