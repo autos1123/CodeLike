@@ -99,6 +99,19 @@ public class PlayerController:BaseController<PlayerCondition>
         }
     }
 
+
+    public override bool GetDamaged(float damage)
+    {
+        bool isAlive = base.GetDamaged(damage);
+        if(isAlive)
+        {
+            // 플레이어가 데미지를 받았을 때 상태 머신에 데미지 상태로 전환 요청
+            StateMachine.ChangeState(StateMachine.KnockbackState);
+        }
+        return isAlive;
+
+    }
+
     protected override void Die()
     {
         StateMachine.ChangeState(StateMachine.DeadState);

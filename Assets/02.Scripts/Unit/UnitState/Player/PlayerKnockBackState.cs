@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class PlayerKnockBackState:PlayerBaseState
 {
-    private float knockBackDuration = 0.5f;
-    private float startTime;
     public PlayerKnockBackState(PlayerStateMachine stateMachine) : base(stateMachine) { }
     public override void StateEnter()
     {
         base.StateEnter();
         player._Animator.SetTrigger("isKnockBack");
-        startTime = Time.time;
     }
 
     public override void StateExit()
@@ -22,11 +19,7 @@ public class PlayerKnockBackState:PlayerBaseState
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if(Time.time - startTime >= knockBackDuration)
-        {
-            stateMachine.ChangeState(stateMachine.IdleState);
-            return;
-        }
+        stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     public override void StatePhysicsUpdate()

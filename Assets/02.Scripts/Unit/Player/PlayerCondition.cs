@@ -11,4 +11,5 @@ public class PlayerCondition:BaseCondition
     /// </summary>
     public PlayerCondition(ConditionData data) : base(data) { }
 
+    
 }

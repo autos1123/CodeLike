@@ -8,8 +8,8 @@ public class PlayerStateMachine:UnitStateMachine
     public PlayerMoveState MoveState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
-
     public PlayerDeadState DeadState { get; private set; }
+    public PlayerKnockBackState KnockbackState { get; private set; }
 
 
     public PlayerStateMachine(PlayerController player)
@@ -22,6 +22,7 @@ public class PlayerStateMachine:UnitStateMachine
         JumpState = new PlayerJumpState(this);
         AttackState = new PlayerAttackState(this);
         DeadState = new PlayerDeadState(this);
+        KnockbackState = new PlayerKnockBackState(this);
 
         ChangeState(IdleState);
     }
