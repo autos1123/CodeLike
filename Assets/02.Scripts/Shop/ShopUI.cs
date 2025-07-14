@@ -66,7 +66,6 @@ public class ShopUI : UIBase
         player = GameManager.Instance.Player.GetComponent<PlayerController>();
         
         yield return new WaitUntil(() => player.Condition != null);
-        Debug.Log("ShopUI: 플레이어 Condition 준비 완료.");
         
         InitAndGenerate();
 
@@ -152,9 +151,7 @@ public class ShopUI : UIBase
                     RefreshAllUI(); // 전체 UI 다시 그림
                 },
                 onCancel: () =>
-                {
-                    Debug.Log("선택 취소됨");
-                });
+                { });
         }
         else
         {
