@@ -19,13 +19,12 @@ public class PlayerDeadState:PlayerBaseState
 
         player.enabled = false;
 
-        StartAnimation(player.AnimationData.DeadParameterHash);
+        player._Animator.SetTrigger("isDead"); // 사망 애니메이션 트리거 설정
     }
 
     public override void StateExit()
     {
         base.StateExit();
-        StopAnimation(player.AnimationData.DeadParameterHash); // 부활 등 리셋 상황 대비
     }
 
     public override void StateUpdate()
