@@ -19,6 +19,9 @@ public abstract class BaseCondition
     public Dictionary<ConditionType, Dictionary<ModifierType, float>> ConditionModifier { get; private set; }
 
     public Dictionary<ConditionType, Action> statModifiers = new();
+
+    public bool IsDied => GetValue(ConditionType.HP) <= 0;
+
     public BaseCondition(ConditionData data)
     {
         this.data = data;

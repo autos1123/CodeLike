@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 플레이어 이동, 공격, 점프, 데미지 처리 및 FSM 관리
@@ -181,7 +179,6 @@ public class PlayerController:BaseController<PlayerCondition>
         if(CurrentRoom == room) return;
 
         CurrentRoom = room;
-        Debug.Log($"[Player] 현재 Room 변경됨 → {room.Id}");
 
         // 미니맵 갱신 요청
         UpdateRoomActivation();

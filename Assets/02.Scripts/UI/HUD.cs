@@ -7,9 +7,6 @@ public class HUD:UIBase
     private PlayerController player;
     private PlayerActiveItemController activeItemController;
 
-    [SerializeField] Button minMapButton;
-    [SerializeField] Button optionButton;
-    [SerializeField] Button minimapButton;
     [SerializeField] TextMeshProUGUI goldText;
     [SerializeField] Image HPFill;
     [SerializeField] Image ItemSlot1;
@@ -23,20 +20,11 @@ public class HUD:UIBase
         player = GameManager.Instance.Player.GetComponent<PlayerController>();
         activeItemController = GameManager.Instance.Player.GetComponent<PlayerActiveItemController>();
 
-        optionButton.onClick.RemoveAllListeners();
-        optionButton.onClick.AddListener(UIManager.Instance.ToggleUI<OptionBoard>);
-
         player.Condition.statModifiers[ConditionType.Gold] += ChangeGold;
         ChangeGold();
 
         player.Condition.statModifiers[ConditionType.HP] += ChangeHP;
         ChangeHP();
-
-        minimapButton.onClick.RemoveAllListeners();
-        minimapButton.onClick.AddListener(() =>
-        {
-            UIManager.Instance.ToggleUI<MinimapUI>();
-        });
 
         UpdateActiveItemIcons();
     }
