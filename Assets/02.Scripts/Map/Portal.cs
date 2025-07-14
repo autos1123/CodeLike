@@ -13,6 +13,7 @@ public class Portal:MonoBehaviour,IInteractable
     public Direction exitDirection;
     public float offsetDistance = 3f;
     public float cooldownDuration = 1f;
+    public Room destinationRoom;
 
     private static readonly Dictionary<GameObject, float> lastTeleportTimes = new();
 
@@ -69,9 +70,22 @@ public class Portal:MonoBehaviour,IInteractable
                 return;
         }
 
+        // 다음 방 활성화
+        destinationRoom.gameObject.SetActive(true);
+
         // 위치 이동: 연결 방향 기반으로 오프셋 적용
-        Vector3 offset = GetDirectionVector(exitDirection) * offsetDistance;
-        other.transform.position = destinationPoint.position + offset;
+
+        var rb = other.GetComponent<Rigidbody>();
+        if(rb != null)
+        {
+            rb.interpolation = RigidbodyInterpolation.None;
+            rb.velocity = Vector3.zero;
+        }
+
+        // Vector3 offset = GetDirectionVector(exitDirection) * offsetDistance;
+        other.transform.position = destinationPoint.position;
+
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
 
         lastTeleportTimes[other.gameObject] = currentTime;
 
@@ -81,6 +95,8 @@ public class Portal:MonoBehaviour,IInteractable
         {
             lastTeleportTimes[other.gameObject] = currentTime;
         }
+
+        room.gameObject.SetActive(false); // 현재 방 비활성화
     }
 
     public bool CanInteract(GameObject interactor)

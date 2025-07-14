@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StageManager:MonoSingleton<StageManager>
@@ -13,6 +14,8 @@ public class StageManager:MonoSingleton<StageManager>
 
     public event Action ChangeStage;
 
+    private List<Room> allRooms;
+
     public void LoadStage()
     {
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
@@ -21,9 +24,15 @@ public class StageManager:MonoSingleton<StageManager>
         int roomCountBase = GameManager.Instance.stageMapCountData[stageID];
         generator.roomCount = roomCountBase;
 
-        generator.Generate(randomSeed);
+        allRooms = generator.Generate(randomSeed);
         currentStage = generator.stageData; //  반드시 generator 내부에서 생성한 인스턴스를 그대로 받아야 함
         currentStage.stageID = stageID++;
+
+        // 시작 방 제외 현재 생성된 모든 방을 비활성화
+        for(int i = 1; i < allRooms.Count; i++)
+        {
+            allRooms[i].gameObject.SetActive(false);
+        }
 
         if(currentStage.startRoom != null)
         {

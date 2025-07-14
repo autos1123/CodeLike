@@ -29,7 +29,6 @@ public class Items : MonoBehaviour , IInteractable
             bool success = inventory.AddToInventory(data);
             if (success)
             {
-                Debug.Log($"[Items] {data.name} 아이템을 인벤토리에 추가했습니다.");
                 InteractionController controller = interactor.GetComponent<InteractionController>();
                 if (controller != null)
                 {
