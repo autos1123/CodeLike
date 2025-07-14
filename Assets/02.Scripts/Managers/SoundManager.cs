@@ -50,6 +50,8 @@ public class SoundManager : MonoSingleton<SoundManager>
             {
                 bgmdic[bgm.name] = bgm;
             }
+            //임식 bgm 시작
+            PlayBGM(GameManager.Instance.Player.transform , SoundAddressbleName.Boss_Battle);
         };
     }
     private void LoadSFXAsync()
