@@ -91,10 +91,8 @@ public class ProceduralStageGenerator:MonoBehaviour
                     stack.Push(next);
                 }
             }
-            Debug.Log($" 현재 위치: {current}");
             if(grid[current.x, current.y])
             {
-                Debug.Log($" 이미 방문한 좌표: {current}");
                 continue;
             }
         }
@@ -104,12 +102,10 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     private Room CreateRoom(Vector2Int gridPos, RoomType type)
     {
-        Debug.Log($"🧪 CreateRoom 호출됨: gridPos={gridPos}, type={type}");
 
         GameObject prefab = prefabSet.GetRandomPrefab(type);
         if(prefab == null)
         {
-            Debug.LogError($"❌ 프리팹이 존재하지 않음! RoomType: {type}");
             return null;
         }
 
@@ -121,7 +117,6 @@ public class ProceduralStageGenerator:MonoBehaviour
         Room room = roomGO.GetComponent<Room>();
         if(room == null)
         {
-            Debug.LogError($"❌ Room 컴포넌트가 프리팹 '{prefab.name}'에 없음!");
             return null;
         }
 
@@ -132,7 +127,6 @@ public class ProceduralStageGenerator:MonoBehaviour
 
         AllRooms.Add(room);
 
-        Debug.Log($"✅ Room 생성 완료: ID={room.Id}, Type={type}, Pos={gridPos}");
         return room;
     }
 
@@ -198,7 +192,7 @@ public class ProceduralStageGenerator:MonoBehaviour
         if(portal != null)
         {
             portal.destinationPoint = toAnchor;
-            portal.exitDirection = direction; // ✅ 여기 수정!
+            portal.exitDirection = direction; //  여기 수정!
             portal.destinationRoom = toRoom;
         }
     }
