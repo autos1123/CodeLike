@@ -13,4 +13,5 @@ public class PlayerCondition:BaseCondition
     /// BaseCondition에 ConditionData 전달
     /// </summary>
     public PlayerCondition(ConditionData data) : base(data) { }
+
 }
