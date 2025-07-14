@@ -149,6 +149,9 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     /// <returns></returns>
     public virtual bool IsInRange(ConditionType rangeType)
     {
+        if(Player.GetComponent<PlayerController>().Condition.IsDied)
+            return false; // 플레이어가 죽은 경우 추적하지 않음
+
         Vector3 targetPos = Player.transform.position;
         Vector3 curPos = transform.position;
 
