@@ -35,7 +35,7 @@ public class LaserObstacle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<IDamagable>(out IDamagable damagable))
+        if(other.TryGetComponent<IDamagable>(out IDamagable damagable) && ((1 << other.gameObject.layer) & LayerMask.GetMask("Player")) != 0)
         {
             player = damagable;
         }
@@ -43,7 +43,7 @@ public class LaserObstacle : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent<IDamagable>(out IDamagable damagable))
+        if(other.TryGetComponent<IDamagable>(out IDamagable damagable) && ((1 << other.gameObject.layer) & LayerMask.GetMask("Player")) != 0)
         {
             if(player == damagable)
             {

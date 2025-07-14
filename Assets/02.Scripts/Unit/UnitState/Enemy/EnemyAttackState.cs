@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyBaseState
 {
+    private PlayerCondition playerCondition;
+
     float attackDelay;
     float startTime;
 
     public EnemyAttackState(EnemyStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        
     }
 
     public override void StateEnter()
     {
+        if(playerCondition == null)
+            playerCondition = stateMachine.Player.GetComponent<PlayerController>().Condition;
+
         moveSpeedModifier = 0f; // 공격 상태에서는 이동하지 않음
         stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
         stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
@@ -37,10 +43,17 @@ public class EnemyAttackState : EnemyBaseState
         if(stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
             stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
+            if(playerCondition.IsDied)
+            {
+                // IdleState로 변환
+                if(stateMachine.ChangeState(EnemyStateType.Idle))
+                    return;
+            }
+
             // 추적 범위를 벗어남
             if(!stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
             {
-                // AttackState로 변환
+                // IdleState로 변환
                 if(stateMachine.ChangeState(EnemyStateType.Idle))
                     return;
             }

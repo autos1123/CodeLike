@@ -77,14 +77,6 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
     protected abstract void Die();
 
-    //private void Knockback()
-    //{
-    //    Vector3 dir = -transform.forward;  // 항상 내 뒤쪽
-    //    float knockbackStrength = 7f;      // 고정 세기
-
-    //    _Rigidbody.AddForce(dir * knockbackStrength, ForceMode.Impulse);
-    //}
-
     protected virtual void Initialize()
     {
         GameManager.Instance.onGameStateChange += OnGameStateChange;
@@ -119,8 +111,6 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
         Collider[] hitColliders;
 
         float attackRange = Condition.GetValue(ConditionType.AttackRange);
-
-
 
         // 2D와 3D 모드에 따라 다른 오버랩 박스 크기 사용
         // 2D 모드에서는 z축을 늘려 x, y축만 고려할 수 있도록 
@@ -220,7 +210,11 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     private void SetPositionWhenViewChanged()
     {
         // 현재 콜라이더의 경계 박스에서 충돌한 오브젝트들을 가져옴
-        Collider[] hit = Physics.OverlapBox(col.bounds.center, col.bounds.extents, Quaternion.identity, LayerMask.GetMask("Obstacle"), QueryTriggerInteraction.Ignore);
+        Collider[] hit = Physics.OverlapBox(col.bounds.center, 
+                                            col.bounds.extents, 
+                                            Quaternion.identity, 
+                                            LayerMask.GetMask("Obstacle"), 
+                                            QueryTriggerInteraction.Ignore);
 
         if(hit.Length == 0) return;
 

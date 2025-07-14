@@ -31,6 +31,9 @@ public class ViewCameraController:MonoBehaviour
     private ViewModeType previousMode;
     private Camera cam;
     private Tween moveTween;
+
+    private bool hudMoving = false;
+
     /// <summary>
     /// 시작 시 현재 ViewMode에 따라 카메라 위치를 초기화하고,
     /// ViewManager의 시점 전환 이벤트를 구독한다.
@@ -86,6 +89,8 @@ public class ViewCameraController:MonoBehaviour
             {
                 GameManager.Instance.setState(GameState.ViewChange);
                 transitionTime = 0;
+
+                
             })
             .OnUpdate(() =>
             {
@@ -101,12 +106,30 @@ public class ViewCameraController:MonoBehaviour
                     {
                         if(transitionPer >= 0.8f)
                             cam.orthographic = true;
+
+                        if(transitionPer >= 0.3f)
+                        {
+                            cam.cullingMask &= ~layerToControl;
+                        }
                     }
                     else
                     {
                         if(transitionPer >= 0.2f)
+                        {
                             cam.orthographic = false;
+                        }
+
+                        if(transitionPer >= 0.3f)
+                        {
+                            cam.cullingMask |= layerToControl;
+                        }
                     }
+
+                    //if(transitionPer >= 0.2f && !hudMoving)
+                    //{
+                    //    hudAnimator?.ReturnToOriginal(transitionDuration - 0.5f);  // 복귀 시간은 약간 짧게
+                    //    hudMoving = true;
+                    //}
                 }
             })
             .OnComplete(() =>
@@ -124,13 +147,8 @@ public class ViewCameraController:MonoBehaviour
                 // 전환 완료 후 HUD 복귀
                 hudAnimator?.ReturnToOriginal(transitionDuration - 0.5f);  // 복귀 시간은 약간 짧게
                 GameManager.Instance.setState(GameState.Play);
+                hudMoving = false;
             });
-
-        // 레이어 렌더링 마스크 설정 (2D에서는 비활성화, 3D에서는 활성화)
-        if(mode == ViewModeType.View2D)
-            cam.cullingMask &= ~layerToControl;
-        else
-            cam.cullingMask |= layerToControl;
 
         previousMode = mode;
     }

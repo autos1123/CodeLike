@@ -1,10 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 
 public enum Skillinput
@@ -18,6 +13,7 @@ public class PlayerActiveItemController:MonoBehaviour
     private Dictionary<SkillType, ISkillExecutor> executors;
     private PlayerController playerController;
     public List<ActiveItemData> activeItemDatas = new();
+    [SerializeField] private Transform projectileSpawnPos;
 
     private void Awake()
     {
@@ -54,7 +50,6 @@ public class PlayerActiveItemController:MonoBehaviour
         }
 
         activeItemDatas[index] = activeItemData;
-        Debug.Log($"슬롯 {index}에 아이템 {activeItemData?.name} 장착 완료");
     }
 
     public void UseItem(Skillinput skillinput)
@@ -70,11 +65,10 @@ public class PlayerActiveItemController:MonoBehaviour
 
         if(activeItemDatas[index] == null)
         {
-            Debug.Log("아이템 창이 비어 있음");
             return;
         }
 
         var used = TableManager.Instance.GetTable<ActiveItemEffectDataTable>().GetDataByID(activeItemDatas[index].skillID);
-        executors[used.Type].Execute(used, playerController.VisualTransform, playerController.VisualTransform.forward);
+        executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
     }
 }

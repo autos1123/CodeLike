@@ -50,6 +50,18 @@ public class ShopManager:MonoSingleton<ShopManager>
     /// <returns>거래 성공 시 true, 실패 시 false</returns>
     public bool TryExecuteTransaction(List<InventoryItemSlot> sellItems, List<InventoryItemSlot> buyItems, out string result)
     {
+        
+        sellItems ??= new List<InventoryItemSlot>();
+        buyItems ??= new List<InventoryItemSlot>();
+
+        //sellItems와 buyItems가 모두 비어있을 경우 처리
+        if (sellItems.Count == 0 && buyItems.Count == 0)
+        {
+            result = "선택한 아이템이 없습니다!";
+            UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인");
+            return false;
+        }
+        
         PlayerController playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
         BaseCondition playerCondition = playerController?.Condition;
         

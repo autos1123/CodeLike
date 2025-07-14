@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6028646423659072466}
   - component: {fileID: 4728437361353617363}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: GoldValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.000061035156, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -0.000015259, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6028646423659072466
 CanvasRenderer:
@@ -92,10 +92,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 43.45
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -1014,8 +1014,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 733, y: 294}
-  m_SizeDelta: {x: 300, y: 50}
+  m_AnchoredPosition: {x: 780, y: 294}
+  m_SizeDelta: {x: 196.6431, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8442442661870392492
 CanvasRenderer:
@@ -2034,6 +2034,7 @@ MonoBehaviour:
   buyTotalText: {fileID: 5404314272664982836}
   calculateText: {fileID: 5181079950160440525}
   dealBtn: {fileID: 278490058452745590}
+  exitBtn: {fileID: 0}
   curGoldText: {fileID: 4728437361353617363}
 --- !u!1 &8270424302782289259
 GameObject:
