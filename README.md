@@ -54,11 +54,7 @@
 #### 3D 모드
 - 콜라이더 중심/크기를 원래 상태로 복원
 - OverlapSphere 사야각 계산, 원형 범위 + 정면 필터링
-
-<p align="center">
-  <img src="images/24362cd4-5d68-41f3-8118-96fe71ec5fe6.png" width="700">
-</p>
-
+  
 ---
 
 ### 2D <-> 3D 카메라 전환 연출
@@ -66,10 +62,6 @@
 - **DOTween** 라이브러리를 활용, 부드러운 카메라 시점 전환 연출 구현
 - **DOLocalMove()**로 부드럽게 이동, LookAt()으로 플레이어 추적
 - 전환 중 HUD 애니메이션 및 특수 레이어 렌더링 동기화로 시각적 완성도 향상
-
-<p align="center">
-  <img src="images/6994fd81-5164-4311-a5e9-b5e895c4f03e.png" width="700">
-</p>
 
 ---
 
@@ -79,10 +71,6 @@
 - 2번째 줄에서 필드 정보를 읽어 **ClassGenerator**로 클래스 자동 생성/수정
 - 3번째 줄부터는 데이터를 읽어 해당 클래스 인스턴스를 **ScriptableObject**로 리스트화
 
-<p align="center">
-  <img src="images/7242ee98-f493-495c-929c-2fa82c6a7005.png" width="700">
-</p>
-
 ---
 
 ### 유닛 FSM(상태 기계) 관리
@@ -90,10 +78,6 @@
 - 각 유닛의 상태를 효율적으로 관리하기 위해 **FSM(Finite State Machine)** 구조 도입
 - 통합된 부모 클래스에서 상태 전환/행동을 일관성 있게 처리
 - 여러 유닛이 공통된 방식으로 관리되어 코드 재사용성, 유지보수성 향상
-
-<p align="center">
-  <img src="images/98c45f59-ee21-4ec2-aa7b-ddbbf59bbee0.png" width="700">
-</p>
 
 ---
 
