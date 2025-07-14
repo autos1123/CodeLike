@@ -957,7 +957,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5876263009522624810}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1899,7 +1899,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2321523346174006164}
   m_Layer: 0
-  m_Name: Obstacles
+  m_Name: GroundObstacles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2137,7 +2137,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 2176
+    m_Bits: 128
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -2239,7 +2239,7 @@ GameObject:
   - component: {fileID: 3627773040631782984}
   - component: {fileID: 5371182808872668795}
   - component: {fileID: 8959532070832361162}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: StartPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3229,7 +3229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7266983900237479201}
   - component: {fileID: 1044571974126046838}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: MovementObstacle_PingPong
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3829,7 +3829,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3970572049665026508}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: StartPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4981,7 +4981,7 @@ GameObject:
   - component: {fileID: 7129634453131460425}
   - component: {fileID: 4853027579469609061}
   - component: {fileID: 1043459354851564116}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: LaserCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5755,7 +5755,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4619829689293461590}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6176,7 +6176,7 @@ GameObject:
   - component: {fileID: 2157919316576468121}
   - component: {fileID: 6418604533071198948}
   - component: {fileID: 6494508088809543423}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: TestLaserObstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6724,7 +6724,7 @@ GameObject:
   - component: {fileID: 5985833282184165504}
   - component: {fileID: 3064689198033699160}
   - component: {fileID: 5828049722378493400}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: EndPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7058,7 +7058,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 488418733474143644}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: EndPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
