@@ -33,26 +33,6 @@ public class SoundManager : MonoSingleton<SoundManager>
         sfxdic = new Dictionary<string, AudioClip>();
     }
 
-    //테스트용 추후에 지움
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.F1))
-        {
-            Debug.Log("f1");
-            PlayBGM(transform.position , SoundAddressbleName.bgm1);
-        }
-        if(Input.GetKeyDown(KeyCode.F2))
-        {
-            Debug.Log("f2");
-            StopBGM();
-        }
-        if(Input.GetKeyDown(KeyCode.F3))
-        {
-            Debug.Log("f3");
-            PlaySFX(transform.position, SoundAddressbleName.sfx1);
-        }
-    }
-
     /// <summary>
     /// 어드레서블에 등록된 BGM , SFX불러오기
     /// </summary>
@@ -109,12 +89,13 @@ public class SoundManager : MonoSingleton<SoundManager>
         SoundSource soundSource = sound.GetComponent<SoundSource>();
         soundSource.Play(time, sfxdic[key], true);
     }
-    public void PlayBGM(Vector3 pos, string key)
+    public void PlayBGM(Transform transform, string key)
     {
         if(audioBgm != null) StopBGM();
 
         var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
-        sound.transform.position = pos;
+        sound.transform.position = Vector3.zero;
+        sound.transform.SetParent(transform, false);
         SoundSource soundSource = sound.GetComponent<SoundSource>();        
         soundSource.Play(bgmdic[key],false);
         audioBgm = soundSource;

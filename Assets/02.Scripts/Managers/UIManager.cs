@@ -26,18 +26,6 @@ public class UIManager:MonoSingleton<UIManager>
         // Addressables 로딩이 끝나고
         yield return new WaitUntil(() => StageManager.Instance.currentStage != null);
     }
-
-    /// <summary>
-    /// 테스트용 후추 삭제
-    /// </summary>
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            Debug.Log("스테이터스");
-            ToggleUI<StatusBoard>();
-        }
-    }
     private void InitializeUI()
     {
         string uiLabel = currentSceneName.Equals("TitleScene") ? AddressbleLabels.TitleUILabel : AddressbleLabels.InGameUILabel;

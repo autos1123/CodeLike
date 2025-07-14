@@ -74,8 +74,18 @@ public class Portal:MonoBehaviour,IInteractable
         destinationRoom.gameObject.SetActive(true);
 
         // 위치 이동: 연결 방향 기반으로 오프셋 적용
-        // Vector3 offset = GetDirectionVector(exitDirection) * offsetDistance;
-        other.transform.position = destinationPoint.position;
+
+        var rb = other.GetComponent<Rigidbody>();
+        if(rb != null)
+        {
+            rb.interpolation = RigidbodyInterpolation.None;
+            rb.velocity = Vector3.zero;
+        }
+
+        Vector3 offset = GetDirectionVector(exitDirection) * offsetDistance;
+        other.transform.position = destinationPoint.position + offset;
+
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
 
         lastTeleportTimes[other.gameObject] = currentTime;
 
