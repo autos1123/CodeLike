@@ -78,14 +78,11 @@ public class Portal:MonoBehaviour,IInteractable
         var rb = other.GetComponent<Rigidbody>();
         if(rb != null)
         {
-            rb.interpolation = RigidbodyInterpolation.None;
             rb.velocity = Vector3.zero;
         }
 
-        // Vector3 offset = GetDirectionVector(exitDirection) * offsetDistance;
-        other.transform.position = destinationPoint.position;
-
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        Vector3 offset = GetDirectionVector(exitDirection) * offsetDistance;
+        other.transform.position = destinationPoint.position + offset;
 
         lastTeleportTimes[other.gameObject] = currentTime;
 

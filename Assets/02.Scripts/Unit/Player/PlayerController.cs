@@ -181,7 +181,6 @@ public class PlayerController:BaseController<PlayerCondition>
         if(CurrentRoom == room) return;
 
         CurrentRoom = room;
-        Debug.Log($"[Player] 현재 Room 변경됨 → {room.Id}");
 
         // 미니맵 갱신 요청
         UpdateRoomActivation();
