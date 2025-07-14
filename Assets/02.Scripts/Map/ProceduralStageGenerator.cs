@@ -34,12 +34,13 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     public List<Room> Generate(int seed)
     {
-        Debug.Log($"🚀 Generate 시작! seed={seed}, roomCount={roomCount}, grid={gridWidth}x{gridHeight}");
+        //시드 생성 및 랜덤화
         this.seed = seed;
         random = new System.Random(seed);
         nextRoomID = 0; 
         grid = new bool[gridWidth, gridHeight];
-
+        
+        //스테이지 정보 및 그리드 범위 지정
         stageData = new StageData();
         stageData.InitializeGrid(gridWidth, gridHeight);
 
@@ -52,12 +53,14 @@ public class ProceduralStageGenerator:MonoBehaviour
 
         stack.Push(startGridPos);
 
+        //랜덤한 범위 내에서 while문을 통해 정해진 좌표들에 방을 생성
         while(roomIdMap.Count < roomCount && stack.Count > 0)
         {
 
             Vector2Int current = stack.Pop();
             if(grid[current.x, current.y]) continue;
 
+            //룸타입 지정 함수
             RoomType type = RoomType.Normal;
             if(roomIdMap.Count == 0) type = RoomType.Start;
             else if(roomIdMap.Count == roomCount - 1) type = RoomType.Boss;
@@ -78,12 +81,13 @@ public class ProceduralStageGenerator:MonoBehaviour
 
                 }
             }
-
+            //CreateRoom을 통한 방 생성
             Room room = CreateRoom(current, type);
             roomIdMap[current] = room.Id;
             stageData.RegisterRoom(room);
             grid[current.x, current.y] = true;
 
+            //방 생성 방향 랜덤화
             foreach(var dir in GetShuffledDirections())
             {
                 Vector2Int next = current + DirectionToOffset(dir);
@@ -92,10 +96,8 @@ public class ProceduralStageGenerator:MonoBehaviour
                     stack.Push(next);
                 }
             }
-            Debug.Log($" 현재 위치: {current}");
             if(grid[current.x, current.y])
             {
-                Debug.Log($" 이미 방문한 좌표: {current}");
                 continue;
             }
         }
@@ -105,35 +107,33 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     private Room CreateRoom(Vector2Int gridPos, RoomType type)
     {
-        Debug.Log($"🧪 CreateRoom 호출됨: gridPos={gridPos}, type={type}");
 
+        //랜덤 프리팹 불러오기
         GameObject prefab = prefabSet.GetRandomPrefab(type);
         if(prefab == null)
         {
-            Debug.LogError($"❌ 프리팹이 존재하지 않음! RoomType: {type}");
             return null;
         }
-
+        //그리드스페이스 지정
         int gridSpacing = 250;
+        //그리드 좌표를 월드 좌표로 변환
         Vector3 worldPos = new Vector3(gridPos.x * gridSpacing, gridPos.y * gridSpacing, 0f);
 
-  
+        //방 생성 
         GameObject roomGO = Instantiate(prefab, worldPos, Quaternion.identity, roomParent);
         Room room = roomGO.GetComponent<Room>();
         if(room == null)
         {
-            Debug.LogError($"❌ Room 컴포넌트가 프리팹 '{prefab.name}'에 없음!");
             return null;
         }
 
-
+        //방 프리팹 인스턴스화
         room.Initialize(nextRoomID++, gridPos, type);
 
        // room.SetRoomActive(false);
 
         AllRooms.Add(room);
 
-        Debug.Log($"✅ Room 생성 완료: ID={room.Id}, Type={type}, Pos={gridPos}");
         return room;
     }
 
