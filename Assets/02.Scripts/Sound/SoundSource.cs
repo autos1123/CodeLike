@@ -23,6 +23,10 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     public void Play(AudioClip clip,bool issfx)
     {
+        ViewManager.Instance.OnViewChanged += HandleViewModeChange;
+
+        HandleViewModeChange(ViewManager.Instance.CurrentViewMode);
+
         if(issfx) 
             audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
         else 
@@ -35,6 +39,7 @@ public class SoundSource : MonoBehaviour ,IPoolObject
     public void Stop()
     {
         audioSource.Stop();
+        ViewManager.Instance.OnViewChanged -= HandleViewModeChange;
         returnPool();
     }
 
@@ -54,5 +59,11 @@ public class SoundSource : MonoBehaviour ,IPoolObject
     public void returnPool()
     {
         PoolManager.Instance.ReturnObject(this);
+    }
+
+    private void HandleViewModeChange(ViewModeType viewModeType)
+    {
+        if(viewModeType == ViewModeType.View2D) audioSource.spatialBlend = 0;
+        else audioSource.spatialBlend = 1;
     }
 }
