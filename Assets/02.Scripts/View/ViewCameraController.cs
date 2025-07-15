@@ -89,8 +89,6 @@ public class ViewCameraController:MonoBehaviour
             {
                 GameManager.Instance.setState(GameState.ViewChange);
                 transitionTime = 0;
-
-                
             })
             .OnUpdate(() =>
             {
@@ -104,32 +102,14 @@ public class ViewCameraController:MonoBehaviour
 
                     if(mode == ViewModeType.View2D)
                     {
-                        if(transitionPer >= 0.8f)
-                            cam.orthographic = true;
-
-                        if(transitionPer >= 0.3f)
-                        {
-                            cam.cullingMask &= ~layerToControl;
-                        }
+                        if(transitionPer >= 0.8f) cam.orthographic = true;
+                        if(transitionPer >= 0.3f) cam.cullingMask &= ~layerToControl;
                     }
                     else
                     {
-                        if(transitionPer >= 0.2f)
-                        {
-                            cam.orthographic = false;
-                        }
-
-                        if(transitionPer >= 0.3f)
-                        {
-                            cam.cullingMask |= layerToControl;
-                        }
+                        if(transitionPer >= 0.2f) cam.orthographic = false;
+                        if(transitionPer >= 0.3f) cam.cullingMask |= layerToControl;
                     }
-
-                    //if(transitionPer >= 0.2f && !hudMoving)
-                    //{
-                    //    hudAnimator?.ReturnToOriginal(transitionDuration - 0.5f);  // 복귀 시간은 약간 짧게
-                    //    hudMoving = true;
-                    //}
                 }
             })
             .OnComplete(() =>

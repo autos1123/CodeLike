@@ -123,21 +123,24 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
             hitColliders = Physics.OverlapBox(pivot, new Vector3(attackRange, 1.5f, 100), Quaternion.identity, layer);
             return hitColliders;
         }
-
-        hitColliders = Physics.OverlapSphere(transform.position, attackRange, layer);
-        List<Collider> filteredColliders = new List<Collider>();
-
-        foreach(Collider collider in hitColliders)
+        else
         {
-            Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
-            float angle = Vector3.Angle(visualTransform.forward, directionToTarget);
+            hitColliders = Physics.OverlapSphere(transform.position, attackRange, layer);
+            List<Collider> filteredColliders = new List<Collider>();
 
-            if(angle <= attackAngle) // 원하는 각도
+            // 시각적 방향과 타겟 방향 사이의 각도를 계산하여 필터링
+            foreach(Collider collider in hitColliders)
             {
-                filteredColliders.Add(collider);
+                Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
+                float angle = Vector3.Angle(visualTransform.forward, directionToTarget);
+
+                if(angle <= attackAngle) // 원하는 각도
+                {
+                    filteredColliders.Add(collider);
+                }
             }
+            return filteredColliders.ToArray();
         }
-        return filteredColliders.ToArray();
     }
 
     /// <summary>
@@ -188,8 +191,8 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
             // 콜라이더 사이즈 확장
             colliderSizeTmp = col.size;
-            col.center = new Vector3(transform.position.z, col.center.y, 0); // 2D 모드에서는 콜라이더 중심을 약간 위로 이동
-            col.size = new Vector3(fullSize, colliderSizeTmp.y, colliderSizeTmp.z); // 2D 모드에서는 z축을 늘려서 공격 범위 확장
+            col.center = new Vector3(transform.position.z, col.center.y, 0); // 충돌체 중심점 설정
+            col.size = new Vector3(fullSize, colliderSizeTmp.y, colliderSizeTmp.z); // 충돌체 사이즈 확장
 
             // 겹치는 오브젝트가 있을 경우 콜라이더 위치 조정
             SetPositionWhenViewChanged();
@@ -210,10 +213,10 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     private void SetPositionWhenViewChanged()
     {
         // 현재 콜라이더의 경계 박스에서 충돌한 오브젝트들을 가져옴
-        Collider[] hit = Physics.OverlapBox(col.bounds.center, 
-                                            col.bounds.extents, 
-                                            Quaternion.identity, 
-                                            LayerMask.GetMask("Obstacle"), 
+        Collider[] hit = Physics.OverlapBox(col.bounds.center,
+                                            col.bounds.extents,
+                                            Quaternion.identity,
+                                            LayerMask.GetMask("Obstacle"),
                                             QueryTriggerInteraction.Ignore);
 
         if(hit.Length == 0) return;
@@ -241,7 +244,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
         {
             // 적 캐릭터는 오른쪽으로 이동
             distance = maxX - transform.position.x + 0.5f;
-            direction = Vector3.right; 
+            direction = Vector3.right;
         }
 
         // 현재 오브젝트를 왼쪽으로 distance만큼 이동시켜, 콜라이더에서 완전히 벗어나게 함
