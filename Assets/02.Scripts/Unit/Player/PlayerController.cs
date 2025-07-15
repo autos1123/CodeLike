@@ -204,13 +204,13 @@ public class PlayerController:BaseController<PlayerCondition>
 
     private void RequestMinimapUpdate()
     {
-        if(StageManager.Instance == null || StageManager.Instance.CurrentStage == null)
+        if(StageManager.Instance == null || StageManager.Instance.currentStage == null)
         {
             Debug.LogWarning("[Player] StageManager 또는 currentStage가 존재하지 않아 미니맵 업데이트를 건너뜁니다.");
             return;
         }
 
-        var stage = StageManager.Instance.CurrentStage;
+        var stage = StageManager.Instance.currentStage;
         var minimapData = MinimapBuilder.BuildFromStage(stage, stage.connections);
 
         foreach(var data in minimapData)
@@ -233,19 +233,20 @@ public class PlayerController:BaseController<PlayerCondition>
     private void UpdateRoomActivation()
     {
         var allRooms = StageManager.Instance.Generator.AllRooms;
-        var activeSet = new HashSet<Room> { CurrentRoom };
+        HashSet<Room> activeSet = new();
 
+        activeSet.Add(CurrentRoom);
         foreach(var conn in CurrentRoom.Connections)
         {
-            if(StageManager.Instance.CurrentStage.roomMap.TryGetValue(conn.ToRoomID, out var r1))
-                activeSet.Add(r1);
-            else if(StageManager.Instance.CurrentStage.roomMap.TryGetValue(conn.FromRoomID, out var r2))
-                activeSet.Add(r2);
+            Room neighbor = StageManager.Instance.currentStage.roomMap.TryGetValue(conn.ToRoomID, out var r1) ? r1 :
+                            StageManager.Instance.currentStage.roomMap.TryGetValue(conn.FromRoomID, out var r2) ? r2 : null;
+
+            if(neighbor != null)
+                activeSet.Add(neighbor);
         }
 
-        // 인접한 방만 활성화/비활성화
-        foreach(var r in allRooms)
-            r.SetRoomActive(activeSet.Contains(r));
+
+     //   foreach(var room in allRooms)
+        //    room.SetRoomActive(activeSet.Contains(room));
     }
 }
-

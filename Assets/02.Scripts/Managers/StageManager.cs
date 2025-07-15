@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class StageManager:MonoSingleton<StageManager>
 {
+    // 변수는 가급적 private으로 선언
+    // 만약 인스펙터 노출이 필요하면 [SerializeField] 사용
+
     protected override bool Persistent => false;
 
+    // private으로 변경 후 외부 접근을 위해 프로퍼티 추가 필요
     [SerializeField] private ProceduralStageGenerator generator;
-    [SerializeField] private StageData currentStage;
+    public StageData currentStage;
 
-    public ProceduralStageGenerator Generator => generator;
-    public StageData CurrentStage => currentStage;
+    public ProceduralStageGenerator Generator => generator; // 외부에서 접근할 수 있도록 프로퍼티로 노출
 
-    public int seed = 0; //삭제 예정
-    private int stageID = 0;
+    public int seed = 0; // 삭제 필요
+    public int stageID = 0; // private으로
 
     public event Action ChangeStage;
 
@@ -58,10 +61,12 @@ public class StageManager:MonoSingleton<StageManager>
     }
 
     public void ClearStage()
-    {   //allRooms 리스트에 Room이 존재하면
-        //모든 방 비활성화
+    {
+        // allRooms 리스트에 Room이 존재하는 경우
+        // 모든 방을 비활성화
+
         foreach(var room in FindObjectsOfType<Room>())
-            room.gameObject.SetActive(false);
+            Destroy(room.gameObject); // Destroy 대신 오브젝트 비활성화
 
         currentStage = null;
     }
