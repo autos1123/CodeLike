@@ -7,50 +7,61 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
+[DefaultExecutionOrder(-100)]
 public class TableManager:MonoSingleton<TableManager>
 {
 
-    [SerializeField] List<ScriptableObject> tableList = new List<ScriptableObject>();
+    [SerializeField] List<ScriptableObject> tableList;
 
-    private Dictionary<Type, ITable> tableDic = new Dictionary<Type, ITable>();
+    [SerializeField] private Dictionary<Type, ITable> tableDic;
 
-    private AsyncOperationHandle<ScriptableObject> _loadHandle;
-
-    public bool loadComplete { get; private set; } = false;
-
-    public event Action loadComplet;
-
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-        LoadTablesAsync();
-    }
-
-    /// <summary>
-    /// 라벨을 통해 어드레서블에 올린 데이터 탐색하여 저장
-    /// </summary>
-    private void LoadTablesAsync()
-    {
-        Addressables.LoadAssetsAsync<ScriptableObject>(
-            AddressbleLabels.TableLabel,
-            (table) =>
-            {
-                tableList.Add(table);
-            }
-        ).Completed += (handle) =>
+        if(tableDic == null) tableDic = new();
+        foreach(var tableObj in tableList)
         {
-            foreach(var tableObj in tableList)
+            if(tableObj is ITable table)
             {
-                if(tableObj is ITable table)
-                {
-                    table.CreateTable();
-                    tableDic[table.Type] = table;
-                }
+                table.CreateTable();
+                tableDic[table.Type] = table;
             }
-            loadComplete = true;
-            loadComplet?.Invoke();            
-        };
+        }
     }
+#if UNITY_EDITOR
+    public void LoadTables()
+    {
+        if (tableList == null) tableList = new();
+        
+
+        tableList.Clear();
+        
+
+        // "Assets/Data/Tables" 경로 안의 ScriptableObject 검색
+        string[] guids = AssetDatabase.FindAssets("t:ScriptableObject", new[] { "Assets/05.ScriptableObj/SO" });
+
+        foreach(string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            var asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+
+            if(asset == null)
+            {
+                Debug.LogWarning($"[TableManager] null asset at {path}");
+                continue;
+            }
+
+            if(asset is ITable itable) tableList.Add(asset);
+        }
+
+    }
+
+    public void ClearTables()
+    {
+        tableList.Clear();
+    }
+
+#endif
 
     public T GetTable<T>() where T : class
     {
