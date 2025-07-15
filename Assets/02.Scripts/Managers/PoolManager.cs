@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 
+[DefaultExecutionOrder(-100)]
 public class PoolManager : MonoSingleton<PoolManager>
 {
     [SerializeField] List<GameObject> poolObjectList = new List<GameObject>();

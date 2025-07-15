@@ -272,7 +272,7 @@ public class OptionBoard : UIBase
 
         volume *= isMute; // 음소거 상태에 따라 볼륨 조정
 
-        float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;
+        float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;        
         audioMixer.SetFloat(volumeKey, dB); // 볼륨을 데시벨로 변환하여 오디오 믹서에 설정
     }
 

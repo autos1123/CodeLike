@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
@@ -50,8 +51,6 @@ public class SoundManager : MonoSingleton<SoundManager>
             {
                 bgmdic[bgm.name] = bgm;
             }
-            //임식 bgm 시작
-            PlayBGM(GameManager.Instance.Player.transform , SoundAddressbleName.Boss_Battle);
         };
     }
     private void LoadSFXAsync()
@@ -71,6 +70,7 @@ public class SoundManager : MonoSingleton<SoundManager>
         };
     }
 
+    
     /// <summary>
     /// 
     /// </summary>
