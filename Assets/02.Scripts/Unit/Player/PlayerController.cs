@@ -231,7 +231,7 @@ public class PlayerController:BaseController<PlayerCondition>
 
     private void UpdateRoomActivation()
     {
-        var allRooms = StageManager.Instance.generator.AllRooms;
+        var allRooms = StageManager.Instance.Generator.AllRooms;
         HashSet<Room> activeSet = new();
 
         activeSet.Add(CurrentRoom);
