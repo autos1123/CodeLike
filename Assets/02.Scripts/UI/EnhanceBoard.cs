@@ -7,7 +7,7 @@ public class EnhanceBoard : UIBase
     TableManager _tableManager;
     public override string UIName => "EnhanceBoard";
 
-    private void Awake()
+    private void Start()
     {
         cards = transform.GetComponentsInChildren<EnhanceCard>();
         _tableManager = TableManager.Instance;
@@ -21,7 +21,7 @@ public class EnhanceBoard : UIBase
 
         for(int i = 0; i < cards.Length; i++)
         {
-            cards[i].init(enhance[i]);
+            cards[i].init(enhance[i],this);
         }
     }
     public override void Close()

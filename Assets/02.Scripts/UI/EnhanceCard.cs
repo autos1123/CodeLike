@@ -5,26 +5,22 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class EnhanceCard : MonoBehaviour
 {
-    private Button _button;
-
-    private TextMeshProUGUI _title;
-    private TextMeshProUGUI _enhaceDescription;
+    [SerializeField] private Button _button;
+    [SerializeField] private TextMeshProUGUI _title;
+    [SerializeField] private TextMeshProUGUI _enhaceDescription;
 
     private UIBase _board;
     private EnhanceData _enhanceData;
 
-    void Awake()
+    void Start()
     {
-        _button = GetComponent<Button>();
-        _title = transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-        _enhaceDescription = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        _board = transform.parent.GetComponent<UIBase>();
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(Click);
     }
 
-    public void init(EnhanceData enhanceData)
+    public void init(EnhanceData enhanceData , UIBase uIBase)
     {
+        _board = uIBase;
         _enhanceData = enhanceData;
         _title.text = enhanceData.name;
         _enhaceDescription.text = enhanceData.dsecription;
