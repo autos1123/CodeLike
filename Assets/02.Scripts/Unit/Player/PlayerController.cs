@@ -129,6 +129,7 @@ public class PlayerController:BaseController<PlayerCondition>
         StateMachine = new PlayerStateMachine(this);
 
         UIManager.Instance.ShowUI<HUD>();
+
         //임식 bgm 시작
         SoundManager.Instance.PlayBGM(GameManager.Instance.Player.transform, SoundAddressbleName.Boss_Battle);
 

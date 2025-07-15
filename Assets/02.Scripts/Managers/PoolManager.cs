@@ -47,9 +47,9 @@ public class PoolManager : MonoSingleton<PoolManager>
             {
                 CreatePool(pool, pool.PoolSize);
             }
+            IsInitialized = true;
         };
-
-        IsInitialized = true;
+                
     }
 
     private void CreatePool(IPoolObject iPoolObject, int poolsize)

@@ -8,21 +8,16 @@ public class DestinyBoard:UIBase
     [SerializeField] Button FailedButton;
     TableManager _tableManager;
     public override string UIName => "DestinyBoard";
-
-
-    void Awake()
-    {
-        _tableManager = TableManager.Instance;
-    }
     
     public override void Open()
     {
         base.Open();
         if(_tableManager == null) _tableManager = TableManager.Instance;
+
         var destinys = _tableManager.GetTable<DestinyDataTable>().dataList.ShuffleData().Take(cards.Count()).ToArray();        
         for(int i = 0; i < cards.Length; i++)
         {
-            cards[i].init(destinys[i]);
+            cards[i].init(destinys[i],this);
         }
 
         FailedButton.onClick.RemoveAllListeners();

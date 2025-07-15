@@ -29,8 +29,9 @@ public class GameManager : MonoSingleton<GameManager>
     public event Action onGameStateChange;
 
     public void setCurDestinyData(DestinyData destinyData)
-    {        
-        onDestinyChange?.Invoke(curDestinyData, -1);//기본 운명 해제
+    {
+        if(curDestinyData.ID != 0) onDestinyChange?.Invoke(curDestinyData, -1);
+
         this.curDestinyData = destinyData;
         onDestinyChange?.Invoke(curDestinyData, 1);
     }

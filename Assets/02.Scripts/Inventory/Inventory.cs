@@ -35,15 +35,14 @@ public class Inventory : MonoBehaviour, IInventory
     public event Action OnInitialized;
     public void InitializeInventory()
     {
-        StartCoroutine(WaitAndInitialize());
+        WaitAndInitialize();
     }
     
     /// <summary>
     /// 테이블 매니저가 로드 완료될 때까지 대기 후, 슬롯 초기화
     /// </summary>
-    private IEnumerator WaitAndInitialize()
+    private void WaitAndInitialize()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         activeItemDataTable = TableManager.Instance.GetTable<ActiveItemDataTable>();
         PlayerActiveItemController = transform.GetComponent<PlayerActiveItemController>();
