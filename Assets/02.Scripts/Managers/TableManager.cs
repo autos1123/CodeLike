@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public class TableManager:MonoSingleton<TableManager>
 {
 
