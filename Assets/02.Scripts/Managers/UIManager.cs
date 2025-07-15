@@ -35,7 +35,8 @@ public class UIManager:MonoSingleton<UIManager>
             (GameObject) =>
             {
                 var ui = Instantiate(GameObject, this.transform);
-                uiPrefabs.Add(ui);        
+                uiPrefabs.Add(ui);
+                ui.SetActive(false); // 초기에는 비활성화
             }
         ).Completed += (handle) =>
         {

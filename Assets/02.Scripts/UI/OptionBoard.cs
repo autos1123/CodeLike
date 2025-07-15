@@ -10,6 +10,14 @@ public class OptionBoard : UIBase
     private readonly string resolutionDataKey = "ResolutionData"; // 해상도 데이터 키
     private readonly string screenModeDataKey = "ScreenModeData"; // 해상도 데이터 키
 
+    private readonly string sfxVolumeDataKey = "SFX"; // SFX 볼륨 데이터 키
+    private readonly string bgmVolumeDataKey = "BGM"; // BGM 볼륨 데이터 키
+    private readonly string masterVolumeDataKey = "Master"; // 마스터 볼륨 데이터 키
+
+    private readonly string sfxMuteDataKey = "SFXMuteData"; // SFX 음소거 데이터 키
+    private readonly string bgmMuteDataKey = "BGMMuteData"; // BGM 음소거 데이터 키
+    private readonly string masterMuteDataKey = "MasterMuteData"; // 마스터 음소거 데이터 키
+
     private ResolutionData resolutionData; // 해상도 데이터
     Resolution[] resolutions; // 해상도 리스트를 배열로 변환
 
@@ -31,10 +39,6 @@ public class OptionBoard : UIBase
     [SerializeField] private Slider bgmSlider;
     [SerializeField] private Slider sfxSlider;
 
-    private const string Master = "Master";
-    private const string BGM = "BGM";
-    private const string SFX = "SFX";
-
     [Header("Audio Mute")]
     [SerializeField] private Toggle masterToggle;
     [SerializeField] private Toggle bgmToggle;
@@ -47,17 +51,17 @@ public class OptionBoard : UIBase
         InitResolutionDropdown();
         InitFullScreenModeDropDown();
 
-        SetSliderValue(masterSlider, Master);
-        SetSliderValue(bgmSlider, BGM);
-        SetSliderValue(sfxSlider, SFX);
+        SetSliderValue(masterSlider, masterVolumeDataKey);
+        SetSliderValue(bgmSlider, bgmVolumeDataKey);
+        SetSliderValue(sfxSlider, sfxVolumeDataKey);
 
-        masterSlider.onValueChanged.AddListener((Volume) => SetSFXVolume(Master, Volume));
-        bgmSlider.onValueChanged.AddListener((Volume) => SetSFXVolume(BGM, Volume));
-        sfxSlider.onValueChanged.AddListener((Volume) => SetSFXVolume(SFX, Volume));
+        SetToggleValue(sfxToggle, sfxMuteDataKey);
+        SetToggleValue(bgmToggle, bgmMuteDataKey);
+        SetToggleValue(masterToggle, masterMuteDataKey);
 
-        masterToggle.onValueChanged.AddListener((isOn) => { audioMixer.SetFloat(Master, isOn ? 0f : -80f); });
-        bgmToggle.onValueChanged.AddListener((isOn) => { audioMixer.SetFloat(BGM, isOn ? 0f : -80f); });
-        sfxToggle.onValueChanged.AddListener((isOn) => { audioMixer.SetFloat(SFX, isOn ? 0f : -80f); });
+        ApplySoundSetting(masterVolumeDataKey, masterMuteDataKey);
+        ApplySoundSetting(bgmVolumeDataKey, masterMuteDataKey);
+        ApplySoundSetting(sfxVolumeDataKey, masterMuteDataKey);
     }
 
     public override void Open()
@@ -66,6 +70,40 @@ public class OptionBoard : UIBase
 
         resolutionDropdown.onValueChanged.AddListener(ResolutionDropDownOptionChange); // 해상도 드롭다운 값 변경 이벤트 등록
         fullscreenDropdown.onValueChanged.AddListener(ScreenModeDropDownOptionChange); // 화면 모드 드롭다운 값 변경 이벤트 등록
+
+        // 사운드 설정 슬라이더
+        masterSlider.onValueChanged.AddListener((Volume) =>
+        {
+            SetVolume(masterVolumeDataKey, Volume);
+            ApplySoundSetting(masterVolumeDataKey, masterMuteDataKey);
+        });
+        bgmSlider.onValueChanged.AddListener((Volume) =>
+        {
+            SetVolume(bgmVolumeDataKey, Volume);
+            ApplySoundSetting(bgmVolumeDataKey, bgmMuteDataKey);
+        });
+        sfxSlider.onValueChanged.AddListener((Volume) =>
+        {
+            SetVolume(sfxVolumeDataKey, Volume);
+            ApplySoundSetting(sfxVolumeDataKey, sfxMuteDataKey);
+        });
+
+        // 사운드 음소거 토글
+        masterToggle.onValueChanged.AddListener((isOn) =>
+        {
+            SetMute(masterMuteDataKey, isOn); // 음소거 상태 저장
+            ApplySoundSetting(masterVolumeDataKey, masterMuteDataKey); // 사운드 설정 적용
+        });
+        bgmToggle.onValueChanged.AddListener((isOn) =>
+        {
+            SetMute(bgmMuteDataKey, isOn); // 음소거 상태 저장
+            ApplySoundSetting(bgmVolumeDataKey, bgmMuteDataKey); // 사운드 설정 적용
+        });
+        sfxToggle.onValueChanged.AddListener((isOn) =>
+        {
+            SetMute(sfxMuteDataKey, isOn); // 음소거 상태 저장
+            ApplySoundSetting(sfxVolumeDataKey, sfxMuteDataKey); // 사운드 설정 적용
+        });
 
         exitToGameButton.onClick.AddListener(OnClickExitToGameButton); // 게임으로 돌아가는 버튼 클릭 이벤트 등록
         exitToLobbyButton.onClick.AddListener(OnClickExitToLobbyButton); // 로비로 돌아가는 버튼 클릭 이벤트 등록
@@ -183,18 +221,59 @@ public class OptionBoard : UIBase
                 return FullScreenMode.ExclusiveFullScreen; // 기본값은 전체화면
         }
     }
-    private void SetSliderValue(Slider slider, string paramName)
+    private void SetSliderValue(Slider slider, string path)
     {
-        if(audioMixer.GetFloat(paramName, out float dB))
+        if(PlayerPrefs.HasKey(path))
         {
-            slider.value = Mathf.Pow(10f, dB / 20f);
+            slider.value = PlayerPrefs.GetFloat(path);
+        }
+        else
+        {
+            slider.value = 1f; // 초기값은 1(최대 볼륨)
         }
     }
-    private void SetSFXVolume(string path,float value)
+
+    private void SetToggleValue(Toggle toggle, string path)
     {
-        // linear(0~1) → dB 변환
-        float dB = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
-        audioMixer.SetFloat(path, dB);
+        if(PlayerPrefs.HasKey(path))
+        {
+            toggle.isOn = PlayerPrefs.GetInt(path) == 0; // 1이면 음소거 해제, 0이면 음소거
+        }
+        else
+        {
+            toggle.isOn = false; // 초기값은 음소거 해제
+        }
+    }
+
+    private void SetVolume(string path,float value)
+    {
+        PlayerPrefs.SetFloat(path, value);
+    }
+
+    private void SetMute(string path, bool isMute)
+    {
+        PlayerPrefs.SetInt(path, isMute ? 0 : 1); // 음소거 상태 저장
+    }
+
+    private void ApplySoundSetting(string volumeKey, string muteKey)
+    {
+        float volume = 1;
+        int isMute = 1; // 음소거 상태 (1: 음소거 해제, 0: 음소거)
+
+        if(PlayerPrefs.HasKey(muteKey))
+        {
+            isMute = PlayerPrefs.GetInt(muteKey);
+        }
+
+        if(PlayerPrefs.HasKey(volumeKey))
+        {
+            volume = PlayerPrefs.GetFloat(volumeKey);
+        }
+
+        volume *= isMute; // 음소거 상태에 따라 볼륨 조정
+
+        float dB = Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;
+        audioMixer.SetFloat(volumeKey, dB); // 볼륨을 데시벨로 변환하여 오디오 믹서에 설정
     }
 
     private void OnClickExitToLobbyButton()
