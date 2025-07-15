@@ -6,11 +6,14 @@ public class StageManager:MonoSingleton<StageManager>
 {
     protected override bool Persistent => false;
 
-    public ProceduralStageGenerator generator;
-    public StageData currentStage;
+    [SerializeField] private ProceduralStageGenerator generator;
+    [SerializeField] private StageData currentStage;
 
-    public int seed = 0;
-    public int stageID = 0;
+    public ProceduralStageGenerator Generator => generator;
+    public StageData CurrentStage => currentStage;
+
+    public int seed = 0; //삭제 예정
+    private int stageID = 0;
 
     public event Action ChangeStage;
 
@@ -55,9 +58,10 @@ public class StageManager:MonoSingleton<StageManager>
     }
 
     public void ClearStage()
-    {
+    {   //allRooms 리스트에 Room이 존재하면
+        //모든 방 비활성화
         foreach(var room in FindObjectsOfType<Room>())
-            Destroy(room.gameObject);
+            room.gameObject.SetActive(false);
 
         currentStage = null;
     }
