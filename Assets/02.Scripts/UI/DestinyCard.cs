@@ -12,7 +12,7 @@ public class DestinyCard : MonoBehaviour
 
     private TableManager _tableManager;
     private UIBase _board;
-    private DestinyData _destinyData;
+    [SerializeField] private DestinyData _destinyData;
 
     void Awake()
     {
@@ -20,10 +20,10 @@ public class DestinyCard : MonoBehaviour
         _button.onClick.AddListener(Click);
     }
 
-    public void init(DestinyData destinyData)
+    public void init(DestinyData destinyData, UIBase uIBase)
     {
         if(_tableManager == null) _tableManager = TableManager.Instance;
-
+        _board = uIBase;
         _destinyData = destinyData;
         _title.text = _destinyData.Name;
         _positiveDescription.text = _tableManager.GetTable<DestinyEffectDataTable>().GetDataByID(_destinyData.NegativeEffectDataID).dsecription;

@@ -15,6 +15,7 @@ public class UIManager:MonoSingleton<UIManager>
 
     protected override bool Persistent => false;
 
+    
     protected override void Awake()
     {
         base.Awake();
@@ -25,6 +26,18 @@ public class UIManager:MonoSingleton<UIManager>
     {
         // Addressables 로딩이 끝나고
         yield return new WaitUntil(() => StageManager.Instance.currentStage != null);
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.F1))
+        {
+            ToggleUI<EnhanceBoard>();
+        }
+        if(Input.GetKeyDown(KeyCode.F2))
+        {
+            ToggleUI<DestinyBoard>();
+        }
     }
     private void InitializeUI()
     {
