@@ -5,32 +5,25 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class DestinyCard : MonoBehaviour
 {
-    private Button _button;
-
-    private TextMeshProUGUI _title;
-    private TextMeshProUGUI _positiveDescription;
-    private TextMeshProUGUI _negativeDescription;
+    [SerializeField] private Button _button;
+    [SerializeField] private TextMeshProUGUI _title;
+    [SerializeField] private TextMeshProUGUI _positiveDescription;
+    [SerializeField] private TextMeshProUGUI _negativeDescription;
 
     private TableManager _tableManager;
     private UIBase _board;
-    [SerializeField]private DestinyData _destinyData;
+    [SerializeField] private DestinyData _destinyData;
 
     void Awake()
     {
-        _button = GetComponent<Button>();
-        _title = transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
-        _positiveDescription = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-        _negativeDescription = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
-        _board = transform.parent.GetComponent<UIBase>();
-
         _button.onClick.RemoveAllListeners();
         _button.onClick.AddListener(Click);
     }
 
-    public void init(DestinyData destinyData)
+    public void init(DestinyData destinyData, UIBase uIBase)
     {
         if(_tableManager == null) _tableManager = TableManager.Instance;
-
+        _board = uIBase;
         _destinyData = destinyData;
         _title.text = _destinyData.Name;
         _positiveDescription.text = _tableManager.GetTable<DestinyEffectDataTable>().GetDataByID(_destinyData.NegativeEffectDataID).dsecription;

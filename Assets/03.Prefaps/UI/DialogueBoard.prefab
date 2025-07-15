@@ -406,3 +406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab66064569df79f44a53837aff7eac56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Conversation: {fileID: 3230102268458198149}
+  playerRawImage: {fileID: 385270195070400782}
+  npcRawImage: {fileID: 8385121306488940705}

@@ -8,9 +8,6 @@ using UnityEngine.Audio;
 public class SoundManager : MonoSingleton<SoundManager>
 {
     [SerializeField] AudioMixer audioMixer;
-    //audio clip 담을 수 있는 배열
-    [SerializeField] List<AudioClip> bgms;
-    [SerializeField] List<AudioClip> sfxs;
 
     Dictionary<string , AudioClip> bgmdic;
     Dictionary<string , AudioClip> sfxdic;
@@ -29,9 +26,7 @@ public class SoundManager : MonoSingleton<SoundManager>
                 audioMixer = handle.Result;
             };
         LoadBGMAsync();
-        LoadSFXAsync();
-        bgmdic = new Dictionary<string, AudioClip>();
-        sfxdic = new Dictionary<string, AudioClip>();
+        LoadSFXAsync();        
     }
 
     /// <summary>
@@ -39,35 +34,32 @@ public class SoundManager : MonoSingleton<SoundManager>
     /// </summary>
     private void LoadBGMAsync()
     {
+        bgmdic = new Dictionary<string, AudioClip>();
+
         Addressables.LoadAssetsAsync<AudioClip>(
             AddressbleLabels.BGMLabel,
             (source) =>
             {
-                bgms.Add(source);
+                if(!bgmdic.ContainsKey(source.name))
+                {
+                    bgmdic[source.name] = source;
+                }
             }
-        ).Completed += (handle) =>
-        {
-            foreach(var bgm in bgms)
-            {
-                bgmdic[bgm.name] = bgm;
-            }
-        };
+        );
     }
     private void LoadSFXAsync()
     {
+        sfxdic = new Dictionary<string, AudioClip>();
         Addressables.LoadAssetsAsync<AudioClip>(
             AddressbleLabels.SFXLabel,
             (source) =>
             {
-                sfxs.Add(source);
+                if(!bgmdic.ContainsKey(source.name))
+                {
+                    sfxdic[source.name] = source;
+                }
             }
-        ).Completed += (handle) =>
-        {
-            foreach(var sfx in sfxs)
-            {
-                sfxdic[sfx.name] = sfx;
-            }
-        };
+        );
     }
 
     

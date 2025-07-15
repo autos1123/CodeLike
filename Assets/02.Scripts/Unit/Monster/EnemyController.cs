@@ -170,7 +170,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
 
     protected override IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete && PoolManager.Instance.IsInitialized && GameManager.HasInstance);
+        yield return new WaitUntil(() => PoolManager.Instance.IsInitialized && GameManager.HasInstance);
         Initialize();
     }
 

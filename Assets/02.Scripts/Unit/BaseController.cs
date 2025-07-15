@@ -97,7 +97,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
     protected virtual IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete && GameManager.HasInstance && ViewManager.HasInstance);
+        yield return new WaitUntil(() => GameManager.HasInstance && ViewManager.HasInstance && PoolManager.Instance.IsInitialized);
         Initialize();
     }
 

@@ -30,9 +30,8 @@ public class ShopInventory : MonoBehaviour,IInventory
     /// <summary>
     /// 테이블 로드가 완료될 때까지 대기 후 상점 아이템 초기화
     /// </summary>
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         npcDataTable = TableManager.Instance.GetTable<NPCDataTable>();
         
@@ -41,7 +40,7 @@ public class ShopInventory : MonoBehaviour,IInventory
         if (npcData == null)
         {
             Debug.LogError($"[ShopInventory] NPCData를 찾을 수 없습니다. ID: {npcID}");
-            yield break;
+            return;
         }
 
         foreach (var id in npcData.shopItemIDs)

@@ -471,6 +471,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee5464ff56eb4945923e083d369326b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _button: {fileID: 6659685725495264279}
+  _title: {fileID: 6283128299501248570}
+  _enhaceDescription: {fileID: 2614807576265134607}
 --- !u!114 &6659685725495264279
 MonoBehaviour:
   m_ObjectHideFlags: 0

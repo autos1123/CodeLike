@@ -60,8 +60,7 @@ public class ShopUI : UIBase
             GameManager.Instance != null && GameManager.Instance.Player != null && // 플레이어 존재 확인
             GameManager.Instance.Player.GetComponent<PlayerController>() != null && // PlayerController 존재 확인
             shopInventoryRaw != null && shopInventoryRaw.Initialized &&
-            playerInventory != null && playerInventory.Initialized &&
-            TableManager.Instance != null && TableManager.Instance.loadComplete);
+            playerInventory != null && playerInventory.Initialized);
 
         player = GameManager.Instance.Player.GetComponent<PlayerController>();
         
