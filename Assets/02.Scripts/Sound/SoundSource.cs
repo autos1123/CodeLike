@@ -35,7 +35,9 @@ public class SoundSource : MonoBehaviour ,IPoolObject
         audioSource.clip = clip;
         audioSource.Play();
         if(issfx) { StartCoroutine(wiatEnd(clip.length)); }
+        else audioSource.loop = true;
     }
+
     public void Stop()
     {
         audioSource.Stop();
