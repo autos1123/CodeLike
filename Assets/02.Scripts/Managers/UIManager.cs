@@ -25,7 +25,7 @@ public class UIManager:MonoSingleton<UIManager>
     private IEnumerator Start()
     {
         // Addressables 로딩이 끝나고
-        yield return new WaitUntil(() => StageManager.Instance.currentStage != null);
+        yield return new WaitUntil(() => StageManager.Instance.CurrentStage != null);
     }
 
     private void Update()
