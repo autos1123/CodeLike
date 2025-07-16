@@ -6,11 +6,9 @@ public class ProceduralStageGenerator:MonoBehaviour
     // 변수는 기본적으로 private으로 관리
 
     //맵 생성 시드 번호
-    public int seed; // 삭제 필요
     //맵 랜덤화 함수 참조항목
     public System.Random random;
      //방 갯수(StageManager에서 랜덤화됨)
-    public int roomCount; // 삭제 필요
 
     //그리드 반경 및 높이
     public int gridWidth = 10;
@@ -29,15 +27,14 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     private bool[,] grid;
     public StageData stageData;
-    public List<Room> AllRooms { get; private set; } = new(); // 삭제 필요 (StageManager에서 관리)
 
     private bool isShopRoomSpawned;
     private int shopRoomPlacementOrder;
 
     // 매개변수로 룸 개수도 받아오기
-    public List<Room> Generate(int seed)
+    public StageData Generate(int seed, int roomCount)
     {
-        this.seed = seed;
+  
         random = new System.Random(seed);
         nextRoomID = 0; // 첫 Room은 시작방으로 하기 위해 0부터 시작
         grid = new bool[gridWidth, gridHeight];
@@ -107,22 +104,17 @@ public class ProceduralStageGenerator:MonoBehaviour
                 }
             }
 
-            // 삭제해도 될 조건문
-            if(grid[current.x, current.y])
-            {
-                continue;
-            }
         }
         PlaceConnections();
-        return new List<Room>(stageData.roomMap.Values);
+        return stageData;
     }
 
     private Room CreateRoom(Vector2Int gridPos, RoomType type)
     {
+
         GameObject prefab = prefabSet.GetRandomPrefab(type);
         if(prefab == null)
         {
-            Debug.LogError($"❌ 프리팹이 존재하지 않음! RoomType: {type}");
             return null;
         }
 
@@ -134,7 +126,6 @@ public class ProceduralStageGenerator:MonoBehaviour
         Room room = roomGO.GetComponent<Room>();
         if(room == null)
         {
-            Debug.LogError($"❌ Room 컴포넌트가 프리팹 '{prefab.name}'에 없음!");
             return null;
         }
 
@@ -143,7 +134,6 @@ public class ProceduralStageGenerator:MonoBehaviour
 
        // room.SetRoomActive(false);
 
-        AllRooms.Add(room);
 
         return room;
     }
@@ -210,7 +200,6 @@ public class ProceduralStageGenerator:MonoBehaviour
 
         if(fromAnchor == null || toAnchor == null)
         {
-            Debug.LogWarning($"Missing anchor for Room {fromRoom.Id} → {toRoom.Id} at direction {direction}");
             return;
         }
 
