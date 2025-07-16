@@ -106,12 +106,10 @@ public class ProceduralStageGenerator:MonoBehaviour
                     // Dictionary<Vector2Int, Direction> 변수에 방향 저장
                 }
             }
-            Debug.Log($" 현재 위치: {current}");
 
             // 삭제해도 될 조건문
             if(grid[current.x, current.y])
             {
-                Debug.Log($" 이미 방문한 좌표: {current}");
                 continue;
             }
         }
@@ -121,8 +119,6 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     private Room CreateRoom(Vector2Int gridPos, RoomType type)
     {
-        Debug.Log($"🧪 CreateRoom 호출됨: gridPos={gridPos}, type={type}");
-
         GameObject prefab = prefabSet.GetRandomPrefab(type);
         if(prefab == null)
         {
@@ -149,7 +145,6 @@ public class ProceduralStageGenerator:MonoBehaviour
 
         AllRooms.Add(room);
 
-        Debug.Log($"✅ Room 생성 완료: ID={room.Id}, Type={type}, Pos={gridPos}");
         return room;
     }
 

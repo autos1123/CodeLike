@@ -13,7 +13,6 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 {
     private SlotUI slotUI;
     private Image iconImage;
-    private bool isBeingDragged = false;
 
     private void Awake()
     {
@@ -31,7 +30,6 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             return;
         }
 
-        isBeingDragged = true;
         iconImage.raycastTarget = false;
 
         slotUI.RefreshVisual();
@@ -55,7 +53,6 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void OnEndDrag(PointerEventData eventData)
     {
         iconImage.raycastTarget = true;
-        isBeingDragged = false;
 
         slotUI.RefreshVisual();
         DragManager.Instance.ClearGhost();
