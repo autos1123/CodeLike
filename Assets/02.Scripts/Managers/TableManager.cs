@@ -62,7 +62,11 @@ public class TableManager:MonoSingleton<TableManager>
     }
 
 #endif
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"> T 테이블 타입</typeparam>
+    /// <returns></returns>
     public T GetTable<T>() where T : class
     {
         return tableDic[typeof(T)] as T;

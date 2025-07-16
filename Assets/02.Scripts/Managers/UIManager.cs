@@ -65,10 +65,6 @@ public class UIManager:MonoSingleton<UIManager>
                 }
             }
         };
-        foreach(var kvp in _uiInstances)
-        {
-            Debug.Log($"- {kvp.Key}");
-        }
     }
 
     public void ToggleUI<T>() where T : UIBase

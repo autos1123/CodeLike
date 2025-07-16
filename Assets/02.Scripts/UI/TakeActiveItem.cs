@@ -91,7 +91,6 @@ public class TakeActiveItem:UIBase
     public void OnTakeButton()
     {
         if(selectedSlot == -1) return;
-        Debug.Log($"[DEBUG] 선택된 슬롯: {selectedSlot}, 전체 슬롯 수: {activeItemSlots.Length}");
 
         var slotObj = activeItemSlots[selectedSlot];
 

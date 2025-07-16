@@ -202,7 +202,6 @@ public class ShopUI : UIBase
         
         if (ShopManager.Instance.TryExecuteTransaction(sellItems, buyItems, out var result))
         {
-            Debug.Log(result);
             foreach(var slot in buySlotSelected)
             {
                 purchaseSlots.Add(slot.InventoryItemSlot);

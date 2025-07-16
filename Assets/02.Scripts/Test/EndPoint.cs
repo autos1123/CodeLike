@@ -40,7 +40,6 @@ public class EndPoint : MonoBehaviour, IInteractable
     public void Interact(GameObject other)
     {
         StageManager.Instance.LoadStage();
-        Debug.Log("끝");
         return;
 
         //UIManager.Instance.ShowUI<GameOver>() 맵 클리어 ui 생기면 추가
