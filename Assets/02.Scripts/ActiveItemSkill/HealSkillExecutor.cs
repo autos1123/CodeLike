@@ -4,9 +4,9 @@ public class HealSkillExecutor :ISkillExecutor
 {
     public void Execute(ActiveItemEffectData data, Transform caster, Vector3 targetPoint)
     {
-        if(caster.TryGetComponent<PlayerController>(out var playerController))
+        if(caster.TryGetComponent<BaseCondition>(out var baseCondition))
         {
-            //플레이어 컨트롤러에서 회복
+            baseCondition.GetDamaged(-data.Power);
         }
     }
 }
