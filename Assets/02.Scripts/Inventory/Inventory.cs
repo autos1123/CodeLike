@@ -191,7 +191,7 @@ public class Inventory : MonoBehaviour, IInventory
         activeItemSlots[slotIndex].Set(newItem);
 
         // 컨트롤러에도 반영
-        if(skillinput != null)
+        if(skillinput != Skillinput.None)
             PlayerActiveItemController.TakeItem(skillinput, newItem);
         else
             PlayerActiveItemController.TakeItem(newItem);

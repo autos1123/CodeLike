@@ -34,8 +34,6 @@ public class MinimapUI: UIBase
     
     public void GenerateMinimap(List<MinimapRoomData> roomDataList)
     {
-        Debug.Log($" 미니맵 생성 시작 - 방 수: {roomDataList.Count}");
-
         foreach(Transform child in minimapRoot)
             Destroy(child.gameObject); // 또는 Pool에서 회수
 
@@ -72,7 +70,6 @@ public class MinimapUI: UIBase
         {
             var minimapData = MinimapBuilder.BuildFromStage(stageData, stageData.connections);
             minimap.GenerateMinimap(minimapData);
-            Debug.Log($" Minimap 생성 완료: {minimapData.Count}개 방");
         }
         else
         {
