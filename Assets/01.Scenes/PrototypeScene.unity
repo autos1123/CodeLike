@@ -266,6 +266,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
+--- !u!114 &765587999 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4673396575172290464, guid: 0e6794c5676cee841a351fe4ba0f6767, type: 3}
+  m_PrefabInstance: {fileID: 1721681452054118733}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a540576c0c63d774481ded398e436e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &893217199
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,6 +511,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2844420801452374289, guid: e89e0f7baa0694a4baf4cea13ca1931b, type: 3}
+      propertyPath: tooltipManager
+      value: 
+      objectReference: {fileID: 765587999}
     - target: {fileID: 5988975021464637512, guid: e89e0f7baa0694a4baf4cea13ca1931b, type: 3}
       propertyPath: m_Name
       value: UIManager

@@ -12,7 +12,7 @@ public class UIManager:MonoSingleton<UIManager>
     private List<Action> _onUILoaded = new();
 
     [SerializeField] private string currentSceneName;
-
+    [SerializeField] private TooltipManager tooltipManager;
     protected override bool Persistent => false;
 
     
@@ -61,7 +61,7 @@ public class UIManager:MonoSingleton<UIManager>
                 }
                 if (tableObj.name.Contains("TooltipUI"))
                 {
-                    TooltipManager.Instance.RegisterTooltipUI(tableObj);
+                    tooltipManager.RegisterTooltipUI(tableObj);
                 }
             }
         };

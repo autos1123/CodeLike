@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 /// <summary>
@@ -8,11 +9,17 @@ using UnityEngine.EventSystems;
 public class SlotTooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private SlotUI slotUI;
-
+    [SerializeField] private TooltipManager tooltipManager;
     private void Awake()
     {
         slotUI = GetComponent<SlotUI>();
     }
+
+    private void Start()
+    {
+        tooltipManager = FindObjectOfType<TooltipManager>();
+    }
+
     /// <summary>
     /// 마우스가 슬롯에 들어왔을 때 툴팁 표시
     /// </summary>
@@ -26,9 +33,9 @@ public class SlotTooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerE
 
         if (slotUI.InventorySlot == null || slotUI.InventorySlot.IsEmpty) return;
 
-        if (!TooltipManager.Instance.IsVisible)
+        if (!tooltipManager.IsVisible)
         {
-            TooltipManager.Instance.Show(slotUI.InventorySlot.GetDescription(slotUI.slotType), eventData.position);
+            tooltipManager.Show(slotUI.InventorySlot.GetDescription(slotUI.slotType), eventData.position);
         }
     }
     /// <summary>
@@ -40,6 +47,6 @@ public class SlotTooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             slotUI.backgroundImage.color = new Color(1f, 1f, 1f, 1f);
         }
-        TooltipManager.Instance.Hide();
+        tooltipManager.Hide();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DragManager : MonoSingleton<DragManager>
+public class DragManager : MonoBehaviour
 {
     [Header("드래그용 프리팹")]
     [SerializeField] private GameObject ghostPrefab;
@@ -11,7 +11,7 @@ public class DragManager : MonoSingleton<DragManager>
     private List<GameObject> ghostPool = new();
     private GameObject ghostInstance; 
     private Image ghostImage;
-
+    
     /// <summary>
     /// 드래그 고스트 생성 또는 재사용
     /// </summary>
@@ -64,6 +64,6 @@ public class DragManager : MonoSingleton<DragManager>
         }
     }
 
-    protected override bool Persistent => true; // 씬 전환에도 유지됨
-    protected override bool ShouldRename => true;
+    // protected override bool Persistent => true; // 씬 전환에도 유지됨
+    // protected override bool ShouldRename => true;
 }
