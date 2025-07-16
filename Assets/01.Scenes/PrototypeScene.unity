@@ -710,6 +710,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &1574785346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1574785348}
+  - component: {fileID: 1574785347}
+  m_Layer: 0
+  m_Name: DestinyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1574785347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574785346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0ae98c1a99ad1428fe45ef96056b31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curDestinyData:
+    ID: 0
+    Name: 
+    PositiveEffectDataID: 0
+    NegativeEffectDataID: 0
+--- !u!4 &1574785348
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574785346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &320221824895290261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1240,6 +1289,7 @@ SceneRoots:
   - {fileID: 1721681452054118733}
   - {fileID: 876452073499790214}
   - {fileID: 4510995219927418955}
+  - {fileID: 1574785348}
   - {fileID: 1264963710}
   - {fileID: 988819896}
   - {fileID: 745168802}

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class DestinyManager : MonoSingleton<DestinyManager>
 {
-    public DestinyData curDestinyData;// 현재 적용중인 운명
+    private DestinyData curDestinyData;// 현재 적용중인 운명
 
     public event Action<DestinyData, int> onDestinyChange;
 
