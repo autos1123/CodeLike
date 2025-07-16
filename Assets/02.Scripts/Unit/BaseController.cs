@@ -109,40 +109,21 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
     /// <returns></returns>
     public virtual Collider[] GetTargetColliders(LayerMask layer)
     {
-        Collider[] hitColliders;
-
         float attackRange = Condition.GetValue(ConditionType.AttackRange);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange, layer);
+        List<Collider> filteredColliders = new List<Collider>();
 
-        // 2D와 3D 모드에 따라 다른 오버랩 박스 크기 사용
-        // 2D 모드에서는 z축을 늘려 x, y축만 고려할 수 있도록 
-        if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
+        foreach(Collider collider in hitColliders)
         {
-            // 공격 범위의 중심점 설정
-            // 중심점 위치는 오브젝트의 전방 방향으로 설정
-            Vector3 pivot = transform.position + (visualTransform.forward * (attackRange / 2.0f)) + Vector3.up;
+            Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
+            float angle = Vector3.Angle(visualTransform.forward, directionToTarget);
 
-            hitColliders = Physics.OverlapBox(pivot, new Vector3(attackRange, 1.5f, 100), Quaternion.identity, layer);
-            return hitColliders;
+            if(angle <= attackAngle)
+                filteredColliders.Add(collider);
         }
-        else
-        {
-            hitColliders = Physics.OverlapSphere(transform.position, attackRange, layer);
-            List<Collider> filteredColliders = new List<Collider>();
-
-            // 시각적 방향과 타겟 방향 사이의 각도를 계산하여 필터링
-            foreach(Collider collider in hitColliders)
-            {
-                Vector3 directionToTarget = (collider.transform.position - transform.position).normalized;
-                float angle = Vector3.Angle(visualTransform.forward, directionToTarget);
-
-                if(angle <= attackAngle) // 원하는 각도
-                {
-                    filteredColliders.Add(collider);
-                }
-            }
-            return filteredColliders.ToArray();
-        }
+        return filteredColliders.ToArray();
     }
+
 
     /// <summary>
     /// 게임 상태가 변경될 때 호출되는 메서드입니다.
