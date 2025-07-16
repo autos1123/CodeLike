@@ -18,21 +18,6 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     {
         base.Awake();
         
-        if (tooltipGO == null)
-        {
-            Debug.LogError("[TooltipManager] tooltipGO가 인스펙터에서 할당되지 않았습니다!");
-        }
-        if (tooltipRect == null && tooltipGO != null)
-        {
-            tooltipRect = tooltipGO.GetComponent<RectTransform>();
-            if (tooltipRect == null) Debug.LogError("[TooltipManager] tooltipGO에 RectTransform 컴포넌트가 없습니다!");
-        }
-        if (descriptionText == null && tooltipGO != null)
-        {
-            descriptionText = tooltipGO.GetComponentInChildren<TextMeshProUGUI>();
-            if (descriptionText == null) Debug.LogError("[TooltipManager] tooltipGO의 자식에서 TextMeshProUGUI 컴포넌트를 찾을 수 없습니다!");
-        }
-        
         // 모든 초기화 후 숨기기
         Hide(); 
     }
