@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class ProceduralStageGenerator:MonoBehaviour
 {
+    // 변수는 기본적으로 private으로 관리
+
     //맵 생성 시드 번호
-    public int seed;
+    public int seed; // 삭제 필요
     //맵 랜덤화 함수 참조항목
     public System.Random random;
      //방 갯수(StageManager에서 랜덤화됨)
-    public int roomCount;
+    public int roomCount; // 삭제 필요
 
     //그리드 반경 및 높이
     public int gridWidth = 10;
@@ -22,25 +24,26 @@ public class ProceduralStageGenerator:MonoBehaviour
 
     public RoomPrefabSet prefabSet;
 
-    //방을 생성할 좌표(오브젝트)
+    // 생성된 방을 담아둘 오브젝트
     public Transform roomParent;
 
     private bool[,] grid;
     public StageData stageData;
-    public List<Room> AllRooms { get; private set; } = new();
+    public List<Room> AllRooms { get; private set; } = new(); // 삭제 필요 (StageManager에서 관리)
 
     private bool isShopRoomSpawned;
     private int shopRoomPlacementOrder;
 
+    // 매개변수로 룸 개수도 받아오기
     public List<Room> Generate(int seed)
     {
         this.seed = seed;
         random = new System.Random(seed);
-        nextRoomID = 0; 
+        nextRoomID = 0; // 첫 Room은 시작방으로 하기 위해 0부터 시작
         grid = new bool[gridWidth, gridHeight];
 
         stageData = new StageData();
-        stageData.InitializeGrid(gridWidth, gridHeight);
+        stageData.InitializeGrid(gridWidth, gridHeight); //
 
         isShopRoomSpawned = false;
         shopRoomPlacementOrder = random.Next(1, roomCount - 1);
@@ -48,13 +51,18 @@ public class ProceduralStageGenerator:MonoBehaviour
         Vector2Int startGridPos = new Vector2Int(0, 0);
         Stack<Vector2Int> stack = new();
         Dictionary<Vector2Int, int> roomIdMap = new();
+        // Dictionary<Vector2Int, Direction> 타입으로 현재 방과 연결된 직전 방 방향 저장
 
         stack.Push(startGridPos);
 
+        // 지정된 룸 개수 만큼 반복
+        // 스택이 비어있지 않아야함 == 직전 룸이 다음 룸 지정에 성공해야함
         while(roomIdMap.Count < roomCount && stack.Count > 0)
         {
 
             Vector2Int current = stack.Pop();
+
+            // 이미 생성된 룸이 있는 경우
             if(grid[current.x, current.y]) continue;
 
             RoomType type = RoomType.Normal;
@@ -64,6 +72,10 @@ public class ProceduralStageGenerator:MonoBehaviour
             {
                 type = RoomType.Shop;
             }
+
+            // 수정 필요
+            // Dictionary<Vector2Int, Direction>타입 변수로 해결
+            // 이전 방과 연결
             List<Direction> connectedDirs = new();
             foreach(var dir in GetShuffledDirections())
             {
@@ -83,12 +95,15 @@ public class ProceduralStageGenerator:MonoBehaviour
             stageData.RegisterRoom(room);
             grid[current.x, current.y] = true;
 
+            // 다음 방과 연결
             foreach(var dir in GetShuffledDirections())
             {
                 Vector2Int next = current + DirectionToOffset(dir);
                 if(IsInBounds(next) && !grid[next.x, next.y])
                 {
                     stack.Push(next);
+                    // (int)dir * -1; == 반대 방향 구하기
+                    // Dictionary<Vector2Int, Direction> 변수에 방향 저장
                 }
             }
 
@@ -133,11 +148,20 @@ public class ProceduralStageGenerator:MonoBehaviour
         return room;
     }
 
+    /// <summary>
+    /// 주어진 위치가 그리드 범위 내에 있는지 확인합니다.
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <returns></returns>
     private bool IsInBounds(Vector2Int pos)
     {
         return pos.x >= 0 && pos.x < gridWidth && pos.y >= 0 && pos.y < gridHeight;
     }
 
+    /// <summary>
+    /// 방향을 무작위로 섞어서 반환합니다.
+    /// </summary>
+    /// <returns></returns>
     private List<Direction> GetShuffledDirections()
     {
         List<Direction> dirs = new() { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
