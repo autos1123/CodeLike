@@ -32,12 +32,6 @@ public class InteractionController:MonoBehaviour
         col = GetComponent<Collider>(); // Collider 컴포넌트 가져오기
         player = GetComponent<PlayerController>(); // 플레이어 메쉬 트랜스폼 가져오기
     }
-
-    private void Start()
-    {
-        size_2D = new Vector3(interactableRange, col.bounds.extents.y, col.bounds.extents.z);
-    }
-
     private void OnEnable()
     {
         if(inputHandler != null)
@@ -89,6 +83,7 @@ public class InteractionController:MonoBehaviour
         }
         else
         {
+            size_2D = new Vector3(interactableRange, col.bounds.extents.y, col.bounds.extents.z);
             hitColliders = Physics.OverlapBox(col.bounds.center, size_2D, Quaternion.identity, interactableLayer);
         }
 

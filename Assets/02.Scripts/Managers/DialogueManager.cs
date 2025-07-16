@@ -9,8 +9,6 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 
     public void Start()
     {
-        playerCamera = transform.GetChild(0).GetComponent<Camera>();
-        npcCamera = transform.GetChild(1).GetComponent<Camera>();
         playerCamera.gameObject.SetActive(false);
         npcCamera.gameObject.SetActive(false);
     }
