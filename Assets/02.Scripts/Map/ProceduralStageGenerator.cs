@@ -31,6 +31,10 @@ public class ProceduralStageGenerator:MonoBehaviour
     private bool isShopRoomSpawned;
     private int shopRoomPlacementOrder;
 
+    Dictionary<Vector2Int, Direction> connectedNeighbors = new();
+    Dictionary<Vector2Int, Direction> cameFrom = new();
+
+
     // 매개변수로 룸 개수도 받아오기
     public StageData Generate(int seed, int roomCount)
     {
@@ -70,21 +74,24 @@ public class ProceduralStageGenerator:MonoBehaviour
                 type = RoomType.Shop;
             }
 
-            // 수정 필요
-            // Dictionary<Vector2Int, Direction>타입 변수로 해결
-            // 이전 방과 연결
-            List<Direction> connectedDirs = new();
-            foreach(var dir in GetShuffledDirections())
+
+            foreach(Direction dir in GetShuffledDirections())
             {
                 Vector2Int neighbor = current + DirectionToOffset(dir);
                 if(IsInBounds(neighbor) && grid[neighbor.x, neighbor.y])
                 {
-                    int neighborId = roomIdMap[neighbor];
-                    RoomConnection conn = new RoomConnection(nextRoomID, neighborId, dir);
-                    stageData.connections.Add(conn);
-                    connectedDirs.Add(dir);
-
+                    connectedNeighbors[neighbor] = dir; //  이웃 위치와 연결 방향 저장
                 }
+            }
+
+            // 이후 RoomConnection 등록
+            foreach(KeyValuePair<Vector2Int, Direction> pair in connectedNeighbors)
+            {
+                int neighborId = roomIdMap[pair.Key];
+                Direction dir = pair.Value;
+
+                RoomConnection conn = new RoomConnection(nextRoomID, neighborId, dir);
+                stageData.connections.Add(conn);
             }
 
             Room room = CreateRoom(current, type);
@@ -92,15 +99,13 @@ public class ProceduralStageGenerator:MonoBehaviour
             stageData.RegisterRoom(room);
             grid[current.x, current.y] = true;
 
-            // 다음 방과 연결
-            foreach(var dir in GetShuffledDirections())
+            foreach(Direction dir in GetShuffledDirections())
             {
                 Vector2Int next = current + DirectionToOffset(dir);
                 if(IsInBounds(next) && !grid[next.x, next.y])
                 {
                     stack.Push(next);
-                    // (int)dir * -1; == 반대 방향 구하기
-                    // Dictionary<Vector2Int, Direction> 변수에 방향 저장
+                    cameFrom[next] = (Direction)((int)dir * -1); // 반대 방향 저장
                 }
             }
 
