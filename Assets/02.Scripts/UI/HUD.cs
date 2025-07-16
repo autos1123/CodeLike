@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +32,15 @@ public class HUD:UIBase
     public override void Close()
     {
         base.Close();
+        if(player == null) return;
+
+        player.Condition.statModifiers[ConditionType.Gold] -= ChangeGold;
+        player.Condition.statModifiers[ConditionType.HP] -= ChangeHP;
+    }
+    //07_15 : 만약 플레이어 객체가 UI보다 먼저 파괴될 경우 Close()가 호출되지않을수 있어서
+    //스크립트 파괴시 구독해제 추가
+    private void OnDestroy()
+    {
         if(player == null) return;
 
         player.Condition.statModifiers[ConditionType.Gold] -= ChangeGold;
