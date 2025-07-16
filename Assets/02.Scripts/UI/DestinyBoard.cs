@@ -7,8 +7,8 @@ public class DestinyBoard:UIBase
     [SerializeField] DestinyCard[] cards;
     [SerializeField] Button FailedButton;
     TableManager _tableManager;
-    public override string UIName => "DestinyBoard";
-    
+    public override string UIName => this.GetType().Name;
+
     public override void Open()
     {
         base.Open();

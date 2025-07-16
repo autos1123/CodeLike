@@ -13,7 +13,7 @@ public class HUD:UIBase
     [SerializeField] Image ItemSlot1;
     [SerializeField] Image ItemSlot2;
 
-    public override string UIName => "HUD";
+    public override string UIName => this.GetType().Name;
 
     public override void Open()
     {

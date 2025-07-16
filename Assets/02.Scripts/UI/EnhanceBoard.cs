@@ -7,7 +7,7 @@ public class EnhanceBoard : UIBase
 {
     [SerializeField] EnhanceCard[] cards;
     TableManager _tableManager;
-    public override string UIName => "EnhanceBoard";
+    public override string UIName => this.GetType().Name;
 
     public override void Open()
     {

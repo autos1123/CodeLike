@@ -12,7 +12,7 @@ public class MinimapUI: UIBase
     Dictionary<(int x, int y), GameObject> Rooms = new();
 
     PlayerController player;
-    public override string UIName => "MinimapUI"; // 중요!
+    public override string UIName => this.GetType().Name;
 
     public Transform minimapRoot; // 빈 오브젝트, 미니맵 아이콘 모음용
     public override void Open()

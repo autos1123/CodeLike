@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public class InventoryUI : UIBase
 {
-    public override string UIName => "InventoryUI"; 
-    
+    public override string UIName => this.GetType().Name;
+
     private Inventory inventory;
     
     public SlotUI[] inventorySlotUIs; // 중간 16칸

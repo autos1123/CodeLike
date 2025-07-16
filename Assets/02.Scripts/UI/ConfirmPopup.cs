@@ -12,7 +12,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ConfirmPopup : UIBase
 {
-    public override string UIName => "ConfirmPopup";
+    public override string UIName => this.GetType().Name;
 
     public TextMeshProUGUI messageText;
     public Button confirmButton;

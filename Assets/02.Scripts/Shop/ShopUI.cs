@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ShopUI : UIBase
 {
-    public override string UIName => "ShopUI";
+    public override string UIName => this.GetType().Name;
 
     private PlayerController player;
     private IInventory playerInventory => GameManager.Instance.Player?.GetComponent<Inventory>();

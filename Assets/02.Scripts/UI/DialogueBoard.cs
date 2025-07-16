@@ -8,7 +8,7 @@ public class DialogueBoard : UIBase
     [SerializeField] RawImage playerRawImage;
     [SerializeField] RawImage npcRawImage;
 
-    public override string UIName => "DialogueBoard";
+    public override string UIName => this.GetType().Name;
 
     public override void Open()
     {
