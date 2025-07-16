@@ -37,14 +37,14 @@ public class TooltipManager : MonoSingleton<TooltipManager>
         Hide(); 
     }
     
-    // public void RegisterTooltipUI(GameObject uiRoot)
-    // {
-    //     tooltipGO = uiRoot;
-    //     tooltipRect = uiRoot.GetComponent<RectTransform>();
-    //     descriptionText = uiRoot.GetComponentInChildren<TextMeshProUGUI>();
-    //
-    //     Hide();
-    // }
+    public void RegisterTooltipUI(GameObject uiRoot)
+    {
+        tooltipGO = uiRoot;
+        tooltipRect = uiRoot.GetComponent<RectTransform>();
+        descriptionText = uiRoot.GetComponentInChildren<TextMeshProUGUI>();
+    
+        Hide();
+    }
 
     /// <summary>
     /// 툴팁을 화면에 표시하고 지정한 위치로 이동
