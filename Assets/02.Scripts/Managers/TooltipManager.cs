@@ -25,8 +25,8 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     public void RegisterTooltipUI(GameObject uiRoot)
     {
         tooltipGO = uiRoot;
-        tooltipRect = uiRoot.GetComponent<RectTransform>();
-        descriptionText = uiRoot.GetComponentInChildren<TextMeshProUGUI>();
+        tooltipRect = tooltipGO.GetComponent<RectTransform>();
+        descriptionText = tooltipGO.GetComponentInChildren<TextMeshProUGUI>();
     
         Hide();
     }

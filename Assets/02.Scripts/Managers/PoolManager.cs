@@ -4,6 +4,14 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 
+public enum PoolLoad
+{
+    None,
+    pool,
+    pool1,
+    pool2,
+}
+
 [DefaultExecutionOrder(-100)]
 public class PoolManager : MonoSingleton<PoolManager>
 {
@@ -16,16 +24,16 @@ public class PoolManager : MonoSingleton<PoolManager>
     public bool IsInitialized { get; private set; } = false;
     protected override void Awake()
     {
-        LoadPoolsAsync();
+        LoadPoolsAsync(PoolLoad.pool);
     }
 
     /// <summary>
     /// 라벨을 통해 어드레서블에 올린 데이터 탐색하여 저장
     /// </summary>
-    private void LoadPoolsAsync()
+    private void LoadPoolsAsync(PoolLoad poolLoad)
     {
         Addressables.LoadAssetsAsync<GameObject>(
-            AddressbleLabels.PoolLabel,
+            poolLoad.ToString(),
             (GameObject) =>
             {
                 poolObjectList.Add(GameObject);
@@ -48,8 +56,7 @@ public class PoolManager : MonoSingleton<PoolManager>
                 CreatePool(pool, pool.PoolSize);
             }
             IsInitialized = true;
-        };
-                
+        };                
     }
 
     private void CreatePool(IPoolObject iPoolObject, int poolsize)
