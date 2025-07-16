@@ -6,7 +6,7 @@ public class HealSkillExecutor :ISkillExecutor
     {
         if(caster.TryGetComponent<BaseCondition>(out var baseCondition))
         {
-            baseCondition.GetDamaged(data.Power);
+            baseCondition.GetDamaged(-data.Power);
         }
     }
 }
