@@ -14,19 +14,37 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     
     
     public bool IsVisible => tooltipGO != null && tooltipGO.activeSelf;
-    private void Start()
+    protected override void Awake() 
     {
-        Hide(); // 시작 시 숨김
+        base.Awake();
+        
+        if (tooltipGO == null)
+        {
+            Debug.LogError("[TooltipManager] tooltipGO가 인스펙터에서 할당되지 않았습니다!");
+        }
+        if (tooltipRect == null && tooltipGO != null)
+        {
+            tooltipRect = tooltipGO.GetComponent<RectTransform>();
+            if (tooltipRect == null) Debug.LogError("[TooltipManager] tooltipGO에 RectTransform 컴포넌트가 없습니다!");
+        }
+        if (descriptionText == null && tooltipGO != null)
+        {
+            descriptionText = tooltipGO.GetComponentInChildren<TextMeshProUGUI>();
+            if (descriptionText == null) Debug.LogError("[TooltipManager] tooltipGO의 자식에서 TextMeshProUGUI 컴포넌트를 찾을 수 없습니다!");
+        }
+        
+        // 모든 초기화 후 숨기기
+        Hide(); 
     }
     
-    public void RegisterTooltipUI(GameObject uiRoot)
-    {
-        tooltipGO = uiRoot;
-        tooltipRect = uiRoot.GetComponent<RectTransform>();
-        descriptionText = uiRoot.GetComponentInChildren<TextMeshProUGUI>();
-
-        Hide();
-    }
+    // public void RegisterTooltipUI(GameObject uiRoot)
+    // {
+    //     tooltipGO = uiRoot;
+    //     tooltipRect = uiRoot.GetComponent<RectTransform>();
+    //     descriptionText = uiRoot.GetComponentInChildren<TextMeshProUGUI>();
+    //
+    //     Hide();
+    // }
 
     /// <summary>
     /// 툴팁을 화면에 표시하고 지정한 위치로 이동
@@ -35,6 +53,12 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     /// <param name="position">마우스 위치</param>
     public void Show(string description, Vector2 position)
     {
+        if (tooltipGO == null || descriptionText == null || tooltipRect == null)
+        {
+            Debug.LogWarning("[TooltipManager] 툴팁 UI 컴포넌트가 제대로 초기화되지 않았습니다. Show 호출 실패.");
+            return;
+        }
+        
         if (string.IsNullOrEmpty(description))
         {
             Hide();
@@ -52,6 +76,8 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     /// <param name="position">마우스 위치</param>
     public void UpdatePosition(Vector2 position)
     {
+        if (tooltipRect == null || !IsVisible) return; // 툴팁이 보이지 않거나 RectTransform이 없으면 업데이트 안 함
+
         tooltipRect.position = position;
     }
 
