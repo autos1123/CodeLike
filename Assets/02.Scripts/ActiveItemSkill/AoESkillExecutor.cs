@@ -4,10 +4,6 @@ public class AoESkillExecutor :ISkillExecutor
 {
     public void Execute(ActiveItemEffectData data, Transform caster, Vector3 targetPoint)
     {
-        Debug.Log("범위 공격임");
-        return;
-
-
         var pos = caster.transform.position;
         var vfx = Object.Instantiate(
             Resources.Load<ParticleSystem>(data.VFX),
