@@ -32,7 +32,7 @@ public class ProceduralStageGenerator:MonoBehaviour
     private int shopRoomPlacementOrder;
 
     // 매개변수로 룸 개수도 받아오기
-    public List<Room> Generate(int seed, int roomCount)
+    public StageData Generate(int seed, int roomCount)
     {
   
         random = new System.Random(seed);
@@ -106,7 +106,7 @@ public class ProceduralStageGenerator:MonoBehaviour
 
         }
         PlaceConnections();
-        return new List<Room>(stageData.roomMap.Values);
+        return stageData;
     }
 
     private Room CreateRoom(Vector2Int gridPos, RoomType type)

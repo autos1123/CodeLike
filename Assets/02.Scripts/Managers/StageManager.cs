@@ -30,10 +30,10 @@ public class StageManager:MonoSingleton<StageManager>
         ClearStage();
 
         int roomCountBase = GameManager.Instance.stageMapCountData[stageID];
-        generator.roomCount = roomCountBase;
 
-        allRooms = generator.Generate(randomSeed);
-        currentStage = generator.stageData; //  반드시 generator 내부에서 생성한 인스턴스를 그대로 받아야 함
+        generator.Generate(randomSeed, roomCountBase);
+        currentStage = generator.stageData;
+        allRooms = new List<Room>(currentStage.roomMap.Values);
         currentStage.stageID = stageID++;
 
         // 시작 방 제외 현재 생성된 모든 방을 비활성화
