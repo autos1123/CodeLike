@@ -57,6 +57,7 @@ public abstract class BaseController<T>:MonoBehaviour, IDamagable where T : Base
 
     protected virtual void Start()
     {
+        OnViewChange(ViewManager.Instance.CurrentViewMode);
     }
 
     public virtual bool GetDamaged(float damage)
