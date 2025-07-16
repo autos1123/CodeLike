@@ -115,13 +115,13 @@ public class ShopInventory : MonoBehaviour,IInventory
     void OnEnable()
     {
         if (GameManager.Instance != null)
-            GameManager.Instance.onDestinyChange += HandleDestinyChange;
+            DestinyManager.Instance.onDestinyChange += HandleDestinyChange;
     }
 
      void OnDisable()
     {
         if (GameManager.Instance != null)
-            GameManager.Instance.onDestinyChange -= HandleDestinyChange;
+            DestinyManager.Instance.onDestinyChange -= HandleDestinyChange;
     }
     /// <summary>
     /// 운명 변경이벤트 발생시 실행할 함수

@@ -146,14 +146,14 @@ public class PlayerController:BaseController<PlayerCondition>
     protected override void OnEnable()
     {
         base.OnEnable();
-        GameManager.Instance.onDestinyChange += HandleDestinyChange;
+        DestinyManager.Instance.onDestinyChange += HandleDestinyChange;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        if(GameManager.HasInstance)
-            GameManager.Instance.onDestinyChange -= HandleDestinyChange;
+        if(DestinyManager.HasInstance)
+            DestinyManager.Instance.onDestinyChange -= HandleDestinyChange;
     }
 
     /// <summary>

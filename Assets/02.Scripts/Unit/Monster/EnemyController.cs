@@ -26,7 +26,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     protected override void OnEnable()
     {
         base.OnEnable();
-        GameManager.Instance.onDestinyChange += HandleDestinyChange;//운명변경 이벤트 연결
+        DestinyManager.Instance.onDestinyChange += HandleDestinyChange;//운명변경 이벤트 연결
         room = GetComponentInParent<Room>();
     }
     protected override void OnDisable()
@@ -35,8 +35,8 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         if(PoolManager.HasInstance)
             PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
 
-        if(GameManager.HasInstance)
-            GameManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
+        if(DestinyManager.HasInstance)
+            DestinyManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
     }
 
     protected override void Awake()

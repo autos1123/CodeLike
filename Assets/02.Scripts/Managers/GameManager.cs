@@ -14,10 +14,7 @@ public class GameManager : MonoSingleton<GameManager>
 {
     //스테이지 마다 생성할 맵의 수
     public int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };
-
-    public DestinyData curDestinyData;// 현재 적용중인 운명
-
-    public event Action<DestinyData,int> onDestinyChange;
+    DestinyManager destinyManager;
 
     [SerializeField]private GameObject _player;
     public GameObject Player
@@ -28,28 +25,27 @@ public class GameManager : MonoSingleton<GameManager>
     public GameState curGameState;
     public event Action onGameStateChange;
 
-    public void setCurDestinyData(DestinyData destinyData)
-    {
-        if(curDestinyData.ID != 0) onDestinyChange?.Invoke(curDestinyData, -1);
 
-        this.curDestinyData = destinyData;
-        onDestinyChange?.Invoke(curDestinyData, 1);
-    }
     public void setState(GameState gameState)
     {
         curGameState = gameState;
         onGameStateChange?.Invoke();
     }
+
     void OnEnable()
     {
+        if(destinyManager == null) 
+            destinyManager = DestinyManager.Instance;
+
         SceneManager.sceneLoaded += OnSceneLoaded;
-        onDestinyChange += HandleDestinyChange;
+        destinyManager.onDestinyChange += HandleDestinyChange;
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        onDestinyChange -= HandleDestinyChange;
+        destinyManager.onDestinyChange -= HandleDestinyChange;
+        destinyManager = null;
     }
 
     private void Start()
@@ -67,7 +63,7 @@ public class GameManager : MonoSingleton<GameManager>
         _player = GameObject.FindGameObjectWithTag(TagName.Player);
     }
 
-    void HandleDestinyChange(DestinyData data , int i)
+    void HandleDestinyChange(DestinyData data, int i)
     {
         DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
         DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
