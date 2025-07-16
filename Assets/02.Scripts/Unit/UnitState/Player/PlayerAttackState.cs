@@ -10,7 +10,7 @@ public class PlayerAttackState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        player._Animator.SetTrigger("attack");
+        StartAnimation(Player.AnimationData.AttackParameterHash);
         startTime = Time.time;
     }
 
@@ -33,6 +33,6 @@ public class PlayerAttackState:PlayerBaseState
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
-        Move(player.InputHandler.MoveInput); // 공격 중 이동 허용
+        Move(Player.InputHandler.MoveInput); // 공격 중 이동 허용
     }
 }

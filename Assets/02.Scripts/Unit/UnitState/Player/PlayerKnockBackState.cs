@@ -8,7 +8,7 @@ public class PlayerKnockBackState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        player._Animator.SetTrigger("isKnockBack");
+        StartAnimation(Player.AnimationData.KnockBackParameterHash);
     }
 
     public override void StateExit()

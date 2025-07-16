@@ -11,16 +11,16 @@ public class PlayerJumpState:PlayerBaseState
     {
         base.StateEnter();
 
-        StartAnimation(player.AnimationData.JumpParameterHash);
+        StartAnimation(Player.AnimationData.JumpParameterHash);
 
-        float force = player.Condition.GetValue(ConditionType.JumpPower);
+        float force = Player.Condition.GetValue(ConditionType.JumpPower);
 
-        Vector3 v = player._Rigidbody.velocity;
+        Vector3 v = Player._Rigidbody.velocity;
 
         v.y = 0;
-        player._Rigidbody.velocity = v;
+        Player._Rigidbody.velocity = v;
 
-        player._Rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+        Player._Rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
 
         jumpStartTime = Time.time;
         hasStartedFalling = false;
@@ -30,19 +30,19 @@ public class PlayerJumpState:PlayerBaseState
     public override void StateExit()
     {
         base.StateExit();
-        StopAnimation(player.AnimationData.JumpParameterHash);
+        StopAnimation(Player.AnimationData.JumpParameterHash);
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if(player.InputHandler.AttackPressed)
+        if(Player.InputHandler.AttackPressed)
         {
             // 점프 중 공격 시 상태 전환
             stateMachine.ChangeState(stateMachine.AttackState);
             return;
         }
-        Vector2 move = player.InputHandler.MoveInput;
+        Vector2 move = Player.InputHandler.MoveInput;
 
         if(move.magnitude > 0.1f)
         {
@@ -53,7 +53,7 @@ public class PlayerJumpState:PlayerBaseState
         if(Time.time - jumpStartTime < jumpGroundGrace)
             return;
 
-        if(!player.IsGrounded)
+        if(!Player.IsGrounded)
             return;
 
         // 착지시 상태 전환
@@ -63,6 +63,6 @@ public class PlayerJumpState:PlayerBaseState
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
-        Move(player.InputHandler.MoveInput);
+        Move(Player.InputHandler.MoveInput);
     }
 }

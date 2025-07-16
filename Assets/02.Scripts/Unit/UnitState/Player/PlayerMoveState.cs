@@ -12,19 +12,31 @@ public class PlayerMoveState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        StartAnimation(player.AnimationData.MoveParameterHash);
+        StartAnimation(Player.AnimationData.MoveParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
-        StopAnimation(player.AnimationData.MoveParameterHash);
+        StopAnimation(Player.AnimationData.MoveParameterHash);
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        Vector2 move = player.InputHandler.MoveInput;
+        Vector2 move = Player.InputHandler.MoveInput;
+
+        if(Player.InputHandler.JumpPressed && Player.IsGrounded)
+        {
+            stateMachine.ChangeState(stateMachine.JumpState);
+            return;
+        }
+
+        if(Player.InputHandler.AttackPressed)
+        {
+            stateMachine.ChangeState(stateMachine.AttackState);
+            return;
+        }
 
         if(move != Vector2.zero)
         {
@@ -39,20 +51,11 @@ public class PlayerMoveState:PlayerBaseState
                 stateMachine.ChangeState(stateMachine.IdleState);
             }
         }
-
-        if(player.InputHandler.JumpPressed && player.IsGrounded)
-        {
-            stateMachine.ChangeState(stateMachine.JumpState);
-        }
-
-
-        if(player.InputHandler.AttackPressed)
-            stateMachine.ChangeState(stateMachine.AttackState);
     }
 
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
-        Move(player.InputHandler.MoveInput);
+        Move(Player.InputHandler.MoveInput);
     }
 }
