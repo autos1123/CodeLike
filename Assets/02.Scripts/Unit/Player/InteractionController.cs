@@ -106,7 +106,7 @@ public class InteractionController:MonoBehaviour
             }
         }
         // 텍스트 표시/숨기기 및 위치 업데이트 로직
-        if(currentBestInteractable != null)
+        if(currentBestInteractable != null && currentBestInteractable.CanInteract(gameObject))
         {
             interactableObj = currentBestInteractable;
             SetInteractTextTransform(interactableObj.PromptPivot, interactableObj.InteractionPrompt);

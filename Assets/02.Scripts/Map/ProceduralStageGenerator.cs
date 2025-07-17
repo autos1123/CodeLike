@@ -147,29 +147,35 @@ public class ProceduralStageGenerator:MonoBehaviour
     }
     public void PlaceConnections(StageData stageData)
     {
+        List<RoomConnection> conn = stageData.connections;
 
-        foreach(RoomConnection conn in stageData.connections)
+        for(int i = 0; i < conn.Count; i++)
         {
-            if (!stageData.roomMap.TryGetValue(conn.FromRoomID, out Room fromRoom) ||
-                !stageData.roomMap.TryGetValue(conn.ToRoomID, out Room toRoom))
+            if(!stageData.roomMap.TryGetValue(conn[i].FromRoomID, out Room fromRoom) ||
+                !stageData.roomMap.TryGetValue(conn[i].ToRoomID, out Room toRoom))
                 continue;
 
-            fromRoom.AddConnection(conn);
-            toRoom.AddConnection(new RoomConnection(conn.ToRoomID, conn.FromRoomID, (Direction)((int)conn.Direction * -1)));
+            fromRoom.AddConnection(conn[i]);
+            toRoom.AddConnection(new RoomConnection(conn[i].ToRoomID, conn[i].FromRoomID, (Direction)((int)conn[i].Direction * -1)));
 
 
-            CreatePortal(fromRoom, toRoom, conn.Direction);
-            CreatePortal(toRoom, fromRoom, (Direction)((int)conn.Direction * -1));
+            CreatePortal(fromRoom, toRoom, conn[i].Direction);
+            CreatePortal(toRoom, fromRoom, (Direction)((int)conn[i].Direction * -1));
+
+            // 마지막 연결 == 마지막 룸 관련 연결
+            // 직전 방과 연결된 포탈 반대 방향에 스테이지 클리어 포탈 생성하기
+            if(i == conn.Count - 1)
+            {
+                CreatePortal(fromRoom, null, (Direction)((int)conn[i].Direction * -1));
+            }
         }
     }
 
     private void CreatePortal(Room fromRoom, Room toRoom, Direction direction)
     {
         Transform fromAnchor = fromRoom.GetEntranceAnchor(direction);
-        //Transform toAnchor = toRoom.GetEntranceAnchor(Room.GetOppositeDirection(direction));
-        Transform toAnchor = toRoom.GetSponPos();
 
-        if(fromAnchor == null || toAnchor == null)
+        if(fromAnchor == null)
         {
             return;
         }
@@ -178,9 +184,8 @@ public class ProceduralStageGenerator:MonoBehaviour
         Portal portal = portalGO.GetComponent<Portal>();
         if(portal != null)
         {
-            portal.DestinationPoint = toAnchor;
-            portal.ExitDirection = direction; // ✅ 여기 수정!
-            portal.DestinationRoom = toRoom;
+            portal.InitPortal(direction, toRoom);
+            fromRoom.Portals.Add(portal);
         }
     }
 

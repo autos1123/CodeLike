@@ -38,4 +38,10 @@ public class StageData
             room.gameObject.SetActive(false);
         }
     }
+
+    public void SetCurrentRoom(Room room)
+    {
+        CurrentRoom = room;
+        UIManager.Instance.GetUI<MinimapUI>().UpdateCurrentRoomInfo();
+    }
 }

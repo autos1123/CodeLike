@@ -71,6 +71,8 @@ public class StageManager:MonoSingleton<StageManager>
 
         waitUntilCoroutine = StartCoroutine(WaitUntilCreateUI());
         ChangeStage?.Invoke();
+
+        stageID++;
     }
 
     void Start()

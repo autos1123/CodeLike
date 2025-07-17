@@ -22,23 +22,20 @@ public class Room : MonoBehaviour
     public RoomType Type { get; private set; }
 
     [Header("Anchor")]
-    public Transform playerSpawnPoint;
-    public Transform entranceUp;
-    public Transform entranceDown;
-    public Transform entranceLeft;
-    public Transform entranceRight;
+    [SerializeField] private Transform playerSpawnPoint;
+    [SerializeField] private Transform entranceUp;
+    [SerializeField] private Transform entranceDown;
+    [SerializeField] private Transform entranceLeft;
+    [SerializeField] private Transform entranceRight;
 
-    public bool isClearRoom = false;
+    public List<Portal> Portals { get; private set; } = new List<Portal>();
 
-    public event Action onRoomClear;
+    public bool isClearRoom { get; private set; } = false;
 
-    public GameObject[] Enumys;
+    [SerializeField] private GameObject[] Enumys;
     private int enemyCount;
 
     public List<RoomConnection> Connections { get; private set; } = new();
-
-    public int x;
-    public int y;
 
     private IEnumerator Start()
     {
@@ -64,7 +61,6 @@ public class Room : MonoBehaviour
     {
         Id = id;
         GridPosition = gridPos;
-        x = gridPos.x; y = gridPos.y;
         Type = type;
     }
     public void ChackClear()
@@ -79,7 +75,10 @@ public class Room : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         isClearRoom = true;
-        onRoomClear?.Invoke();
+        for(int i = 0; i < Portals.Count; i++)
+        {
+            Portals[i].OnPotalActivated();
+        }
     }
     public void AddConnection(RoomConnection conn)
     {
