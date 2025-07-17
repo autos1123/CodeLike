@@ -27,9 +27,6 @@ public class PlayerActiveItemController:MonoBehaviour
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
-
-        OnActiveItemCoolTime.Add((float time) => { });
-        OnActiveItemCoolTime.Add((float time) => { });
     }
 
     private void Start()
@@ -86,6 +83,7 @@ public class PlayerActiveItemController:MonoBehaviour
         while(activeItemDatas.Count <= index)
         {
             activeItemDatas.Add(null);
+            activeItemCoolTime.Add(0);
         }
 
         activeItemDatas[index] = activeItemData;
@@ -108,7 +106,7 @@ public class PlayerActiveItemController:MonoBehaviour
         {
             return;
         }
-        if(activeItemCoolTime[index] != 0)//쿨 대기
+        if(activeItemCoolTime[index] >= 0)//쿨 대기
         {
             return;
         }
