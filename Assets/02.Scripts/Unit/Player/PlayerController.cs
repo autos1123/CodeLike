@@ -7,7 +7,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
-public class PlayerController:BaseController<PlayerCondition>
+public class PlayerController:BaseController
 {
     public PlayerInputHandler InputHandler { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
@@ -66,9 +66,9 @@ public class PlayerController:BaseController<PlayerCondition>
         IsGrounded = isGrounded;
     }
 
-    protected override void OnDrawGizmos()
+    protected override void OnDrawGizmosSelected()
     {
-        base.OnDrawGizmos();
+        base.OnDrawGizmosSelected();
 
         if(Application.isPlaying)
         {
@@ -88,7 +88,7 @@ public class PlayerController:BaseController<PlayerCondition>
     /// </summary>
     public void Attack()
     {
-        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Enemy"));
+        Collider[] hitColliders = _CombatController.GetTargetColliders(LayerMask.GetMask("Enemy"));
 
         foreach(var hitCollider in hitColliders)
         {
@@ -99,20 +99,12 @@ public class PlayerController:BaseController<PlayerCondition>
         }
     }
 
-
-    public override bool GetDamaged(float damage)
+    public override void Hit()
     {
-        bool isAlive = base.GetDamaged(damage);
-        if(isAlive)
-        {
-            // 플레이어가 데미지를 받았을 때 상태 머신에 데미지 상태로 전환 요청
-            StateMachine.ChangeState(StateMachine.KnockbackState);
-        }
-        return isAlive;
-
+        StateMachine.ChangeState(StateMachine.KnockbackState);
     }
 
-    protected override void Die()
+    public override void Die()
     {
         StateMachine.ChangeState(StateMachine.DeadState);
     }
@@ -124,7 +116,6 @@ public class PlayerController:BaseController<PlayerCondition>
     {
         base.Initialize();
 
-        Condition = new PlayerCondition(InitConditionData());
         AnimationData = new PlayerAnimationData();
         StateMachine = new PlayerStateMachine(this);
 
@@ -176,19 +167,6 @@ public class PlayerController:BaseController<PlayerCondition>
             Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value * i); // 추후에 운명에 의한 증가량 추가
         }
 
-    }
-
-    public override void OnViewChange(ViewModeType viewMode)
-    {
-        base.OnViewChange(viewMode);
-        if(viewMode == ViewModeType.View2D)
-        {
-            col.excludeLayers = LayerMask.GetMask("Enemy"); // 2D 모드에서는 Enemy 레이어 제외
-        }
-        else if(viewMode == ViewModeType.View3D)
-        {
-            col.excludeLayers = 0;
-        }
     }
 
     public void SetCurrentRoom(Room room)

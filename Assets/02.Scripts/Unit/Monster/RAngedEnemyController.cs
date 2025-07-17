@@ -12,7 +12,7 @@ public class RangedEnemyController : EnemyController
     /// </summary>
     public override void AttackAction()
     {
-        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Player"));
+        Collider[] hitColliders = _CombatController.GetTargetColliders(LayerMask.GetMask("Player"));
 
         foreach(var hitCollider in hitColliders)
         {
