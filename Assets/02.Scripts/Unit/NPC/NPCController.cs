@@ -35,6 +35,7 @@ public class NPCController : MonoBehaviour, IInteractable
 
             case NPCType.Merchant:
                 TryOpenShop();
+                OpenDialogue(interactor);
                 break;
         }
     }
