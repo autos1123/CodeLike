@@ -5,7 +5,7 @@ using UnityEngine;
 public class TutorialStageManager : StageManager
 {
     [SerializeField] private Room tutorialRoomPrefab;
-
+    public bool IsTutorialStageReady { get; private set; } = false;
     protected override bool Persistent => false; 
     
     public override void LoadStage()
@@ -25,7 +25,7 @@ public class TutorialStageManager : StageManager
                 currentStage.InitializeGrid(1, 1);
                 
                 currentStage.roomMap = new Dictionary<int, Room>();
-                currentStage.roomMap.Add(tutorialRoom.GetHashCode(), tutorialRoom); // 방 고유 ID 대신 해시코드를 임시 사용
+                currentStage.roomMap.Add(tutorialRoom.GetHashCode(), tutorialRoom);
                 currentStage.SetStartRoom(tutorialRoom); 
                 currentStage.stageID = 0; 
 
@@ -38,6 +38,9 @@ public class TutorialStageManager : StageManager
             {
                 Debug.LogError("할당된 튜토리얼 방 프리팹에 Room 컴포넌트가 없습니다.");
             }
+            
+            IsTutorialStageReady = true; 
+
         }
         else
         {
