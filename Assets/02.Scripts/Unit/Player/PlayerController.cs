@@ -24,6 +24,10 @@ public class PlayerController:BaseController
     protected override void Awake()
     {
         base.Awake();
+    }
+    protected override void Start()
+    {
+        base.Start();
         InputHandler = GetComponent<PlayerInputHandler>();
         ActiveItemController = GetComponent<PlayerActiveItemController>();
         _Rigidbody.freezeRotation = true;

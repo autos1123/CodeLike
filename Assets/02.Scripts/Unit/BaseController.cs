@@ -46,6 +46,9 @@ public abstract class BaseController:MonoBehaviour
     {
         _CombatController = GetComponent<CombatController>();
         _ViewChangeController = GetComponent<ViewChangeController>();
+        _Rigidbody = GetComponent<Rigidbody>();
+        _Animator = GetComponentInChildren<Animator>();
+        col = GetComponent<BoxCollider>();
     }
 
 
