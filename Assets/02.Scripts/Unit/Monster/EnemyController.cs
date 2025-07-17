@@ -9,7 +9,6 @@ public abstract class EnemyController:BaseController
 {
 
     public EnemyStateMachine StateMachine { get; private set; }
-
     public EnemyAnimationData AnimationData { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
     public Vector3 patrolPivot { get; private set; } = Vector3.zero;
@@ -22,12 +21,12 @@ public abstract class EnemyController:BaseController
     private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
     private float agentSpeedTmp; // NavMeshAgent의 속도 저장
 
-    public Room room;
+    public Room room {  get; private set; }
+
     protected override void OnEnable()
     {
         base.OnEnable();
         DestinyManager.Instance.onDestinyChange += HandleDestinyChange;//운명변경 이벤트 연결
-        room = GetComponentInParent<Room>();
     }
     protected override void OnDisable()
     {
@@ -103,6 +102,8 @@ public abstract class EnemyController:BaseController
         hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
         HpBarUpdate();
         Condition.statModifiers[ConditionType.HP] += HpBarUpdate; // 체력 변화시 UI 업데이트
+
+        room = GetComponentInParent<Room>();
 
         isInitialized = true;
     }
