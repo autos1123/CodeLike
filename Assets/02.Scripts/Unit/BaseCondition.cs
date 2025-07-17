@@ -174,6 +174,19 @@ public class BaseCondition
         return false; // 사망하지 않음
     }
 
+    public void Heal(float Heal)
+    {
+        if(!CurrentConditions.ContainsKey(ConditionType.HP))
+        {
+            Debug.LogError("HP ConditionType이 존재하지 않습니다.");
+            return;
+        }
+
+        CurrentConditions[ConditionType.HP] += Heal;
+        CurrentConditions[ConditionType.HP] = Mathf.Min(CurrentConditions[ConditionType.HP], GetValue(ConditionType.HP));
+        statModifiers[ConditionType.HP]?.Invoke(); // 체력 변경 이벤트
+    }
+
     /// <summary>
     /// 특정 컨디션 비율을 반환합니다. (0.0f ~ 1.0f)
     /// </summary>

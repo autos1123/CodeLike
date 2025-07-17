@@ -20,11 +20,9 @@ MonoBehaviour:
     Range: 3
     Duration: 0
     Cooldown: 5
-    CostType: 402
-    Cost: 10
-    VFX: 
+    VFX: "\uD654\uC0B4 \uACF5\uACA9"
     SFX: 
-    Description: "\uD654\uC0B4 \uACF5\uACA9"
+    Description: 
   - SkillID: 5001
     Name: Fire Arrow
     Type: 501
@@ -32,11 +30,9 @@ MonoBehaviour:
     Range: 3
     Duration: 0
     Cooldown: 6
-    CostType: 402
-    Cost: 12
-    VFX: 
+    VFX: "\uD654\uC5FC \uD654\uC0B4 \uACF5\uACA9"
     SFX: 
-    Description: "\uD654\uC5FC \uD654\uC0B4 \uACF5\uACA9"
+    Description: 
   - SkillID: 5002
     Name: FireWall
     Type: 502
@@ -44,11 +40,9 @@ MonoBehaviour:
     Range: 10
     Duration: 0
     Cooldown: 6
-    CostType: 402
-    Cost: 20
-    VFX: 
+    VFX: "\uD654\uC5FC \uBC94\uC704 \uACF5\uACA9"
     SFX: 
-    Description: "\uD654\uC5FC \uBC94\uC704 \uACF5\uACA9"
+    Description: 
   - SkillID: 5003
     Name: Heal
     Type: 503
@@ -56,11 +50,9 @@ MonoBehaviour:
     Range: 0
     Duration: 0
     Cooldown: 6
-    CostType: 402
-    Cost: 20
-    VFX: 
+    VFX: "\uCCB4\uB825 \uD68C\uBCF5"
     SFX: 
-    Description: "\uCCB4\uB825 \uD68C\uBCF5"
+    Description: 
   - SkillID: 5004
     Name: Fire Zone
     Type: 504
@@ -68,8 +60,6 @@ MonoBehaviour:
     Range: 10
     Duration: 0
     Cooldown: 6
-    CostType: 402
-    Cost: 20
-    VFX: 
+    VFX: "\uD654\uC5FC \uC9C0\uC18D \uD53C\uD574"
     SFX: 
-    Description: "\uD654\uC5FC \uC9C0\uC18D \uD53C\uD574"
+    Description: 

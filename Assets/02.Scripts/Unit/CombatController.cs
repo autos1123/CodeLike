@@ -54,6 +54,12 @@ public class CombatController : MonoBehaviour, IDamagable
         return true;
     }
 
+    public virtual bool Heal(float Heal)
+    {
+        baseController.Condition.Heal(Heal);
+        return true;
+    }
+
     protected virtual void OnDrawGizmosSelected()
     {
         if(Application.isPlaying && baseController.IsInitialized)

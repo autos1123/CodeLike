@@ -18,6 +18,7 @@ public class PlayerActiveItemController:MonoBehaviour
     private ActiveItemEffectDataTable activeItemEffectDataTable;
 
     public List<ActiveItemData> activeItemDatas = new();
+    public List<float> activeItemCoolTime = new();
     [SerializeField] private Transform projectileSpawnPos;
 
     private void Awake()
@@ -59,8 +60,7 @@ public class PlayerActiveItemController:MonoBehaviour
         {
             used = activeItemEffectDataTable.GetDataByID(5004);
             executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
-        }
-        
+        }        
     }
 
     /// <summary>
@@ -70,6 +70,7 @@ public class PlayerActiveItemController:MonoBehaviour
     public void TakeItem(ActiveItemData activeItemData)
     {
         activeItemDatas.Add(activeItemData);
+        activeItemCoolTime.Add(TableManager.Instance.GetTable<ActiveItemEffectDataTable>().GetDataByID(activeItemData.skillID).Cooldown);
     }
 
     public void TakeItem(Skillinput skillinput, ActiveItemData activeItemData)
@@ -97,6 +98,10 @@ public class PlayerActiveItemController:MonoBehaviour
         }
 
         if(activeItemDatas[index] == null)
+        {
+            return;
+        }
+        if(activeItemCoolTime[index] != 0)//쿨 대기
         {
             return;
         }
