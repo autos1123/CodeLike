@@ -14,7 +14,7 @@ public class TakePassiveItem : UIBase
     private ItemData currentItem;
     private Inventory playerInventory;
 
-    public override string UIName => "TakePassiveItem";
+    public override string UIName => this.GetType().Name;
 
     private void Start()
     {

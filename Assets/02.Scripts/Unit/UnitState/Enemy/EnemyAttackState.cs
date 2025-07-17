@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyBaseState
 {
-    private PlayerCondition playerCondition;
+    private BaseCondition playerCondition;
 
     float attackDelay;
     float startTime;

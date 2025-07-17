@@ -33,7 +33,7 @@ public class TakeActiveItem:UIBase
     private int selectedSlot = -1;
     private Inventory playerInventory;
 
-    public override string UIName => "TakeActiveItem";
+    public override string UIName => this.GetType().Name;
 
     private void Start()
     {

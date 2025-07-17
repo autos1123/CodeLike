@@ -7,7 +7,8 @@ public enum PoolType
     projectile,
     PlayerProjectile,
     hpBar,
-    SoundSource
+    SoundSource,
+    AoE,
 }
 public interface IPoolObject
 {

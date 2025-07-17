@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 상점 매니저: 플레이어와 상점 간의 거래를 처리하고, 결과에 따른 UI 피드백을 제공.
 /// </summary>
-public class ShopManager:MonoSingleton<ShopManager>
+public class ShopManager:MonoBehaviour
 {
     private IInventory playerInventory;
     

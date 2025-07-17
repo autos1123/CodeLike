@@ -11,9 +11,11 @@ public class HUD:UIBase
     [SerializeField] TextMeshProUGUI goldText;
     [SerializeField] Image HPFill;
     [SerializeField] Image ItemSlot1;
+    [SerializeField] Image ItemSlot1CoolTime;
     [SerializeField] Image ItemSlot2;
+    [SerializeField] Image ItemSlot2CoolTime;
 
-    public override string UIName => "HUD";
+    public override string UIName => this.GetType().Name;
 
     public override void Open()
     {
@@ -26,6 +28,15 @@ public class HUD:UIBase
 
         player.Condition.statModifiers[ConditionType.HP] += ChangeHP;
         ChangeHP();
+        
+        
+        if(activeItemController.OnActiveItemCoolTime.Count < 1) 
+            activeItemController.OnActiveItemCoolTime.Add((float n) => { });
+        activeItemController.OnActiveItemCoolTime[(int)Skillinput.X] += ChangeItemSlot1CoolTime;
+
+        if(activeItemController.OnActiveItemCoolTime.Count < 2) 
+            activeItemController.OnActiveItemCoolTime.Add((float n) => { });
+        activeItemController.OnActiveItemCoolTime[(int)Skillinput.C] += ChangeItemSlot2CoolTime;
 
         UpdateActiveItemIcons();
     }
@@ -36,6 +47,11 @@ public class HUD:UIBase
 
         player.Condition.statModifiers[ConditionType.Gold] -= ChangeGold;
         player.Condition.statModifiers[ConditionType.HP] -= ChangeHP;
+
+
+        activeItemController.OnActiveItemCoolTime[1] -= ChangeItemSlot1CoolTime;
+
+        activeItemController.OnActiveItemCoolTime[2] -= ChangeItemSlot2CoolTime;
     }
     //07_15 : 만약 플레이어 객체가 UI보다 먼저 파괴될 경우 Close()가 호출되지않을수 있어서
     //스크립트 파괴시 구독해제 추가
@@ -55,6 +71,15 @@ public class HUD:UIBase
     void ChangeHP()
     {
         HPFill.fillAmount = player.Condition.GetConditionRatio(ConditionType.HP);
+    }
+
+    void ChangeItemSlot1CoolTime(float time)
+    {
+        ItemSlot1CoolTime.fillAmount = time;
+    }
+    void ChangeItemSlot2CoolTime(float time)
+    {
+        ItemSlot2CoolTime.fillAmount = time;
     }
 
     public void UpdateActiveItemIcons()

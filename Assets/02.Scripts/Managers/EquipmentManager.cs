@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class EquipmentManager : MonoSingleton<EquipmentManager>
 {
-    private PlayerCondition playerCondition;
+    private BaseCondition playerCondition;
     [SerializeField] private Inventory playerInventory;
     
     protected override void Awake()

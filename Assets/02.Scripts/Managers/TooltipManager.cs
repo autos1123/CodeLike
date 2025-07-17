@@ -5,7 +5,7 @@ using UnityEngine;
 /// 마우스 위치에 따라 아이템 정보를 표시하는 툴팁 매니저 클래스.
 /// 활성화/비활성화 및 텍스트 갱신, 위치 업데이트 기능을 제공.
 /// </summary>
-public class TooltipManager : MonoSingleton<TooltipManager>
+public class TooltipManager : MonoBehaviour
 {
     [SerializeField]private TextMeshProUGUI descriptionText;
     [SerializeField]private RectTransform tooltipRect;
@@ -14,10 +14,8 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     
     
     public bool IsVisible => tooltipGO != null && tooltipGO.activeSelf;
-    protected override void Awake() 
+    private void Start()
     {
-        base.Awake();
-        
         // 모든 초기화 후 숨기기
         Hide(); 
     }
@@ -25,8 +23,8 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     public void RegisterTooltipUI(GameObject uiRoot)
     {
         tooltipGO = uiRoot;
-        tooltipRect = uiRoot.GetComponent<RectTransform>();
-        descriptionText = uiRoot.GetComponentInChildren<TextMeshProUGUI>();
+        tooltipRect = tooltipGO.GetComponent<RectTransform>();
+        descriptionText = tooltipGO.GetComponentInChildren<TextMeshProUGUI>();
     
         Hide();
     }

@@ -6,14 +6,14 @@ public class ViewTriggerZone : MonoBehaviour
     public bool hasEntered = false;
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player") || hasEntered) return;
+        if (!other.CompareTag(TagName.Player) || hasEntered) return;
 
         hasEntered = true;
         ViewManager.Instance?.ToggleView();
     }
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag(TagName.Player)) return;
         hasEntered = false;
         ViewManager.Instance?.ToggleView();
     }

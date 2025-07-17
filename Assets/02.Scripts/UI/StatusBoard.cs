@@ -2,7 +2,7 @@ using System.Linq;
 
 public class StatusBoard : UIBase
 {
-    public override string UIName => "StatusBoard";
+    public override string UIName => this.GetType().Name;
     Status[] _status;
     TableManager _tableManager;
     private void Awake()

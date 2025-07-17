@@ -45,10 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageMapCountData: 03000000060000000700000008000000090000000a000000
-  curDestinyData:
-    ID: 0
-    Name: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
   _player: {fileID: 0}
   curGameState: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ShopUI : UIBase
 {
-    public override string UIName => "ShopUI";
+    public override string UIName => this.GetType().Name;
 
     private PlayerController player;
     private IInventory playerInventory => GameManager.Instance.Player?.GetComponent<Inventory>();
@@ -34,7 +35,14 @@ public class ShopUI : UIBase
     
     private HashSet<InventoryItemSlot> selectedSellItems = new(); //선택된 슬롯 기억리스트 (슬롯과 그 안에 아이템 함께기억)
     private HashSet<InventoryItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
-    
+
+    private ShopManager shopManager;
+
+    private void Start()
+    {
+        shopManager = FindObjectOfType<ShopManager>();
+    }
+
     public void OpenWithInventory(ShopInventory inventory)
     {
         shopInventoryRaw = inventory;
@@ -200,7 +208,7 @@ public class ShopUI : UIBase
         var sellItems = sellSlotSelected.ConvertAll(s => s.InventoryItemSlot);
         var buyItems = buySlotSelected.ConvertAll(s => s.InventoryItemSlot);
         
-        if (ShopManager.Instance.TryExecuteTransaction(sellItems, buyItems, out var result))
+        if (shopManager.TryExecuteTransaction(sellItems, buyItems, out var result))
         {
             foreach(var slot in buySlotSelected)
             {

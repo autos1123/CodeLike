@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
+public enum UILabel
+{
+    None,
+    TitleUI,
+    InGameUI,
+}
 public class UIManager:MonoSingleton<UIManager>
 {
     private Dictionary<string, UIBase> _uiInstances = new Dictionary<string, UIBase>();
@@ -11,8 +17,8 @@ public class UIManager:MonoSingleton<UIManager>
     private bool uiLoaded = false;
     private List<Action> _onUILoaded = new();
 
-    [SerializeField] private string currentSceneName;
-
+    [SerializeField] private UILabel uiLabel;
+    [SerializeField] private TooltipManager tooltipManager;
     protected override bool Persistent => false;
 
     
@@ -41,10 +47,8 @@ public class UIManager:MonoSingleton<UIManager>
     }
     private void InitializeUI()
     {
-        string uiLabel = currentSceneName.Equals("TitleScene") ? AddressbleLabels.TitleUILabel : AddressbleLabels.InGameUILabel;
-
         Addressables.LoadAssetsAsync<GameObject>(
-            uiLabel,
+            uiLabel.ToString(),
             (GameObject) =>
             {
                 var ui = Instantiate(GameObject, this.transform);
@@ -61,7 +65,7 @@ public class UIManager:MonoSingleton<UIManager>
                 }
                 if (tableObj.name.Contains("TooltipUI"))
                 {
-                    TooltipManager.Instance.RegisterTooltipUI(tableObj);
+                    tooltipManager.RegisterTooltipUI(tableObj);
                 }
             }
         };

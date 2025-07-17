@@ -4,9 +4,9 @@ public class HealSkillExecutor :ISkillExecutor
 {
     public void Execute(ActiveItemEffectData data, Transform caster, Vector3 targetPoint)
     {
-        if(caster.TryGetComponent<BaseCondition>(out var baseCondition))
+        if(caster.TryGetComponent<IDamagable>(out var damagable))
         {
-            baseCondition.GetDamaged(data.Power);
+            damagable.GetDamaged(-data.Power);
         }
     }
 }

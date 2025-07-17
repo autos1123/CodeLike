@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class OptionBoard : UIBase
 {
-    public override string UIName => "OptionBoard";
+    public override string UIName => this.GetType().Name;
     private readonly string resolutionDataKey = "ResolutionData"; // 해상도 데이터 키
     private readonly string screenModeDataKey = "ScreenModeData"; // 해상도 데이터 키
 
