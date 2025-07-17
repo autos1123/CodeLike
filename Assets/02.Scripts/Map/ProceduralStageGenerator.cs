@@ -212,9 +212,9 @@ public class ProceduralStageGenerator:MonoBehaviour
         Portal portal = portalGO.GetComponent<Portal>();
         if(portal != null)
         {
-            portal.destinationPoint = toAnchor;
-            portal.exitDirection = direction; // ✅ 여기 수정!
-            portal.destinationRoom = toRoom;
+            portal.DestinationPoint = toAnchor;
+            portal.ExitDirection = direction; // ✅ 여기 수정!
+            portal.DestinationRoom = toRoom;
         }
     }
 
