@@ -15,6 +15,7 @@ public class ZoneSkillExecutor :ISkillExecutor
                 vfx.Play();*/
 
         var obj = PoolManager.Instance.GetObject(PoolType.AoE);
+        obj.GetComponent<AoE>().Init(data);
         obj.transform.position = caster.position;
         // 풀링으로 관리 예정 fx 구매후 fx 실행후 존스킬인경우에 몇초후 회수
 

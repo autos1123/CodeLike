@@ -13,14 +13,8 @@ public class AoESkillExecutor :ISkillExecutor
                 vfx.Play();*/
 
         var obj = PoolManager.Instance.GetObject(PoolType.AoE);
+        obj.GetComponent<AoE>().Init(data);
         obj.transform.position = caster.position;
-
-
-        Collider[] hits = Physics.OverlapSphere(targetPoint, data.Range, LayerMask.GetMask(LayerName.Enemy));
-        foreach(var c in hits)
-        {
-            c.GetComponent<IDamagable>()?.GetDamaged(data.Power);
-        }
 
         PoolManager.Instance.ReturnObject(obj.GetComponent<IPoolObject>(), 1);
     }
