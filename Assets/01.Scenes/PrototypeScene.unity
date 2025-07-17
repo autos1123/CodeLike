@@ -512,6 +512,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2844420801452374289, guid: e89e0f7baa0694a4baf4cea13ca1931b, type: 3}
+      propertyPath: uiLabel
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2844420801452374289, guid: e89e0f7baa0694a4baf4cea13ca1931b, type: 3}
       propertyPath: tooltipManager
       value: 
       objectReference: {fileID: 765587999}
@@ -754,11 +758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0ae98c1a99ad1428fe45ef96056b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curDestinyData:
-    ID: 0
-    Name: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
 --- !u!4 &1574785348
 Transform:
   m_ObjectHideFlags: 0

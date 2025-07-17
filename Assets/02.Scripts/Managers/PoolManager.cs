@@ -7,9 +7,9 @@ using UnityEngine.Events;
 public enum PoolLoad
 {
     None,
-    pool,
-    pool1,
-    pool2,
+    Pool,
+    Pool1,
+    Pool2,
 }
 
 [DefaultExecutionOrder(-100)]
@@ -24,7 +24,7 @@ public class PoolManager : MonoSingleton<PoolManager>
     public bool IsInitialized { get; private set; } = false;
     protected override void Awake()
     {
-        LoadPoolsAsync(PoolLoad.pool);
+        LoadPoolsAsync(PoolLoad.Pool);
     }
 
     /// <summary>

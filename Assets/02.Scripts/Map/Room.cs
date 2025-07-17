@@ -148,7 +148,7 @@ public class Room : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(TagName.Player))
         {
             PlayerController pc = other.GetComponent<PlayerController>();
             if (pc != null)

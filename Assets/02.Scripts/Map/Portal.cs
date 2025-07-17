@@ -60,7 +60,7 @@ public class Portal:MonoBehaviour,IInteractable
         {
             return;
         }
-        if(!other.CompareTag("Player") || destinationPoint == null)
+        if(!other.CompareTag(TagName.Player) || destinationPoint == null)
             return;
 
         float currentTime = Time.time;
