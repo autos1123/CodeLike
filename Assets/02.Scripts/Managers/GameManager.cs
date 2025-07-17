@@ -69,12 +69,12 @@ public class GameManager : MonoSingleton<GameManager>
 
         if(positiveEffect.effectedTarget == EffectedTarget.Map)
         {
-            stageMapCountData = stageMapCountData.Select(n => n + (int)positiveEffect.value * i).ToArray();
+            StageManager.Instance.StageMapCountData = StageManager.Instance.StageMapCountData.Select(n => n + (int)positiveEffect.value * i).ToArray();
         }
 
         if(negativeEffect.effectedTarget == EffectedTarget.Map)
         {
-            stageMapCountData = stageMapCountData.Select(n => n - (int)negativeEffect.value * i).ToArray();
+            StageManager.Instance.StageMapCountData = StageManager.Instance.StageMapCountData.Select(n => n - (int)negativeEffect.value * i).ToArray();
         }
 
     }

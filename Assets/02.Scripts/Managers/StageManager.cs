@@ -29,8 +29,8 @@ public class StageManager:MonoSingleton<StageManager>
 
     public int[] StageMapCountData
     {
-        get => _stageMapCountData;
-        set => _stageMapCountData = value;
+        get => stageMapCountData;
+        set => stageMapCountData = value;
     }
 
     public void LoadStage()
