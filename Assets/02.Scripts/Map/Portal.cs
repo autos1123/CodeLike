@@ -80,7 +80,7 @@ public class Portal:MonoBehaviour,IInteractable
     public void OnEnable()
     {
         if(room == null) return;
-        room.onRoomClear -= onPotal;
+        room.onRoomClear -= onPotalActivated;
     }
     /// <summary>
     /// 플레이어와의 상호작용으로 포탈 이동
