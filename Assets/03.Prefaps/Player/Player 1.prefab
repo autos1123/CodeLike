@@ -1657,6 +1657,11 @@ MonoBehaviour:
   layerToControl:
     serializedVersion: 2
     m_Bits: 64
+  orthographicEnableRatio: 0.8
+  orthographicDisableRatio: 0.2
+  cullingMaskChangeRatio: 0.3
+  hudAnimator: {fileID: 7189704172899622952, guid: 3fa4e0c541bd51f4cb67cac83f56fc74, type: 3}
+  hudReturnDelay: 0.5
   playerTransform: {fileID: 1985143623796453560}
 --- !u!114 &1618210732143505081
 MonoBehaviour:

@@ -10,21 +10,21 @@ public class StageManager:MonoSingleton<StageManager>
     protected override bool Persistent => false;
 
     // private으로 변경 후 외부 접근을 위해 프로퍼티 추가 필요
-    [SerializeField] private ProceduralStageGenerator generator;
-    [SerializeField] private StageData currentStage;
+    [SerializeField] protected ProceduralStageGenerator generator;
+    [SerializeField] protected StageData currentStage;
 
     public ProceduralStageGenerator Generator => generator; // 외부에서 접근할 수 있도록 프로퍼티로 노출
     public StageData CurrentStage => currentStage;
 
-    private int stageID = 0; // private으로
+    protected int stageID = 0; // private으로
 
     public event Action ChangeStage;
 
-    [SerializeField] private List<Room> allRooms;
+    [SerializeField] protected List<Room> allRooms;
 
     public List<Room> AllRooms => allRooms;
 
-    public void LoadStage()
+    public virtual void LoadStage()
     {
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
         ClearStage();
@@ -53,15 +53,23 @@ public class StageManager:MonoSingleton<StageManager>
         {
             Debug.LogWarning("시작 방이 존재하지 않습니다.");
         }
-        ChangeStage?.Invoke();
-    }
 
+        OnStageChanged();
+    }
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     void Start()
     {
         LoadStage();        
         // 나중에 저장 로직 추가 가능
     }
 
+    protected virtual void OnStageChanged()
+    {
+        ChangeStage?.Invoke();
+    }
     public void ClearStage()
     {
         // allRooms 리스트에 Room이 존재하는 경우
