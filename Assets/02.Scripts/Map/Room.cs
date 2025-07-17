@@ -37,8 +37,6 @@ public class Room : MonoBehaviour
 
     public List<RoomConnection> Connections { get; private set; } = new();
 
-
-
     public int x;
     public int y;
 
@@ -98,38 +96,6 @@ public class Room : MonoBehaviour
         gameObject.SetActive(isactive);
     }
 
-    public MinimapRoomData GetMinimapData()
-    {
-        var data = new MinimapRoomData
-        {
-            roomID = Id,
-            worldPosition = transform.position,
-            type = Type,
-            connectedDirections = new List<Direction>()
-        };
-
-        foreach (var conn in Connections)
-        {
-            if (conn.FromRoomID == Id)
-                data.connectedDirections.Add(conn.Direction);
-            else if(conn.ToRoomID == Id)
-                data.connectedDirections.Add(GetOppositeDirection(conn.Direction));
-        }
-
-        return data;
-    }
-
-    public static Direction GetOppositeDirection(Direction dir)
-    {
-        return dir switch
-        {
-            Direction.Up => Direction.Down,
-            Direction.Down => Direction.Up,
-            Direction.Left => Direction.Right,
-            Direction.Right => Direction.Left,
-            _ => dir
-        };
-    }
     public Transform GetEntranceAnchor(Direction dir)
     {
         return dir switch
@@ -145,16 +111,5 @@ public class Room : MonoBehaviour
     public Transform GetSponPos()
     {
         return playerSpawnPoint;
-    }
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            PlayerController pc = other.GetComponent<PlayerController>();
-            if (pc != null)
-            {
-                pc.SetCurrentRoom(this);
-            }
-        }
     }
 }

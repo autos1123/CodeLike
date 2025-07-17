@@ -204,30 +204,30 @@ public class PlayerController:BaseController<PlayerCondition>
 
     private void RequestMinimapUpdate()
     {
-        if(StageManager.Instance == null || StageManager.Instance.CurrentStage == null)
-        {
-            Debug.LogWarning("[Player] StageManager 또는 currentStage가 존재하지 않아 미니맵 업데이트를 건너뜁니다.");
-            return;
-        }
+        //if(StageManager.Instance == null || StageManager.Instance.CurrentStage == null)
+        //{
+        //    Debug.LogWarning("[Player] StageManager 또는 currentStage가 존재하지 않아 미니맵 업데이트를 건너뜁니다.");
+        //    return;
+        //}
 
-        var stage = StageManager.Instance.CurrentStage;
-        var minimapData = MinimapBuilder.BuildFromStage(stage, stage.connections);
+        //var stage = StageManager.Instance.CurrentStage;
+        //var minimapData = MinimapBuilder.BuildFromStage(stage, stage.connections);
 
-        foreach(var data in minimapData)
-            data.isCurrent = data.roomID == CurrentRoom.Id;
+        //foreach(var data in minimapData)
+        //    data.isCurrent = data.roomID == CurrentRoom.Id;
 
-        // UIManager가 UI를 모두 로드한 뒤에만 접근
-        UIManager.Instance.OnAllUIReady(() =>
-        {
-            if(UIManager.Instance.TryGetUI<MinimapUI>(out var minimap))
-            {
-                minimap.GenerateMinimap(minimapData);
-            }
-            else
-            {
-                Debug.LogWarning("[Player] MinimapUI가 UIManager에 아직 등록되지 않았습니다.");
-            }
-        });
+        //// UIManager가 UI를 모두 로드한 뒤에만 접근
+        //UIManager.Instance.OnAllUIReady(() =>
+        //{
+        //    if(UIManager.Instance.TryGetUI<MinimapUI>(out var minimap))
+        //    {
+        //        //minimap.GenerateMinimap(minimapData);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("[Player] MinimapUI가 UIManager에 아직 등록되지 않았습니다.");
+        //    }
+        //});
     }
 
     private void UpdateRoomActivation()

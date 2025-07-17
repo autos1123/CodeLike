@@ -8,8 +8,7 @@ public class StageData
     public List<RoomConnection> connections { get; private set; } = new();
     public Dictionary<int, Room> roomMap { get; private set; } = new();
     public Vector3 playerSpawnPoint { get; private set; }
-    public Room startRoom { get; private set; }
-    public Room bossRoom { get; private set; }
+    public Room CurrentRoom { get; private set; }
 
     public StageData(int stageID)
     {
@@ -31,38 +30,12 @@ public class StageData
 
         if(room.Type == RoomType.Start)
         {
-            startRoom = room;
+            CurrentRoom = room;
             playerSpawnPoint = room.GetPlayerSpawnPoint();
         }
         else
         {
-            if(room.Type == RoomType.Boss)
-                bossRoom = room;
-
             room.gameObject.SetActive(false);
         }
-    }
-}
-public static class MinimapBuilder
-{
-    public static List<MinimapRoomData> BuildFromStage(StageData stageData, List<RoomConnection> connections)
-    {
-        var minimapRooms = new List<MinimapRoomData>();
-        //var grid = stageData.roomGrid;
-        //int width = grid.GetLength(0);
-        //int height = grid.GetLength(1);
-        
-        //for (int x = 0; x < width; x++)
-        //{
-        //    for (int y = 0; y < height; y++)
-        //    {
-        //        var room = grid[x, y]; 
-        //        if (room == null) continue;
-
-        //        var data = room.GetMinimapData();
-        //        minimapRooms.Add(data);
-        //    }
-        //}
-        return minimapRooms;
     }
 }

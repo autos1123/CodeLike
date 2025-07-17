@@ -93,6 +93,8 @@ public class UIManager:MonoSingleton<UIManager>
 
     public T GetUI<T>() where T : UIBase
     {
+        if(!_uiInstances.ContainsKey(typeof(T).Name))
+            return null;
         return _uiInstances[typeof(T).Name] as T;
     }
 

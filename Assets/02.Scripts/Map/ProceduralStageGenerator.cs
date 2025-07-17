@@ -155,11 +155,11 @@ public class ProceduralStageGenerator:MonoBehaviour
                 continue;
 
             fromRoom.AddConnection(conn);
-            toRoom.AddConnection(new RoomConnection(conn.ToRoomID, conn.FromRoomID, Room.GetOppositeDirection(conn.Direction)));
+            toRoom.AddConnection(new RoomConnection(conn.ToRoomID, conn.FromRoomID, (Direction)((int)conn.Direction * -1)));
 
 
             CreatePortal(fromRoom, toRoom, conn.Direction);
-            CreatePortal(toRoom, fromRoom, Room.GetOppositeDirection(conn.Direction));
+            CreatePortal(toRoom, fromRoom, (Direction)((int)conn.Direction * -1));
         }
     }
 

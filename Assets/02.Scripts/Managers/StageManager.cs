@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,6 +23,8 @@ public class StageManager:MonoSingleton<StageManager>
     private int stageID = 0; // private으로
 
     public event Action ChangeStage;
+
+    private Coroutine waitUntilCoroutine;
 
     //스테이지 마다 생성할 맵의 수
     [SerializeField] private int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };    
@@ -54,7 +57,7 @@ public class StageManager:MonoSingleton<StageManager>
 
         currentStage = generator.Generate(randomSeed, roomCountBase, stageID);
 
-        if(currentStage.startRoom != null)
+        if(currentStage.roomMap.Count != 0)
         {
             GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
         }
@@ -62,6 +65,11 @@ public class StageManager:MonoSingleton<StageManager>
         {
             Debug.LogWarning("시작 방이 존재하지 않습니다.");
         }
+
+        if(waitUntilCoroutine != null)
+            StopCoroutine(waitUntilCoroutine);
+
+        waitUntilCoroutine = StartCoroutine(WaitUntilCreateUI());
         ChangeStage?.Invoke();
     }
 
@@ -97,6 +105,12 @@ public class StageManager:MonoSingleton<StageManager>
             stageMapCountData = stageMapCountData.Select(n => n - (int)positiveEffect.value * i).ToArray();
         }
 
+    }
+
+    IEnumerator WaitUntilCreateUI()
+    {
+        yield return new WaitUntil(() => UIManager.Instance.GetUI<MinimapUI>() != null);
+        UIManager.Instance.GetUI<MinimapUI>().BuildMinimap();
     }
 
     // ===== 미니맵 시스템 전달용 데이터 정리 =====
