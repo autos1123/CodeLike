@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class AoESkillExecutor :ISkillExecutor
+public class ZoneSkillExecutor :ISkillExecutor
 {
     public void Execute(ActiveItemEffectData data, Transform caster, Vector3 targetPoint)
     {
@@ -9,19 +11,13 @@ public class AoESkillExecutor :ISkillExecutor
                     Resources.Load<ParticleSystem>(data.VFX),
                     targetPoint,
                     Quaternion.identity
-                );
+                ); 
                 vfx.Play();*/
 
         var obj = PoolManager.Instance.GetObject(PoolType.AoE);
         obj.transform.position = caster.position;
+        // 풀링으로 관리 예정 fx 구매후 fx 실행후 존스킬인경우에 몇초후 회수
 
-
-        Collider[] hits = Physics.OverlapSphere(targetPoint, data.Range, LayerMask.GetMask(LayerName.Enemy));
-        foreach(var c in hits)
-        {
-            c.GetComponent<IDamagable>()?.GetDamaged(data.Power);
-        }
-
-        PoolManager.Instance.ReturnObject(obj.GetComponent<IPoolObject>(), 1);
+        PoolManager.Instance.ReturnObject(obj.GetComponent<IPoolObject>(), 5);
     }
 }

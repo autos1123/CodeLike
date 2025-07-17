@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 
 public enum Skillinput
@@ -12,6 +15,8 @@ public class PlayerActiveItemController:MonoBehaviour
 {
     private Dictionary<SkillType, ISkillExecutor> executors;
     private PlayerController playerController;
+    private ActiveItemEffectDataTable activeItemEffectDataTable;
+
     public List<ActiveItemData> activeItemDatas = new();
     [SerializeField] private Transform projectileSpawnPos;
 
@@ -21,13 +26,41 @@ public class PlayerActiveItemController:MonoBehaviour
     }
 
     private void Start()
-    {
+    {        
+        activeItemEffectDataTable = TableManager.Instance.GetTable<ActiveItemEffectDataTable>();
         executors = new Dictionary<SkillType, ISkillExecutor>
         {
             { SkillType.Projectile, new ProjectileSkillExecutor() },
             { SkillType.AoE , new AoESkillExecutor() },
-            { SkillType.Heal , new HealSkillExecutor()}
+            { SkillType.Heal , new HealSkillExecutor() },
+            { SkillType.Zone , new ZoneSkillExecutor() },
         };
+    }
+
+    private void Update()
+    {
+        ActiveItemEffectData used = new();
+        if(Input.GetKeyDown(KeyCode.F3))
+        {
+            used = activeItemEffectDataTable.GetDataByID(5001);
+            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+        }
+        if(Input.GetKeyDown(KeyCode.F4))
+        {
+            used = activeItemEffectDataTable.GetDataByID(5002);
+            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+        }
+        if(Input.GetKeyDown(KeyCode.F5))
+        {
+            used = activeItemEffectDataTable.GetDataByID(5003);
+            executors[used.Type].Execute(used, transform, projectileSpawnPos.forward);
+        }
+        if(Input.GetKeyDown(KeyCode.F6))
+        {
+            used = activeItemEffectDataTable.GetDataByID(5004);
+            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+        }
+        
     }
 
     /// <summary>
@@ -68,7 +101,7 @@ public class PlayerActiveItemController:MonoBehaviour
             return;
         }
 
-        var used = TableManager.Instance.GetTable<ActiveItemEffectDataTable>().GetDataByID(activeItemDatas[index].skillID);
+        var used = activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID);
         executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
     }
 }
