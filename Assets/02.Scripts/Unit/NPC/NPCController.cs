@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour, IInteractable
 {
-    public int ID;
+    private UIManager uIManager;
+    private DialogueManager dialogueManager;
 
+    public int ID;
     [SerializeField] private string interactionPrompt = "[F] 대화하기";
     [SerializeField] private Transform promptPivot;
 
@@ -11,6 +13,11 @@ public class NPCController : MonoBehaviour, IInteractable
 
     public Transform PromptPivot => promptPivot;
 
+    private void Start()
+    {
+        uIManager = UIManager.Instance;
+        dialogueManager = DialogueManager.Instance;
+    }
     public bool CanInteract(GameObject interactor)
     {
         return true;
@@ -41,10 +48,14 @@ public class NPCController : MonoBehaviour, IInteractable
     }
     private void OpenDialogue(GameObject interactor)
     {
-        UIManager.Instance.ShowUI<DialogueBoard>();
-        DialogueManager.Instance.onDialogue(interactor.transform, this.transform);
+        uIManager.ToggleUI<DialogueBoard>();
+        dialogueManager.onDialogue(interactor.transform, this.transform);
     }
-    
+    private void closeDialogue()
+    {
+        uIManager.ToggleUI<DialogueBoard>();
+        dialogueManager.offDialogue();
+    }
     private void TryOpenShop()
     {
         if (!TryGetComponent(out ShopInventory shopInventory))
