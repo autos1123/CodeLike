@@ -182,10 +182,10 @@ public class ProceduralStageGenerator:MonoBehaviour
     public void PlaceConnections()
     {
 
-        foreach(var conn in stageData.connections)
+        foreach(RoomConnection conn in stageData.connections)
         {
-            if (!stageData.roomMap.TryGetValue(conn.FromRoomID, out var fromRoom) ||
-                !stageData.roomMap.TryGetValue(conn.ToRoomID, out var toRoom))
+            if (!stageData.roomMap.TryGetValue(conn.FromRoomID, out Room fromRoom) ||
+                !stageData.roomMap.TryGetValue(conn.ToRoomID, out Room toRoom))
                 continue;
 
             fromRoom.AddConnection(conn);

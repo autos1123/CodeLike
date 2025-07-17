@@ -24,12 +24,21 @@ public class StageManager:MonoSingleton<StageManager>
 
     public List<Room> AllRooms => allRooms;
 
+    //스테이지 마다 생성할 맵의 수
+    [SerializeField] private int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };
+
+    public int[] StageMapCountData
+    {
+        get => _stageMapCountData;
+        set => _stageMapCountData = value;
+    }
+
     public void LoadStage()
     {
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
         ClearStage();
 
-        int roomCountBase = GameManager.Instance.stageMapCountData[stageID];
+        int roomCountBase = stageMapCountData[stageID];
 
         generator.Generate(randomSeed, roomCountBase);
         currentStage = generator.stageData;

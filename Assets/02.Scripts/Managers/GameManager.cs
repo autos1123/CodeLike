@@ -12,8 +12,7 @@ public enum GameState
 [DefaultExecutionOrder(-100)]
 public class GameManager : MonoSingleton<GameManager>
 {
-    //스테이지 마다 생성할 맵의 수
-    public int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };
+
     DestinyManager destinyManager;
 
     [SerializeField]private GameObject _player;
