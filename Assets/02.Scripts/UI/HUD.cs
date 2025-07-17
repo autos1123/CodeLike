@@ -11,7 +11,9 @@ public class HUD:UIBase
     [SerializeField] TextMeshProUGUI goldText;
     [SerializeField] Image HPFill;
     [SerializeField] Image ItemSlot1;
+    [SerializeField] Image ItemSlot1CoolTime;
     [SerializeField] Image ItemSlot2;
+    [SerializeField] Image ItemSlot2CoolTime;
 
     public override string UIName => this.GetType().Name;
 
@@ -26,6 +28,9 @@ public class HUD:UIBase
 
         player.Condition.statModifiers[ConditionType.HP] += ChangeHP;
         ChangeHP();
+
+        activeItemController.OnActiveItemCoolTime[1] += ChangeItemSlot1CoolTime;
+        activeItemController.OnActiveItemCoolTime[2] += ChangeItemSlot2CoolTime;
 
         UpdateActiveItemIcons();
     }
@@ -55,6 +60,15 @@ public class HUD:UIBase
     void ChangeHP()
     {
         HPFill.fillAmount = player.Condition.GetConditionRatio(ConditionType.HP);
+    }
+
+    void ChangeItemSlot1CoolTime(float time)
+    {
+        ItemSlot1CoolTime.fillAmount = time;
+    }
+    void ChangeItemSlot2CoolTime(float time)
+    {
+        ItemSlot2CoolTime.fillAmount = time;
     }
 
     public void UpdateActiveItemIcons()
