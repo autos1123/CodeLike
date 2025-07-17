@@ -2266,6 +2266,8 @@ GameObject:
   - component: {fileID: 7733617648307430765}
   - component: {fileID: 8144175423949719689}
   - component: {fileID: 1008175423055457259}
+  - component: {fileID: 5359037239471811630}
+  - component: {fileID: 5074707907767317355}
   m_Layer: 9
   m_Name: TestDummyEnemy_Explosion (4)
   m_TagString: Untagged
@@ -2372,11 +2374,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1002
-  fullSize: 20
   visualTransform: {fileID: 101165033342560891}
   visualRotateSpeed: 10
   room: {fileID: 0}
   stayTime: 1
+--- !u!114 &5359037239471811630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189073763056487826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35baaafdb70ae4283b117282f38347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5074707907767317355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189073763056487826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55dd5297f23884d9ee4dbfa952f929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullSize: 20
 --- !u!1 &1217786676734834358
 GameObject:
   m_ObjectHideFlags: 0
@@ -2749,6 +2775,8 @@ GameObject:
   - component: {fileID: 3041381611640611540}
   - component: {fileID: 7669276117426789430}
   - component: {fileID: 4965687165998487712}
+  - component: {fileID: 1062946084539856758}
+  - component: {fileID: 8629266494436842279}
   m_Layer: 9
   m_Name: TestDummyEnemy_Ranged (1)
   m_TagString: Untagged
@@ -2855,11 +2883,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1001
-  fullSize: 20
   visualTransform: {fileID: 4105394838731214397}
   visualRotateSpeed: 10
   room: {fileID: 0}
   projectileOffset: {fileID: 728930239718446281}
+--- !u!114 &1062946084539856758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388180618094186635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35baaafdb70ae4283b117282f38347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8629266494436842279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388180618094186635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55dd5297f23884d9ee4dbfa952f929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullSize: 20
 --- !u!1 &1388687657165785840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4939,8 +4991,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f570024187ba669498487fb906fb58ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  y: 0
   playerSpawnPoint: {fileID: 7343170867853823263}
   entranceUp: {fileID: 4611874541706558157}
   entranceDown: {fileID: 8772222977849308289}
@@ -4956,6 +5006,8 @@ MonoBehaviour:
   - {fileID: 6672501881188764006}
   - {fileID: 1189073763056487826}
   - {fileID: 3710676358987336644}
+  x: 0
+  y: 0
 --- !u!65 &-2673901785574334543
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5714,6 +5766,8 @@ GameObject:
   - component: {fileID: 8979646237661556305}
   - component: {fileID: 8770840280937752710}
   - component: {fileID: 8218075914779795318}
+  - component: {fileID: 385129474711009415}
+  - component: {fileID: 3729353557193861762}
   m_Layer: 9
   m_Name: TestDummyEnemy_Explosion
   m_TagString: Untagged
@@ -5820,11 +5874,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1002
-  fullSize: 20
   visualTransform: {fileID: 6494886396561200089}
   visualRotateSpeed: 10
   room: {fileID: 0}
   stayTime: 1
+--- !u!114 &385129474711009415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732558801095843613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35baaafdb70ae4283b117282f38347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3729353557193861762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732558801095843613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55dd5297f23884d9ee4dbfa952f929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullSize: 20
 --- !u!1 &2743432615579687553
 GameObject:
   m_ObjectHideFlags: 0
@@ -7447,6 +7525,8 @@ GameObject:
   - component: {fileID: 7212280757602306846}
   - component: {fileID: 7893295040172866894}
   - component: {fileID: 2146062278888189273}
+  - component: {fileID: 1199916444887323712}
+  - component: {fileID: 1652959432629930246}
   m_Layer: 9
   m_Name: TestDummyEnemy_Explosion (6)
   m_TagString: Untagged
@@ -7553,11 +7633,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1002
-  fullSize: 20
   visualTransform: {fileID: 5314311536118174315}
   visualRotateSpeed: 10
   room: {fileID: 0}
   stayTime: 1
+--- !u!114 &1199916444887323712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3710676358987336644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35baaafdb70ae4283b117282f38347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1652959432629930246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3710676358987336644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55dd5297f23884d9ee4dbfa952f929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullSize: 20
 --- !u!1 &3832371721297185950
 GameObject:
   m_ObjectHideFlags: 0
@@ -7830,6 +7934,8 @@ GameObject:
   - component: {fileID: 2729388290448895119}
   - component: {fileID: 1207317486585778840}
   - component: {fileID: 6859299401408399947}
+  - component: {fileID: 4042811740701550717}
+  - component: {fileID: 7846693651225051289}
   m_Layer: 9
   m_Name: TestDummyEnemy_Explosion (3)
   m_TagString: Untagged
@@ -7936,11 +8042,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1002
-  fullSize: 20
   visualTransform: {fileID: 1674752833943918442}
   visualRotateSpeed: 10
   room: {fileID: 0}
   stayTime: 1
+--- !u!114 &4042811740701550717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3969882606023999780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35baaafdb70ae4283b117282f38347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7846693651225051289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3969882606023999780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55dd5297f23884d9ee4dbfa952f929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullSize: 20
 --- !u!1 &3970990061747994191
 GameObject:
   m_ObjectHideFlags: 0
@@ -8209,6 +8339,8 @@ GameObject:
   - component: {fileID: 8940400609654680339}
   - component: {fileID: 6176298191058460907}
   - component: {fileID: 5864052047176768200}
+  - component: {fileID: 8096405848136595202}
+  - component: {fileID: 6871506729743292825}
   m_Layer: 9
   m_Name: TestDummyEnemy_Explosion (1)
   m_TagString: Untagged
@@ -8315,11 +8447,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1002
-  fullSize: 20
   visualTransform: {fileID: 8762382487834816595}
   visualRotateSpeed: 10
   room: {fileID: 0}
   stayTime: 1
+--- !u!114 &8096405848136595202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143972638063457738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35baaafdb70ae4283b117282f38347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6871506729743292825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143972638063457738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55dd5297f23884d9ee4dbfa952f929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullSize: 20
 --- !u!1 &4161542447940450654
 GameObject:
   m_ObjectHideFlags: 0
@@ -11574,6 +11730,8 @@ GameObject:
   - component: {fileID: 7432696079574210128}
   - component: {fileID: 2807938005554801274}
   - component: {fileID: 8823952302279047126}
+  - component: {fileID: 2343282748789554473}
+  - component: {fileID: 8929619562479116651}
   m_Layer: 9
   m_Name: TestDummyEnemy_Explosion (2)
   m_TagString: Untagged
@@ -11680,11 +11838,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1002
-  fullSize: 20
   visualTransform: {fileID: 4063228974954518116}
   visualRotateSpeed: 10
   room: {fileID: 0}
   stayTime: 1
+--- !u!114 &2343282748789554473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774992020900922692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35baaafdb70ae4283b117282f38347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8929619562479116651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774992020900922692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55dd5297f23884d9ee4dbfa952f929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullSize: 20
 --- !u!1 &5777623219405403497
 GameObject:
   m_ObjectHideFlags: 0
@@ -13433,6 +13615,8 @@ GameObject:
   - component: {fileID: 3900569806641348249}
   - component: {fileID: 1694720214668721169}
   - component: {fileID: 6865533297393182511}
+  - component: {fileID: 4261840415691671262}
+  - component: {fileID: 4685382892889736091}
   m_Layer: 9
   m_Name: TestDummyEnemy_Explosion (5)
   m_TagString: Untagged
@@ -13539,11 +13723,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1002
-  fullSize: 20
   visualTransform: {fileID: 2072479939684906222}
   visualRotateSpeed: 10
   room: {fileID: 0}
   stayTime: 1
+--- !u!114 &4261840415691671262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6672501881188764006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35baaafdb70ae4283b117282f38347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4685382892889736091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6672501881188764006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55dd5297f23884d9ee4dbfa952f929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullSize: 20
 --- !u!1 &6692566648886444828
 GameObject:
   m_ObjectHideFlags: 0

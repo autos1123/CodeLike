@@ -10,7 +10,7 @@ public enum ModifierType
     BuffEnhance,
     ItemEnhance
 }
-public abstract class BaseCondition
+public class BaseCondition
 {
     protected ConditionData data;
     public ConditionData Data => data;

@@ -35,6 +35,11 @@ public class StageData
         else if(room.Type == RoomType.Boss)
             bossRoom = room;
     }
+    //튜토리얼씬에서 사용하려고 추가
+    public void SetStartRoom(Room room)
+    {
+        this.startRoom = room;
+    }
 }
 public static class MinimapBuilder
 {
