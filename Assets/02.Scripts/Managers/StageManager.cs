@@ -14,24 +14,24 @@ public class StageManager:MonoSingleton<StageManager>
     DestinyManager destinyManager;
 
     // private으로 변경 후 외부 접근을 위해 프로퍼티 추가 필요
-    [SerializeField] private ProceduralStageGenerator generator;
-    [SerializeField] private StageData currentStage;
+    [SerializeField] protected ProceduralStageGenerator generator;
+    [SerializeField] protected StageData currentStage;
 
     public ProceduralStageGenerator Generator => generator; // 외부에서 접근할 수 있도록 프로퍼티로 노출
     public StageData CurrentStage => currentStage;
 
-    private int stageID = 0; // private으로
+    protected int stageID = 0; // private으로
 
     public event Action ChangeStage;
 
-    private Coroutine waitUntilCoroutine;
+    protected Coroutine waitUntilCoroutine;
 
     //스테이지 마다 생성할 맵의 수
-    [SerializeField] private int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };    
+    [SerializeField] protected int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };    
 
     //그리드 반경 및 높이
-    public int gridWidth { get; private set; } = 10;
-    public int gridHeight { get; private set; } = 10;
+    public int gridWidth { get; protected set; } = 10;
+    public int gridHeight { get; protected set; } = 10;
 
     public int[] StageMapCountData => stageMapCountData;
 
@@ -48,7 +48,7 @@ public class StageManager:MonoSingleton<StageManager>
         destinyManager.onDestinyChange -= HandleDestinyChange;
     }
 
-    public void LoadStage()
+    public virtual void LoadStage()
     {
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
         ClearStage();
