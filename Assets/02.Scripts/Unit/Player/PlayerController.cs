@@ -232,18 +232,18 @@ public class PlayerController:BaseController<PlayerCondition>
 
     private void UpdateRoomActivation()
     {
-        var allRooms = StageManager.Instance.AllRooms;
-        HashSet<Room> activeSet = new();
+        //var allRooms = StageManager.Instance.AllRooms;
+        //HashSet<Room> activeSet = new();
 
-        activeSet.Add(CurrentRoom);
-        foreach(var conn in CurrentRoom.Connections)
-        {
-            Room neighbor = StageManager.Instance.CurrentStage.roomMap.TryGetValue(conn.ToRoomID, out var r1) ? r1 :
-                            StageManager.Instance.CurrentStage.roomMap.TryGetValue(conn.FromRoomID, out var r2) ? r2 : null;
+        //activeSet.Add(CurrentRoom);
+        //foreach(var conn in CurrentRoom.Connections)
+        //{
+        //    Room neighbor = StageManager.Instance.CurrentStage.roomMap.TryGetValue(conn.ToRoomID, out var r1) ? r1 :
+        //                    StageManager.Instance.CurrentStage.roomMap.TryGetValue(conn.FromRoomID, out var r2) ? r2 : null;
 
-            if(neighbor != null)
-                activeSet.Add(neighbor);
-        }
+        //    if(neighbor != null)
+        //        activeSet.Add(neighbor);
+        //}
 
 
      //   foreach(var room in allRooms)

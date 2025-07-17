@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StageManager:MonoSingleton<StageManager>
@@ -8,6 +9,8 @@ public class StageManager:MonoSingleton<StageManager>
     // 만약 인스펙터 노출이 필요하면 [SerializeField] 사용
 
     protected override bool Persistent => false;
+
+    DestinyManager destinyManager;
 
     // private으로 변경 후 외부 접근을 위해 프로퍼티 추가 필요
     [SerializeField] private ProceduralStageGenerator generator;
@@ -20,17 +23,26 @@ public class StageManager:MonoSingleton<StageManager>
 
     public event Action ChangeStage;
 
-    [SerializeField] private List<Room> allRooms;
-
-    public List<Room> AllRooms => allRooms;
-
     //스테이지 마다 생성할 맵의 수
-    [SerializeField] private int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };
+    [SerializeField] private int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };    
 
-    public int[] StageMapCountData
+    //그리드 반경 및 높이
+    public int gridWidth { get; private set; } = 10;
+    public int gridHeight { get; private set; } = 10;
+
+    public int[] StageMapCountData => stageMapCountData;
+
+    private void OnEnable()
     {
-        get => stageMapCountData;
-        set => stageMapCountData = value;
+        if(destinyManager == null)
+            destinyManager = DestinyManager.Instance;
+
+        destinyManager.onDestinyChange += HandleDestinyChange;
+    }
+
+    private void OnDisable()
+    {
+        destinyManager.onDestinyChange -= HandleDestinyChange;
     }
 
     public void LoadStage()
@@ -40,22 +52,10 @@ public class StageManager:MonoSingleton<StageManager>
 
         int roomCountBase = stageMapCountData[stageID];
 
-        generator.Generate(randomSeed, roomCountBase);
-        currentStage = generator.stageData;
-        allRooms = new List<Room>(currentStage.roomMap.Values);
-        currentStage.stageID = stageID++;
-
-        // 시작 방 제외 현재 생성된 모든 방을 비활성화
-        for(int i = 1; i < allRooms.Count; i++)
-        {
-            allRooms[i].gameObject.SetActive(false);
-        }
+        currentStage = generator.Generate(randomSeed, roomCountBase, stageID);
 
         if(currentStage.startRoom != null)
         {
-           // currentStage.startRoom.SetRoomActive(true);
-
-            currentStage.playerSpawnPoint = currentStage.startRoom.GetPlayerSpawnPoint();
             GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
         }
         else
@@ -80,6 +80,23 @@ public class StageManager:MonoSingleton<StageManager>
             Destroy(room.gameObject); // Destroy 대신 오브젝트 비활성화
 
         currentStage = null;
+    }
+
+    void HandleDestinyChange(DestinyData data, int i)
+    {
+        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
+        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
+
+        if(positiveEffect.effectedTarget == EffectedTarget.Map)
+        {
+            stageMapCountData = stageMapCountData.Select(n => n + (int)positiveEffect.value * i).ToArray();
+        }
+
+        if(negativeEffect.effectedTarget == EffectedTarget.Map)
+        {
+            stageMapCountData = stageMapCountData.Select(n => n - (int)positiveEffect.value * i).ToArray();
+        }
+
     }
 
     // ===== 미니맵 시스템 전달용 데이터 정리 =====
