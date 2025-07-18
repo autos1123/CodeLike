@@ -4,7 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewTutorialTriggerStep", menuName = "Tutorial/Trigger Step")]
 public class TutorialTriggerStep : TutorialStep
 {
-    
     [Header("트리거 스텝 설정")]
     [TextArea]
     public string stepStartHintMessage;
@@ -31,12 +30,8 @@ public class TutorialTriggerStep : TutorialStep
         
         _cachedTriggerCallback = (trigger) => CompleteStep();
         targetTrigger.OnTriggerCompletedByPlayer += _cachedTriggerCallback;
-        if (!string.IsNullOrEmpty(stepStartHintMessage)) // 메시지가 비어있지 않은 경우에만 표시
-        {
-            UIManager.Instance.ShowContextualHint(stepStartHintMessage);
-            Debug.Log($"튜토리얼 트리거 스텝 '{QuestDescription}' 활성화. 초기 힌트: '{stepStartHintMessage}'");
-        }
-        Debug.Log($"튜토리얼 트리거 스텝 '{QuestDescription}' 활성화. 트리거 '{targetTrigger.name}' 생성.");
+        
+        TutorialManager.Instance.NotifyStepActivated(stepStartHintMessage, QuestDescription);
     }
     private TutorialTrigger FindTriggerByID(string id)
     {
@@ -56,7 +51,5 @@ public class TutorialTriggerStep : TutorialStep
         }
     
         targetTrigger.gameObject.SetActive(false);
-        Debug.Log($"튜토리얼 트리거 스텝 비활성화. 목표 트리거 '{targetTrigger.name}' 비활성화됨.");
-
     }
 }

@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b843bf6bfc8f7f74cb07b857fc167f85, type: 3}
+  m_Name: Step07_KillMonster
+  m_EditorClassIdentifier: 
+  QuestDescription: 
+  killHintMessage: "\uC55E\uC758 \uBAAC\uC2A4\uD130\uB97C Z\uD0A4\uB97C \uC774\uC6A9\uD574
+    \uACF5\uACA9\uD558\uC5EC \uCC98\uCE58\uD558\uC2ED\uC2DC\uC624"

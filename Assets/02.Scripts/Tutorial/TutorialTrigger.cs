@@ -10,10 +10,6 @@ public class TutorialTrigger : MonoBehaviour
 
     public string GetTriggerID() => triggerID;
     
-    [Header("UI 힌트 설정")]
-    [TextArea]
-    public string hintMessage; 
-    
     [Header("트리거 조건")]
     public bool activateOnce = true; 
     private bool hasActivated = false; 
@@ -42,10 +38,9 @@ public class TutorialTrigger : MonoBehaviour
     {
         if (other.CompareTag(TagName.Player) && (!activateOnce || !hasActivated))
         {
-            UIManager.Instance.ShowContextualHint(hintMessage);
             onTriggerEnterEvent?.Invoke();
             hasActivated = true;
-            Debug.Log($"튜토리얼 힌트 표시 요청 (트리거 진입): '{hintMessage}'");
+            CompleteTrigger();
         }
     }
 
@@ -54,7 +49,6 @@ public class TutorialTrigger : MonoBehaviour
     {
         if (other.CompareTag(TagName.Player))
         {
-            Debug.Log($"플레이어 영역 벗어남: '{hintMessage}' (UI는 유지됨)");
             onTriggerExitEvent?.Invoke();
         }
     }
@@ -62,13 +56,12 @@ public class TutorialTrigger : MonoBehaviour
     {
         ownerStep = step;
     }
+    
     // 외부에서 이 트리거의 튜토리얼 조건을 강제로 완료할 때 호출
     public void CompleteTrigger()
     {
-        UIManager.Instance.HideContextualHint(); 
         OnTriggerCompletedByPlayer?.Invoke(this);
         gameObject.SetActive(false);
         ownerStep?.CompleteStep(); // 여기서 직접 스텝 완료 호출
-        Debug.Log($"튜토리얼 트리거 완료: '{hintMessage}'");
     }
 }

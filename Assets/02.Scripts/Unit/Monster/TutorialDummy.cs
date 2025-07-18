@@ -39,5 +39,6 @@ public class TutorialDummy : MonoBehaviour, IDamagable
     {
         Instantiate(dropItemBox, transform.position, Quaternion.identity);
         gameObject.SetActive(false);
+        GameEvents.TriggerMonsterKilled();
     }
 }

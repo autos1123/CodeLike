@@ -23,7 +23,6 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
     private IEnumerator Start()
     {
-        Debug.Log("튜토리얼 시작 ");
         yield return new WaitUntil(() => UIManager.Instance != null && UIManager.Instance.IsUILoaded()); 
         yield return new WaitUntil(() => TutorialStageManager.Instance != null);
         
@@ -62,7 +61,13 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         currentStep = tutorialSteps[currentStepIndex];
         currentStep.OnStepCompleted += NextStep;
         currentStep.Activate();
-        
+    }
+    public void NotifyStepActivated(string hintMessage, string questDescription)
+    {
+        if (!string.IsNullOrEmpty(hintMessage))
+        {
+            UIManager.Instance.ShowContextualHint(hintMessage);
+        }
     }
     private void EndTutorial()
     {

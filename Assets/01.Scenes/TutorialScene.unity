@@ -1025,6 +1025,11 @@ MonoBehaviour:
   tutorialSteps:
   - {fileID: 11400000, guid: b72ea51acfbdb644f994fa12ca0041e8, type: 2}
   - {fileID: 11400000, guid: 920e5204b8f252a44a19b4258902f7e4, type: 2}
+  - {fileID: 11400000, guid: e8270d8e09902074e83a9a398850e85d, type: 2}
+  - {fileID: 11400000, guid: cb36f9566807c824f93c0ce22b0e581d, type: 2}
+  - {fileID: 11400000, guid: 375386f714cba80429204d2d591eca30, type: 2}
+  - {fileID: 11400000, guid: a65494626bc28154cb2edc139b161c82, type: 2}
+  - {fileID: 11400000, guid: 267e5b5b9cd616b42a5ffc8f4f83353b, type: 2}
   prototypeSceneName: PrototypeScene
 --- !u!4 &1251714776
 Transform:
