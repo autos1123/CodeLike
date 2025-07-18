@@ -43,7 +43,15 @@ public class PlayerInputHandler:MonoBehaviour
         // 점프 및 공격: 한 프레임만 true로 처리
         inputActions.Player.Jump.performed += ctx => JumpPressed = true;
         inputActions.Player.Attack.performed += ctx => AttackPressed = true;
-        inputActions.Player.ChangeView.performed += ctx => ViewManager.Instance.ToggleView();
+        inputActions.Player.ChangeView.performed += ctx =>
+        {   //v키 입력이 허용되지않았다면
+            if (TutorialManager.HasInstance && !TutorialManager.Instance.IsViewChangeInputAllowed())
+            {
+                Debug.Log("V키 입력 막혀있음");
+                return;
+            }
+            ViewManager.Instance.ToggleView();
+        };
         inputActions.Player.OpenOptions.performed += OnOpenOption;
         inputActions.Player.OpenInventory.performed += ctx => UIManager.Instance.ToggleUI<InventoryUI>();
         inputActions.Player.OpenStatus.performed += ctx => UIManager.Instance.ToggleUI<StatusBoard>();

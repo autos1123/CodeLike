@@ -16,6 +16,8 @@ public class TutorialViewChangeStep : TutorialStep
         base.Activate();
         
         TutorialManager.Instance.NotifyStepActivated(viewChangeHintMessage, QuestDescription);
+        //v키 입력허용
+        TutorialManager.Instance.SetViewChangeInputAllowed(true); 
         
         _cachedViewModeChangedCallback = HandleViewModeChanged;
         

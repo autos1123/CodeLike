@@ -11,12 +11,23 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     
     private int currentStepIndex = -1;
     private TutorialStep currentStep;
-
+    
+    private bool _isViewChangeInputAllowed = false; // 기본적으로 V키 입력은 막음
+    public bool IsViewChangeInputAllowed()
+    {
+        return _isViewChangeInputAllowed;
+    }
+    public void SetViewChangeInputAllowed(bool allowed)
+    {
+        _isViewChangeInputAllowed = allowed;
+        Debug.Log($"[TutorialManager] V키 입력 허용 상태: {_isViewChangeInputAllowed}");
+    }
     protected override bool Persistent => false;
 
     protected override void Awake()
     {
         base.Awake();
+        SetViewChangeInputAllowed(false);
     }
 
     private IEnumerator Start()
@@ -77,6 +88,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
         UIManager.Instance.HideContextualHint();
         Debug.Log("모든 튜토리얼 스텝 완료. 다음 씬으로 전환.");
+        
         SceneManager.LoadScene(prototypeSceneName);
     }
 }
