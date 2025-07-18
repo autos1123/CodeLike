@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerJumpState:PlayerBaseState
 {
-    private bool hasStartedFalling = false;
     private float jumpStartTime;
     private float jumpGroundGrace = 0.05f; // 점프 후 ground check 무시 시간
     public PlayerJumpState(PlayerStateMachine stateMachine) : base(stateMachine) { }
@@ -11,7 +10,7 @@ public class PlayerJumpState:PlayerBaseState
     {
         base.StateEnter();
 
-        StartAnimation(Player.AnimationData.JumpParameterHash);
+       StartAnimation(Player.AnimationData.MoveParameterHash);
 
         float force = Player.Condition.GetValue(ConditionType.JumpPower);
 
@@ -23,14 +22,13 @@ public class PlayerJumpState:PlayerBaseState
         Player._Rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
 
         jumpStartTime = Time.time;
-        hasStartedFalling = false;
     }
 
 
     public override void StateExit()
     {
         base.StateExit();
-        StopAnimation(Player.AnimationData.JumpParameterHash);
+        StopAnimation(Player.AnimationData.MoveParameterHash);
     }
 
     public override void StateUpdate()
@@ -46,15 +44,21 @@ public class PlayerJumpState:PlayerBaseState
         if(Time.time - jumpStartTime < jumpGroundGrace)
             return;
 
-        // 하강 시작 감지
-        if(Player._Rigidbody.velocity.y <= 0f)
+        if(Player.IsGrounded)
         {
-            Debug.Log(">> FallState로 전환 시도!");
-            Debug.Log($"stateMachine.FallState is null? {stateMachine.FallState == null}");
-            StopAnimation(Player.AnimationData.JumpParameterHash);
-            stateMachine.ChangeState(stateMachine.FallState);
+            StopAnimation(Player.AnimationData.MoveParameterHash);
             return;
         }
+
+        // 하강 시작 감지
+        //if(Player._Rigidbody.velocity.y <= 0f)
+        //{
+        //    Debug.Log(">> FallState로 전환 시도!");
+        //    Debug.Log($"stateMachine.FallState is null? {stateMachine.FallState == null}");
+        //    StopAnimation(Player.AnimationData.JumpParameterHash);
+        //    stateMachine.ChangeState(stateMachine.FallState);
+        //    return;
+        //}
     }
 
 
