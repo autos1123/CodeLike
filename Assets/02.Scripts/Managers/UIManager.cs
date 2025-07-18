@@ -7,7 +7,7 @@ using UnityEngine.AddressableAssets;
 public enum UILabel
 {
     None,
-    TitleUI,
+    IntroUI,
     InGameUI,
     TutorialUI
 }
@@ -21,6 +21,8 @@ public class UIManager:MonoSingleton<UIManager>
     [SerializeField] private List<UILabel> uiLabel;
     [SerializeField] private TooltipManager tooltipManager;
     private ContextualUIHint _currentContextualHintUI;
+
+    public bool IsInitialized { get; private set; } = false;
     protected override bool Persistent => false;
 
     
@@ -98,6 +100,7 @@ public class UIManager:MonoSingleton<UIManager>
         if(_uiInstances.TryGetValue(typeof(T).Name , out var ui))
         {
             ui.Open();
+            ui.transform.SetAsLastSibling();
         }
     }
 

@@ -37,7 +37,10 @@ public class SoundSource : MonoBehaviour ,IPoolObject
         if(issfx) { StartCoroutine(wiatEnd(clip.length)); }
         else audioSource.loop = true;
     }
-
+    private void OnDestroy()
+    {
+        ViewManager.Instance.OnViewChanged -= HandleViewModeChange;
+    }
     public void Stop()
     {
         audioSource.Stop();
