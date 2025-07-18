@@ -100,7 +100,6 @@ public class UIManager:MonoSingleton<UIManager>
         if(_uiInstances.TryGetValue(typeof(T).Name , out var ui))
         {
             ui.Open();
-            ui.transform.SetAsLastSibling();
         }
     }
 
