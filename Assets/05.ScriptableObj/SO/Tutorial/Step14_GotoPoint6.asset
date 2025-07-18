@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b843bf6bfc8f7f74cb07b857fc167f85, type: 3}
-  m_Name: Step07_KillMonster
+  m_Script: {fileID: 11500000, guid: 838d665dcf5d99d4b9c4b4a6edb07e86, type: 3}
+  m_Name: Step14_GotoPoint6
   m_EditorClassIdentifier: 
   QuestDescription: 
-  killHintMessage: "\uC55E\uC758 \uBAAC\uC2A4\uD130\uB97C Z\uD0A4\uB97C \uC774\uC6A9\uD574
-    \uACF5\uACA9\uD558\uC5EC \uCC98\uCE58\uD558\uC138\uC694"
+  stepStartHintMessage: "\uD45C\uC2DC\uD55C \uC704\uCE58\uB85C \uC774\uB3D9\uD558\uC138\uC694"
+  targetTriggerID: 6

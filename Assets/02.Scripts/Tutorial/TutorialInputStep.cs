@@ -3,16 +3,13 @@ public enum TutorialInputType
 {
     Move,     
     Jump,     
-    Interact,
-    Inventory,
-    ViewChange
 }
 [CreateAssetMenu(fileName = "NewTutorialInputStep", menuName = "Tutorial/Input Step")]
 public class TutorialInputStep : TutorialStep
 {
     [Header("입력 스텝 설정")]
     [TextArea]
-    public string inputHintMessage; // 이 스텝에서 표시할 힌트 메시지
+    public string inputHintMessage;
     public TutorialInputType inputType = TutorialInputType.Move;
 
     private bool _isMonitoringInput = false;
@@ -20,10 +17,9 @@ public class TutorialInputStep : TutorialStep
     public override void Activate()
     {
         base.Activate();
-        // UI 힌트 표시
+       
         TutorialManager.Instance.NotifyStepActivated(inputHintMessage, QuestDescription);
-
-        // 입력 감지 시작
+        
         _isMonitoringInput = true;
       }
 
@@ -46,18 +42,6 @@ public class TutorialInputStep : TutorialStep
                 break;
             case TutorialInputType.Jump:
                 if(Input.GetKeyDown(KeyCode.Space))
-                    Complete();
-                break;
-            case TutorialInputType.Interact:
-                if(Input.GetKeyDown(KeyCode.F))
-                    Complete();
-                break;
-            case TutorialInputType.Inventory:
-                if(Input.GetKeyDown(KeyCode.I))
-                    Complete();
-                break;
-            case TutorialInputType.ViewChange:
-                if(Input.GetKeyDown(KeyCode.V))
                     Complete();
                 break;
         }

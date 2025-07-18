@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b35e013cbd89c247a56ce99166d3e97, type: 3}
-  m_Name: Step07_InventoryInput
+  m_Script: {fileID: 11500000, guid: c62ce104793fe6340acf759aea98a152, type: 3}
+  m_Name: Step09_TakeItem
   m_EditorClassIdentifier: 
-  QuestDescription: "\uC778\uBCA4\uD1A0\uB9AC \uC5F4\uAE30"
-  inputHintMessage: "I\uB97C \uB20C\uB7EC \uC778\uBCA4\uD1A0\uB9AC\uB97C \uC5EC\uC138\uC694"
-  inputType: 3
+  QuestDescription: 
+  HintMessage: "\uC5BB\uAE30\uBC84\uD2BC\uC744 \uB20C\uB7EC \uC544\uC774\uD15C\uC744
+    \uC2B5\uB4DD\uD558\uC138\uC694"
