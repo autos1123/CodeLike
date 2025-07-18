@@ -10,6 +10,9 @@ public class PlayerStateMachine:UnitStateMachine
     public PlayerAttackState AttackState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
     public PlayerKnockBackState KnockbackState { get; private set; }
+    public PlayerFallState FallState { get; private set; }
+    public PlayerLandingState LandingState { get; private set; }
+
 
 
     public PlayerStateMachine(PlayerController player)
@@ -23,6 +26,8 @@ public class PlayerStateMachine:UnitStateMachine
         AttackState = new PlayerAttackState(this);
         DeadState = new PlayerDeadState(this);
         KnockbackState = new PlayerKnockBackState(this);
+        FallState = new PlayerFallState(this);
+        LandingState = new PlayerLandingState(this);
 
         ChangeState(IdleState);
     }

@@ -1,44 +1,36 @@
 using UnityEngine;
 
-public class PlayerFallState:IUnitState
+public class PlayerFallState:PlayerBaseState
 {
-    private PlayerController player;
-    private PlayerStateMachine stateMachine;
+    public PlayerFallState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public PlayerFallState(PlayerController player, PlayerStateMachine stateMachine)
+    public override void StateEnter()
     {
-        this.player = player;
-        this.stateMachine = stateMachine;
-    }
-
-    public void StateEnter()
-    {
-
+        base.StateEnter();
         Debug.Log("Fall 상태 진입");
-        // 추후 활성화 예정
-        //player._Animator.SetBool("isFalling", true);
+        StartAnimation(Player.AnimationData.FallParameterHash);
     }
 
-    public void StateExit()
+    public override void StateExit()
     {
+        base.StateExit();
         Debug.Log("Fall 상태 종료");
-        // 추후 활성화 예정
-        //player._Animator.SetBool("isFalling", false);
+        StopAnimation(Player.AnimationData.FallParameterHash);
     }
 
-    public void StateUpdate()
+    public override void StateUpdate()
     {
-        //if(player.IsGrounded)
-        //{
-        //    if(player.Input.MoveInput.magnitude > 0.1f)
-        //        stateMachine.ChangeState(new PlayerMoveState(player, stateMachine));
-        //    else
-        //        stateMachine.ChangeState(new PlayerIdleState(stateMachine));
-        //}
+        base.StateUpdate();
+        if(Player.IsGrounded)
+        {
+            stateMachine.ChangeState(stateMachine.LandingState);
+            return;
+        }
     }
 
-    public void StatePhysicsUpdate()
+    public override void StatePhysicsUpdate()
     {
-        // player.Move(player.Input.MoveInput);
+        base.StatePhysicsUpdate();
+        Move(Player.InputHandler.MoveInput);
     }
 }
