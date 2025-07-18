@@ -276,6 +276,18 @@ PrefabInstance:
       propertyPath: tooltipManager
       value: 
       objectReference: {fileID: 1867023978}
+    - target: {fileID: 2844420801452374289, guid: e89e0f7baa0694a4baf4cea13ca1931b, type: 3}
+      propertyPath: uiLabel.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2844420801452374289, guid: e89e0f7baa0694a4baf4cea13ca1931b, type: 3}
+      propertyPath: uiLabel.Array.data[0]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2844420801452374289, guid: e89e0f7baa0694a4baf4cea13ca1931b, type: 3}
+      propertyPath: uiLabel.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5988975021464637512, guid: e89e0f7baa0694a4baf4cea13ca1931b, type: 3}
       propertyPath: m_Name
       value: UIManager
@@ -1010,6 +1022,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0ae98c1a99ad1428fe45ef96056b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curDestinyData:
+    ID: 0
+    Name: 
+    PositiveEffectDataID: 0
+    NegativeEffectDataID: 0
 --- !u!4 &1312395465
 Transform:
   m_ObjectHideFlags: 0
@@ -1215,6 +1232,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12b3dbc8a63c6a049a2545739c9f88aa, type: 3}
+--- !u!1 &2109587195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2109587197}
+  - component: {fileID: 2109587196}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2109587196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109587195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c98a7a87799fe6c40b70535a7b88bea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialSteps:
+  - {fileID: 11400000, guid: b72ea51acfbdb644f994fa12ca0041e8, type: 2}
+  - {fileID: 11400000, guid: 920e5204b8f252a44a19b4258902f7e4, type: 2}
+  - {fileID: 11400000, guid: e8270d8e09902074e83a9a398850e85d, type: 2}
+  - {fileID: 11400000, guid: cb36f9566807c824f93c0ce22b0e581d, type: 2}
+  - {fileID: 11400000, guid: 375386f714cba80429204d2d591eca30, type: 2}
+  - {fileID: 11400000, guid: a65494626bc28154cb2edc139b161c82, type: 2}
+  - {fileID: 11400000, guid: 267e5b5b9cd616b42a5ffc8f4f83353b, type: 2}
+  - {fileID: 11400000, guid: a53f77ded2ad56d4fa21f98764c1f563, type: 2}
+  - {fileID: 11400000, guid: 47b9e03b51d8d7b42bec1b855af63b4c, type: 2}
+  - {fileID: 11400000, guid: aeee807cfd61eb545b0d40fc6117cf99, type: 2}
+  - {fileID: 11400000, guid: 1275f66ecf4879449b8f6b3634e869f3, type: 2}
+  - {fileID: 11400000, guid: 65442aeb3192f4c44b0430e1015d76bb, type: 2}
+  - {fileID: 11400000, guid: d9ed56dab7462594a87192ada496c1e5, type: 2}
+  - {fileID: 11400000, guid: e98e6b9a44854d74ba674db8a948807c, type: 2}
+  - {fileID: 11400000, guid: 782778aea94da1940a2fbc5e77ca75db, type: 2}
+  prototypeSceneName: PrototypeScene
+--- !u!4 &2109587197
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109587195}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5581657105074814525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1226,6 +1304,10 @@ PrefabInstance:
     - target: {fileID: 4204739428530141357, guid: ffbfdaee6dd496442bc26007898feb8b, type: 3}
       propertyPath: m_Name
       value: TutorialStageManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204739428530141357, guid: ffbfdaee6dd496442bc26007898feb8b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8622674654145091895, guid: ffbfdaee6dd496442bc26007898feb8b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1293,3 +1375,4 @@ SceneRoots:
   - {fileID: 830898709}
   - {fileID: 675062880}
   - {fileID: 5581657105074814525}
+  - {fileID: 2109587197}

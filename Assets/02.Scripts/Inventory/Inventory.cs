@@ -120,6 +120,7 @@ public class Inventory : MonoBehaviour, IInventory
             if (slot.IsEmpty)
             {
                 slot.Set(item);
+                GameEvents.TriggerItemTake();
                 return true;
             }
         }

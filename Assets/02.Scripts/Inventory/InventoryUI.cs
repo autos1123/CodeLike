@@ -47,7 +47,7 @@ public class InventoryUI : UIBase
             slot.Init(this);
         
         StartCoroutine(WaitAndRefresh());
-        
+        GameEvents.TriggerInventoryOpened();
     }
     /// <summary>
     /// 인벤토리 닫을시 설정
