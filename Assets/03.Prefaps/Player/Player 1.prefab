@@ -112,6 +112,8 @@ GameObject:
   - component: {fileID: 4688552309220638433}
   - component: {fileID: 8531551348991034092}
   - component: {fileID: -8615254795559437559}
+  - component: {fileID: 2130177174766198965}
+  - component: {fileID: 603082426394960356}
   m_Layer: 8
   m_Name: Player 1
   m_TagString: Player
@@ -242,7 +244,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 0
-  fullSize: 20
   visualTransform: {fileID: 4562072362125629841}
   visualRotateSpeed: 10
   groundLayer:
@@ -295,6 +296,31 @@ MonoBehaviour:
   inventorySlots: []
   equipSlots: []
   activeItemSlots: []
+--- !u!114 &2130177174766198965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725818217871478009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c35baaafdb70ae4283b117282f38347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &603082426394960356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725818217871478009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e55dd5297f23884d9ee4dbfa952f929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullSize: 20
 --- !u!1 &832905198402415153
 GameObject:
   m_ObjectHideFlags: 0

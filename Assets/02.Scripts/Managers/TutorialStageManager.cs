@@ -5,7 +5,7 @@ using UnityEngine;
 public class TutorialStageManager : StageManager
 {
     [SerializeField] private Room tutorialRoomPrefab;
-
+    public bool IsTutorialStageReady { get; private set; } = false;
     protected override bool Persistent => false; 
     
     public override void LoadStage()
@@ -24,13 +24,12 @@ public class TutorialStageManager : StageManager
                 currentStage = new StageData(-1);
                 currentStage.RegisterRoom(tutorialRoom, 1, 1);
                 GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
-
-                Debug.Log("튜토리얼 스테이지 로드 완료: 단일 방 생성");
             }
             else
             {
                 Debug.LogError("할당된 튜토리얼 방 프리팹에 Room 컴포넌트가 없습니다.");
             }
+            IsTutorialStageReady = true; 
         }
         else
         {

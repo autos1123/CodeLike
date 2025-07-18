@@ -78,6 +78,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0916ec83b518fca43a808d8d4d33d831
+    m_Address: Assets/03.Prefaps/UI/ContextualUIHInt.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TutorialUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c57b4596c66ff34c94640159fc0a031
+    m_Address: Assets/03.Prefaps/UI/TutorialTipUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TutorialUI
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:
