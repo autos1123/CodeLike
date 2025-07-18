@@ -51,6 +51,7 @@ public class PlayerJumpState:PlayerBaseState
         {
             Debug.Log(">> FallState로 전환 시도!");
             Debug.Log($"stateMachine.FallState is null? {stateMachine.FallState == null}");
+            StopAnimation(Player.AnimationData.JumpParameterHash);
             stateMachine.ChangeState(stateMachine.FallState);
             return;
         }
