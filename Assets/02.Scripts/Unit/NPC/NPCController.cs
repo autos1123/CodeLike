@@ -48,13 +48,8 @@ public class NPCController : MonoBehaviour, IInteractable
     }
     private void OpenDialogue(GameObject interactor)
     {
-        uIManager.ToggleUI<DialogueBoard>();
+        uIManager.ShowUI<DialogueBoard>();
         dialogueManager.onDialogue(interactor.transform, this.transform);
-    }
-    private void closeDialogue()
-    {
-        uIManager.ToggleUI<DialogueBoard>();
-        dialogueManager.offDialogue();
     }
     private void TryOpenShop()
     {

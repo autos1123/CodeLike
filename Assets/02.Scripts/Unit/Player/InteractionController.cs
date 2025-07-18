@@ -99,6 +99,7 @@ public class InteractionController:MonoBehaviour
                     float distSq = (ViewManager.Instance.CurrentViewMode == ViewModeType.View3D) ?
                         (hitColliders[i].transform.position - transform.position).sqrMagnitude :
                         Mathf.Abs(hitColliders[i].transform.position.x - transform.position.x);
+
                     if(distSq < minDistanceSq)
                     {
                         minDistanceSq = distSq;
@@ -107,25 +108,31 @@ public class InteractionController:MonoBehaviour
                 }
             }
         }
-        // 텍스트 표시/숨기기 및 위치 업데이트 로직
-        if(currentBestInteractable != null && currentBestInteractable.CanInteract(gameObject))
+
+        // 대상 교체가 일어났다면
+        if(interactableObj != currentBestInteractable)
         {
             interactableObj = currentBestInteractable;
-            SetInteractTextTransform(interactableObj.PromptPivot, interactableObj.InteractionPrompt);
-            interactTextTr.gameObject.SetActive(true); // 활성화
+            UIManager.Instance.Hide<DialogueBoard>();
+            UIManager.Instance.Hide<ShopUI>();
         }
-        else // 범위 내에 상호작용할 오브젝트가 없음
+
+        // 대상이 없으면 UI 초기화 후 종료
+        if(interactableObj == null) //비어 있으면 초기화
         {
-            if(interactableObj != null) // 이전에 상호작용 중인 오브젝트가 있었다면
-            {
-                interactableObj = null; // 참조 해제
-            }
-            // 범위 밖이거나, 이미 파괴된 오브젝트가 있었다면 숨김
             if(interactTextTr.gameObject.activeSelf) // 이미 비활성화되어 있지 않은 경우에만
             {
                 SetInteractTextTransform(transform);
                 interactTextTr.gameObject.SetActive(false);
             }
+            return;
+        }
+
+        // 대상이 상호작용 가능하면 UI 표시
+        if(interactableObj.CanInteract(gameObject)) // 옮겨 주기
+        {
+            SetInteractTextTransform(interactableObj.PromptPivot, interactableObj.InteractionPrompt);
+            interactTextTr.gameObject.SetActive(true); // 활성화
         }
     }
 

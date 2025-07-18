@@ -25,6 +25,7 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 
     public void offDialogue()
     {
+        
         playerCamera.targetTexture = null;
         ResetCamera(playerCamera);
         ResetCamera(npcCamera);
