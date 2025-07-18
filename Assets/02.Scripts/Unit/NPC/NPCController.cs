@@ -48,7 +48,8 @@ public class NPCController : MonoBehaviour, IInteractable
     }
     private void OpenDialogue(GameObject interactor)
     {
-        uIManager.ShowUI<DialogueBoard>();
+        uIManager.GetUI<DialogueBoard>().Init(TableManager.Instance.GetTable<NPCDataTable>().GetDataByID(ID).description);
+        uIManager.ShowUI<DialogueBoard>();        
         dialogueManager.onDialogue(interactor.transform, this.transform);
     }
     private void TryOpenShop()
