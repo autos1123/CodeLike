@@ -312,7 +312,6 @@ MonoBehaviour:
   ID: 1001
   visualTransform: {fileID: 64554931285819077}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   projectileOffset: {fileID: 993699582602667015}
 --- !u!114 &278072898282423116
 MonoBehaviour:
@@ -1804,7 +1803,6 @@ MonoBehaviour:
   ID: 1000
   visualTransform: {fileID: 181191807082861497}
   visualRotateSpeed: 10
-  room: {fileID: 0}
 --- !u!114 &1097708377214705840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8849,7 +8847,6 @@ MonoBehaviour:
   ID: 1000
   visualTransform: {fileID: 6048669791218186046}
   visualRotateSpeed: 10
-  room: {fileID: 0}
 --- !u!114 &1900662021329698325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9295,15 +9292,12 @@ MonoBehaviour:
   entranceDown: {fileID: 8930712636206517612}
   entranceLeft: {fileID: 9030664848834441458}
   entranceRight: {fileID: 1113129519883180985}
-  isClearRoom: 0
   Enumys:
   - {fileID: 930449340592688254}
   - {fileID: 8933326054943615676}
   - {fileID: 5884440048800509554}
   - {fileID: 95722429502611473}
   - {fileID: 7712082885872421348}
-  x: 0
-  y: 0
 --- !u!65 &3565017566184861383
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11042,7 +11036,6 @@ MonoBehaviour:
   ID: 1001
   visualTransform: {fileID: 7055125570021638598}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   projectileOffset: {fileID: 2385835033783120222}
 --- !u!114 &9054247315476820545
 MonoBehaviour:
@@ -13143,7 +13136,6 @@ MonoBehaviour:
   ID: 1000
   visualTransform: {fileID: 2276899052788307458}
   visualRotateSpeed: 10
-  room: {fileID: 0}
 --- !u!114 &7162257332728326380
 MonoBehaviour:
   m_ObjectHideFlags: 0
