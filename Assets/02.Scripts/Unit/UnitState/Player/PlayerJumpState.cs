@@ -43,10 +43,21 @@ public class PlayerJumpState:PlayerBaseState
         // jumpGroundGrace 동안 낙하/착지 체크 안함
         if(Time.time - jumpStartTime < jumpGroundGrace)
             return;
+        if(Player.InputHandler.AttackPressed)
+        {
+            stateMachine.ChangeState(stateMachine.AttackState);
+            return;
+        }
 
+        if(move != Vector2.zero)
+        {
+            stateMachine.ChangeState(stateMachine.MoveState);
+            return;
+        }
         if(Player.IsGrounded)
         {
-            StopAnimation(Player.AnimationData.MoveParameterHash);
+            // 착지 시 Idle 상태로 전환
+            stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
 
