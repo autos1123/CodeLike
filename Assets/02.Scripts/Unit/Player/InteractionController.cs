@@ -96,7 +96,9 @@ public class InteractionController:MonoBehaviour
                 // 오브젝트가 유효한지 확인
                 if((interactable as MonoBehaviour) != null)
                 {
-                    float distSq = (hitColliders[i].transform.position - transform.position).sqrMagnitude;
+                    float distSq = (ViewManager.Instance.CurrentViewMode == ViewModeType.View3D) ?
+                        (hitColliders[i].transform.position - transform.position).sqrMagnitude :
+                        Mathf.Abs(hitColliders[i].transform.position.x - transform.position.x);
                     if(distSq < minDistanceSq)
                     {
                         minDistanceSq = distSq;
