@@ -8,6 +8,8 @@ public class PassiveItemBox : MonoBehaviour,IInteractable
     [SerializeField] private Transform promptPivot;
     [SerializeField] private int[] possibleItemIds; // 랜덤 대상 ID 목록
 
+    private int? fixedPicekedId; //한번 뽑히면 저장되는 아이템id값
+    
     public string InteractionPrompt => interactionPrompt;
     public Transform PromptPivot => promptPivot;
 
@@ -27,16 +29,20 @@ public class PassiveItemBox : MonoBehaviour,IInteractable
             return;
         }
 
-        int randomIndex = Random.Range(0, possibleItemIds.Length);
-        int pickedID = possibleItemIds[randomIndex];
+        if(fixedPicekedId == null)
+        {
+            int randomIndex = Random.Range(0, possibleItemIds.Length);
+            fixedPicekedId = possibleItemIds[randomIndex];
+        }
+        int pickedID = fixedPicekedId.Value;
         var item = TableManager.Instance.GetTable<ItemDataTable>()?.GetDataByID(pickedID);
         if (item == null)
         {
-            Debug.LogError($"[PassiveItemBox] ID {pickedID}에 해당하는 아이템을 찾을 수 없습니다.");
+            Debug.LogError($"[PassiveItemBox] ID {fixedPicekedId}에 해당하는 아이템을 찾을 수 없습니다.");
             return;
         }
 
         var takePassiveItemUI = UIManager.Instance.GetUI<TakePassiveItem>();
-        takePassiveItemUI.Open(item, inventory);
+        takePassiveItemUI.Open(item, inventory,this);
     }
 }

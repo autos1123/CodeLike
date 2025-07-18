@@ -13,7 +13,7 @@ public class TakePassiveItem : UIBase
 
     private ItemData currentItem;
     private Inventory playerInventory;
-
+    private PassiveItemBox sourceItemBox;
     public override string UIName => this.GetType().Name;
 
     private void Start()
@@ -22,13 +22,14 @@ public class TakePassiveItem : UIBase
         exitButton.onClick.AddListener(Close);
     }
 
-    public void Open(ItemData item, Inventory inventory)
+    public void Open(ItemData item, Inventory inventory,PassiveItemBox itemBox)
     {
         base.Open();
 
         currentItem = item;
         playerInventory = inventory;
-
+        sourceItemBox = itemBox;
+        
         itemIcon.sprite = Resources.Load<Sprite>(item.IconPath);
         descriptionText.text = item.description;
         
@@ -44,6 +45,10 @@ public class TakePassiveItem : UIBase
         }
 
         playerInventory.AddToInventory(currentItem);
+        if (sourceItemBox != null)
+        {
+            Destroy(sourceItemBox.gameObject); 
+        }
         Close();
     }
 }
