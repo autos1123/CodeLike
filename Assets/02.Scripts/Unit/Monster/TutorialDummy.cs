@@ -58,7 +58,9 @@ public class TutorialDummy : MonoBehaviour, IDamagable
 
     private void Die()
     {
-        Instantiate(dropItemBox, transform.position, Quaternion.identity);
+        Vector3 dropPosition = transform.position + Vector3.up * 0.5f;
+
+        Instantiate(dropItemBox, dropPosition, Quaternion.identity);
         gameObject.SetActive(false);
         GameEvents.TriggerMonsterKilled();
     }

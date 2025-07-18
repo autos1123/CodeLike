@@ -151,6 +151,8 @@ public class UIManager:MonoSingleton<UIManager>
 
         _currentContextualHintUI.SetHintText(message); 
         _currentContextualHintUI.Open();
+        
+        _currentContextualHintUI.transform.SetAsLastSibling();
     }
 
     // ContextualUIHint를 숨기는 전용 메서드 추가

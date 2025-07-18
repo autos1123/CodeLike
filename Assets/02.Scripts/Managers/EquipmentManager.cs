@@ -54,6 +54,7 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     {
         if (item == null || type != SlotType.Equip) return;
         playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, item.value);
+        GameEvents.TriggerItemEquipped();
     }
     
     /// <summary>

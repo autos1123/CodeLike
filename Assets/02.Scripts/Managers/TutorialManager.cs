@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoSingleton<TutorialManager>
 {
-    public event Action OnTutorialFinished;
-    
     [SerializeField] private List<TutorialStep> tutorialSteps;
     [SerializeField] private string prototypeSceneName = "PrototypeScene";
     

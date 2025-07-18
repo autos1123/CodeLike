@@ -31,6 +31,8 @@ public class TakePassiveItem : UIBase
 
         itemIcon.sprite = Resources.Load<Sprite>(item.IconPath);
         descriptionText.text = item.description;
+        
+        GameEvents.TriggerRandomItemUIOpened();
     }
 
     private void OnTake()
