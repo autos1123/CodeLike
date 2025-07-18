@@ -17,19 +17,12 @@ public class TutorialStageManager : StageManager
         {
             GameObject tutorialRoomGO = Instantiate(tutorialRoomPrefab.gameObject);
             Room tutorialRoom = tutorialRoomGO.GetComponent<Room>();
+            tutorialRoom.Initialize(tutorialRoom.GetHashCode(), new Vector2Int(0, 0), RoomType.Start);
+
             if (tutorialRoom != null)
             {
-                allRooms = new List<Room> { tutorialRoom };
-                
-                currentStage = new StageData(); 
-                currentStage.InitializeGrid(1, 1);
-                
-                currentStage.roomMap = new Dictionary<int, Room>();
-                currentStage.roomMap.Add(tutorialRoom.GetHashCode(), tutorialRoom); // 방 고유 ID 대신 해시코드를 임시 사용
-                currentStage.SetStartRoom(tutorialRoom); 
-                currentStage.stageID = 0; 
-
-                currentStage.playerSpawnPoint = tutorialRoom.GetPlayerSpawnPoint();
+                currentStage = new StageData(-1);
+                currentStage.RegisterRoom(tutorialRoom, 1, 1);
                 GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
 
                 Debug.Log("튜토리얼 스테이지 로드 완료: 단일 방 생성");
@@ -43,8 +36,6 @@ public class TutorialStageManager : StageManager
         {
             Debug.LogError("튜토리얼 방 프리팹이 할당되지 않았습니다!");
         }
-
-        OnStageChanged();
     }
     
     protected override void Awake()
