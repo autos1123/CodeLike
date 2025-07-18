@@ -19,6 +19,7 @@ public class DialogueBoard : UIBase
     public override void Close()
     {
         base.Close();
+        DialogueManager.Instance.offDialogue();
         playerRawImage.texture = null;
         npcRawImage.texture = null;
     }

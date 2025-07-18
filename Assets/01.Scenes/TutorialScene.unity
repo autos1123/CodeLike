@@ -1010,6 +1010,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0ae98c1a99ad1428fe45ef96056b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curDestinyData:
+    ID: 0
+    Name: 
+    PositiveEffectDataID: 0
+    NegativeEffectDataID: 0
 --- !u!4 &1312395465
 Transform:
   m_ObjectHideFlags: 0
@@ -1226,6 +1231,10 @@ PrefabInstance:
     - target: {fileID: 4204739428530141357, guid: ffbfdaee6dd496442bc26007898feb8b, type: 3}
       propertyPath: m_Name
       value: TutorialStageManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204739428530141357, guid: ffbfdaee6dd496442bc26007898feb8b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8622674654145091895, guid: ffbfdaee6dd496442bc26007898feb8b, type: 3}
       propertyPath: m_LocalPosition.x
