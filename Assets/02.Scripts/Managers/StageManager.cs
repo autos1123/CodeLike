@@ -15,7 +15,7 @@ public class StageManager:MonoSingleton<StageManager>
 
     // private으로 변경 후 외부 접근을 위해 프로퍼티 추가 필요
     [SerializeField] protected ProceduralStageGenerator generator;
-    [SerializeField] protected StageData currentStage;
+    protected StageData currentStage;
 
     public ProceduralStageGenerator Generator => generator; // 외부에서 접근할 수 있도록 프로퍼티로 노출
     public StageData CurrentStage => currentStage;
@@ -86,8 +86,13 @@ public class StageManager:MonoSingleton<StageManager>
         // allRooms 리스트에 Room이 존재하는 경우
         // 모든 방을 비활성화
 
-        foreach(var room in FindObjectsOfType<Room>())
-            Destroy(room.gameObject); // Destroy 대신 오브젝트 비활성화
+        if(currentStage == null)
+            return;
+
+        foreach(KeyValuePair<int, Room> room in currentStage.roomMap)
+        {
+            room.Value.gameObject.SetActive(false);
+        }
 
         currentStage = null;
     }

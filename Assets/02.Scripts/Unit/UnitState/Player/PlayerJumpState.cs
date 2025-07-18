@@ -4,7 +4,7 @@ public class PlayerJumpState:PlayerBaseState
 {
     private bool hasStartedFalling = false;
     private float jumpStartTime;
-    private float jumpGroundGrace = 0.15f; // 점프 후 ground check 무시 시간
+    private float jumpGroundGrace = 0.05f; // 점프 후 ground check 무시 시간
     public PlayerJumpState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void StateEnter()
@@ -36,29 +36,27 @@ public class PlayerJumpState:PlayerBaseState
     public override void StateUpdate()
     {
         base.StateUpdate();
-        if(Player.InputHandler.AttackPressed)
-        {
-            // 점프 중 공격 시 상태 전환
-            stateMachine.ChangeState(stateMachine.AttackState);
-            return;
-        }
         Vector2 move = Player.InputHandler.MoveInput;
-
         if(move.magnitude > 0.1f)
         {
             PlayerLookAt();
         }
 
-        // jumpGrace 기간 동안 착지 체크 안 함
+        // jumpGroundGrace 동안 낙하/착지 체크 안함
         if(Time.time - jumpStartTime < jumpGroundGrace)
             return;
 
-        if(!Player.IsGrounded)
+        // 하강 시작 감지
+        if(Player._Rigidbody.velocity.y <= 0f)
+        {
+            Debug.Log(">> FallState로 전환 시도!");
+            Debug.Log($"stateMachine.FallState is null? {stateMachine.FallState == null}");
+            StopAnimation(Player.AnimationData.JumpParameterHash);
+            stateMachine.ChangeState(stateMachine.FallState);
             return;
-
-        // 착지시 상태 전환
-        stateMachine.ChangeState(stateMachine.IdleState);
+        }
     }
+
 
     public override void StatePhysicsUpdate()
     {
