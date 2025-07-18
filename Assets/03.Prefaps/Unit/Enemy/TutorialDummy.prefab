@@ -1363,7 +1363,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4265780195365628984}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1375,7 +1375,7 @@ Transform:
   - {fileID: 5621584057027090147}
   - {fileID: 1608258637795065414}
   m_Father: {fileID: 8747892724144240734}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!95 &4304089039762555534
 Animator:
   serializedVersion: 5
@@ -3135,6 +3135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78fcfcc110a846e429887aeb20d76f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 100
+  dropGold: 10
+  dropItemBox: {fileID: 4511851304918632690, guid: 347b14c68cd95fb4ca1f045d13fec62d, type: 3}
 --- !u!1 &8958318063948290669
 GameObject:
   m_ObjectHideFlags: 0
