@@ -39,11 +39,12 @@ public class SoundSource : MonoBehaviour ,IPoolObject
     }
     private void OnDestroy()
     {
-        ViewManager.Instance.OnViewChanged -= HandleViewModeChange;
+        Stop();
     }
     public void Stop()
     {
         audioSource.Stop();
+        if(ViewManager.Instance == null) return;
         ViewManager.Instance.OnViewChanged -= HandleViewModeChange;
         returnPool();
     }
@@ -63,6 +64,7 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     public void returnPool()
     {
+        if(gameObject == null) return;
         PoolManager.Instance.ReturnObject(this);
     }
 
