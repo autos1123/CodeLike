@@ -45,7 +45,7 @@ public class ExplosionEnemyController:EnemyController
         Player.GetComponent<IDamagable>().GetDamaged(100);
 
         // 본인은 자폭
-        _CombatController.GetDamaged(Condition.GetValue(ConditionType.HP) + 1);
+        _CombatController.GetDamaged(Condition.GetTotalMaxValue(ConditionType.HP) + 1);
     }
 
     protected override void SetEnemyState()
@@ -75,7 +75,7 @@ public class ExplosionEnemyController:EnemyController
         }
 
         float playerDistanceSqr = (targetPos - curPos).sqrMagnitude;
-        float range = Condition.GetValue(rangeType);
+        float range = Condition.GetTotalCurrentValue(rangeType);
 
         return playerDistanceSqr <= range * range;
     }

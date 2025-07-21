@@ -12,7 +12,7 @@ public class PlayerJumpState:PlayerBaseState
 
        StartAnimation(Player.AnimationData.MoveParameterHash);
 
-        float force = Player.Condition.GetValue(ConditionType.JumpPower);
+        float force = Player.Condition.GetTotalCurrentValue(ConditionType.JumpPower);
 
         Vector3 v = Player._Rigidbody.velocity;
 

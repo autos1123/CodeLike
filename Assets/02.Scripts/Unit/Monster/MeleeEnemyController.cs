@@ -15,7 +15,7 @@ public class MeleeEnemyController : EnemyController
             if(hitCollider.TryGetComponent(out IDamagable player))
             {
                 // 플레이어에게 피해를 입히는 로직
-                if(!player.GetDamaged(Condition.GetValue(ConditionType.AttackPower)))
+                if(!player.GetDamaged(Condition.GetTotalCurrentValue(ConditionType.AttackPower)))
                 {
                     StateMachine.ChangeState(EnemyStateType.Idle);
                 }

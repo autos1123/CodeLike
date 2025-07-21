@@ -65,7 +65,7 @@ public class HUD:UIBase
 
     void ChangeGold()
     {
-        goldText.text = player.Condition.GetValue(ConditionType.Gold).ToString();
+        goldText.text = player.Condition.GetTotalCurrentValue(ConditionType.Gold).ToString();
     }
 
     void ChangeHP()

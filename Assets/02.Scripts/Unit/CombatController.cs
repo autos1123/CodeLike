@@ -22,7 +22,7 @@ public class CombatController : MonoBehaviour, IDamagable
     /// <returns></returns>
     public virtual Collider[] GetTargetColliders(LayerMask layer)
     {
-        float attackRange = baseController.Condition.GetValue(ConditionType.AttackRange);
+        float attackRange = baseController.Condition.GetTotalCurrentValue(ConditionType.AttackRange);
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange, layer);
         List<Collider> filteredColliders = new List<Collider>();
 
@@ -41,7 +41,7 @@ public class CombatController : MonoBehaviour, IDamagable
     {
         // Knockback();
 
-        float defense = baseController.Condition.GetValue(ConditionType.Defense);
+        float defense = baseController.Condition.GetTotalCurrentValue(ConditionType.Defense);
         float reducedDamage = Mathf.Max(0, damage - defense);
 
         if(baseController.Condition.GetDamaged(reducedDamage))
@@ -64,7 +64,7 @@ public class CombatController : MonoBehaviour, IDamagable
     {
         if(Application.isPlaying && baseController.IsInitialized)
         {
-            float attackRange = baseController.Condition.GetValue(ConditionType.AttackRange);
+            float attackRange = baseController.Condition.GetTotalCurrentValue(ConditionType.AttackRange);
 
             // 공격 범위를 시각적으로 표시
             Gizmos.color = Color.red;
