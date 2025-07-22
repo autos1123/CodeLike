@@ -2376,7 +2376,6 @@ MonoBehaviour:
   ID: 1002
   visualTransform: {fileID: 101165033342560891}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   stayTime: 1
 --- !u!114 &5359037239471811630
 MonoBehaviour:
@@ -2885,7 +2884,6 @@ MonoBehaviour:
   ID: 1001
   visualTransform: {fileID: 4105394838731214397}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   projectileOffset: {fileID: 728930239718446281}
 --- !u!114 &1062946084539856758
 MonoBehaviour:
@@ -3580,7 +3578,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654760018383485575}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4996,7 +4994,6 @@ MonoBehaviour:
   entranceDown: {fileID: 8772222977849308289}
   entranceLeft: {fileID: 983416526406493514}
   entranceRight: {fileID: 2949810219966187591}
-  isClearRoom: 0
   Enumys:
   - {fileID: 1388180618094186635}
   - {fileID: 2732558801095843613}
@@ -5006,8 +5003,6 @@ MonoBehaviour:
   - {fileID: 6672501881188764006}
   - {fileID: 1189073763056487826}
   - {fileID: 3710676358987336644}
-  x: 0
-  y: 0
 --- !u!65 &-2673901785574334543
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5876,7 +5871,6 @@ MonoBehaviour:
   ID: 1002
   visualTransform: {fileID: 6494886396561200089}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   stayTime: 1
 --- !u!114 &385129474711009415
 MonoBehaviour:
@@ -7635,7 +7629,6 @@ MonoBehaviour:
   ID: 1002
   visualTransform: {fileID: 5314311536118174315}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   stayTime: 1
 --- !u!114 &1199916444887323712
 MonoBehaviour:
@@ -8044,7 +8037,6 @@ MonoBehaviour:
   ID: 1002
   visualTransform: {fileID: 1674752833943918442}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   stayTime: 1
 --- !u!114 &4042811740701550717
 MonoBehaviour:
@@ -8449,7 +8441,6 @@ MonoBehaviour:
   ID: 1002
   visualTransform: {fileID: 8762382487834816595}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   stayTime: 1
 --- !u!114 &8096405848136595202
 MonoBehaviour:
@@ -9446,7 +9437,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4581378874544522172}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -11840,7 +11831,6 @@ MonoBehaviour:
   ID: 1002
   visualTransform: {fileID: 4063228974954518116}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   stayTime: 1
 --- !u!114 &2343282748789554473
 MonoBehaviour:
@@ -12800,7 +12790,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6188059439140782546}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -13725,7 +13715,6 @@ MonoBehaviour:
   ID: 1002
   visualTransform: {fileID: 2072479939684906222}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   stayTime: 1
 --- !u!114 &4261840415691671262
 MonoBehaviour:
