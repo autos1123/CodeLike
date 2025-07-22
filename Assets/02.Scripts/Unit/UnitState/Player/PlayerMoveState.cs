@@ -32,12 +32,6 @@ public class PlayerMoveState:PlayerBaseState
             return;
         }
 
-        if(Player.InputHandler.AttackPressed)
-        {
-            stateMachine.ChangeState(stateMachine.AttackState);
-            return;
-        }
-
         if(move != Vector2.zero)
         {
             inputDelay = 0f;

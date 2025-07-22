@@ -84,6 +84,13 @@ public class ProceduralStageGenerator:MonoBehaviour
         return stageData;
     }
 
+    /// <summary>
+    /// 방을 생성합니다
+    /// </summary>
+    /// <param name="currentRoomId"></param>
+    /// <param name="gridPos"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
     private Room CreateRoom(int currentRoomId, Vector2Int gridPos, RoomType type)
     {
 
@@ -145,6 +152,10 @@ public class ProceduralStageGenerator:MonoBehaviour
             _ => Vector2Int.zero,
         };
     }
+    /// <summary>
+    /// 연결지점을 설정합니다.
+    /// </summary>
+    /// <param name="stageData"></param>
     public void PlaceConnections(StageData stageData)
     {
         List<RoomConnection> conn = stageData.connections;
@@ -170,7 +181,12 @@ public class ProceduralStageGenerator:MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// 연결지점에 포탈을 생성합니다.
+    /// </summary>
+    /// <param name="fromRoom"></param>
+    /// <param name="toRoom"></param>
+    /// <param name="direction"></param>
     private void CreatePortal(Room fromRoom, Room toRoom, Direction direction)
     {
         Transform fromAnchor = fromRoom.GetEntranceAnchor(direction);

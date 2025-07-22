@@ -30,10 +30,6 @@ public class PlayerIdleState:PlayerBaseState
         /// 점프 입력
         if(Player.InputHandler.JumpPressed && Player.IsGrounded)
             stateMachine.ChangeState(stateMachine.JumpState);
-
-        // 공격 입력
-        if(Player.InputHandler.AttackPressed)
-            stateMachine.ChangeState(stateMachine.AttackState);
     }
 
     public override void StatePhysicsUpdate() 
