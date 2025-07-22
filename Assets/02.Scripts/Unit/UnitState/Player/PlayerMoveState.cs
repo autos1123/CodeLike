@@ -31,6 +31,10 @@ public class PlayerMoveState:PlayerBaseState
             stateMachine.ChangeState(stateMachine.JumpState);
             return;
         }
+        if(Player.InputHandler.DashPressed)
+        {
+            Dash(Player.InputHandler.MoveInput, 12f); // 파워는 원하는 값으로
+        }
 
         if(move != Vector2.zero)
         {

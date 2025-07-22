@@ -87,6 +87,22 @@ public class PlayerBaseState:IUnitState
         return dir;
     }
 
+    protected void Dash(Vector2 input, float dashPower)
+    {
+        Vector3 dir;
+        if(viewMode == ViewModeType.View2D)
+            dir = new Vector3(input.x, 0, 0).normalized;
+        else
+        {
+            var f = Camera.main.transform.forward; f.y = 0; f.Normalize();
+            var r = Camera.main.transform.right; r.y = 0; r.Normalize();
+            dir = (r * input.x + f * input.y).normalized;
+        }
+
+        Player._Rigidbody.velocity = dir * dashPower;
+    }
+
+
     protected void PlayerLookAt()
     {
         Vector2 move = Player.InputHandler.MoveInput;
