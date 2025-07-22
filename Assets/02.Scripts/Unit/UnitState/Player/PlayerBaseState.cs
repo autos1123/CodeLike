@@ -99,8 +99,25 @@ public class PlayerBaseState:IUnitState
             dir = (r * input.x + f * input.y).normalized;
         }
 
-        Player._Rigidbody.velocity = dir * dashPower;
+        if(dir == Vector3.zero)
+            dir = Player.VisualTransform.forward;
+
+        Vector3 origin = Player.transform.position;
+        float maxDistance = dashPower;   // dashPower를 "점멸 거리"로 사용!
+        float skin = 0.1f;
+
+        RaycastHit hit;
+        Vector3 target = origin + dir * maxDistance;
+
+        if(Physics.Raycast(origin, dir, out hit, maxDistance, ~0, QueryTriggerInteraction.Ignore))
+        {
+            target = hit.point - dir * skin;
+        }
+
+        Player._Rigidbody.position = target;
+        Player._Rigidbody.velocity = Vector3.zero;
     }
+
 
 
     protected void PlayerLookAt()

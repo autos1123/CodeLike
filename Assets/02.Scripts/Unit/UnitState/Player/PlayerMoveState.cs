@@ -33,7 +33,7 @@ public class PlayerMoveState:PlayerBaseState
         }
         if(Player.InputHandler.DashPressed)
         {
-            Dash(Player.InputHandler.MoveInput, 12f); // 파워는 원하는 값으로
+            Dash(Player.InputHandler.MoveInput, 5f); // 파워는 원하는 값으로
         }
 
         if(move != Vector2.zero)
