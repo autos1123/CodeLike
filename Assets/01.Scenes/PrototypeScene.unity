@@ -215,15 +215,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1985143623796453560, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.7999964
+      value: -29.8
       objectReference: {fileID: 0}
     - target: {fileID: 1985143623796453560, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.1500001
       objectReference: {fileID: 0}
     - target: {fileID: 1985143623796453560, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1985143623796453560, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: m_LocalRotation.w
@@ -579,7 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: {fileID: 1250406768}
-  stageMapCountData: 03000000060000000700000008000000090000000a000000
+  stageMapCountData: 04000000060000000700000008000000090000000a000000
 --- !u!4 &1250406770
 Transform:
   m_ObjectHideFlags: 0
@@ -1297,6 +1297,10 @@ PrefabInstance:
     - target: {fileID: 8528438762579550313, guid: 3d6c5d9b582e5da4685ee08a629e5bb3, type: 3}
       propertyPath: m_Name
       value: TutorialDummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8528438762579550313, guid: 3d6c5d9b582e5da4685ee08a629e5bb3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8747892724144240734, guid: 3d6c5d9b582e5da4685ee08a629e5bb3, type: 3}
       propertyPath: m_LocalPosition.x
