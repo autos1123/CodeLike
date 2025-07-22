@@ -41,17 +41,10 @@ public class BaseCondition
     /// <returns></returns>
     public float GetValue(ConditionType type)
     {
-        float curValue = 0;
-        float modifierValue = 0;
-
-        if(CurrentConditions.TryGetValue(type, out curValue))
+        if(CurrentConditions.TryGetValue(type, out float curValue))
         {
-            if(ConditionModifier.ContainsKey(type))
-                modifierValue = ConditionModifier[type].Values.Sum();
-
-            return curValue + modifierValue;
+            return curValue; 
         }
-
         Debug.LogError($"ConditionType {type}를 찾을 수 없습니다.");
         return 0f;
     }
@@ -85,18 +78,19 @@ public class BaseCondition
     /// </summary>
     /// <param name="c_Type"></param>
     /// <returns></returns>
-    public float GetModifierValue(ConditionType c_Type)
+    public float GetMaxValue(ConditionType c_Type)
     {
+        float baseValue = 0f;
+        Data?.TryGetCondition(c_Type, out baseValue);
+
         if(ConditionModifier.TryGetValue(c_Type, out Dictionary<ModifierType, float> modifierDict))
         {
-            return ConditionModifier[c_Type].Values.Sum();
+            return baseValue + modifierDict.Values.Sum();
         }
         else
         {
-            Debug.LogError($"ConditionType {c_Type}에 대한 Modifier가 존재하지 않습니다.");
+            return baseValue; // Modifier가 없으면 기본값만 반환
         }
-
-        return 0f;
     }
 
     /// <summary>

@@ -19,6 +19,9 @@ public class PlayerController:BaseController
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.1f;
 
+    [SerializeField] private float attackDuration = 0.5f;
+    [SerializeField] private float startTime;
+
     public bool IsGrounded { get; private set; }
 
     protected override void Awake()
@@ -31,6 +34,7 @@ public class PlayerController:BaseController
         InputHandler = GetComponent<PlayerInputHandler>();
         ActiveItemController = GetComponent<PlayerActiveItemController>();
         _Rigidbody.freezeRotation = true;
+        startTime = Time.time;
     }
 
     private void Update()
@@ -40,7 +44,9 @@ public class PlayerController:BaseController
 
         UpdateGrounded();
         StateMachine.Update();
+        AttackCheck();
         InputHandler.ResetOneTimeInputs();
+        
     }
 
     private void FixedUpdate()
@@ -100,6 +106,14 @@ public class PlayerController:BaseController
             {
                 enemy.GetDamaged(Condition.GetValue(ConditionType.AttackPower));
             }
+        }
+    }
+    public void AttackCheck()
+    {
+        if(InputHandler.AttackPressed && Time.time - startTime >= attackDuration)
+        {
+            startTime = Time.time;
+            _Animator.SetTrigger(AnimationData.AttackParameterHash);
         }
     }
 
