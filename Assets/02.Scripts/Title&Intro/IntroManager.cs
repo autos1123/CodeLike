@@ -54,7 +54,7 @@ public class IntroManager : MonoBehaviour
         
         if (uiFadeGroup != null)
         {
-            uiFadeGroup.alpha = 0f; 
+            uiFadeGroup.alpha = 0f;
             uiFadeGroup.interactable = false;
             uiFadeGroup.blocksRaycasts = false;
 
