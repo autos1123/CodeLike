@@ -23,18 +23,22 @@ public class MainMenuButtons : MonoBehaviour
         {
             bgmAudioSource.Play();
         }
-
-        // 초기 선택 버튼 설정
-        if (defaultSelectedButton != null)
-        {
-            defaultSelectedButton.Select();
-        }
+        
+        IntroManager.OnMenuFadeInComplete += SelectDefaultButtonAfterFadeIn;
     }
     void OnDisable()
     {
         if (bgmAudioSource != null && bgmAudioSource.isPlaying)
         {
             bgmAudioSource.Stop();
+        }
+        IntroManager.OnMenuFadeInComplete -= SelectDefaultButtonAfterFadeIn;
+    }
+    void SelectDefaultButtonAfterFadeIn()
+    {
+        if (defaultSelectedButton != null)
+        {
+            defaultSelectedButton.Select();
         }
     }
     // 모든 왼쪽 페이지 패널을 비활성화

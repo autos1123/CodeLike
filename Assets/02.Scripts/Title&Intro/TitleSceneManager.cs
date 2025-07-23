@@ -20,7 +20,10 @@ public class TitleSceneManager : MonoBehaviour
     public string introSceneName = "IntroScene";
     
     public float delayBeforeNoiseVideo = 2.0f; // 노이즈 영상 재생 전 딜레이 시간
-
+    
+    public AudioClip keyPressSound;
+    public AudioSource sfxAudioSource;
+    
     private bool inputHandled = false;
 
     void Awake()
@@ -83,6 +86,11 @@ public class TitleSceneManager : MonoBehaviour
     void HandleAnyKeyInput()
     {
         inputHandled = true; 
+        
+        if (sfxAudioSource != null && keyPressSound != null)
+        {
+            sfxAudioSource.PlayOneShot(keyPressSound); // PlayOneShot을 사용하여 중복 재생 방지
+        }
         
         // "아무 키나 입력하세요" 텍스트 비활성화
         if (pressAnyKeyText != null)
