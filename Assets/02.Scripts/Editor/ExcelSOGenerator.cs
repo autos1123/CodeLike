@@ -9,20 +9,17 @@ using UnityEditor;
 using UnityEngine;
 
 public static class ExcelSOGenerator
-{
+{ 
     public static void GenerateFromSheet(DataTable table, string sheetName, string scriptOutputPath, string assetOutputPath)
     {
         switch(sheetName)
         {
-
             case "UnitData":
-
                 var conditions = ScriptableObject.CreateInstance<ConditionDataTable>();
 
                 for(int i = 2; i < table.Rows.Count; i++)
                 {
                     var row = table.Rows[i];
-
                     var condition = new ConditionData();
                     condition.ID = int.Parse(row[0].ToString());
                     condition.CharacterName = row[1].ToString();
@@ -40,13 +37,11 @@ public static class ExcelSOGenerator
                     condition.InitCondition(ConditionType.PatrolRange, float.Parse(row[13].ToString()));
                     condition.InitCondition(ConditionType.ChaseRange, float.Parse(row[14].ToString()));
                     condition.InitCondition(ConditionType.Gold, float.Parse(row[15].ToString()));
-
                     conditions.dataList.Add(condition);
                 }
+
                 string enemyAssetPath = $"{assetOutputPath}/ConditionDataTable.asset";
                 AssetDatabase.CreateAsset(conditions, enemyAssetPath);
-
-
                 Debug.Log($"✅ {sheetName} SO 생성됨: {enemyAssetPath}");
                 break;
             case "DestinyData":
@@ -176,9 +171,8 @@ public static class ExcelSOGenerator
                 break;
             case "EnhanceData":
                 ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
-
                 var enhanceDataTable = ScriptableObject.CreateInstance<EnhanceDataTable>();
-
+                enhanceDataTable.dataList = new List<EnhanceData>();
                 for(int i = 2; i < table.Rows.Count; i++)
                 {
                     var row = table.Rows[i];
@@ -186,17 +180,16 @@ public static class ExcelSOGenerator
                     enhanceData.ID = int.Parse(row[0].ToString());
                     enhanceData.name = row[1].ToString();
                     enhanceData.ConditionType = ParseEnumFromCell<ConditionType>(row[2]);
-                    enhanceData.value = int.Parse(row[3].ToString());
-                    enhanceData.dsecription = row[4].ToString().Replace("@", enhanceData.value.ToString());
-
+                    enhanceData.minvalue = float.Parse(row[3].ToString());
+                    enhanceData.maxvalue = float.Parse(row[4].ToString());
+                    enhanceData.description = row[5].ToString();
                     enhanceDataTable.dataList.Add(enhanceData);
                 }
-
-                string enhancePath = $"{assetOutputPath}/{table.ToString()}Table.asset";
+                string enhancePath = $"{assetOutputPath}/{sheetName}Table.asset";
                 AssetDatabase.CreateAsset(enhanceDataTable, enhancePath);
                 Debug.Log($"✅ {sheetName} SO 생성됨: {enhancePath}");
-
                 break;
+
             case "NPCData":
                 ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
 
