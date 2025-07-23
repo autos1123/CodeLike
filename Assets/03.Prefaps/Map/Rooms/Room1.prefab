@@ -8139,6 +8139,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Road_Straight_01_Snow (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 936085555993106890, guid: b19ca356ed7159b4288503b4c2710879, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3100171974358555482, guid: b19ca356ed7159b4288503b4c2710879, type: 3}
       propertyPath: m_Tangents.Array.data[0].x
       value: NaN
@@ -12047,6 +12051,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8342068775308506228, guid: b19ca356ed7159b4288503b4c2710879, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12564,6 +12572,10 @@ PrefabInstance:
     - target: {fileID: 936085555993106890, guid: b19ca356ed7159b4288503b4c2710879, type: 3}
       propertyPath: m_Name
       value: SM_Env_Road_Straight_01_Snow
+      objectReference: {fileID: 0}
+    - target: {fileID: 936085555993106890, guid: b19ca356ed7159b4288503b4c2710879, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3100171974358555482, guid: b19ca356ed7159b4288503b4c2710879, type: 3}
       propertyPath: m_Tangents.Array.data[0].x
@@ -16472,6 +16484,10 @@ PrefabInstance:
     - target: {fileID: 5425981942783968131, guid: b19ca356ed7159b4288503b4c2710879, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342068775308506228, guid: b19ca356ed7159b4288503b4c2710879, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
