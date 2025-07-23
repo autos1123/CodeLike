@@ -22,10 +22,6 @@ public class PlayerController:BaseController
     [SerializeField] private float attackDuration = 0.5f;
     [SerializeField] private float startTime;
 
-    private int comboStep = 0;
-    private float comboTimer = 0f;
-    [SerializeField] private float comboMaxDelay = 0.5f;
-
     public bool IsGrounded { get; private set; }
 
     protected override void Awake()
@@ -114,24 +110,10 @@ public class PlayerController:BaseController
     }
     public void AttackCheck()
     {
-        if(InputHandler.AttackPressed)
+        if(InputHandler.AttackPressed && Time.time - startTime >= attackDuration)
         {
-            comboStep++;
-
-            if(comboStep == 1)
-                _Animator.SetTrigger(AnimationData.AttackCombo1ParameterHash);
-            else if(comboStep == 2)
-                _Animator.SetTrigger(AnimationData.AttackCombo2ParameterHash);
-            else if(comboStep == 3)
-                _Animator.SetTrigger(AnimationData.AttackCombo3ParameterHash);
-
-            comboTimer = Time.time; // 최근 입력 시간 기록
-        }
-
-        // 콤보 시간 초과시 리셋
-        if(comboStep > 0 && Time.time - comboTimer > comboMaxDelay)
-        {
-            comboStep = 0;
+            startTime = Time.time;
+            _Animator.SetTrigger(AnimationData.AttackParameterHash);
         }
     }
 

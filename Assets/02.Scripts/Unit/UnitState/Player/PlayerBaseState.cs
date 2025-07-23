@@ -87,39 +87,6 @@ public class PlayerBaseState:IUnitState
         return dir;
     }
 
-    protected void Dash(Vector2 input, float dashPower)
-    {
-        Vector3 dir;
-        if(viewMode == ViewModeType.View2D)
-            dir = new Vector3(input.x, 0, 0).normalized;
-        else
-        {
-            var f = Camera.main.transform.forward; f.y = 0; f.Normalize();
-            var r = Camera.main.transform.right; r.y = 0; r.Normalize();
-            dir = (r * input.x + f * input.y).normalized;
-        }
-
-        if(dir == Vector3.zero)
-            dir = Player.VisualTransform.forward;
-
-        Vector3 origin = Player.transform.position;
-        float maxDistance = dashPower;   // dashPower를 "점멸 거리"로 사용!
-        float skin = 0.1f;
-
-        RaycastHit hit;
-        Vector3 target = origin + dir * maxDistance;
-
-        if(Physics.Raycast(origin, dir, out hit, maxDistance, ~0, QueryTriggerInteraction.Ignore))
-        {
-            target = hit.point - dir * skin;
-        }
-
-        Player._Rigidbody.position = target;
-        Player._Rigidbody.velocity = Vector3.zero;
-    }
-
-
-
     protected void PlayerLookAt()
     {
         Vector2 move = Player.InputHandler.MoveInput;
