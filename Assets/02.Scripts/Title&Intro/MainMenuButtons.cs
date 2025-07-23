@@ -46,7 +46,7 @@ public class MainMenuButtons : MonoBehaviour
     
     public void OnStartGameButton()
     {
-        SceneManager.LoadScene("LobbyScene"); 
+        SceneManager.LoadScene("TutorialScene"); 
     }
 
     public void OnLoadGameButton()

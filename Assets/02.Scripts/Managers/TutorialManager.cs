@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class TutorialManager : MonoSingleton<TutorialManager>
 {
     [SerializeField] private List<TutorialStep> tutorialSteps;
-    [SerializeField] private string prototypeSceneName = "PrototypeScene";
+    [SerializeField] private string nextSceneName = "LobbyScene";
     
     private int currentStepIndex = -1;
     private TutorialStep currentStep;
@@ -87,8 +87,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         }
 
         UIManager.Instance.HideContextualHint();
-        Debug.Log("모든 튜토리얼 스텝 완료. 다음 씬으로 전환.");
         
-        SceneManager.LoadScene(prototypeSceneName);
+        SceneManager.LoadScene(nextSceneName);
     }
 }

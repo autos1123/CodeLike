@@ -9,7 +9,9 @@ public class MenuSelectionMarker : MonoBehaviour
     private GameObject currentSelected;
     private GameObject lastSelected;
     private GameObject lastConfirmedSelectedButton;
-
+    
+    public AudioSource menuAudioSource; 
+    public AudioClip selectionSound;
     void Update()
     {
         currentSelected = EventSystem.current.currentSelectedGameObject;
@@ -39,6 +41,12 @@ public class MenuSelectionMarker : MonoBehaviour
 
             // 현재 선택 표시
             ToggleIndicator(currentSelected, true);
+            //효과음 재생
+            if (menuAudioSource != null && selectionSound != null)
+            {
+                menuAudioSource.PlayOneShot(selectionSound);
+            }
+            
             lastSelected = currentSelected;
             
             if (currentSelected.GetComponent<Button>() != null)

@@ -16,7 +16,7 @@ public class TitleSceneManager : MonoBehaviour
     public TextMeshProUGUI pressAnyKeyText;
     
     public AudioSource bgmAudioSource;
-    
+    public GameObject texts;
     public string introSceneName = "IntroScene";
     
     public float delayBeforeNoiseVideo = 2.0f; // 노이즈 영상 재생 전 딜레이 시간
@@ -73,7 +73,7 @@ public class TitleSceneManager : MonoBehaviour
         {
             HandleAnyKeyInput();
         }
-        // (선택 사항) Press Any Key 텍스트 깜빡임 효과
+        // Press Any Key 텍스트 깜빡임 효과
         if (pressAnyKeyText != null && pressAnyKeyText.gameObject.activeSelf)
         {
             pressAnyKeyText.color = new Color(pressAnyKeyText.color.r, pressAnyKeyText.color.g, pressAnyKeyText.color.b, Mathf.PingPong(Time.time * 0.8f, 1f));
@@ -105,6 +105,11 @@ public class TitleSceneManager : MonoBehaviour
         if (backgroundVideoScreen != null)
         {
             backgroundVideoScreen.gameObject.SetActive(false);
+        }
+
+        if(texts != null)
+        {
+            texts.SetActive(false);
         }
         
         if (bgmAudioSource != null && bgmAudioSource.isPlaying)
