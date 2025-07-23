@@ -44,6 +44,9 @@ public class NPCController : MonoBehaviour, IInteractable
                 TryOpenShop();
                 OpenDialogue(interactor);
                 break;
+            case NPCType.Enhancer:
+                TryOpenEnhance();
+                break;
         }
     }
     private void OpenDialogue(GameObject interactor)
@@ -74,5 +77,14 @@ public class NPCController : MonoBehaviour, IInteractable
         {
             shopUI.OpenWithInventory(shopInventory);
         }
+    }
+    private void TryOpenEnhance()
+    {
+        if (!UIManager.Instance.TryGetUI<EnhanceBoard>(out var enhanceBoard))
+        {
+            Debug.LogError("[NPCController] EnhanceBoard를 찾을 수 없습니다.");
+            return;
+        }
+        enhanceBoard.Open();
     }
 }
