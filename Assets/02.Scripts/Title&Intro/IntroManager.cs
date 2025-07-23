@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Video;
@@ -7,6 +8,8 @@ public class IntroManager : MonoBehaviour
     public VideoPlayer videoPlayer; 
     public GameObject menuCanvas;
     public CanvasGroup uiFadeGroup;
+    public static event Action OnMenuFadeInComplete; 
+
     void OnEnable()
     {
         if (videoPlayer != null)
@@ -80,5 +83,7 @@ public class IntroManager : MonoBehaviour
         canvasGroup.alpha = targetAlpha; 
         canvasGroup.interactable = true; 
         canvasGroup.blocksRaycasts = true; 
+        
+        OnMenuFadeInComplete?.Invoke();
     }
 }
