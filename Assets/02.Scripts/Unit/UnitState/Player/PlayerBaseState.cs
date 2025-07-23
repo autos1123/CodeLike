@@ -116,9 +116,6 @@ public class PlayerBaseState:IUnitState
                     Player.VisualTransform.rotation = Quaternion.Euler(0, yAngle, 0);
                 }
             }
-
-
-
         }
     }
 }

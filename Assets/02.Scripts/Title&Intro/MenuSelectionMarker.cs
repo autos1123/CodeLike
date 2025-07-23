@@ -9,7 +9,17 @@ public class MenuSelectionMarker : MonoBehaviour
     private GameObject currentSelected;
     private GameObject lastSelected;
     private GameObject lastConfirmedSelectedButton;
+    
+    public AudioSource menuAudioSource; 
+    public AudioClip selectionSound;
 
+    void Awake()
+    {
+        foreach (GameObject buttonObject in menuButtons)
+        {
+            AddEventTriggersToButton(buttonObject);
+        }
+    }
     void Update()
     {
         currentSelected = EventSystem.current.currentSelectedGameObject;
@@ -39,6 +49,12 @@ public class MenuSelectionMarker : MonoBehaviour
 
             // 현재 선택 표시
             ToggleIndicator(currentSelected, true);
+            //효과음 재생
+            if (menuAudioSource != null && selectionSound != null)
+            {
+                menuAudioSource.PlayOneShot(selectionSound);
+            }
+            
             lastSelected = currentSelected;
             
             if (currentSelected.GetComponent<Button>() != null)
@@ -47,7 +63,47 @@ public class MenuSelectionMarker : MonoBehaviour
             }
         }
     }
+    void AddEventTriggersToButton(GameObject buttonObject)
+    {
+        if (buttonObject == null) return;
 
+        EventTrigger trigger = buttonObject.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            trigger = buttonObject.AddComponent<EventTrigger>();
+        }
+        
+        EventTrigger.Entry entryPointerEnter = new EventTrigger.Entry();
+        entryPointerEnter.eventID = EventTriggerType.PointerEnter;
+        entryPointerEnter.callback.AddListener((data) => { OnPointerEnter(buttonObject); });
+        trigger.triggers.Add(entryPointerEnter);
+        
+        EventTrigger.Entry entryPointerExit = new EventTrigger.Entry();
+        entryPointerExit.eventID = EventTriggerType.PointerExit;
+        entryPointerExit.callback.AddListener((data) => { OnPointerExit(buttonObject); });
+        trigger.triggers.Add(entryPointerExit);
+    }
+
+    // 마우스가 버튼에 진입했을 때 호출될 함수
+    public void OnPointerEnter(GameObject buttonObject)
+    {
+        ToggleIndicator(buttonObject, true);
+        
+        if (menuAudioSource != null && selectionSound != null)
+        {
+            menuAudioSource.PlayOneShot(selectionSound);
+        }
+        EventSystem.current.SetSelectedGameObject(buttonObject);
+    }
+
+    // 마우스가 버튼에서 벗어났을 때 호출될 함수
+    public void OnPointerExit(GameObject buttonObject)
+    {
+        if (EventSystem.current.currentSelectedGameObject != buttonObject)
+        {
+            ToggleIndicator(buttonObject, false);
+        }
+    }
     void ToggleIndicator(GameObject buttonObject, bool enable)
     {
         if (buttonObject == null) return;

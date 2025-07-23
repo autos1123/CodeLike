@@ -1679,7 +1679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2709554763859729427}
-  - component: {fileID: 4501922524450809001}
+  - component: {fileID: 2959327655662497542}
   m_Layer: 5
   m_Name: Status
   m_TagString: Untagged
@@ -1708,7 +1708,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4501922524450809001
+--- !u!114 &2959327655662497542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1717,10 +1717,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3433946257477503296}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b17fba54625e5ef4b98a2c20e1d022aa, type: 3}
+  m_Script: {fileID: 11500000, guid: eca92f2d4c49c6549b5860dfb46436c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _conditionType: 0
+  nameText: {fileID: 6049686025025746175}
 --- !u!1 &3477989061926227705
 GameObject:
   m_ObjectHideFlags: 0
@@ -2962,7 +2962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3723827317170087040
 RectTransform:
   m_ObjectHideFlags: 0

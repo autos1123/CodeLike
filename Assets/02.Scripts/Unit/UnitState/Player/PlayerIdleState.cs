@@ -10,6 +10,8 @@ public class PlayerIdleState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
+        Debug.Log("Idle 진입!");
+        Debug.Log(Player.InputHandler.JumpPressed);
         StartAnimation(Player.AnimationData.IdleParameterHash);
     }
 
@@ -29,7 +31,11 @@ public class PlayerIdleState:PlayerBaseState
         }
         /// 점프 입력
         if(Player.InputHandler.JumpPressed && Player.IsGrounded)
+        {
+            Debug.Log(">> PlayerIdleState: 점프 입력 감지!");
             stateMachine.ChangeState(stateMachine.JumpState);
+        }
+            
     }
 
     public override void StatePhysicsUpdate() 

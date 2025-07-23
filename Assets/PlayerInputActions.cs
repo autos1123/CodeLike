@@ -125,6 +125,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""5cfd6617-7e07-4bbd-b99e-33c97c1fe300"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -292,6 +301,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""OpenMinmap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8fb3917-6a4c-44ad-ae53-bec6d5571bfb"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -311,6 +331,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_UseXItem = m_Player.FindAction("UseXItem", throwIfNotFound: true);
         m_Player_UseCitem = m_Player.FindAction("UseCitem", throwIfNotFound: true);
         m_Player_OpenMinmap = m_Player.FindAction("OpenMinmap", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -383,6 +404,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_UseXItem;
     private readonly InputAction m_Player_UseCitem;
     private readonly InputAction m_Player_OpenMinmap;
+    private readonly InputAction m_Player_Dash;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -398,6 +420,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @UseXItem => m_Wrapper.m_Player_UseXItem;
         public InputAction @UseCitem => m_Wrapper.m_Player_UseCitem;
         public InputAction @OpenMinmap => m_Wrapper.m_Player_OpenMinmap;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -440,6 +463,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @OpenMinmap.started += instance.OnOpenMinmap;
             @OpenMinmap.performed += instance.OnOpenMinmap;
             @OpenMinmap.canceled += instance.OnOpenMinmap;
+            @Dash.started += instance.OnDash;
+            @Dash.performed += instance.OnDash;
+            @Dash.canceled += instance.OnDash;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -477,6 +503,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @OpenMinmap.started -= instance.OnOpenMinmap;
             @OpenMinmap.performed -= instance.OnOpenMinmap;
             @OpenMinmap.canceled -= instance.OnOpenMinmap;
+            @Dash.started -= instance.OnDash;
+            @Dash.performed -= instance.OnDash;
+            @Dash.canceled -= instance.OnDash;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -507,5 +536,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnUseXItem(InputAction.CallbackContext context);
         void OnUseCitem(InputAction.CallbackContext context);
         void OnOpenMinmap(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
 }
