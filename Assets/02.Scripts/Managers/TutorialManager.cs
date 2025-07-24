@@ -33,7 +33,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     private IEnumerator Start()
     {
         yield return new WaitUntil(() => UIManager.Instance != null && UIManager.Instance.IsUILoaded()); 
-        yield return new WaitUntil(() => TutorialStageManager.Instance != null);
+        yield return new WaitUntil(() => OtherStageManager.Instance != null);
         
         StartTutorial();
     }

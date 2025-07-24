@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialStageManager : StageManager
+public class OtherStageManager : StageManager
 {
-    [SerializeField] private Room tutorialRoomPrefab;
+    [SerializeField] private Room otherRoomPrefab;
     public bool IsTutorialStageReady { get; private set; } = false;
     protected override bool Persistent => false; 
     
@@ -13,9 +13,9 @@ public class TutorialStageManager : StageManager
         ClearStage();
 
         // 튜토리얼 방 하나만 생성
-        if (tutorialRoomPrefab != null)
+        if (otherRoomPrefab != null)
         {
-            GameObject tutorialRoomGO = Instantiate(tutorialRoomPrefab.gameObject);
+            GameObject tutorialRoomGO = Instantiate(otherRoomPrefab.gameObject);
             Room tutorialRoom = tutorialRoomGO.GetComponent<Room>();
             tutorialRoom.Initialize(tutorialRoom.GetHashCode(), new Vector2Int(0, 0), RoomType.Start);
 
