@@ -46,22 +46,22 @@ public class PlayerActiveItemController:MonoBehaviour
         ActiveItemEffectData used = new();
         if(Input.GetKeyDown(KeyCode.F3))
         {
-            used = activeItemEffectDataTable.GetDataByID(5001);
+            used = activeItemEffectDataTable.GetDataByID(5000);
             executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
         }
         if(Input.GetKeyDown(KeyCode.F4))
         {
-            used = activeItemEffectDataTable.GetDataByID(5002);
-            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+            used = activeItemEffectDataTable.GetDataByID(5001);
+            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.position);
         }
         if(Input.GetKeyDown(KeyCode.F5))
         {
-            used = activeItemEffectDataTable.GetDataByID(5003);
-            executors[used.Type].Execute(used, transform, projectileSpawnPos.forward);
+            used = activeItemEffectDataTable.GetDataByID(5002);
+            executors[used.Type].Execute(used, transform, projectileSpawnPos.position);
         }
         if(Input.GetKeyDown(KeyCode.F6))
         {
-            used = activeItemEffectDataTable.GetDataByID(5004);
+            used = activeItemEffectDataTable.GetDataByID(5003);
             executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
         }
     }
