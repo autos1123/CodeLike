@@ -10,7 +10,7 @@ public class PlayerJumpState:PlayerBaseState
     {
         base.StateEnter();
 
-       StartAnimation(Player.AnimationData.MoveParameterHash);
+       StartAnimation(Player.AnimationData.JumpParameterHash);
 
         float force = Player.Condition.GetTotalCurrentValue(ConditionType.JumpPower);
 
@@ -28,7 +28,7 @@ public class PlayerJumpState:PlayerBaseState
     public override void StateExit()
     {
         base.StateExit();
-        StopAnimation(Player.AnimationData.MoveParameterHash);
+        StopAnimation(Player.AnimationData.JumpParameterHash);
     }
 
     public override void StateUpdate()

@@ -14,17 +14,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - ID: 7000
-    name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-    ConditionType: 3
-    value: 10
-    dsecription: "\uACF5\uACA9\uB825\uC774 10\uC99D\uAC00\uD55C\uB2E4."
+    name: "\uCCB4\uB825\uC99D\uAC00"
+    ConditionType: 0
+    minvalue: 0.3
+    maxvalue: 1
+    description: "\uCCB4\uB825\uC774 @\uC99D\uAC00\uD569\uB2C8\uB2E4."
   - ID: 7001
-    name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-    ConditionType: 3
-    value: 20
-    dsecription: "\uACF5\uACA9\uB825\uC774 20\uC99D\uAC00\uD55C\uB2E4."
+    name: "\uC2A4\uD14C\uBBF8\uB108\uC99D\uAC00"
+    ConditionType: 1
+    minvalue: 0.3
+    maxvalue: 1
+    description: "\uC2A4\uD14C\uBBF8\uB108\uAC00 @\uC99D\uAC00\uD569\uB2C8\uB2E4."
   - ID: 7002
-    name: "\uACF5\uACA9\uB825 \uC99D\uAC00"
+    name: "\uACF5\uACA9\uB825\uC99D\uAC00"
     ConditionType: 3
-    value: 30
-    dsecription: "\uACF5\uACA9\uB825\uC774 30\uC99D\uAC00\uD55C\uB2E4."
+    minvalue: 0.3
+    maxvalue: 1
+    description: "\uACF5\uACA9\uB825\uC774 @\uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - ID: 7003
+    name: "\uACF5\uACA9\uC18D\uB3C4\uC99D\uAC00"
+    ConditionType: 4
+    minvalue: 0.3
+    maxvalue: 1
+    description: "\uACF5\uACA9\uC18D\uB3C4\uAC00 @\uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - ID: 7004
+    name: "\uBC29\uC5B4\uB825\uC99D\uAC00"
+    ConditionType: 6
+    minvalue: 0.3
+    maxvalue: 1
+    description: "\uBC29\uC5B4\uB825\uC774 @\uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - ID: 7005
+    name: "\uC774\uB3D9\uC18D\uB3C4\uC99D\uAC00"
+    ConditionType: 7
+    minvalue: 0.3
+    maxvalue: 1
+    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 @\uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - ID: 7006
+    name: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC99D\uAC00"
+    ConditionType: 9
+    minvalue: 0.3
+    maxvalue: 1
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 @\uC99D\uAC00\uD569\uB2C8\uB2E4."
+  - ID: 7007
+    name: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uC99D\uAC00"
+    ConditionType: 10
+    minvalue: 0.3
+    maxvalue: 1
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 @\uC99D\uAC00\uD569\uB2C8\uB2E4."

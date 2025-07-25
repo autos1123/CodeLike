@@ -41,12 +41,14 @@ public class BaseCondition
     /// <returns></returns>
     private float GetCurrentConditionValue(ConditionType type)
     {
+        float baseValue = 0;
         if(CurrentConditions.TryGetValue(type, out float curValue))
-        {
-            return curValue; 
-        }
-        Debug.LogError($"ConditionType {type}를 찾을 수 없습니다.");
-        return 0f;
+            baseValue = curValue;
+        // Modifier 적용
+        float modifierSum = 0;
+        if(ConditionModifier.TryGetValue(type, out var modDict))
+            modifierSum = modDict.Values.Sum();
+        return baseValue + modifierSum;
     }
 
     /// <summary>
@@ -122,7 +124,7 @@ public class BaseCondition
         if(ConditionModifier.ContainsKey(type))
         {
             sb.Append('(');
-            sb.Append($"{ConditionModifier[type].Values.Sum()}");
+            sb.Append($"{ConditionModifier[type].Values.Sum():F1}");
             sb.Append(')');
         }
         return sb.ToString();

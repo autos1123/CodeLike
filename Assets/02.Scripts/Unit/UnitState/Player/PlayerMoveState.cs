@@ -32,6 +32,11 @@ public class PlayerMoveState:PlayerBaseState
             return;
         }
 
+        if(Player.InputHandler.DashPressed)
+        {
+            stateMachine.ChangeState(stateMachine.DashState);
+        }
+
         if(move != Vector2.zero)
         {
             inputDelay = 0f;
