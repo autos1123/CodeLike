@@ -79,10 +79,10 @@ public abstract class EnemyController:BaseController
         {
             // 적의 순찰 범위를 시각적으로 표시
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(patrolPivot, Condition.GetValue(ConditionType.PatrolRange));
+            Gizmos.DrawWireSphere(patrolPivot, Condition.GetTotalCurrentValue(ConditionType.PatrolRange));
             // 적의 추적 범위를 시각적으로 표시
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, Condition.GetValue(ConditionType.ChaseRange));
+            Gizmos.DrawWireSphere(transform.position, Condition.GetTotalCurrentValue(ConditionType.ChaseRange));
         }
     }
 
@@ -154,7 +154,7 @@ public abstract class EnemyController:BaseController
         }
 
         float playerDistanceSqr = (targetPos - curPos).sqrMagnitude;
-        float range = Condition.GetValue(rangeType);
+        float range = Condition.GetTotalCurrentValue(rangeType);
 
         return playerDistanceSqr <= range * range;
     }

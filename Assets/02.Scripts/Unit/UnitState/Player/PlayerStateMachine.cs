@@ -16,7 +16,7 @@ public class PlayerStateMachine:UnitStateMachine
     public PlayerStateMachine(PlayerController player)
     {
         this.Player = player;
-        MovementSpeed = Player.Condition.GetValue(ConditionType.MoveSpeed);
+        MovementSpeed = Player.Condition.GetTotalCurrentValue(ConditionType.MoveSpeed);
 
         IdleState = new PlayerIdleState(this);
         MoveState = new PlayerMoveState(this);

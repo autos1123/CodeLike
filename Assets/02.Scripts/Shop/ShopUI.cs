@@ -241,7 +241,7 @@ public class ShopUI : UIBase
     {
         if (playerCondition != null)
         {
-            curGoldText.text = $"보유골드: {playerCondition.GetValue(ConditionType.Gold)}G";
+            curGoldText.text = $"보유골드: {playerCondition.GetTotalCurrentValue(ConditionType.Gold)}G";
         }
         else
         {
