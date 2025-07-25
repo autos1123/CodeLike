@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 /// <summary>
 /// 플레이어 기준 로컬 위치를 기반으로 카메라의 2D/3D 시점을 전환하며,
@@ -40,11 +41,7 @@ public class ViewCameraController:MonoBehaviour
     private Tween moveTween;
     private float currentLookAtY;
 
-    /// <summary>
-    /// 시작 시 현재 ViewMode에 따라 카메라 위치를 초기화하고,
-    /// ViewManager의 시점 전환 이벤트를 구독한다.
-    /// </summary>
-    private void Start()
+    private void Awake()
     {
         cam = GetComponent<Camera>();
         if(cam == null)
@@ -52,7 +49,14 @@ public class ViewCameraController:MonoBehaviour
             Debug.LogError("[ViewCameraController] Camera 컴포넌트를 찾을 수 없습니다.");
             return;
         }
-        
+    }
+
+    /// <summary>
+    /// 시작 시 현재 ViewMode에 따라 카메라 위치를 초기화하고,
+    /// ViewManager의 시점 전환 이벤트를 구독한다.
+    /// </summary>
+    private void Start()
+    {
         // HUDAnimator 참조 초기화 (인스펙터 할당 우선, 없으면 FindObjectOfType으로 찾음)
         if (hudAnimator == null)
         {

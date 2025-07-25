@@ -74,7 +74,6 @@ public class PoolManager : MonoSingleton<PoolManager>
         Queue<GameObject> newPool = new Queue<GameObject>();
         
         GameObject prentObj = new GameObject(poolName) { transform = { parent = transform } };
-        DontDestroyOnLoad(prentObj);
         parentCache[poolType] = prentObj.transform;
 
         for (int i = 0; i < poolsize; i++)
@@ -82,7 +81,6 @@ public class PoolManager : MonoSingleton<PoolManager>
             GameObject obj = Instantiate(poolObject, prentObj.transform);
             obj.name = poolName;
             obj.SetActive(false);
-            DontDestroyOnLoad(obj);
             newPool.Enqueue(obj);
         }
 

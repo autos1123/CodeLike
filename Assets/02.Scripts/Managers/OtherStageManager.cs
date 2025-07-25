@@ -44,12 +44,9 @@ public class OtherStageManager : StageManager
     {
         LoadStage();
         
-        if (viewCameraController == null) 
-        {
-            viewCameraController = FindObjectOfType<ViewCameraController>();
-        }
         if (viewCameraController != null)
         {
+            Debug.Log("카메라 2D 세팅 완료");
             viewCameraController.SetCameraInstant(ViewModeType.View2D);
         }
         else

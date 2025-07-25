@@ -88,8 +88,15 @@ public class SoundManager : MonoSingleton<SoundManager>
         if(audioBgm != null) StopBGM();
 
         var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
-        sound.transform.position = Vector3.zero;
-        sound.transform.SetParent(transform, false);
+        sound.transform.position = transform != null? transform.position : Vector3.zero;
+        sound.transform.SetParent(null);
+        
+        var follower = sound.GetComponent<FollowTarget>();
+        if(follower == null)
+            follower = sound.GetComponent<FollowTarget>();
+        
+        follower.target = transform;
+        
         SoundSource soundSource = sound.GetComponent<SoundSource>();        
         soundSource.Play(bgmdic[key],false);
         audioBgm = soundSource;

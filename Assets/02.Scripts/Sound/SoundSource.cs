@@ -64,8 +64,8 @@ public class SoundSource : MonoBehaviour ,IPoolObject
     public void returnPool()
     {
         if(gameObject == null || this == null) return;
-        if(PoolManager.Instance == null) return;
-        PoolManager.Instance.ReturnObject(this);
+        if(PoolManager.HasInstance)
+            PoolManager.Instance.ReturnObject(this);
     }
 
     private void HandleViewModeChange(ViewModeType viewModeType)
