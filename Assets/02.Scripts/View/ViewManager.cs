@@ -24,20 +24,22 @@ public class ViewManager : MonoSingleton<ViewManager>
     protected override void Awake()
     {
         base.Awake();
-        // // 게임 시작 시 초기 뷰 모드를 명시적으로 3D로 설정
-        // // 필요에 따라 View3D 또는 다른 값으로 변경 가능
+        
         CurrentViewMode = ViewModeType.View2D;
     }
-
+    void Start()
+    {
+        SwitchView(ViewModeType.View2D);
+    }
     /// <summary>
     /// 지정한 시점 모드로 전환, 동일한 모드일 경우 무시
     /// </summary>
     /// <param name="mode">전환할 시점 모드</param>
+    /// <param name="forceEvent">동일한 모드라도 이벤트를 강제로 발생시킬지 여부</param>
     public void SwitchView(ViewModeType mode)
     {
         if (CurrentViewMode == mode) return;
-
-
+        
         CurrentViewMode = mode;
 
         OnViewChanged?.Invoke(mode);

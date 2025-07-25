@@ -188,7 +188,7 @@ public class ViewCameraController:MonoBehaviour
     /// 전환 애니메이션 없이 초기 설정에 사용
     /// </summary>
     /// <param name="mode">적용할 시점 모드 (2D 또는 3D)</param>
-    private void SetCameraInstant(ViewModeType mode)
+    public void SetCameraInstant(ViewModeType mode)
     {
         Vector3 localTargetPos = (mode == ViewModeType.View2D) ? pos2D.localPosition : pos3D.localPosition;
         transform.localPosition = localTargetPos;
