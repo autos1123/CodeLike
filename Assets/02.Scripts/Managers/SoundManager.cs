@@ -93,7 +93,7 @@ public class SoundManager : MonoSingleton<SoundManager>
         
         var follower = sound.GetComponent<FollowTarget>();
         if(follower == null)
-            follower = sound.GetComponent<FollowTarget>();
+            follower = sound.AddComponent<FollowTarget>();
         
         follower.target = transform;
         

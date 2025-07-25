@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2276107859713213269}
   - component: {fileID: 3870725972681910971}
   - component: {fileID: 958708922481924792}
-  - component: {fileID: 1527495609824252223}
   m_Layer: 0
   m_Name: SoundSource
   m_TagString: Untagged
@@ -155,16 +154,3 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 7c9a649ba3cc1b145aba0eb4e5974975, type: 2}
   poolType: 5
   poolSize: 10
---- !u!114 &1527495609824252223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 934280837766793089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d60d57f241045af40b2307e9938b6843, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1985143623796453560, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
