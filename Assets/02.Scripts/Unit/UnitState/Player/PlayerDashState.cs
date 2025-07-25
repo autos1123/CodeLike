@@ -4,7 +4,6 @@ public class PlayerDashState:PlayerBaseState
 {
     private float dashDuration = 0.25f; // 대쉬 지속 시간
     private float elapsedTime = 0f;
-    private float dashPower = 15f;      // 대쉬 파워, 필요에 맞게 조정
 
     public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine)
     {

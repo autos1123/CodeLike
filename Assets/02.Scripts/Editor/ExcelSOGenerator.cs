@@ -83,9 +83,9 @@ public static class ExcelSOGenerator
                     activeItemEffect.Range = int.Parse(row[4].ToString());
                     activeItemEffect.Description = row[5].ToString();
                     activeItemEffect.Cooldown = int.Parse(row[6].ToString());
-                    activeItemEffect.VFX = row[9].ToString();
-                    activeItemEffect.SFX = row[10].ToString();
-                    activeItemEffect.Description = row[11].ToString();
+                    activeItemEffect.VFX = row[7].ToString();
+                    activeItemEffect.SFX = row[8].ToString();
+                    activeItemEffect.Description = row[9].ToString();
 
                     activeItemEffectDataTable.dataList.Add(activeItemEffect);
                 }
