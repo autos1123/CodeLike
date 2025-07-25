@@ -945,55 +945,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1614193460
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1614193462}
-  - component: {fileID: 1614193461}
-  m_Layer: 0
-  m_Name: DestinyManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1614193461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614193460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e0ae98c1a99ad1428fe45ef96056b31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  curDestinyData:
-    ID: 0
-    Name: 
-    PositiveEffectDataID: 0
-    NegativeEffectDataID: 0
---- !u!4 &1614193462
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614193460}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1747147325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,8 +1260,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   stageMapCountData: 
-  otherRoomPrefab: {fileID: 6203069154772650647, guid: 751482c992e71b944841945456609f16, type: 3}
   viewCameraController: {fileID: 621157373}
+  otherRoomPrefab: {fileID: 6203069154772650647, guid: 751482c992e71b944841945456609f16, type: 3}
 --- !u!4 &8622674653407761979
 Transform:
   m_ObjectHideFlags: 0
@@ -1347,4 +1298,3 @@ SceneRoots:
   - {fileID: 8622674653407761979}
   - {fileID: 621157372}
   - {fileID: 248595981}
-  - {fileID: 1614193462}
