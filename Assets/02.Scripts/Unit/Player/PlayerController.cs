@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 플레이어 이동, 공격, 점프, 데미지 처리 및 FSM 관리
@@ -125,6 +126,15 @@ public class PlayerController:BaseController
     public override void Die()
     {
         StateMachine.ChangeState(StateMachine.DeadState);
+        
+        UIManager.Instance.ShowConfirmPopup(
+            "사망했습니다! 로비로 돌아갑니다.",
+            onConfirm: () => {
+                SceneManager.LoadScene("LobbyScene");
+            },
+            onCancel: null, 
+            confirmText: "확인" 
+            );
     }
 
     /// <summary>
@@ -140,7 +150,7 @@ public class PlayerController:BaseController
         UIManager.Instance.ShowUI<HUD>();
 
         //임식 bgm 시작
-        SoundManager.Instance.PlayBGM(GameManager.Instance.Player.transform, SoundAddressbleName.Boss_Battle);
+        SoundManager.Instance.PlayBGM(this.transform, SoundAddressbleName.Boss_Battle);
 
         // 인벤토리 초기화 
         Inventory inventory = GetComponent<Inventory>();

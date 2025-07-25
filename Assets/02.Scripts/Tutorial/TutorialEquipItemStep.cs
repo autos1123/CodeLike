@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "NewTutorialEquipItemStep", menuName = "Tutorial/Equip Item Step")]
 public class TutorialEquipItemStep : TutorialStep
