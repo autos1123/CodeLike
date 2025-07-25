@@ -32,17 +32,34 @@ public class TitleSceneManager : MonoBehaviour
         if (staticNoiseVideoScreen != null) staticNoiseVideoScreen.gameObject.SetActive(false);
 
         if (pressAnyKeyText != null) pressAnyKeyText.gameObject.SetActive(true);
+        
+        // 렌더모드 설정
+        if (backgroundVideoPlayer != null) backgroundVideoPlayer.renderMode = VideoRenderMode.APIOnly;
+        if (staticNoiseVideoPlayer != null) staticNoiseVideoPlayer.renderMode = VideoRenderMode.APIOnly;
+
+        // prepareCompleted 이벤트 등록
+        if (backgroundVideoPlayer != null) backgroundVideoPlayer.prepareCompleted += OnBackgroundPrepared;
+        if (staticNoiseVideoPlayer != null) staticNoiseVideoPlayer.prepareCompleted += OnStaticNoisePrepared;
 
     }
 
     void OnEnable()
     {
-        // 배경 동영상 재생
-        if (backgroundVideoPlayer != null)
+        // // 배경 동영상 재생
+        // if (backgroundVideoPlayer != null)
+        // {
+        //     if (backgroundVideoScreen != null) backgroundVideoScreen.gameObject.SetActive(true);
+        //     backgroundVideoPlayer.Play();
+        // }
+        if (backgroundVideoScreen != null)
         {
-            if (backgroundVideoScreen != null) backgroundVideoScreen.gameObject.SetActive(true);
-            backgroundVideoPlayer.Play();
+            backgroundVideoScreen.gameObject.SetActive(true);
+            backgroundVideoScreen.texture = Texture2D.blackTexture;
         }
+        
+        // 영상 준비
+        if (backgroundVideoPlayer != null) backgroundVideoPlayer.Prepare();
+        if (staticNoiseVideoPlayer != null) staticNoiseVideoPlayer.Prepare();
 
         // 노이즈 동영상 종료 이벤트 구독
         if (staticNoiseVideoPlayer != null)
@@ -105,15 +122,17 @@ public class TitleSceneManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delayBeforeNoiseVideo);
         
-        // 배경 동영상 정지 및 화면 비활성화
-        if (backgroundVideoPlayer != null)
-        {
-            backgroundVideoPlayer.Stop();
-        }
-        if (backgroundVideoScreen != null)
-        {
-            backgroundVideoScreen.gameObject.SetActive(false);
-        }
+        // // 배경 동영상 정지 및 화면 비활성화
+        // if (backgroundVideoPlayer != null)
+        // {
+        //     backgroundVideoPlayer.Stop();
+        // }
+        // if (backgroundVideoScreen != null)
+        // {
+        //     backgroundVideoScreen.gameObject.SetActive(false);
+        // }
+        if (backgroundVideoPlayer != null) backgroundVideoPlayer.Stop();
+        if (backgroundVideoScreen != null) backgroundVideoScreen.gameObject.SetActive(false);
 
         if(texts != null)
         {
@@ -151,5 +170,24 @@ public class TitleSceneManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(introSceneName);
+    }
+    void OnBackgroundPrepared(VideoPlayer vp)
+    {
+        if (backgroundVideoScreen != null)
+        {
+            backgroundVideoScreen.texture = vp.texture;
+            backgroundVideoScreen.gameObject.SetActive(true);
+        }
+
+        vp.Play(); // 사용자가 키 누르기 전에도 재생하고 싶은 경우
+    }
+
+    void OnStaticNoisePrepared(VideoPlayer vp)
+    {
+        if (staticNoiseVideoScreen != null)
+        {
+            staticNoiseVideoScreen.texture = vp.texture;
+            // 재생은 키 누른 이후에!
+        }
     }
 }
