@@ -4006,7 +4006,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 37
+  m_VersionIndex: 40
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -8538,7 +8538,7 @@ GameObject:
   - component: {fileID: 1916066296976855009}
   - component: {fileID: 2490247421316978915}
   m_Layer: 0
-  m_Name: DummyRoom_5
+  m_Name: SnowRoom5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22213,7 +22213,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 370
+  m_VersionIndex: 373
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
