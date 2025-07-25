@@ -31,7 +31,7 @@ public abstract class EnemyController:BaseController
     protected override void OnDisable()
     {
         base.OnDisable();
-        if(PoolManager.HasInstance)
+        if(PoolManager.HasInstance && hpBar != null)
             PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
 
         if(DestinyManager.HasInstance)

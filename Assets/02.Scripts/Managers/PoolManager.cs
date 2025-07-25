@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
@@ -121,6 +122,11 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     IEnumerator DelayedReturnObject(IPoolObject obj, float returnTime, UnityAction action)
     {
+        if (obj == null || obj.Equals(null)) 
+        {
+            yield break; 
+        }
+        
         if (!poolObjects.ContainsKey(obj.PoolType))
         {
             Debug.LogWarning($"등록된 풀이 없습니다. : {obj.PoolType}");
@@ -128,6 +134,10 @@ public class PoolManager : MonoSingleton<PoolManager>
         }
 
         yield return new WaitForSeconds(returnTime);
+        if (obj == null || obj.Equals(null))
+        {
+            yield break;
+        }
         obj.GameObject.SetActive(false);
         obj.GameObject.transform.position = Vector3.zero;
         action?.Invoke();
