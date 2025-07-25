@@ -25,17 +25,13 @@ public abstract class EnemyController:BaseController
 
     protected override void OnEnable()
     {
-        base.OnEnable();
-        DestinyManager.Instance.onDestinyChange += HandleDestinyChange;//운명변경 이벤트 연결
+        base.OnEnable();     
     }
     protected override void OnDisable()
     {
         base.OnDisable();
-        if(PoolManager.HasInstance)
+        if(PoolManager.HasInstance && hpBar != null)
             PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
-
-        if(DestinyManager.HasInstance)
-            DestinyManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
     }
 
     protected override void Awake()
@@ -186,25 +182,4 @@ public abstract class EnemyController:BaseController
         }
     }
 
-    /// <summary>
-    /// 운명 변경이벤트 발생시 실행할 함수
-    /// </summary>
-    /// <param name="data"></param>
-    void HandleDestinyChange(DestinyData data, int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Enemy)
-        {
-            Condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value * i); // 추후에 운명에 의한 증가량 추가
-        }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Enemy)
-        {
-            Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value * i); // 추후에 운명에 의한 증가량 추가
-        }
-
-    }
 }

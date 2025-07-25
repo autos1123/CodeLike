@@ -11,8 +11,6 @@ public class StageManager:MonoSingleton<StageManager>
 
     protected override bool Persistent => false;
 
-    DestinyManager destinyManager;
-
     // private으로 변경 후 외부 접근을 위해 프로퍼티 추가 필요
     [SerializeField] protected ProceduralStageGenerator generator;
     protected StageData currentStage;
@@ -35,19 +33,8 @@ public class StageManager:MonoSingleton<StageManager>
 
     public int[] StageMapCountData => stageMapCountData;
 
-    private void OnEnable()
-    {
-        if(destinyManager == null)
-            destinyManager = DestinyManager.Instance;
-
-        destinyManager.onDestinyChange += HandleDestinyChange;
-    }
-
-    private void OnDisable()
-    {
-        destinyManager.onDestinyChange -= HandleDestinyChange;
-    }
-
+    public ViewCameraController viewCameraController; 
+    
     public virtual void LoadStage()
     {
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
@@ -60,6 +47,21 @@ public class StageManager:MonoSingleton<StageManager>
         if(currentStage.roomMap.Count != 0)
         {
             GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
+            if (viewCameraController != null && ViewManager.HasInstance)
+            {
+                Debug.Log($"[StageManager] 씬 로드 시 현재 뷰 모드 유지: {ViewManager.Instance.CurrentViewMode}");
+                // ViewCameraController에게 ViewManager가 현재 기억하는 뷰 모드를 전달하여 초기화
+                viewCameraController.InitCameraForStage(ViewManager.Instance.CurrentViewMode); 
+            }
+            else if (viewCameraController == null)
+            {
+                Debug.LogWarning("[StageManager] ViewCameraController가 할당되지 않았습니다! 카메라 뷰를 설정할 수 없습니다.");
+            }
+            else 
+            {
+                Debug.LogWarning("[StageManager] ViewManager가 아직 초기화되지 않았습니다. 기본 뷰 모드(2D)로 설정합니다.");
+                viewCameraController.InitCameraForStage(ViewModeType.View2D); 
+            }
         }
         else
         {
@@ -97,22 +99,6 @@ public class StageManager:MonoSingleton<StageManager>
         currentStage = null;
     }
 
-    void HandleDestinyChange(DestinyData data, int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Map)
-        {
-            stageMapCountData = stageMapCountData.Select(n => n + (int)positiveEffect.value * i).ToArray();
-        }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Map)
-        {
-            stageMapCountData = stageMapCountData.Select(n => n - (int)positiveEffect.value * i).ToArray();
-        }
-
-    }
 
     IEnumerator WaitUntilCreateUI()
     {

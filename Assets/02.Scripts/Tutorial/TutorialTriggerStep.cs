@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "NewTutorialTriggerStep", menuName = "Tutorial/Trigger Step")]
 public class TutorialTriggerStep : TutorialStep

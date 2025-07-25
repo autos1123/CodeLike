@@ -44,10 +44,6 @@ public class UIManager:MonoSingleton<UIManager>
         {
             ToggleUI<EnhanceBoard>();
         }
-        if(Input.GetKeyDown(KeyCode.F2))
-        {
-            ToggleUI<DestinyBoard>();
-        }
     }
     private void InitializeUI()
     {
@@ -64,7 +60,7 @@ public class UIManager:MonoSingleton<UIManager>
             labels,
             (GameObject) =>
             {
-                var ui = Instantiate(GameObject, this.transform);
+                var ui = Instantiate(GameObject, this.transform );
                 uiPrefabs.Add(ui);
                 ui.SetActive(false); // 초기에는 비활성화
             },

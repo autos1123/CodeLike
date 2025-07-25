@@ -44,48 +44,7 @@ public static class ExcelSOGenerator
                 AssetDatabase.CreateAsset(conditions, enemyAssetPath);
                 Debug.Log($"✅ {sheetName} SO 생성됨: {enemyAssetPath}");
                 break;
-            case "DestinyData":
-                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
 
-                var destinyDataTable = ScriptableObject.CreateInstance<DestinyDataTable>();
-
-                for(int i = 2; i < table.Rows.Count; i++)
-                {
-                    var row = table.Rows[i];
-                    var destiny = new DestinyData();
-                    destiny.ID = int.Parse(row[0].ToString());
-                    destiny.Name = row[1].ToString();
-                    destiny.PositiveEffectDataID = int.Parse(row[2].ToString());
-                    destiny.NegativeEffectDataID = int.Parse(row[3].ToString());
-                    destinyDataTable.dataList.Add(destiny);
-                }
-
-                string destinyAssetPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
-                AssetDatabase.CreateAsset(destinyDataTable, destinyAssetPath);
-                Debug.Log($"✅ {sheetName} SO 생성됨: {destinyAssetPath}");
-                break;
-            case "DestinyEffectData":
-                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
-                var destinyEffectDataTable = ScriptableObject.CreateInstance<DestinyEffectDataTable>();
-
-                for(int i = 2; i < table.Rows.Count; i++)
-                {
-                    var row = table.Rows[i];
-                    var destinyEffect = new DestinyEffectData();
-                    destinyEffect.ID = int.Parse(row[0].ToString());
-                    destinyEffect.Name = row[1].ToString();
-                    destinyEffect.effectType = (EffectType)int.Parse(row[2].ToString());
-                    destinyEffect.effectedTarget = (EffectedTarget)int.Parse(row[3].ToString());
-                    destinyEffect.conditionType = (ConditionType)Enum.Parse(typeof(ConditionType), row[4].ToString());
-                    destinyEffect.value = int.Parse(row[5].ToString());
-                    destinyEffect.dsecription = row[6].ToString().Replace("@", destinyEffect.value.ToString());
-                    destinyEffectDataTable.dataList.Add(destinyEffect);
-                }
-
-                string destinyEffectAssetPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
-                AssetDatabase.CreateAsset(destinyEffectDataTable, destinyEffectAssetPath);
-                Debug.Log($"✅ {sheetName} SO 생성됨: {destinyEffectAssetPath}");
-                break;
             case "ActiveItemData":
                 ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
 

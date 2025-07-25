@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
@@ -112,35 +111,4 @@ public class ShopInventory : MonoBehaviour,IInventory
         return false;
     }
 
-    void OnEnable()
-    {
-        if (GameManager.Instance != null)
-            DestinyManager.Instance.onDestinyChange += HandleDestinyChange;
-    }
-
-     void OnDisable()
-    {
-        if (GameManager.Instance != null)
-            DestinyManager.Instance.onDestinyChange -= HandleDestinyChange;
-    }
-    /// <summary>
-    /// 운명 변경이벤트 발생시 실행할 함수
-    /// </summary>
-    /// <param name="data"></param>
-    void HandleDestinyChange(DestinyData data, int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Shop)
-        {
-
-        }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Shop)
-        {
-
-        }
-    }
 }
