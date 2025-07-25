@@ -35,6 +35,8 @@ public class StageManager:MonoSingleton<StageManager>
 
     public int[] StageMapCountData => stageMapCountData;
 
+    public ViewCameraController viewCameraController; 
+    
     private void OnEnable()
     {
         if(destinyManager == null)
@@ -60,6 +62,21 @@ public class StageManager:MonoSingleton<StageManager>
         if(currentStage.roomMap.Count != 0)
         {
             GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
+            if (viewCameraController != null && ViewManager.HasInstance)
+            {
+                Debug.Log($"[StageManager] 씬 로드 시 현재 뷰 모드 유지: {ViewManager.Instance.CurrentViewMode}");
+                // ViewCameraController에게 ViewManager가 현재 기억하는 뷰 모드를 전달하여 초기화
+                viewCameraController.InitCameraForStage(ViewManager.Instance.CurrentViewMode); 
+            }
+            else if (viewCameraController == null)
+            {
+                Debug.LogWarning("[StageManager] ViewCameraController가 할당되지 않았습니다! 카메라 뷰를 설정할 수 없습니다.");
+            }
+            else 
+            {
+                Debug.LogWarning("[StageManager] ViewManager가 아직 초기화되지 않았습니다. 기본 뷰 모드(2D)로 설정합니다.");
+                viewCameraController.InitCameraForStage(ViewModeType.View2D); 
+            }
         }
         else
         {

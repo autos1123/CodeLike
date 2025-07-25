@@ -4,8 +4,7 @@ public class OtherStageManager : StageManager
 {
     [SerializeField] private Room otherRoomPrefab;
     public bool IsStageReady { get; private set; } = false;
-    protected override bool Persistent => false; 
-    public ViewCameraController viewCameraController; 
+    protected override bool Persistent => false;  
     public override void LoadStage()
     {
         ClearStage();
@@ -22,6 +21,22 @@ public class OtherStageManager : StageManager
                 currentStage = new StageData(-1);
                 currentStage.RegisterRoom(otherRoom, 1, 1);
                 GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
+                
+                if (viewCameraController != null && ViewManager.HasInstance)
+                {
+                    Debug.Log($"[StageManager] 씬 로드 시 현재 뷰 모드 유지: {ViewManager.Instance.CurrentViewMode}");
+                    // ViewCameraController에게 ViewManager가 현재 기억하는 뷰 모드를 전달하여 초기화
+                    viewCameraController.InitCameraForStage(ViewManager.Instance.CurrentViewMode); 
+                }
+                else if (viewCameraController == null)
+                {
+                    Debug.LogWarning("[StageManager] ViewCameraController가 할당되지 않았습니다!");
+                }
+                else // ViewManager.HasInstance가 false인 경우 (매우 드물지만)
+                {
+                    Debug.LogWarning("[StageManager] ViewManager가 아직 초기화되지 않았습니다. 기본 뷰 모드로 설정.");
+                    viewCameraController.InitCameraForStage(ViewModeType.View2D); // 안전을 위한 기본값
+                }
             }
             else
             {
@@ -43,15 +58,5 @@ public class OtherStageManager : StageManager
     void Start()
     {
         LoadStage();
-        
-        if (viewCameraController != null)
-        {
-            Debug.Log("카메라 2D 세팅 완료");
-            viewCameraController.SetCameraInstant(ViewModeType.View2D);
-        }
-        else
-        {
-            Debug.LogWarning("[LobbyStageManager] ViewCameraController not found. Cannot force 2D view instantly.");
-        }
     }
 }

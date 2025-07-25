@@ -66,13 +66,6 @@ public class ViewCameraController:MonoBehaviour
                 Debug.LogError("[ViewCameraController] 씬에서 HUDAnimator를 찾을 수 없습니다.");
             }
         }
-        
-        previousMode = ViewManager.Instance.CurrentViewMode;
-        ViewManager.Instance.OnViewChanged += ApplyView;
-        GameManager.Instance.onGameStateChange += OnStateChange;
-        
-        // 게임 시작 시 카메라를 초기 ViewMode에 따라 즉시 설정 (애니메이션 없이)
-        SetCameraInstant(previousMode);
     }
     
     /// <summary>
@@ -91,7 +84,21 @@ public class ViewCameraController:MonoBehaviour
         // DOTween 시퀀스가 활성화되어 있다면 Kill (메모리 누수 방지)
         moveTween?.Kill();
     }
-    
+    public void InitCameraForStage(ViewModeType initialMode)
+    {
+        previousMode = initialMode; 
+
+        if (ViewManager.HasInstance)
+        {
+            ViewManager.Instance.OnViewChanged += ApplyView;
+        }
+        if (GameManager.HasInstance)
+        {
+            GameManager.Instance.onGameStateChange += OnStateChange;
+        }
+
+        SetCameraInstant(initialMode);
+    }
     /// <summary>
     /// 주어진 ViewMode(2D 또는 3D)에 따라 카메라의 위치를 전환하고,
     /// 전환 도중에는 매 프레임 플레이어를 바라보도록 한다.
