@@ -50,9 +50,9 @@ public class EnhanceCard:MonoBehaviour
         float finalStat = currentStat + increaseStat;
 
         string statName = _enhanceData.name.Replace("증가", "");
-        string line1 = $"{statName}이 {value:F1} 배({increaseStat:F1}) 증가합니다.";
-        string line3 = $"강화 후: {currentStat:F2} → {finalStat:F1}";
-        _enhaceDescription.text = line1 + "\n" + line3;
+        string line1 = $"{statName}이 {increaseStat:F1} 증가합니다.";
+        string line2 = $"강화 후: {currentStat:F2} → {finalStat:F1}";
+        _enhaceDescription.text = line1 + "\n" + line2;
 
         _randomIncreaseValue = increaseStat;
     }
