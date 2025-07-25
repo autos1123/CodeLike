@@ -10,7 +10,7 @@ public enum ModifierType
     BuffEnhance,
     ItemEnhance
 }
-public abstract class BaseCondition
+public class BaseCondition
 {
     protected ConditionData data;
     public ConditionData Data => data;
@@ -19,6 +19,9 @@ public abstract class BaseCondition
     public Dictionary<ConditionType, Dictionary<ModifierType, float>> ConditionModifier { get; private set; }
 
     public Dictionary<ConditionType, Action> statModifiers = new();
+
+    public bool IsDied => GetCurrentConditionValue(ConditionType.HP) <= 0;
+
     public BaseCondition(ConditionData data)
     {
         this.data = data;
@@ -36,21 +39,16 @@ public abstract class BaseCondition
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public float GetValue(ConditionType type)
+    private float GetCurrentConditionValue(ConditionType type)
     {
-        float curValue = 0;
-        float modifierValue = 0;
-
-        if(CurrentConditions.TryGetValue(type, out curValue))
-        {
-            if(ConditionModifier.ContainsKey(type))
-                modifierValue = ConditionModifier[type].Values.Sum();
-
-            return curValue + modifierValue;
-        }
-
-        Debug.LogError($"ConditionType {type}를 찾을 수 없습니다.");
-        return 0f;
+        float baseValue = 0;
+        if(CurrentConditions.TryGetValue(type, out float curValue))
+            baseValue = curValue;
+        // Modifier 적용
+        float modifierSum = 0;
+        if(ConditionModifier.TryGetValue(type, out var modDict))
+            modifierSum = modDict.Values.Sum();
+        return baseValue + modifierSum;
     }
 
     /// <summary>
@@ -77,23 +75,41 @@ public abstract class BaseCondition
         return 0f;
     }
 
+    private float GetOriginConditionValue(ConditionType type)
+    {
+        if(!Data.TryGetCondition(type, out float baseValue))
+        {
+            Debug.LogError($"ConditionType {type}를 찾을 수 없습니다.");
+        }
+
+        return baseValue;
+    }
+
     /// <summary>
     /// 컨디션 전체 증가치 반환
     /// </summary>
     /// <param name="c_Type"></param>
     /// <returns></returns>
-    public float GetModifierValue(ConditionType c_Type)
+    private float GetModifierValue(ConditionType c_Type)
     {
         if(ConditionModifier.TryGetValue(c_Type, out Dictionary<ModifierType, float> modifierDict))
         {
-            return ConditionModifier[c_Type].Values.Sum();
+            return modifierDict.Values.Sum();
         }
         else
         {
-            Debug.LogError($"ConditionType {c_Type}에 대한 Modifier가 존재하지 않습니다.");
+            return 0; // Modifier가 없으면 기본값만 반환
         }
+    }
 
-        return 0f;
+    public float GetTotalMaxValue(ConditionType c_Type)
+    {
+        return GetOriginConditionValue(c_Type) + GetModifierValue(c_Type);
+    }
+
+    public float GetTotalCurrentValue(ConditionType c_Type)
+    {
+        return GetCurrentConditionValue(c_Type) + GetModifierValue(c_Type);
     }
 
     /// <summary>
@@ -108,7 +124,7 @@ public abstract class BaseCondition
         if(ConditionModifier.ContainsKey(type))
         {
             sb.Append('(');
-            sb.Append($"{ConditionModifier[type].Values.Sum()}");
+            sb.Append($"{ConditionModifier[type].Values.Sum():F1}");
             sb.Append(')');
         }
         return sb.ToString();
@@ -171,19 +187,26 @@ public abstract class BaseCondition
         return false; // 사망하지 않음
     }
 
+    public void Heal(float Heal)
+    {
+        if(!CurrentConditions.ContainsKey(ConditionType.HP))
+        {
+            Debug.LogError("HP ConditionType이 존재하지 않습니다.");
+            return;
+        }
+
+        CurrentConditions[ConditionType.HP] += Heal;
+        CurrentConditions[ConditionType.HP] = Mathf.Min(CurrentConditions[ConditionType.HP], GetTotalMaxValue(ConditionType.HP));
+        statModifiers[ConditionType.HP]?.Invoke(); // 체력 변경 이벤트
+    }
+
     /// <summary>
     /// 특정 컨디션 비율을 반환합니다. (0.0f ~ 1.0f)
     /// </summary>
     /// <returns></returns>
     public float GetConditionRatio(ConditionType type)
     {
-        if(!Data.TryGetCondition(type, out float max))
-        {
-            Debug.LogError("ConditionType.HP를 찾을 수 없습니다.");
-            return 0;
-        }
-
-        return GetValue(type) / max;
+        return GetTotalCurrentValue(type) / GetTotalMaxValue(type);
     }
 
     public void ChangeGold(float value)

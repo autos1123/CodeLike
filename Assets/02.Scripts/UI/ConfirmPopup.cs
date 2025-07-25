@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ConfirmPopup : UIBase
 {
-    public override string UIName => "ConfirmPopup";
+    public override string UIName => this.GetType().Name;
 
     public TextMeshProUGUI messageText;
     public Button confirmButton;
@@ -38,6 +36,17 @@ public class ConfirmPopup : UIBase
         
         confirmButton.onClick.RemoveAllListeners();
         cancelButton.onClick.RemoveAllListeners();
+        
+        var layoutGroup = confirmButton.transform.parent.GetComponent<HorizontalLayoutGroup>();
+        if(layoutGroup != null)
+        {
+            layoutGroup.enabled = true;
+        }
+        var rt = confirmButton.GetComponent<RectTransform>();
+        rt.anchorMin = new Vector2(0f, rt.anchorMin.y);
+        rt.anchorMax = new Vector2(0f, rt.anchorMax.y);
+        rt.pivot = new Vector2(0f, 0.5f);
+        rt.anchoredPosition = Vector2.zero;
 
         confirmButton.onClick.AddListener(() =>
         {

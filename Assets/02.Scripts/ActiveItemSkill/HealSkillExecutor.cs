@@ -1,14 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealSkillExecutor :ISkillExecutor
 {
     public void Execute(ActiveItemEffectData data, Transform caster, Vector3 targetPoint)
     {
-        if(caster.TryGetComponent<PlayerController>(out var playerController))
+        if(caster.TryGetComponent<IDamagable>(out var damagable))
         {
-            //플레이어 컨트롤러에서 회복
+            damagable.GetDamaged(-data.Power);
+            var vfx = Object.Instantiate(
+                    Resources.Load<ParticleSystem>(data.VFX),
+                    targetPoint,
+                    Quaternion.identity
+                );
+            vfx.Play();
         }
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyIdleState : EnemyBaseState
+public class EnemyIdleState:EnemyBaseState
 {
     private float waitingStartTime;
     private float waitingEndTime = 2f;
@@ -37,11 +37,18 @@ public class EnemyIdleState : EnemyBaseState
     {
         base.StateUpdate();
 
+        if(stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
+        {
+            // AttackState로 변환
+            if(stateMachine.ChangeState(EnemyStateType.Attack))
+                return;
+        }
+
         if(stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
         {
             // MoveState로 변환
-            stateMachine.ChangeState(EnemyStateType.Chase);
-            return;
+            if(stateMachine.ChangeState(EnemyStateType.Chase))
+                return;
         }
 
         if(stateMachine.HasState(EnemyStateType.Patrol))
@@ -50,8 +57,8 @@ public class EnemyIdleState : EnemyBaseState
             {
                 // 대기 시간이 끝나면 Target을 다음 PatrolPoint로 설정 후 MoveState로 전환
                 stateMachine.SetPatrolPoint(nextPoint);
-                stateMachine.ChangeState(EnemyStateType.Patrol);
-                return;
+                if(stateMachine.ChangeState(EnemyStateType.Patrol))
+                    return;
             }
         }
     }
@@ -69,13 +76,12 @@ public class EnemyIdleState : EnemyBaseState
         // 최대 30번 시도하여 유효한 위치를 찾습니다.
         for(int i = 0; i < 30; i++)
         {
-            float patrolRange = stateMachine.Enemy.Condition.GetValue(ConditionType.PatrolRange);
+            float patrolRange = stateMachine.Enemy.Condition.GetTotalCurrentValue(ConditionType.PatrolRange);
 
             Vector2 samplePosV2 = Random.insideUnitCircle * patrolRange;
             Vector3 sample = new Vector3(samplePosV2.x, 0, samplePosV2.y);
 
             int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
-            Debug.LogWarning($"Sample Position: {stateMachine.Enemy.patrolPivot + sample}, Walkable Mask: {walkableMask}");
             if(NavMesh.SamplePosition(stateMachine.Enemy.patrolPivot + sample, out hit, patrolRange, walkableMask))
             {
                 if(Vector3.Distance(stateMachine.Enemy.transform.position, hit.position) > patrolRange * 0.8f)
@@ -85,7 +91,6 @@ public class EnemyIdleState : EnemyBaseState
             }
         }
 
-        Debug.LogWarning("No valid wander location found within patrol range. Falling back to patrol pivot.");
         return stateMachine.Enemy.patrolPivot; // Fallback to patrol pivot if no valid position found
     }
 }

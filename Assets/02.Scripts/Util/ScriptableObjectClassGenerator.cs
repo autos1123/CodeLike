@@ -29,7 +29,7 @@ public static class ClassGenerator
 
             if(string.IsNullOrEmpty(fieldName) || string.IsNullOrEmpty(fieldType))
             {
-                Debug.LogWarning($"⚠️ 필드명 또는 타입이 비어있습니다. 열 인덱스: {i}, 필드명: '{fieldName}', 타입: '{fieldType}'");
+                Debug.LogWarning($"⚠️ 필드명 또는 타입이 비어있습니다. 테이블명:{className} 열 인덱스: {i}, 필드명: '{fieldName}', 타입: '{fieldType}'");
                 continue;
             }
 

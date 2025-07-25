@@ -7,7 +7,8 @@ public enum EnemyStateType
     Patrol,
     Chase,
     Attack,
-    Die
+    Die,
+    Hit
 }
 
 public class EnemyStateMachine : UnitStateMachine
@@ -27,7 +28,7 @@ public class EnemyStateMachine : UnitStateMachine
     {
         this.Enemy = enemy;
         Player = GameManager.Instance.Player;
-        MovementSpeed = Enemy.Condition.GetValue(ConditionType.MoveSpeed);
+        MovementSpeed = Enemy.Condition.GetTotalCurrentValue(ConditionType.MoveSpeed);
     }
 
     public void AddState(EnemyStateType stateType, EnemyBaseState state)
@@ -47,16 +48,18 @@ public class EnemyStateMachine : UnitStateMachine
         return States.ContainsKey(stateType);
     }
 
-    public void ChangeState(EnemyStateType stateType)
+    public bool ChangeState(EnemyStateType stateType)
     {
         if(States.TryGetValue(stateType, out EnemyBaseState state))
         {
             CurrentStateType = stateType;
             ChangeState(state);
+            return true;
         }
         else
         {
-            Debug.LogError($"State {stateType} not found in EnemyStateMachine.");
+            Debug.LogWarning($"State {stateType} not found in EnemyStateMachine.");
+            return false;
         }
     }
 

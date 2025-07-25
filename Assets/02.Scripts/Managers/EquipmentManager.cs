@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class EquipmentManager : MonoSingleton<EquipmentManager>
 {
-    private PlayerCondition playerCondition;
+    private BaseCondition playerCondition;
     [SerializeField] private Inventory playerInventory;
     
     protected override void Awake()
@@ -54,6 +54,7 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     {
         if (item == null || type != SlotType.Equip) return;
         playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, item.value);
+        GameEvents.TriggerItemEquipped();
     }
     
     /// <summary>

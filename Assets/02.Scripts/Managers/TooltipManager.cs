@@ -5,7 +5,7 @@ using UnityEngine;
 /// 마우스 위치에 따라 아이템 정보를 표시하는 툴팁 매니저 클래스.
 /// 활성화/비활성화 및 텍스트 갱신, 위치 업데이트 기능을 제공.
 /// </summary>
-public class TooltipManager : MonoSingleton<TooltipManager>
+public class TooltipManager : MonoBehaviour
 {
     [SerializeField]private TextMeshProUGUI descriptionText;
     [SerializeField]private RectTransform tooltipRect;
@@ -16,15 +16,16 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     public bool IsVisible => tooltipGO != null && tooltipGO.activeSelf;
     private void Start()
     {
-        Hide(); // 시작 시 숨김
+        // 모든 초기화 후 숨기기
+        Hide(); 
     }
     
     public void RegisterTooltipUI(GameObject uiRoot)
     {
         tooltipGO = uiRoot;
-        tooltipRect = uiRoot.GetComponent<RectTransform>();
-        descriptionText = uiRoot.GetComponentInChildren<TextMeshProUGUI>();
-
+        tooltipRect = tooltipGO.GetComponent<RectTransform>();
+        descriptionText = tooltipGO.GetComponentInChildren<TextMeshProUGUI>();
+    
         Hide();
     }
 
@@ -35,6 +36,12 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     /// <param name="position">마우스 위치</param>
     public void Show(string description, Vector2 position)
     {
+        if (tooltipGO == null || descriptionText == null || tooltipRect == null)
+        {
+            Debug.LogWarning("[TooltipManager] 툴팁 UI 컴포넌트가 제대로 초기화되지 않았습니다. Show 호출 실패.");
+            return;
+        }
+        
         if (string.IsNullOrEmpty(description))
         {
             Hide();
@@ -52,6 +59,8 @@ public class TooltipManager : MonoSingleton<TooltipManager>
     /// <param name="position">마우스 위치</param>
     public void UpdatePosition(Vector2 position)
     {
+        if (tooltipRect == null || !IsVisible) return; // 툴팁이 보이지 않거나 RectTransform이 없으면 업데이트 안 함
+
         tooltipRect.position = position;
     }
 

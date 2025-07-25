@@ -5,70 +5,56 @@ using UnityEngine;
 /// </summary>
 public class PlayerMoveState:PlayerBaseState
 {
+    private float inputDelay = 0f; // 입력 지연 시간
+    private float inputDelayTime = 0.1f; // 입력 지연 시간 설정
     public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) { }
-
+    
     public override void StateEnter()
     {
         base.StateEnter();
-        if(player.IsGrounded)
-            StartAnimation(player.AnimationData.MoveParameterHash);
+        StartAnimation(Player.AnimationData.MoveParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
-        StopAnimation(player.AnimationData.MoveParameterHash);
+        StopAnimation(Player.AnimationData.MoveParameterHash);
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        Vector2 move = player.InputHandler.MoveInput;
+        Vector2 move = Player.InputHandler.MoveInput;
 
-        if(move.magnitude > 0.1f)
+        if(Player.InputHandler.JumpPressed && Player.IsGrounded)
         {
-            // 3D 시점 회전
-            if(viewMode == ViewModeType.View3D)
-            {
-                var camForward = Camera.main.transform.forward; camForward.y = 0; camForward.Normalize();
-                var camRight = Camera.main.transform.right; camRight.y = 0; camRight.Normalize();
-                Vector3 moveDir = camRight * move.x + camForward * move.y;
+            stateMachine.ChangeState(stateMachine.JumpState);
+            return;
+        }
 
-                if(moveDir.sqrMagnitude > 0.01f)
-                {
-                    Quaternion targetRot = Quaternion.LookRotation(moveDir);
-                    player.VisualTransform.rotation = Quaternion.Lerp(player.VisualTransform.rotation, targetRot, Time.deltaTime * player.VisualRotateSpeed);
-                }
-            }
-            // 2D 시점 회전
-            else if(viewMode == ViewModeType.View2D)
-            {
-                var camRight = Camera.main.transform.right; camRight.y = 0; camRight.Normalize();
-                Vector3 moveDir = camRight * move.x;
+        if(Player.InputHandler.DashPressed)
+        {
+            stateMachine.ChangeState(stateMachine.DashState);
+        }
 
-                Quaternion targetRot = Quaternion.LookRotation(moveDir);
-                player.VisualTransform.rotation = targetRot;
-            }
+        if(move != Vector2.zero)
+        {
+            inputDelay = 0f;
+            PlayerLookAt();
         }
         else
         {
-            StopAnimation(player.AnimationData.JumpParameterHash);
-            stateMachine.ChangeState(stateMachine.IdleState);
+            inputDelay += Time.deltaTime;
+            if(inputDelay >= inputDelayTime)
+            {
+                stateMachine.ChangeState(stateMachine.IdleState);
+            }
         }
-
-        if(player.InputHandler.MoveInput.magnitude < 0.1f)
-            stateMachine.ChangeState(stateMachine.IdleState);
-
-        if(player.InputHandler.JumpPressed && player.IsGrounded)
-            stateMachine.ChangeState(stateMachine.JumpState);
-
-        if(player.InputHandler.AttackPressed)
-            stateMachine.ChangeState(stateMachine.AttackState);
     }
 
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
-        Move(player.InputHandler.MoveInput);
+        Move(Player.InputHandler.MoveInput);
     }
 }

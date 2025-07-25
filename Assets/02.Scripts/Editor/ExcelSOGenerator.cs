@@ -2,30 +2,28 @@ using Codice.CM.Client.Differences.Graphic;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Unity.VisualScripting;
 using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEditor;
 using UnityEngine;
 
 public static class ExcelSOGenerator
-{
+{ 
     public static void GenerateFromSheet(DataTable table, string sheetName, string scriptOutputPath, string assetOutputPath)
     {
         switch(sheetName)
         {
-           
             case "UnitData":
-
                 var conditions = ScriptableObject.CreateInstance<ConditionDataTable>();
 
                 for(int i = 2; i < table.Rows.Count; i++)
                 {
                     var row = table.Rows[i];
-
                     var condition = new ConditionData();
                     condition.ID = int.Parse(row[0].ToString());
                     condition.CharacterName = row[1].ToString();
-                    condition.InitCondition(ConditionType.HP , float.Parse(row[2].ToString()));
+                    condition.InitCondition(ConditionType.HP, float.Parse(row[2].ToString()));
                     condition.InitCondition(ConditionType.Stamina, float.Parse(row[3].ToString()));
                     condition.InitCondition(ConditionType.StaminaRegen, float.Parse(row[4].ToString()));
                     condition.InitCondition(ConditionType.AttackPower, float.Parse(row[5].ToString()));
@@ -39,57 +37,14 @@ public static class ExcelSOGenerator
                     condition.InitCondition(ConditionType.PatrolRange, float.Parse(row[13].ToString()));
                     condition.InitCondition(ConditionType.ChaseRange, float.Parse(row[14].ToString()));
                     condition.InitCondition(ConditionType.Gold, float.Parse(row[15].ToString()));
-
                     conditions.dataList.Add(condition);
                 }
+
                 string enemyAssetPath = $"{assetOutputPath}/ConditionDataTable.asset";
                 AssetDatabase.CreateAsset(conditions, enemyAssetPath);
-                
-
                 Debug.Log($"✅ {sheetName} SO 생성됨: {enemyAssetPath}");
                 break;
-            case "DestinyData":
-                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
 
-                var destinyDataTable = ScriptableObject.CreateInstance<DestinyDataTable>();
-
-                for(int i = 2; i < table.Rows.Count; i++)
-                {
-                    var row = table.Rows[i];
-                    var destiny = new DestinyData();
-                    destiny.ID = int.Parse(row[0].ToString());
-                    destiny.Name = row[1].ToString();
-                    destiny.PositiveEffectDataID = int.Parse(row[2].ToString());
-                    destiny.NegativeEffectDataID = int.Parse(row[3].ToString());
-                    destinyDataTable.dataList.Add(destiny);
-                }
-
-                string destinyAssetPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
-                AssetDatabase.CreateAsset(destinyDataTable, destinyAssetPath);
-                Debug.Log($"✅ {sheetName} SO 생성됨: {destinyAssetPath}");
-                break;
-            case "DestinyEffectData":
-                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
-                var destinyEffectDataTable = ScriptableObject.CreateInstance<DestinyEffectDataTable>();
-
-                for(int i = 2; i < table.Rows.Count; i++)
-                {
-                    var row = table.Rows[i];
-                    var destinyEffect = new DestinyEffectData();
-                    destinyEffect.ID = int.Parse(row[0].ToString());
-                    destinyEffect.Name = row[1].ToString();
-                    destinyEffect.effectType = (EffectType)int.Parse(row[2].ToString());
-                    destinyEffect.effectedTarget = (EffectedTarget)int.Parse(row[3].ToString());
-                    destinyEffect.conditionType = (ConditionType) Enum.Parse(typeof(ConditionType), row[4].ToString());
-                    destinyEffect.value = int.Parse(row[5].ToString());
-                    destinyEffect.dsecription = row[6].ToString().Replace("@", destinyEffect.value.ToString());
-                    destinyEffectDataTable.dataList.Add(destinyEffect);
-                }
-
-                string destinyEffectAssetPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
-                AssetDatabase.CreateAsset(destinyEffectDataTable, destinyEffectAssetPath);
-                Debug.Log($"✅ {sheetName} SO 생성됨: {destinyEffectAssetPath}");
-                break;
             case "ActiveItemData":
                 ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
 
@@ -101,7 +56,7 @@ public static class ExcelSOGenerator
                     var activeItem = new ActiveItemData();
                     activeItem.ID = int.Parse(row[0].ToString());
                     activeItem.name = row[1].ToString();
-                    activeItem.rarity= (Rarity)int.Parse(row[2].ToString());
+                    activeItem.rarity = (Rarity)int.Parse(row[2].ToString());
                     activeItem.skillID = int.Parse(row[3].ToString());
                     activeItem.description = row[4].ToString();
                     activeItem.IconPath = row[5].ToString();
@@ -128,11 +83,9 @@ public static class ExcelSOGenerator
                     activeItemEffect.Range = int.Parse(row[4].ToString());
                     activeItemEffect.Description = row[5].ToString();
                     activeItemEffect.Cooldown = int.Parse(row[6].ToString());
-                    activeItemEffect.CostType = (CostType)int.Parse(row[7].ToString());
-                    activeItemEffect.Cost = int.Parse(row[8].ToString());
-                    activeItemEffect.VFX = row[9].ToString();
-                    activeItemEffect.SFX = row[10].ToString();
-                    activeItemEffect.Description = row[11].ToString();
+                    activeItemEffect.VFX = row[7].ToString();
+                    activeItemEffect.SFX = row[8].ToString();
+                    activeItemEffect.Description = row[9].ToString();
 
                     activeItemEffectDataTable.dataList.Add(activeItemEffect);
                 }
@@ -151,7 +104,7 @@ public static class ExcelSOGenerator
                     var itemData = new ItemData();
                     itemData.ID = int.Parse(row[0].ToString());
                     itemData.name = row[1].ToString();
-                    itemData.Rarity = (Rarity)int.Parse(row[2].ToString());                    
+                    itemData.Rarity = (Rarity)int.Parse(row[2].ToString());
                     itemData.ConditionType = ParseEnumFromCell<ConditionType>(row[3]);
                     itemData.value = int.Parse(row[4].ToString());
                     itemData.description = row[5].ToString().Replace("@", itemData.value.ToString());
@@ -159,7 +112,7 @@ public static class ExcelSOGenerator
                     itemData.buyPrice = int.Parse(row[7].ToString());
                     //판매가격은 구매가격의 50퍼
                     string rawSell = row[8].ToString();
-                    if (rawSell.Trim() == "@")
+                    if(rawSell.Trim() == "@")
                     {
                         itemData.sellPrice = Mathf.FloorToInt(itemData.buyPrice * 0.5f); // 50% 계산
                     }
@@ -177,9 +130,8 @@ public static class ExcelSOGenerator
                 break;
             case "EnhanceData":
                 ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
-
                 var enhanceDataTable = ScriptableObject.CreateInstance<EnhanceDataTable>();
-
+                enhanceDataTable.dataList = new List<EnhanceData>();
                 for(int i = 2; i < table.Rows.Count; i++)
                 {
                     var row = table.Rows[i];
@@ -187,17 +139,16 @@ public static class ExcelSOGenerator
                     enhanceData.ID = int.Parse(row[0].ToString());
                     enhanceData.name = row[1].ToString();
                     enhanceData.ConditionType = ParseEnumFromCell<ConditionType>(row[2]);
-                    enhanceData.value = int.Parse(row[3].ToString());
-                    enhanceData.dsecription = row[4].ToString().Replace("@", enhanceData.value.ToString());
-
+                    enhanceData.minvalue = float.Parse(row[3].ToString());
+                    enhanceData.maxvalue = float.Parse(row[4].ToString());
+                    enhanceData.description = row[5].ToString();
                     enhanceDataTable.dataList.Add(enhanceData);
                 }
-
-                string enhancePath = $"{assetOutputPath}/{table.ToString()}Table.asset";
+                string enhancePath = $"{assetOutputPath}/{sheetName}Table.asset";
                 AssetDatabase.CreateAsset(enhanceDataTable, enhancePath);
                 Debug.Log($"✅ {sheetName} SO 생성됨: {enhancePath}");
-
                 break;
+
             case "NPCData":
                 ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
 
@@ -211,35 +162,20 @@ public static class ExcelSOGenerator
                     npcData.Name = row[1].ToString();
                     npcData.shopItemIDs = ParseIntListFromCell(row[2]);
                     npcData.Type = ParseEnumFromCell<NPCType>(row[3]);
-                    
+
+                    npcData.description = Enumerable
+                        .Range(4, table.Columns.Count - 4)
+                        .Select(i => row[i]?.ToString())
+                        .Where(s => !string.IsNullOrWhiteSpace(s))
+                        .ToList();
+
+
                     npcDataTable.dataList.Add(npcData);
                 }
 
                 string npcPath = $"{assetOutputPath}/{table.ToString()}Table.asset";
                 AssetDatabase.CreateAsset(npcDataTable, npcPath);
                 Debug.Log($"✅ {sheetName} SO 생성됨: {npcPath}");
-
-                break;
-            case "DialogueData":
-                ClassGenerator.GenerateDataTableClassFromTable(table, sheetName, scriptOutputPath);
-
-                var dialogueDataTable = ScriptableObject.CreateInstance<DialogueDataTable>();
-
-                for(int i = 2; i < table.Rows.Count; i++)
-                {
-                    var row = table.Rows[i];
-                    var dialogueData = new DialogueData();
-                    dialogueData.ID = int.Parse(row[0].ToString());
-                    dialogueData.NPCID = int.Parse(row[0].ToString());
-                    dialogueData.description = row[1].ToString();
-
-
-                    dialogueDataTable.dataList.Add(dialogueData);
-                }
-
-                string dialoguePath = $"{assetOutputPath}/{table.ToString()}Table.asset";
-                AssetDatabase.CreateAsset(dialogueDataTable, dialoguePath);
-                Debug.Log($"✅ {sheetName} SO 생성됨: {dialoguePath}");
 
                 break;
             case "Enums":
@@ -263,15 +199,15 @@ public static class ExcelSOGenerator
         var split = raw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         var list = new List<int>();
 
-        foreach (var part in split)
+        foreach(var part in split)
         {
-            if (int.TryParse(part.Trim(), out int val))
+            if(int.TryParse(part.Trim(), out int val))
                 list.Add(val);
         }
 
         return list;
     }
-    
+
     /// <summary>
     /// Enum 파싱
     /// </summary>
@@ -285,7 +221,7 @@ public static class ExcelSOGenerator
             // Enum.Parse를 사용하여 문자열을 Enum 값으로 변환
             return (T)System.Enum.Parse(typeof(T), raw, true); // true는 대소문자 무시
         }
-        catch (System.ArgumentException)
+        catch(System.ArgumentException)
         {
             Debug.LogError($"Failed to parse '{raw}' as enum type {typeof(T).Name}. Returning default value.");
             return default(T); // 파싱 실패 시 Enum의 기본값 (보통 0번째 값) 반환

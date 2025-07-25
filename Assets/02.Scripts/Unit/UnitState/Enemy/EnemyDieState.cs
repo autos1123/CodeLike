@@ -16,7 +16,7 @@ public class EnemyDieState:EnemyBaseState
         stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.DieParameterHash);
 
         // 아이템 드랍, 골드 획득 로직
-        stateMachine.Player.GetComponent<PlayerController>()?.Condition.ChangeGold(stateMachine.Enemy.Condition.GetValue(ConditionType.Gold));
+        stateMachine.Player.GetComponent<PlayerController>()?.Condition.ChangeGold(stateMachine.Enemy.Condition.GetTotalCurrentValue(ConditionType.Gold));
 
     }
 
@@ -28,6 +28,7 @@ public class EnemyDieState:EnemyBaseState
         if(stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).IsName("Die") && 
             stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
+            stateMachine.Enemy.room.ChackClear();
             stateMachine.Enemy.gameObject.SetActive(false); // 적 오브젝트를 비활성화
         }
     }

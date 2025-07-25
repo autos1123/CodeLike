@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,12 +11,18 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 {
     private SlotUI slotUI;
     private Image iconImage;
-    private bool isBeingDragged = false;
-
+    [SerializeField]private TooltipManager tooltipManager;
+    [SerializeField]private DragManager dragManager;
     private void Awake()
     {
         slotUI = GetComponent<SlotUI>();
         iconImage = slotUI.iconImage;
+    }
+
+    private void Start()
+    {
+        tooltipManager = FindObjectOfType<TooltipManager>();
+        dragManager = FindObjectOfType<DragManager>();
     }
     /// <summary>
     /// 드래그 시작 시 호출
@@ -31,13 +35,12 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             return;
         }
 
-        isBeingDragged = true;
         iconImage.raycastTarget = false;
 
         slotUI.RefreshVisual();
-        TooltipManager.Instance.Hide();
+        tooltipManager.Hide();
 
-        DragManager.Instance.CreateGhost(iconImage.sprite);
+        dragManager.CreateGhost(iconImage.sprite);
     }
     /// <summary>
     /// 드래그 중 위치 업데이트
@@ -47,7 +50,7 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         if (slotUI.InventorySlot == null || slotUI.InventorySlot.IsEmpty)
             return;
 
-        DragManager.Instance.UpdateGhostPosition(eventData.position);
+        dragManager.UpdateGhostPosition(eventData.position);
     }
     /// <summary>
     /// 드래그 종료 시 호출
@@ -55,10 +58,9 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void OnEndDrag(PointerEventData eventData)
     {
         iconImage.raycastTarget = true;
-        isBeingDragged = false;
 
         slotUI.RefreshVisual();
-        DragManager.Instance.ClearGhost();
+        dragManager.ClearGhost();
     }
     /// <summary>
     /// 슬롯 위에 다른 슬롯이 드롭됐을 때 처리

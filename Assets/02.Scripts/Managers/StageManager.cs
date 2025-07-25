@@ -1,54 +1,109 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StageManager:MonoSingleton<StageManager>
 {
+    // 변수는 가급적 private으로 선언
+    // 만약 인스펙터 노출이 필요하면 [SerializeField] 사용
+
     protected override bool Persistent => false;
 
-    public ProceduralStageGenerator generator;
-    public StageData currentStage;
+    // private으로 변경 후 외부 접근을 위해 프로퍼티 추가 필요
+    [SerializeField] protected ProceduralStageGenerator generator;
+    protected StageData currentStage;
 
-    public int seed = 0;
-    public int stageID = 0;
+    public ProceduralStageGenerator Generator => generator; // 외부에서 접근할 수 있도록 프로퍼티로 노출
+    public StageData CurrentStage => currentStage;
 
+    protected int stageID = 0; // private으로
 
-    public void LoadStage()
+    public event Action ChangeStage;
+
+    protected Coroutine waitUntilCoroutine;
+
+    //스테이지 마다 생성할 맵의 수
+    [SerializeField] protected int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };    
+
+    //그리드 반경 및 높이
+    public int gridWidth { get; protected set; } = 10;
+    public int gridHeight { get; protected set; } = 10;
+
+    public int[] StageMapCountData => stageMapCountData;
+
+    public ViewCameraController viewCameraController; 
+    
+    public virtual void LoadStage()
     {
-        int randomSeed = Random.Range(0, int.MaxValue);
+        int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
         ClearStage();
 
-        int roomCountBase = GameManager.Instance.stageMapCountData[stageID];
-        int randomRoomCount = Random.Range(roomCountBase - 1, roomCountBase + 1);
-        generator.roomCount = randomRoomCount;
+        int roomCountBase = stageMapCountData[stageID];
 
-        generator.Generate(randomSeed);
-        currentStage = generator.stageData; //  반드시 generator 내부에서 생성한 인스턴스를 그대로 받아야 함
-        currentStage.stageID = stageID++;
+        currentStage = generator.Generate(randomSeed, roomCountBase, stageID);
 
-        if(currentStage.startRoom != null)
+        if(currentStage.roomMap.Count != 0)
         {
-            currentStage.playerSpawnPoint = currentStage.startRoom.GetPlayerSpawnPoint();
             GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
+            if (viewCameraController != null && ViewManager.HasInstance)
+            {
+                Debug.Log($"[StageManager] 씬 로드 시 현재 뷰 모드 유지: {ViewManager.Instance.CurrentViewMode}");
+                // ViewCameraController에게 ViewManager가 현재 기억하는 뷰 모드를 전달하여 초기화
+                viewCameraController.InitCameraForStage(ViewManager.Instance.CurrentViewMode); 
+            }
+            else if (viewCameraController == null)
+            {
+                Debug.LogWarning("[StageManager] ViewCameraController가 할당되지 않았습니다! 카메라 뷰를 설정할 수 없습니다.");
+            }
+            else 
+            {
+                Debug.LogWarning("[StageManager] ViewManager가 아직 초기화되지 않았습니다. 기본 뷰 모드(2D)로 설정합니다.");
+                viewCameraController.InitCameraForStage(ViewModeType.View2D); 
+            }
         }
         else
         {
             Debug.LogWarning("시작 방이 존재하지 않습니다.");
         }
 
+        if(waitUntilCoroutine != null)
+            StopCoroutine(waitUntilCoroutine);
 
+        waitUntilCoroutine = StartCoroutine(WaitUntilCreateUI());
+        ChangeStage?.Invoke();
+
+        stageID++;
     }
 
     void Start()
     {
-        LoadStage();
+        LoadStage();        
         // 나중에 저장 로직 추가 가능
     }
 
     public void ClearStage()
     {
-        foreach(var room in FindObjectsOfType<Room>())
-            Destroy(room.gameObject);
+        // allRooms 리스트에 Room이 존재하는 경우
+        // 모든 방을 비활성화
+
+        if(currentStage == null)
+            return;
+
+        foreach(KeyValuePair<int, Room> room in currentStage.roomMap)
+        {
+            room.Value.gameObject.SetActive(false);
+        }
 
         currentStage = null;
+    }
+
+
+    IEnumerator WaitUntilCreateUI()
+    {
+        yield return new WaitUntil(() => UIManager.Instance.GetUI<MinimapUI>() != null);
+        UIManager.Instance.GetUI<MinimapUI>().BuildMinimap();
     }
 
     // ===== 미니맵 시스템 전달용 데이터 정리 =====

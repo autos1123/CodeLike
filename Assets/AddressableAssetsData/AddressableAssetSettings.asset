@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: be2227b91220ff54aab4945db3d4981c
   m_currentHash:
     serializedVersion: 2
-    Hash: 61df0e1f9506a69443961c289b04c82d
+    Hash: fd73578bb633bec2000475772cbe6e70
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -98,6 +98,7 @@ MonoBehaviour:
     - UI
     - TitleUI
     - InGameUI
+    - TutorialUI
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: e94f4a5ad2d03724bb8e8327ad893714, type: 2}

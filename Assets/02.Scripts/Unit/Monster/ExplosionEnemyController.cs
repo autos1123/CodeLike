@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ExplosionEnemyController:EnemyController
@@ -47,8 +45,7 @@ public class ExplosionEnemyController:EnemyController
         Player.GetComponent<IDamagable>().GetDamaged(100);
 
         // 본인은 자폭
-        GetDamaged(Condition.GetValue(ConditionType.HP));
-        StateMachine.ChangeState(EnemyStateType.Die);
+        _CombatController.GetDamaged(Condition.GetTotalMaxValue(ConditionType.HP) + 1);
     }
 
     protected override void SetEnemyState()
@@ -56,12 +53,16 @@ public class ExplosionEnemyController:EnemyController
         StateMachine.AddState(EnemyStateType.Idle, new EnemyIdleState(StateMachine));
         StateMachine.AddState(EnemyStateType.Chase, new EnemyChaseState(StateMachine));
         StateMachine.AddState(EnemyStateType.Die, new EnemyDieState(StateMachine));
+        StateMachine.AddState(EnemyStateType.Hit, new EnemyHitState(StateMachine));
 
         StateMachine.StartStateMachine(EnemyStateType.Idle);
     }
 
     public override bool IsInRange(ConditionType rangeType)
     {
+        if(Player.GetComponent<PlayerController>().Condition.IsDied)
+            return false; // 플레이어가 죽은 경우 추적하지 않음
+
         Vector3 targetPos = Player.transform.position;
         Vector3 curPos = transform.position;
 
@@ -74,48 +75,8 @@ public class ExplosionEnemyController:EnemyController
         }
 
         float playerDistanceSqr = (targetPos - curPos).sqrMagnitude;
-        float range = Condition.GetValue(rangeType);
+        float range = Condition.GetTotalCurrentValue(rangeType);
 
         return playerDistanceSqr <= range * range;
-    }
-
-    protected override void OnDrawGizmos()
-    {
-        if(Application.isPlaying && isInitialized)
-        {
-            float attackRange = Condition.GetValue(ConditionType.AttackRange);
-            float chaseRange = Condition.GetValue(ConditionType.ChaseRange);
-            Vector3 pivot;
-
-            // 공격 범위를 시각적으로 표시
-            Gizmos.color = Color.red;
-            if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D)
-            {
-                pivot = transform.position + (visualTransform.forward * (attackRange / 2.0f)) + Vector3.up;
-                Gizmos.DrawWireCube(pivot, new Vector3(attackRange, 1.5f, ViewManager.Instance.CurrentViewMode == ViewModeType.View2D ? 100 : attackRange));
-            }
-            else
-            {
-                Gizmos.DrawWireSphere(transform.position, attackRange);
-
-                Gizmos.color = Color.black;
-                float angle1 = -attackAngle / 2f;
-                float angle2 = attackAngle / 2f;
-
-                Vector3 dir1 = Quaternion.Euler(0, angle1, 0) * visualTransform.forward;
-                Vector3 dir2 = Quaternion.Euler(0, angle2, 0) * visualTransform.forward;
-
-                Vector3 point1 = transform.position + dir1 * attackRange;
-                Vector3 point2 = transform.position + dir2 * attackRange;
-
-                Gizmos.DrawLine(transform.position, point1);
-                Gizmos.DrawLine(transform.position, point2);
-            }
-
-            pivot = transform.position + (visualTransform.forward * (chaseRange / 2.0f)) + Vector3.up;
-            // 적의 추적 범위를 시각적으로 표시
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube(pivot, new Vector3(chaseRange, 1.5f, 100));
-        }
     }
 }

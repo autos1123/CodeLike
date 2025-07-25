@@ -42,17 +42,17 @@ MonoBehaviour:
     m_SerializedLabels:
     - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0c7d8e0994efaa845a3cefee7d06eee0
-    m_Address: Assets/05.ScriptableObj/SO/DialogueDataTable.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - DataTable
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3a68dd46a282ffe4f8ceccb05470f25f
     m_Address: Assets/05.ScriptableObj/SO/NPCDataTable.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - DataTable
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 768756f04b7699f4c86d14446c41d3f9
+    m_Address: Boss_Battle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}

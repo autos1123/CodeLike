@@ -10,29 +10,32 @@ public class PlayerIdleState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        StopAnimation(player.AnimationData.MoveParameterHash);
+        Debug.Log("Idle 진입!");
+        Debug.Log(Player.InputHandler.JumpPressed);
+        StartAnimation(Player.AnimationData.IdleParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
+        StopAnimation(Player.AnimationData.IdleParameterHash);
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        var move = stateMachine.Player.InputHandler.MoveInput;
-        if(move.magnitude > 0.1f)
+        Vector2 move = stateMachine.Player.InputHandler.MoveInput;
+        if(move != Vector2.zero)
         {
             stateMachine.ChangeState(stateMachine.MoveState); 
         }
         /// 점프 입력
-        if(player.InputHandler.JumpPressed && player.IsGrounded)
+        if(Player.InputHandler.JumpPressed && Player.IsGrounded)
+        {
+            Debug.Log(">> PlayerIdleState: 점프 입력 감지!");
             stateMachine.ChangeState(stateMachine.JumpState);
-
-        // 공격 입력
-        if(player.InputHandler.AttackPressed)
-            stateMachine.ChangeState(stateMachine.AttackState);
+        }
+            
     }
 
     public override void StatePhysicsUpdate() 

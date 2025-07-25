@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public class InventoryUI : UIBase
 {
-    public override string UIName => "InventoryUI"; 
-    
+    public override string UIName => this.GetType().Name;
+
     private Inventory inventory;
     
     public SlotUI[] inventorySlotUIs; // 중간 16칸
@@ -19,14 +19,17 @@ public class InventoryUI : UIBase
     public SlotUI[] activeSlotUIs; //오른쪽위 2칸
     
     [SerializeField] private TextMeshProUGUI infoText;
-    
-    private EquipmentManager equipmentManager;
-    
+    [SerializeField] private TooltipManager tooltipManager;
     private void Awake()
     {
         inventory = GameManager.Instance.Player.GetComponent<Inventory>();
     }
-    
+
+    private void Start()
+    {
+        tooltipManager = FindObjectOfType<TooltipManager>();
+    }
+
     /// <summary>
     /// UI 열기 시 슬롯 정보를 동기화
     /// </summary>
@@ -43,7 +46,7 @@ public class InventoryUI : UIBase
             slot.Init(this);
         
         StartCoroutine(WaitAndRefresh());
-        
+        GameEvents.TriggerInventoryOpened();
     }
     /// <summary>
     /// 인벤토리 닫을시 설정
@@ -51,7 +54,7 @@ public class InventoryUI : UIBase
     public override void Close()
     {
         base.Close();
-        TooltipManager.Instance.Hide(); // 툴팁 강제 비활성화
+        tooltipManager.Hide(); // 툴팁 강제 비활성화
     }
     
     /// <summary>

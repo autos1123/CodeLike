@@ -33,7 +33,7 @@ public class TakeActiveItem:UIBase
     private int selectedSlot = -1;
     private Inventory playerInventory;
 
-    public override string UIName => "TakeActiveItem";
+    public override string UIName => this.GetType().Name;
 
     private void Start()
     {
@@ -91,7 +91,6 @@ public class TakeActiveItem:UIBase
     public void OnTakeButton()
     {
         if(selectedSlot == -1) return;
-        Debug.Log($"[DEBUG] 선택된 슬롯: {selectedSlot}, 전체 슬롯 수: {activeItemSlots.Length}");
 
         var slotObj = activeItemSlots[selectedSlot];
 

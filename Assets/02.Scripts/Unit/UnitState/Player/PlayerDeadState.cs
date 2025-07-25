@@ -11,21 +11,20 @@ public class PlayerDeadState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        if(player.TryGetComponent<Rigidbody>(out var rb))
+        if(Player.TryGetComponent<Rigidbody>(out var rb))
         {
             rb.velocity = Vector3.zero;
             rb.isKinematic = true;
         }
 
-        player.enabled = false;
+        Player.enabled = false;
 
-        StartAnimation(player.AnimationData.DeadParameterHash);
+        StartAnimation(Player.AnimationData.DeadParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
-        StopAnimation(player.AnimationData.DeadParameterHash); // 부활 등 리셋 상황 대비
     }
 
     public override void StateUpdate()

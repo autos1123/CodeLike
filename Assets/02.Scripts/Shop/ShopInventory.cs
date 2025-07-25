@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
@@ -30,9 +29,8 @@ public class ShopInventory : MonoBehaviour,IInventory
     /// <summary>
     /// 테이블 로드가 완료될 때까지 대기 후 상점 아이템 초기화
     /// </summary>
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         npcDataTable = TableManager.Instance.GetTable<NPCDataTable>();
         
@@ -41,7 +39,7 @@ public class ShopInventory : MonoBehaviour,IInventory
         if (npcData == null)
         {
             Debug.LogError($"[ShopInventory] NPCData를 찾을 수 없습니다. ID: {npcID}");
-            yield break;
+            return;
         }
 
         foreach (var id in npcData.shopItemIDs)
@@ -113,35 +111,4 @@ public class ShopInventory : MonoBehaviour,IInventory
         return false;
     }
 
-    void OnEnable()
-    {
-        if (GameManager.Instance != null)
-            GameManager.Instance.onDestinyChange += HandleDestinyChange;
-    }
-
-     void OnDisable()
-    {
-        if (GameManager.Instance != null)
-            GameManager.Instance.onDestinyChange -= HandleDestinyChange;
-    }
-    /// <summary>
-    /// 운명 변경이벤트 발생시 실행할 함수
-    /// </summary>
-    /// <param name="data"></param>
-    void HandleDestinyChange(DestinyData data, int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Shop)
-        {
-
-        }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Shop)
-        {
-
-        }
-    }
 }

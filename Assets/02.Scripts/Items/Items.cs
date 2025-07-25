@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Items : MonoBehaviour,IInteractable
+public class Items : MonoBehaviour , IInteractable
 {
     public int ID;
 
@@ -14,9 +14,8 @@ public class Items : MonoBehaviour,IInteractable
     public string InteractionPrompt => interactionPrompt;
     public Transform PromptPivot => promptPivot;
 
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         data = TableManager.Instance.GetTable<ItemDataTable>().GetDataByID(ID);
     }
     public bool CanInteract(GameObject interactor) => true;
@@ -29,7 +28,6 @@ public class Items : MonoBehaviour,IInteractable
             bool success = inventory.AddToInventory(data);
             if (success)
             {
-                Debug.Log($"[Items] {data.name} 아이템을 인벤토리에 추가했습니다.");
                 InteractionController controller = interactor.GetComponent<InteractionController>();
                 if (controller != null)
                 {

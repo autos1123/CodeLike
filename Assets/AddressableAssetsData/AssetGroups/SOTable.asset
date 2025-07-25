@@ -17,12 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 8abc612d017e26f4cb62782ec1595abe
   m_SerializeEntries:
-  - m_GUID: cc73896d9e14cb54b8f2dc62700c2cfa
-    m_Address: DestinyDataTable
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - DataTable
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 299727b5e0b74404bb8a0d305d6967b7
     m_Address: EnhanceDataTable
     m_ReadOnly: 0
@@ -49,12 +43,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 890b427eccab5014cb9ba26a371fae95
     m_Address: ActiveItemEffectDataTable
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - DataTable
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 57419cca42549d243a35b62943b0480c
-    m_Address: DestinyEffectDataTable
     m_ReadOnly: 0
     m_SerializedLabels:
     - DataTable

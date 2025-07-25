@@ -8,14 +8,14 @@ public class MeleeEnemyController : EnemyController
     /// </summary>
     public override void AttackAction()
     {
-        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Player"));
+        Collider[] hitColliders = _CombatController.GetTargetColliders(LayerMask.GetMask("Player"));
 
         foreach(var hitCollider in hitColliders)
         {
             if(hitCollider.TryGetComponent(out IDamagable player))
             {
                 // 플레이어에게 피해를 입히는 로직
-                if(!player.GetDamaged(Condition.GetValue(ConditionType.AttackPower)))
+                if(!player.GetDamaged(Condition.GetTotalCurrentValue(ConditionType.AttackPower)))
                 {
                     StateMachine.ChangeState(EnemyStateType.Idle);
                 }
@@ -30,6 +30,7 @@ public class MeleeEnemyController : EnemyController
         StateMachine.AddState(EnemyStateType.Chase, new EnemyChaseState(StateMachine));
         StateMachine.AddState(EnemyStateType.Attack, new EnemyAttackState(StateMachine));
         StateMachine.AddState(EnemyStateType.Die, new EnemyDieState(StateMachine));
+        StateMachine.AddState(EnemyStateType.Hit, new EnemyHitState(StateMachine));
 
         StateMachine.StartStateMachine(EnemyStateType.Idle);
     }

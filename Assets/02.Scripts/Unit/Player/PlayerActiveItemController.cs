@@ -1,10 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
+using System.Reflection;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 
 public enum Skillinput
@@ -17,7 +16,13 @@ public class PlayerActiveItemController:MonoBehaviour
 {
     private Dictionary<SkillType, ISkillExecutor> executors;
     private PlayerController playerController;
+    private ActiveItemEffectDataTable activeItemEffectDataTable;
+
     public List<ActiveItemData> activeItemDatas = new();
+    public List<float> activeItemCoolTime = new();
+    public List<Action<float>> OnActiveItemCoolTime = new();
+
+    [SerializeField] private Transform projectileSpawnPos;
 
     private void Awake()
     {
@@ -26,12 +31,39 @@ public class PlayerActiveItemController:MonoBehaviour
 
     private void Start()
     {
+        activeItemEffectDataTable = TableManager.Instance.GetTable<ActiveItemEffectDataTable>();
         executors = new Dictionary<SkillType, ISkillExecutor>
         {
             { SkillType.Projectile, new ProjectileSkillExecutor() },
             { SkillType.AoE , new AoESkillExecutor() },
-            { SkillType.Heal , new HealSkillExecutor()}
+            { SkillType.Heal , new HealSkillExecutor() },
+            { SkillType.Zone , new ZoneSkillExecutor() },
         };
+    }
+
+    private void Update()
+    {
+        ActiveItemEffectData used = new();
+        if(Input.GetKeyDown(KeyCode.F3))
+        {
+            used = activeItemEffectDataTable.GetDataByID(5000);
+            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+        }
+        if(Input.GetKeyDown(KeyCode.F4))
+        {
+            used = activeItemEffectDataTable.GetDataByID(5001);
+            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.position);
+        }
+        if(Input.GetKeyDown(KeyCode.F5))
+        {
+            used = activeItemEffectDataTable.GetDataByID(5002);
+            executors[used.Type].Execute(used, transform, projectileSpawnPos.position);
+        }
+        if(Input.GetKeyDown(KeyCode.F6))
+        {
+            used = activeItemEffectDataTable.GetDataByID(5003);
+            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+        }
     }
 
     /// <summary>
@@ -51,10 +83,12 @@ public class PlayerActiveItemController:MonoBehaviour
         while(activeItemDatas.Count <= index)
         {
             activeItemDatas.Add(null);
+            activeItemCoolTime.Add(0);
         }
 
         activeItemDatas[index] = activeItemData;
-        Debug.Log($"슬롯 {index}에 아이템 {activeItemData?.name} 장착 완료");
+        activeItemCoolTime[index] = activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID).Cooldown;
+        StartCoroutine(CoolDown(index));
     }
 
     public void UseItem(Skillinput skillinput)
@@ -70,11 +104,27 @@ public class PlayerActiveItemController:MonoBehaviour
 
         if(activeItemDatas[index] == null)
         {
-            Debug.Log("아이템 창이 비어 있음");
+            return;
+        }
+        if(activeItemCoolTime[index] >= 0)//쿨 대기
+        {
             return;
         }
 
-        var used = TableManager.Instance.GetTable<ActiveItemEffectDataTable>().GetDataByID(activeItemDatas[index].skillID);
-        executors[used.Type].Execute(used, playerController.VisualTransform, playerController.VisualTransform.forward);
+        var used = activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID);
+        activeItemCoolTime[index] = used.Cooldown;
+        StartCoroutine(CoolDown(index));
+        executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+    }
+
+    IEnumerator CoolDown(int index)
+    {
+        while(activeItemCoolTime[index] >= 0)
+        {
+            activeItemCoolTime[index] -= Time.deltaTime;
+            float tempCoolTime = activeItemCoolTime[index] / activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID).Cooldown;
+            OnActiveItemCoolTime[index]?.Invoke(tempCoolTime);
+            yield return null;
+        }        
     }
 }

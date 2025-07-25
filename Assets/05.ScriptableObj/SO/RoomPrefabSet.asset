@@ -15,5 +15,10 @@ MonoBehaviour:
   startRoom: {fileID: 6918807779703867543, guid: af09490c40bfdfe4399fb2fbb5abdba7, type: 3}
   bossRoom: {fileID: 6644655524022018225, guid: 1f2cc830f81a75a4fb7b2c6042eae6ed, type: 3}
   normalRooms:
+  - {fileID: 1668022635521173717, guid: 64df8035a86323b40bb5584ca0338994, type: 3}
+  - {fileID: 7343230887016783968, guid: bbb14da28bd577c45a6ce0547ebeb80b, type: 3}
+  - {fileID: 3341711735513332982, guid: 1c407d3c2699a63419199c337f54b2e8, type: 3}
   - {fileID: 2247716598403326888, guid: e82315adae3226a4b9b96c1fbd4867ee, type: 3}
   - {fileID: 6077389564974058983, guid: 2783e0b19299a624a924f6cf52ed208a, type: 3}
+  - {fileID: 2259536160743045738, guid: e4978adc7243bce4bb4f36f7c8431880, type: 3}
+  shopRoom: {fileID: 2436820062996141847, guid: 0c317a4cec274d5458783422f3ccf1a3, type: 3}

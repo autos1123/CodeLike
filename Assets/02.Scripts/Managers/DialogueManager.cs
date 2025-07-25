@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class DialogueManager : MonoSingleton<DialogueManager>
 {
@@ -9,8 +10,6 @@ public class DialogueManager : MonoSingleton<DialogueManager>
 
     public void Start()
     {
-        playerCamera = transform.GetChild(0).GetComponent<Camera>();
-        npcCamera = transform.GetChild(1).GetComponent<Camera>();
         playerCamera.gameObject.SetActive(false);
         npcCamera.gameObject.SetActive(false);
     }
@@ -25,25 +24,24 @@ public class DialogueManager : MonoSingleton<DialogueManager>
     }
 
     public void offDialogue()
-    {
+    {        
         playerCamera.targetTexture = null;
         ResetCamera(playerCamera);
         ResetCamera(npcCamera);
     }
 
-    void SetCamera(Camera camera , Transform transform)
+    void SetCamera(Camera camera , Transform target)
     {
-        
-        camera.transform.position = transform.forward * 5;//죄표 조절 필요
-        camera.transform.forward = transform.position;
-        //camera.transform.position = transform.up * 2;
-        camera.transform.parent = transform.transform;
-        camera.transform.gameObject.SetActive(true);
+        camera.transform.SetParent(target, true);
+        camera.transform.position = target.position + target.forward * 5f;
+        camera.transform.LookAt(target); // 타겟 바라보게 설정
+        camera.transform.position = camera.transform.position + Vector3.up;
+        camera.gameObject.SetActive(true);
     }
 
     void ResetCamera(Camera camera)
     {
-        camera.transform.parent = this.transform;
+        camera.transform.SetParent(transform);
         camera.transform.gameObject.SetActive(false);
     }
 }

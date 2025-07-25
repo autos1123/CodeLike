@@ -4,105 +4,99 @@ using UnityEngine;
 public class ProceduralStageGenerator:MonoBehaviour
 {
     //맵 생성 시드 번호
-    public int seed;
     //맵 랜덤화 함수 참조항목
-    public System.Random random;
-     //방 갯수(StageManager에서 랜덤화됨)
-    public int roomCount;
-
-    //그리드 반경 및 높이
-    public int gridWidth = 10;
-    public int gridHeight = 10;
-
-    //다음 방 ID
-    public int nextRoomID;
+    private System.Random random;
 
     //연결지점 및 방 프리팹들
-    public GameObject connectionPrefab;
+    [SerializeField] private GameObject connectionPrefab;
 
-    public RoomPrefabSet prefabSet;
+    [SerializeField] private RoomPrefabSet prefabSet;
 
-    //방을 생성할 좌표(오브젝트)
-    public Transform roomParent;
+    // 생성된 방을 담아둘 오브젝트
+    [SerializeField] private Transform roomParent;
 
-    private bool[,] grid;
-    public StageData stageData;
-    public List<Room> AllRooms { get; private set; } = new();
+    // 임시 리팩토링 필요
+    private bool isShopRoomSpawned;
+    private int shopRoomPlacementOrder;
 
-
-    public List<Room> Generate(int seed)
+    public StageData Generate(int seed, int roomCount, int stageID)
     {
-        Debug.Log($"🚀 Generate 시작! seed={seed}, roomCount={roomCount}, grid={gridWidth}x{gridHeight}");
-        this.seed = seed;
         random = new System.Random(seed);
-        nextRoomID = 0; 
-        grid = new bool[gridWidth, gridHeight];
+        int gridWidth = StageManager.Instance.gridWidth;
+        int gridHeight = StageManager.Instance.gridHeight;
 
-        stageData = new StageData();
-        stageData.InitializeGrid(gridWidth, gridHeight);
+        int currentRoomID = 0; // 첫 Room은 시작방으로 하기 위해 0부터 시작
+        bool[,] grid = new bool[gridWidth, gridHeight]; // 가상의 그리드 생성
 
-        Vector2Int startGridPos = new Vector2Int(0, 0);
+        // 스테이지 생성
+        StageData stageData = new StageData(stageID);
+
+        isShopRoomSpawned = false;
+        shopRoomPlacementOrder = random.Next(1, roomCount - 1);
+        
         Stack<Vector2Int> stack = new();
-        Dictionary<Vector2Int, int> roomIdMap = new();
+        Dictionary<Vector2Int, Direction> cameFrom = new();
 
-        stack.Push(startGridPos);
+        // 시작 그리드는 (0, 0)
+        stack.Push(new Vector2Int(0, 0));
 
-        while(roomIdMap.Count < roomCount && stack.Count > 0)
+        // 지정된 룸 개수 만큼 반복
+        // 스택이 비어있지 않아야함 == 직전 룸이 다음 룸 지정에 성공해야함
+        while(currentRoomID < roomCount && stack.Count > 0)
         {
-
             Vector2Int current = stack.Pop();
+
+            // 이미 생성된 룸이 있는 경우
             if(grid[current.x, current.y]) continue;
 
             RoomType type = RoomType.Normal;
-            if(roomIdMap.Count == 0) type = RoomType.Start;
-            else if(roomIdMap.Count == roomCount - 1) type = RoomType.Boss;
+            if(currentRoomID == 0) type = RoomType.Start;
+            else if(currentRoomID == roomCount - 1) type = RoomType.Boss;
+            else if(currentRoomID == shopRoomPlacementOrder && !isShopRoomSpawned) type = RoomType.Shop;
 
-            List<Direction> connectedDirs = new();
-            foreach(var dir in GetShuffledDirections())
+            // 이전 방과의 연결 생성
+            // 현재 -> 이전 방향
+            if(cameFrom.Count != 0)
             {
-                Vector2Int neighbor = current + DirectionToOffset(dir);
-                if(IsInBounds(neighbor) && grid[neighbor.x, neighbor.y])
-                {
-                    int neighborId = roomIdMap[neighbor];
-                    RoomConnection conn = new RoomConnection(nextRoomID, neighborId, dir);
-                    stageData.connections.Add(conn);
-                    connectedDirs.Add(dir);
-
-                }
+                RoomConnection conn = new RoomConnection(currentRoomID, currentRoomID - 1, cameFrom[current]);
+                stageData.connections.Add(conn);
             }
 
-            Room room = CreateRoom(current, type);
-            roomIdMap[current] = room.Id;
-            stageData.RegisterRoom(room);
+            // 룸 생성 및 초기화
+            Room room = CreateRoom(currentRoomID, current, type);
+            stageData.RegisterRoom(room, gridWidth, gridHeight);
             grid[current.x, current.y] = true;
 
-            foreach(var dir in GetShuffledDirections())
+            foreach(Direction dir in GetShuffledDirections())
             {
                 Vector2Int next = current + DirectionToOffset(dir);
-                if(IsInBounds(next) && !grid[next.x, next.y])
+                if(IsInBounds(next, gridWidth, gridHeight) && !grid[next.x, next.y])
                 {
                     stack.Push(next);
+                    cameFrom[next] = (Direction)((int)dir * -1); // 반대 방향 저장
                 }
             }
-            Debug.Log($" 현재 위치: {current}");
-            if(grid[current.x, current.y])
-            {
-                Debug.Log($" 이미 방문한 좌표: {current}");
-                continue;
-            }
+
+            currentRoomID++;
         }
-        PlaceConnections();
-        return new List<Room>(stageData.roomMap.Values);
+        PlaceConnections(stageData);
+
+        return stageData;
     }
 
-    private Room CreateRoom(Vector2Int gridPos, RoomType type)
+    /// <summary>
+    /// 방을 생성합니다
+    /// </summary>
+    /// <param name="currentRoomId"></param>
+    /// <param name="gridPos"></param>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    private Room CreateRoom(int currentRoomId, Vector2Int gridPos, RoomType type)
     {
-        Debug.Log($"🧪 CreateRoom 호출됨: gridPos={gridPos}, type={type}");
 
         GameObject prefab = prefabSet.GetRandomPrefab(type);
         if(prefab == null)
         {
-            Debug.LogError($"❌ 프리팹이 존재하지 않음! RoomType: {type}");
             return null;
         }
 
@@ -114,26 +108,28 @@ public class ProceduralStageGenerator:MonoBehaviour
         Room room = roomGO.GetComponent<Room>();
         if(room == null)
         {
-            Debug.LogError($"❌ Room 컴포넌트가 프리팹 '{prefab.name}'에 없음!");
             return null;
         }
 
+        room.Initialize(currentRoomId, gridPos, type);
 
-        room.Initialize(nextRoomID++, gridPos, type);
-
-        room.SetRoomActive(false);
-
-        AllRooms.Add(room);
-
-        Debug.Log($"✅ Room 생성 완료: ID={room.Id}, Type={type}, Pos={gridPos}");
         return room;
     }
 
-    private bool IsInBounds(Vector2Int pos)
+    /// <summary>
+    /// 주어진 위치가 그리드 범위 내에 있는지 확인합니다.
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <returns></returns>
+    private bool IsInBounds(Vector2Int pos, int gridWidth, int gridHeight)
     {
         return pos.x >= 0 && pos.x < gridWidth && pos.y >= 0 && pos.y < gridHeight;
     }
 
+    /// <summary>
+    /// 방향을 무작위로 섞어서 반환합니다.
+    /// </summary>
+    /// <returns></returns>
     private List<Direction> GetShuffledDirections()
     {
         List<Direction> dirs = new() { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
@@ -156,28 +152,47 @@ public class ProceduralStageGenerator:MonoBehaviour
             _ => Vector2Int.zero,
         };
     }
-    public void PlaceConnections()
+    /// <summary>
+    /// 연결지점을 설정합니다.
+    /// </summary>
+    /// <param name="stageData"></param>
+    public void PlaceConnections(StageData stageData)
     {
-        foreach(var conn in stageData.connections)
+        List<RoomConnection> conn = stageData.connections;
+
+        for(int i = 0; i < conn.Count; i++)
         {
-            if (!stageData.roomMap.TryGetValue(conn.FromRoomID, out var fromRoom) ||
-                !stageData.roomMap.TryGetValue(conn.ToRoomID, out var toRoom))
+            if(!stageData.roomMap.TryGetValue(conn[i].FromRoomID, out Room fromRoom) ||
+                !stageData.roomMap.TryGetValue(conn[i].ToRoomID, out Room toRoom))
                 continue;
 
+            fromRoom.AddConnection(conn[i]);
+            toRoom.AddConnection(new RoomConnection(conn[i].ToRoomID, conn[i].FromRoomID, (Direction)((int)conn[i].Direction * -1)));
 
-            CreatePortal(fromRoom, toRoom, conn.Direction);
-            CreatePortal(toRoom, fromRoom, Room.GetOppositeDirection(conn.Direction));
+
+            CreatePortal(fromRoom, toRoom, conn[i].Direction);
+            CreatePortal(toRoom, fromRoom, (Direction)((int)conn[i].Direction * -1));
+
+            // 마지막 연결 == 마지막 룸 관련 연결
+            // 직전 방과 연결된 포탈 반대 방향에 스테이지 클리어 포탈 생성하기
+            if(i == conn.Count - 1)
+            {
+                CreatePortal(fromRoom, null, (Direction)((int)conn[i].Direction * -1));
+            }
         }
     }
-
+    /// <summary>
+    /// 연결지점에 포탈을 생성합니다.
+    /// </summary>
+    /// <param name="fromRoom"></param>
+    /// <param name="toRoom"></param>
+    /// <param name="direction"></param>
     private void CreatePortal(Room fromRoom, Room toRoom, Direction direction)
     {
         Transform fromAnchor = fromRoom.GetEntranceAnchor(direction);
-        Transform toAnchor = toRoom.GetEntranceAnchor(Room.GetOppositeDirection(direction));
 
-        if(fromAnchor == null || toAnchor == null)
+        if(fromAnchor == null)
         {
-            Debug.LogWarning($"Missing anchor for Room {fromRoom.Id} → {toRoom.Id} at direction {direction}");
             return;
         }
 
@@ -185,8 +200,8 @@ public class ProceduralStageGenerator:MonoBehaviour
         Portal portal = portalGO.GetComponent<Portal>();
         if(portal != null)
         {
-            portal.destinationPoint = toAnchor;
-            portal.exitDirection = direction; // ✅ 여기 수정!
+            portal.InitPortal(direction, toRoom);
+            fromRoom.Portals.Add(portal);
         }
     }
 

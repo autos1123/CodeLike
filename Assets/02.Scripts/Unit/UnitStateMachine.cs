@@ -1,8 +1,7 @@
-using System.Diagnostics;
-
 public abstract class UnitStateMachine
 {
     protected IUnitState currentState;
+
     public void ChangeState(IUnitState state)
     {
         currentState?.StateExit();

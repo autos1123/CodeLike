@@ -12,7 +12,7 @@ public class RangedEnemyController : EnemyController
     /// </summary>
     public override void AttackAction()
     {
-        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Player"));
+        Collider[] hitColliders = _CombatController.GetTargetColliders(LayerMask.GetMask("Player"));
 
         foreach(var hitCollider in hitColliders)
         {
@@ -31,7 +31,7 @@ public class RangedEnemyController : EnemyController
         // 투사체를 풀에서 가져오기
         GameObject projectile = PoolManager.Instance.GetObject(PoolType.projectile);
         projectile.transform.position = projectileOffset.position;
-        projectile.GetComponent<Projectile>()?.InitProjectile(direction, 10f, Condition.GetValue(ConditionType.AttackPower));
+        projectile.GetComponent<Projectile>()?.InitProjectile(direction, 10f, Condition.GetTotalCurrentValue(ConditionType.AttackPower));
     }
 
     protected override void SetEnemyState()
@@ -41,6 +41,7 @@ public class RangedEnemyController : EnemyController
         StateMachine.AddState(EnemyStateType.Chase, new EnemyChaseState(StateMachine));
         StateMachine.AddState(EnemyStateType.Attack, new EnemyAttackState(StateMachine));
         StateMachine.AddState(EnemyStateType.Die, new EnemyDieState(StateMachine));
+        StateMachine.AddState(EnemyStateType.Hit, new EnemyHitState(StateMachine));
 
         StateMachine.StartStateMachine(EnemyStateType.Idle);
     }

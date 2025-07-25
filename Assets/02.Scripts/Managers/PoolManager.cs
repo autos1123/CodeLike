@@ -1,9 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 
+public enum PoolLoad
+{
+    None,
+    Pool,
+    Pool1,
+    Pool2,
+}
+
+[DefaultExecutionOrder(-100)]
 public class PoolManager : MonoSingleton<PoolManager>
 {
     [SerializeField] List<GameObject> poolObjectList = new List<GameObject>();
@@ -15,16 +25,16 @@ public class PoolManager : MonoSingleton<PoolManager>
     public bool IsInitialized { get; private set; } = false;
     protected override void Awake()
     {
-        LoadPoolsAsync();
+        LoadPoolsAsync(PoolLoad.Pool);
     }
 
     /// <summary>
     /// 라벨을 통해 어드레서블에 올린 데이터 탐색하여 저장
     /// </summary>
-    private void LoadPoolsAsync()
+    private void LoadPoolsAsync(PoolLoad poolLoad)
     {
         Addressables.LoadAssetsAsync<GameObject>(
-            AddressbleLabels.PoolLabel,
+            poolLoad.ToString(),
             (GameObject) =>
             {
                 poolObjectList.Add(GameObject);
@@ -46,9 +56,8 @@ public class PoolManager : MonoSingleton<PoolManager>
             {
                 CreatePool(pool, pool.PoolSize);
             }
-        };
-
-        IsInitialized = true;
+            IsInitialized = true;
+        };                
     }
 
     private void CreatePool(IPoolObject iPoolObject, int poolsize)
@@ -64,12 +73,12 @@ public class PoolManager : MonoSingleton<PoolManager>
         GameObject poolObject = iPoolObject.GameObject;
 
         Queue<GameObject> newPool = new Queue<GameObject>();
+        
         GameObject prentObj = new GameObject(poolName) { transform = { parent = transform } };
         parentCache[poolType] = prentObj.transform;
 
         for (int i = 0; i < poolsize; i++)
         {
-
             GameObject obj = Instantiate(poolObject, prentObj.transform);
             obj.name = poolName;
             obj.SetActive(false);
@@ -113,6 +122,11 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     IEnumerator DelayedReturnObject(IPoolObject obj, float returnTime, UnityAction action)
     {
+        if (obj == null || obj.Equals(null)) 
+        {
+            yield break; 
+        }
+        
         if (!poolObjects.ContainsKey(obj.PoolType))
         {
             Debug.LogWarning($"등록된 풀이 없습니다. : {obj.PoolType}");
@@ -120,6 +134,10 @@ public class PoolManager : MonoSingleton<PoolManager>
         }
 
         yield return new WaitForSeconds(returnTime);
+        if (obj == null || obj.Equals(null))
+        {
+            yield break;
+        }
         obj.GameObject.SetActive(false);
         obj.GameObject.transform.position = Vector3.zero;
         action?.Invoke();

@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 
+[System.Serializable]
 public enum RoomType
 {
     Start,
@@ -19,18 +22,39 @@ public class Room : MonoBehaviour
     public RoomType Type { get; private set; }
 
     [Header("Anchor")]
-    public Transform playerSpawnPoint;
-    public Transform entranceUp;
-    public Transform entranceDown;
-    public Transform entranceLeft;
-    public Transform entranceRight;
+    [SerializeField] private Transform playerSpawnPoint;
+    [SerializeField] private Transform entranceUp;
+    [SerializeField] private Transform entranceDown;
+    [SerializeField] private Transform entranceLeft;
+    [SerializeField] private Transform entranceRight;
 
+    public List<Portal> Portals { get; private set; } = new List<Portal>();
+
+    public bool isClearRoom { get; private set; } = false;
+
+    [SerializeField] private GameObject[] Enumys;
+    private int enemyCount;
 
     public List<RoomConnection> Connections { get; private set; } = new();
 
-    private void Start()
+    private IEnumerator Start()
     {
-        GetComponent<NavMeshSurface>()?.BuildNavMesh(); // NavMeshSurface가 있다면 빌드
+        var surface = GetComponent<NavMeshSurface>();
+        if(surface != null)
+        {
+            surface.BuildNavMesh();
+            yield return null;
+        }
+        foreach(var item in Enumys)
+        {
+            item.SetActive(true);
+        }
+        if(Enumys.Count() == 0)
+        {
+            StartCoroutine(RoomClear());
+        }
+
+        enemyCount = Enumys.Length;
     }
 
     public void Initialize(int id, Vector2Int gridPos, RoomType type)
@@ -39,7 +63,23 @@ public class Room : MonoBehaviour
         GridPosition = gridPos;
         Type = type;
     }
+    public void ChackClear()
+    {
+        enemyCount--;
 
+        if(enemyCount > 0) return;
+
+        StartCoroutine(RoomClear());
+    }
+    public IEnumerator RoomClear()
+    {
+        yield return new WaitForSeconds(1f);
+        isClearRoom = true;
+        for(int i = 0; i < Portals.Count; i++)
+        {
+            Portals[i].OnPotalActivated();
+        }
+    }
     public void AddConnection(RoomConnection conn)
     {
         Connections.Add(conn);
@@ -55,38 +95,6 @@ public class Room : MonoBehaviour
         gameObject.SetActive(isactive);
     }
 
-    public MinimapRoomData GetMinimapData()
-    {
-        var data = new MinimapRoomData
-        {
-            roomID = Id,
-            worldPosition = transform.position,
-            type = Type,
-            connectedDirections = new List<Direction>()
-        };
-
-        foreach (var conn in Connections)
-        {
-            if (conn.FromRoomID == Id)
-                data.connectedDirections.Add(conn.Direction);
-            else if(conn.ToRoomID == Id)
-                data.connectedDirections.Add(GetOppositeDirection(conn.Direction));
-        }
-
-        return data;
-    }
-
-    public static Direction GetOppositeDirection(Direction dir)
-    {
-        return dir switch
-        {
-            Direction.Up => Direction.Down,
-            Direction.Down => Direction.Up,
-            Direction.Left => Direction.Right,
-            Direction.Right => Direction.Left,
-            _ => dir
-        };
-    }
     public Transform GetEntranceAnchor(Direction dir)
     {
         return dir switch
@@ -98,15 +106,9 @@ public class Room : MonoBehaviour
             _ => null
         };
     }
-    public void OnTriggerEnter(Collider other)
+
+    public Transform GetSponPos()
     {
-        if (other.CompareTag("Player"))
-        {
-            PlayerController pc = other.GetComponent<PlayerController>();
-            if (pc != null)
-            {
-                pc.SetCurrentRoom(this);
-            }
-        }
+        return playerSpawnPoint;
     }
 }

@@ -2,20 +2,26 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyBaseState
 {
+    private BaseCondition playerCondition;
+
     float attackDelay;
     float startTime;
 
     public EnemyAttackState(EnemyStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        
     }
 
     public override void StateEnter()
     {
+        if(playerCondition == null)
+            playerCondition = stateMachine.Player.GetComponent<PlayerController>().Condition;
+
         moveSpeedModifier = 0f; // 공격 상태에서는 이동하지 않음
         stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
         stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
 
-        float atkSpeed = stateMachine.Enemy.Condition.GetValue(ConditionType.AttackSpeed);
+        float atkSpeed = stateMachine.Enemy.Condition.GetTotalCurrentValue(ConditionType.AttackSpeed);
 
         attackDelay = 1.0f / atkSpeed; // 공격 속도에 따라 딜레이 설정
         startTime = Time.time;
@@ -34,11 +40,31 @@ public class EnemyAttackState : EnemyBaseState
     {
         base.StateUpdate();
 
-        if(!stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
+        if(stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") &&
+            stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
-            // AttackState로 변환
-            stateMachine.ChangeState(EnemyStateType.Chase);
-            return;
+            if(playerCondition.IsDied)
+            {
+                // IdleState로 변환
+                if(stateMachine.ChangeState(EnemyStateType.Idle))
+                    return;
+            }
+
+            // 추적 범위를 벗어남
+            if(!stateMachine.Enemy.IsInRange(ConditionType.ChaseRange))
+            {
+                // IdleState로 변환
+                if(stateMachine.ChangeState(EnemyStateType.Idle))
+                    return;
+            }
+
+            // 추적 범위는 벗어나지 않았고 공격 범위를 벗어남
+            if(!stateMachine.Enemy.IsInRange(ConditionType.AttackRange))
+            {
+                // AttackState로 변환
+                if(stateMachine.ChangeState(EnemyStateType.Chase))
+                    return;
+            }
         }
 
         Vector3 movementDirection = GetMovementDirection(stateMachine.Player.transform.position);
