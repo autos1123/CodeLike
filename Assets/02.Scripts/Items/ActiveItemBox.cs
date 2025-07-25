@@ -8,7 +8,7 @@ public class ActiveItemBox:MonoBehaviour, IInteractable
     [SerializeField] private Transform promptPivot;
 
     // 드랍 아이템 후보 ID 배열 (필요시 인스펙터에서 추가 가능)
-    [SerializeField] private int[] possibleItemIds = { 4000, 4001 };
+    [SerializeField] private int[] possibleItemIds = { 4000, 4001, 4002, 4003 };
 
     public string InteractionPrompt => interactionPrompt;
     public Transform PromptPivot => promptPivot;

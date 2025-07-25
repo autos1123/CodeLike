@@ -9,6 +9,7 @@ public enum PoolType
     hpBar,
     SoundSource,
     AoE,
+    VFX
 }
 public interface IPoolObject
 {
