@@ -66,7 +66,7 @@ public class PlayerBaseState:IUnitState
     /// </summary>
     protected Vector3 Move(Vector2 input)
     {
-        float speed = Player.Condition.GetValue(ConditionType.MoveSpeed);
+        float speed = Player.Condition.GetTotalCurrentValue(ConditionType.MoveSpeed);
 
         Vector3 dir;
         if(viewMode == ViewModeType.View2D)

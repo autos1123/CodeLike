@@ -42,7 +42,7 @@ public class EnhanceCard:MonoBehaviour
         float currentStat = 0f;
         if(GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
         {
-            currentStat = playerController.Condition.GetValue(_enhanceData.ConditionType);
+            currentStat = playerController.Condition.GetTotalCurrentValue(_enhanceData.ConditionType);
         }
 
         // 3. 증가량/설명

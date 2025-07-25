@@ -105,7 +105,7 @@ public class PlayerController:BaseController
         {
             if(hitCollider.TryGetComponent(out IDamagable enemy))
             {
-                enemy.GetDamaged(Condition.GetValue(ConditionType.AttackPower));
+                enemy.GetDamaged(Condition.GetTotalCurrentValue(ConditionType.AttackPower));
             }
         }
     }

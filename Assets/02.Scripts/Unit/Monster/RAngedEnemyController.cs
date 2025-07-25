@@ -31,7 +31,7 @@ public class RangedEnemyController : EnemyController
         // 투사체를 풀에서 가져오기
         GameObject projectile = PoolManager.Instance.GetObject(PoolType.projectile);
         projectile.transform.position = projectileOffset.position;
-        projectile.GetComponent<Projectile>()?.InitProjectile(direction, 10f, Condition.GetValue(ConditionType.AttackPower));
+        projectile.GetComponent<Projectile>()?.InitProjectile(direction, 10f, Condition.GetTotalCurrentValue(ConditionType.AttackPower));
     }
 
     protected override void SetEnemyState()
