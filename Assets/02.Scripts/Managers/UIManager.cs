@@ -44,10 +44,6 @@ public class UIManager:MonoSingleton<UIManager>
         {
             ToggleUI<EnhanceBoard>();
         }
-        if(Input.GetKeyDown(KeyCode.F2))
-        {
-            ToggleUI<DestinyBoard>();
-        }
     }
     private void InitializeUI()
     {

@@ -11,8 +11,6 @@ public class StageManager:MonoSingleton<StageManager>
 
     protected override bool Persistent => false;
 
-    DestinyManager destinyManager;
-
     // private으로 변경 후 외부 접근을 위해 프로퍼티 추가 필요
     [SerializeField] protected ProceduralStageGenerator generator;
     protected StageData currentStage;
@@ -37,19 +35,6 @@ public class StageManager:MonoSingleton<StageManager>
 
     public ViewCameraController viewCameraController; 
     
-    private void OnEnable()
-    {
-        if(destinyManager == null)
-            destinyManager = DestinyManager.Instance;
-
-        destinyManager.onDestinyChange += HandleDestinyChange;
-    }
-
-    private void OnDisable()
-    {
-        destinyManager.onDestinyChange -= HandleDestinyChange;
-    }
-
     public virtual void LoadStage()
     {
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
@@ -114,22 +99,6 @@ public class StageManager:MonoSingleton<StageManager>
         currentStage = null;
     }
 
-    void HandleDestinyChange(DestinyData data, int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Map)
-        {
-            stageMapCountData = stageMapCountData.Select(n => n + (int)positiveEffect.value * i).ToArray();
-        }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Map)
-        {
-            stageMapCountData = stageMapCountData.Select(n => n - (int)positiveEffect.value * i).ToArray();
-        }
-
-    }
 
     IEnumerator WaitUntilCreateUI()
     {

@@ -161,39 +161,4 @@ public class PlayerController:BaseController
         //UIManager.Instance.ShowUI<HUD>();
         isInitialized = true;
     }
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        DestinyManager.Instance.onDestinyChange += HandleDestinyChange;
-    }
-
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        if(DestinyManager.HasInstance)
-            DestinyManager.Instance.onDestinyChange -= HandleDestinyChange;
-    }
-
-    /// <summary>
-    /// 운명 변경이벤트 발생시 실행할 함수
-    /// </summary>
-    /// <param name="data"></param>
-    void HandleDestinyChange(DestinyData data, int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Player)
-        {
-            Condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value * i); // 추후에 운명에 의한 증가량 추가
-        }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Player)
-        {
-            Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value * i); // 추후에 운명에 의한 증가량 추가
-        }
-
-    }
 }
