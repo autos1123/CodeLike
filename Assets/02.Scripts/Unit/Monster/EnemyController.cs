@@ -25,17 +25,13 @@ public abstract class EnemyController:BaseController
 
     protected override void OnEnable()
     {
-        base.OnEnable();
-        DestinyManager.Instance.onDestinyChange += HandleDestinyChange;//운명변경 이벤트 연결
+        base.OnEnable();     
     }
     protected override void OnDisable()
     {
         base.OnDisable();
-        if(PoolManager.HasInstance)
+        if(PoolManager.HasInstance && hpBar != null)
             PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
-
-        if(DestinyManager.HasInstance)
-            DestinyManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
     }
 
     protected override void Awake()

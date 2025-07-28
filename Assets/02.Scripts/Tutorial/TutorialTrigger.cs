@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
 
 public class TutorialTrigger : MonoBehaviour
 {

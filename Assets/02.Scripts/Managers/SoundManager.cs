@@ -54,7 +54,7 @@ public class SoundManager : MonoSingleton<SoundManager>
             AddressbleLabels.SFXLabel,
             (source) =>
             {
-                if(!bgmdic.ContainsKey(source.name))
+                if(!sfxdic.ContainsKey(source.name))
                 {
                     sfxdic[source.name] = source;
                 }
@@ -85,11 +85,18 @@ public class SoundManager : MonoSingleton<SoundManager>
     }
     public void PlayBGM(Transform transform, string key)
     {
-        if(audioBgm != null) StopBGM();
+        if(audioBgm != null && !audioBgm.Equals(null)) StopBGM();
 
         var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
-        sound.transform.position = Vector3.zero;
-        sound.transform.SetParent(transform, false);
+        sound.transform.position = transform != null? transform.position : Vector3.zero;
+        sound.transform.SetParent(null);
+        
+        var follower = sound.GetComponent<FollowTarget>();
+        if(follower == null)
+            follower = sound.AddComponent<FollowTarget>();
+        
+        follower.target = transform;
+        
         SoundSource soundSource = sound.GetComponent<SoundSource>();        
         soundSource.Play(bgmdic[key],false);
         audioBgm = soundSource;
@@ -98,7 +105,10 @@ public class SoundManager : MonoSingleton<SoundManager>
     // 현재 재생 중인 배경 음악 정지
     public void StopBGM()
     {
-        audioBgm.Stop();
+        if (audioBgm != null && !audioBgm.Equals(null))
+        {
+            audioBgm.Stop();
+        }
         audioBgm = null;
     }
 

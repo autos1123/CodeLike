@@ -19,8 +19,7 @@ public class SoundSource : MonoBehaviour ,IPoolObject
     {
         StartCoroutine(DelayRoutine(delaeTime, clip, issfx));
     }
-
-
+    
     public void Play(AudioClip clip,bool issfx)
     {
         ViewManager.Instance.OnViewChanged += HandleViewModeChange;
@@ -64,9 +63,9 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     public void returnPool()
     {
-        if(gameObject == null) return;
-        if(PoolManager.Instance == null) return;
-        PoolManager.Instance.ReturnObject(this);
+        if(gameObject == null || this == null) return;
+        if(PoolManager.HasInstance)
+            PoolManager.Instance.ReturnObject(this);
     }
 
     private void HandleViewModeChange(ViewModeType viewModeType)

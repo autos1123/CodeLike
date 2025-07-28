@@ -35,41 +35,34 @@ public class PlayerActiveItemController:MonoBehaviour
         executors = new Dictionary<SkillType, ISkillExecutor>
         {
             { SkillType.Projectile, new ProjectileSkillExecutor() },
-            { SkillType.AoE , new AoESkillExecutor() },
-            { SkillType.Heal , new HealSkillExecutor() },
-            { SkillType.Zone , new ZoneSkillExecutor() },
+            { SkillType.AoE, new AoESkillExecutor() },
+            { SkillType.Heal, new HealSkillExecutor() },
+            { SkillType.Zone, new ZoneSkillExecutor() },
         };
     }
 
     private void Update()
     {
-        ActiveItemEffectData used = new();
+        // 예시용 단축키(테스트)
         if(Input.GetKeyDown(KeyCode.F3))
         {
-            used = activeItemEffectDataTable.GetDataByID(5001);
-            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+            UseExecutorById(5000, projectileSpawnPos);
         }
         if(Input.GetKeyDown(KeyCode.F4))
         {
-            used = activeItemEffectDataTable.GetDataByID(5002);
-            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+            UseExecutorById(5001, projectileSpawnPos);
         }
         if(Input.GetKeyDown(KeyCode.F5))
         {
-            used = activeItemEffectDataTable.GetDataByID(5003);
-            executors[used.Type].Execute(used, transform, projectileSpawnPos.forward);
+            UseExecutorById(5002, transform);
         }
         if(Input.GetKeyDown(KeyCode.F6))
         {
-            used = activeItemEffectDataTable.GetDataByID(5004);
-            executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+            UseExecutorById(5003, projectileSpawnPos);
         }
     }
 
-    /// <summary>
-    /// 테스트용 (기존 방식 유지)
-    /// </summary>
-    /// <param name="activeItemData"></param>
+    // 기존 함수 유지
     public void TakeItem(ActiveItemData activeItemData)
     {
         activeItemDatas.Add(activeItemData);
@@ -78,14 +71,11 @@ public class PlayerActiveItemController:MonoBehaviour
     public void TakeItem(Skillinput skillinput, ActiveItemData activeItemData)
     {
         int index = (int)skillinput;
-
-        // 리스트 크기 확장 (필요한 경우만)
         while(activeItemDatas.Count <= index)
         {
             activeItemDatas.Add(null);
             activeItemCoolTime.Add(0);
         }
-
         activeItemDatas[index] = activeItemData;
         activeItemCoolTime[index] = activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID).Cooldown;
         StartCoroutine(CoolDown(index));
@@ -94,27 +84,20 @@ public class PlayerActiveItemController:MonoBehaviour
     public void UseItem(Skillinput skillinput)
     {
         int index = (int)skillinput;
-
-        // 안전한 인덱스 체크
         if(index < 0 || index >= activeItemDatas.Count)
         {
             Debug.LogError($"잘못된 스킬 인덱스: {index}");
             return;
         }
-
         if(activeItemDatas[index] == null)
-        {
             return;
-        }
-        if(activeItemCoolTime[index] >= 0)//쿨 대기
-        {
+        if(activeItemCoolTime[index] >= 0)
             return;
-        }
 
         var used = activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID);
         activeItemCoolTime[index] = used.Cooldown;
         StartCoroutine(CoolDown(index));
-        executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+        executors[used.Type].Execute(used, projectileSpawnPos);
     }
 
     IEnumerator CoolDown(int index)
@@ -125,6 +108,20 @@ public class PlayerActiveItemController:MonoBehaviour
             float tempCoolTime = activeItemCoolTime[index] / activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID).Cooldown;
             OnActiveItemCoolTime[index]?.Invoke(tempCoolTime);
             yield return null;
-        }        
+        }
+    }
+
+    // 테스트용 직접 ID 실행 (단축키)
+    private void UseExecutorById(int id, Transform caster)
+    {
+        var used = activeItemEffectDataTable.GetDataByID(id);
+        if(used != null && executors.TryGetValue(used.Type, out var executor))
+        {
+            executor.Execute(used, caster);
+        }
+        else
+        {
+            Debug.LogWarning($"SkillType {used?.Type}에 대한 Executor가 없습니다.");
+        }
     }
 }

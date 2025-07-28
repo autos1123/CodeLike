@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 /// <summary>
 /// 플레이어 기준 로컬 위치를 기반으로 카메라의 2D/3D 시점을 전환하며,
@@ -40,11 +41,7 @@ public class ViewCameraController:MonoBehaviour
     private Tween moveTween;
     private float currentLookAtY;
 
-    /// <summary>
-    /// 시작 시 현재 ViewMode에 따라 카메라 위치를 초기화하고,
-    /// ViewManager의 시점 전환 이벤트를 구독한다.
-    /// </summary>
-    private void Start()
+    private void Awake()
     {
         cam = GetComponent<Camera>();
         if(cam == null)
@@ -52,7 +49,14 @@ public class ViewCameraController:MonoBehaviour
             Debug.LogError("[ViewCameraController] Camera 컴포넌트를 찾을 수 없습니다.");
             return;
         }
-        
+    }
+
+    /// <summary>
+    /// 시작 시 현재 ViewMode에 따라 카메라 위치를 초기화하고,
+    /// ViewManager의 시점 전환 이벤트를 구독한다.
+    /// </summary>
+    private void Start()
+    {
         // HUDAnimator 참조 초기화 (인스펙터 할당 우선, 없으면 FindObjectOfType으로 찾음)
         if (hudAnimator == null)
         {
@@ -62,13 +66,6 @@ public class ViewCameraController:MonoBehaviour
                 Debug.LogError("[ViewCameraController] 씬에서 HUDAnimator를 찾을 수 없습니다.");
             }
         }
-        
-        previousMode = ViewManager.Instance.CurrentViewMode;
-        ViewManager.Instance.OnViewChanged += ApplyView;
-        GameManager.Instance.onGameStateChange += OnStateChange;
-        
-        // 게임 시작 시 카메라를 초기 ViewMode에 따라 즉시 설정 (애니메이션 없이)
-        SetCameraInstant(previousMode);
     }
     
     /// <summary>
@@ -87,7 +84,21 @@ public class ViewCameraController:MonoBehaviour
         // DOTween 시퀀스가 활성화되어 있다면 Kill (메모리 누수 방지)
         moveTween?.Kill();
     }
-    
+    public void InitCameraForStage(ViewModeType initialMode)
+    {
+        previousMode = initialMode; 
+
+        if (ViewManager.HasInstance)
+        {
+            ViewManager.Instance.OnViewChanged += ApplyView;
+        }
+        if (GameManager.HasInstance)
+        {
+            GameManager.Instance.onGameStateChange += OnStateChange;
+        }
+
+        SetCameraInstant(initialMode);
+    }
     /// <summary>
     /// 주어진 ViewMode(2D 또는 3D)에 따라 카메라의 위치를 전환하고,
     /// 전환 도중에는 매 프레임 플레이어를 바라보도록 한다.
@@ -188,7 +199,7 @@ public class ViewCameraController:MonoBehaviour
     /// 전환 애니메이션 없이 초기 설정에 사용
     /// </summary>
     /// <param name="mode">적용할 시점 모드 (2D 또는 3D)</param>
-    private void SetCameraInstant(ViewModeType mode)
+    public void SetCameraInstant(ViewModeType mode)
     {
         Vector3 localTargetPos = (mode == ViewModeType.View2D) ? pos2D.localPosition : pos3D.localPosition;
         transform.localPosition = localTargetPos;

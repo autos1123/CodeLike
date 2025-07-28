@@ -9,6 +9,8 @@ public enum PoolType
     hpBar,
     SoundSource,
     AoE,
+    Zone,
+    Heal
 }
 public interface IPoolObject
 {

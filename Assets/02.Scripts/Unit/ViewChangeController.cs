@@ -26,7 +26,7 @@ public class ViewChangeController : MonoBehaviour
     {
         _Rigidbody = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
-
+        colliderSizeTmp = col.size;
         OnViewChange(ViewManager.Instance.CurrentViewMode);
     }
 
