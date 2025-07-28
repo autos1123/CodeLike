@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PooledVFX:MonoBehaviour, IPoolObject
 {
-    [SerializeField] private PoolType poolType = PoolType.VFX; // Inspector에서 지정
+    [SerializeField] private PoolType poolType = PoolType.Zone; // Inspector에서 지정
     [SerializeField] private int poolSize = 10; // Inspector에서 지정
 
     public PoolType PoolType => poolType;

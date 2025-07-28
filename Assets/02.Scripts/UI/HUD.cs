@@ -87,18 +87,26 @@ public class HUD:UIBase
         // 0번 슬롯
         if(activeItemController != null && activeItemController.activeItemDatas.Count > 0 && activeItemController.activeItemDatas[0] != null)
         {
+            ItemSlot1.gameObject.SetActive(true);
             ItemSlot1.sprite = Resources.Load<Sprite>(activeItemController.activeItemDatas[0].IconPath);
         }
         else
+        {
+            ItemSlot1.gameObject.SetActive(false);
             ItemSlot1.sprite = null;
+        }
 
         // 1번 슬롯
         if(activeItemController != null && activeItemController.activeItemDatas.Count > 1 && activeItemController.activeItemDatas[1] != null)
         {
+            ItemSlot2.gameObject.SetActive(true);
             ItemSlot2.sprite = Resources.Load<Sprite>(activeItemController.activeItemDatas[1].IconPath);
         }
         else
+        {
+            ItemSlot2.gameObject.SetActive(false);
             ItemSlot2.sprite = null;
+        }
     }
 
 }

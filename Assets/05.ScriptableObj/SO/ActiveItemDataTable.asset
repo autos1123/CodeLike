@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - ID: 4000
-    name: Bow
+    name: Enegy Wave
     rarity: 301
     skillID: 5000
-    description: "\uD65C"
+    description: "\uC5D0\uB108\uC9C0\uD30C"
     IconPath: Sprite/BowIcon
   - ID: 4001
     name: Fire Wind

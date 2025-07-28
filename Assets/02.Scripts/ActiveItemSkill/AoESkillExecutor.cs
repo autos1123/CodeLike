@@ -2,20 +2,10 @@ using UnityEngine;
 
 public class AoESkillExecutor:ISkillExecutor
 {
-    public void Execute(ActiveItemEffectData data, Transform caster, Vector3 targetPoint)
+    public void Execute(ActiveItemEffectData data, Transform caster)
     {
-        var pos = caster.transform.position;
-        var vfx = Object.Instantiate(
-                    Resources.Load<ParticleSystem>(data.VFX),
-                    targetPoint,
-                    Quaternion.identity
-                );
-        vfx.Play();
-
         var obj = PoolManager.Instance.GetObject(PoolType.AoE);
-        obj.GetComponent<AoE>().Init(data);
-        obj.transform.position = caster.position;
-
-        PoolManager.Instance.ReturnObject(obj.GetComponent<IPoolObject>(), 1);
+        obj.transform.position = caster.position + caster.forward * data.Range;
+        obj.GetComponent<AoE>()?.Init(data); 
     }
 }
