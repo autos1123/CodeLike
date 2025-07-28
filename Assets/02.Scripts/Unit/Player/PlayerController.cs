@@ -60,7 +60,7 @@ public class PlayerController:BaseController
             }
             else
             {
-                
+                ViewManager.Instance.SwitchView(ViewModeType.View2D);
             }
         }
         else
