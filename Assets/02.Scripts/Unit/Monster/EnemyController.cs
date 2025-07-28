@@ -40,6 +40,7 @@ public abstract class EnemyController:BaseController
         NavMeshAgent = GetComponent<NavMeshAgent>();
         NavMeshAgent.speed = 0;
         NavMeshAgent.updateRotation = false; // NavMeshAgent가 회전을 처리하지 않도록 설정
+        NavMeshAgent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     protected virtual void Update()
@@ -182,4 +183,5 @@ public abstract class EnemyController:BaseController
         }
     }
 
+    public abstract AnimationClip GetPatternAnimationClip();
 }

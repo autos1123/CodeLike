@@ -14,6 +14,8 @@ public class SoundManager : MonoSingleton<SoundManager>
     //플레이하는 AudioSource
     [SerializeField] SoundSource audioBgm;
 
+    bool isBGMLoad = false;
+    bool isSFXLoad = false;
     public void Start()
     {
         Init();
@@ -45,7 +47,7 @@ public class SoundManager : MonoSingleton<SoundManager>
                     bgmdic[source.name] = source;
                 }
             }
-        );
+        ).Completed += (handle) => { isBGMLoad = true; };
     }
     private void LoadSFXAsync()
     {
@@ -59,7 +61,7 @@ public class SoundManager : MonoSingleton<SoundManager>
                     sfxdic[source.name] = source;
                 }
             }
-        );
+        ).Completed += (handle) => { isSFXLoad = true; };
     }
 
     
@@ -112,4 +114,8 @@ public class SoundManager : MonoSingleton<SoundManager>
         audioBgm = null;
     }
 
+    public bool IsOnLoad()
+    {
+        return isBGMLoad&&isSFXLoad;
+    }
 }

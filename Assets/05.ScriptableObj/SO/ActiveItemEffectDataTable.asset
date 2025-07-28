@@ -20,9 +20,9 @@ MonoBehaviour:
     Range: 3
     Duration: 0
     Cooldown: 6
-    VFX: VFX/EnergyProjectile
+    VFX: "\uC5D0\uB108\uC9C0\uD30C \uBC1C\uC0AC"
     SFX: 
-    Description: "\uC5D0\uB108\uC9C0\uD30C \uBC1C\uC0AC"
+    Description: 
   - SkillID: 5001
     Name: Fire Wind
     Type: 502
@@ -30,9 +30,9 @@ MonoBehaviour:
     Range: 10
     Duration: 0
     Cooldown: 6
-    VFX: VFX/LightningExplosion
+    VFX: "\uD654\uC5FC \uBC94\uC704 \uACF5\uACA9"
     SFX: 
-    Description: "\uD654\uC5FC \uBC94\uC704 \uACF5\uACA9"
+    Description: 
   - SkillID: 5002
     Name: Heal
     Type: 503
@@ -40,9 +40,9 @@ MonoBehaviour:
     Range: 0
     Duration: 0
     Cooldown: 6
-    VFX: VFX/GreenLoot
+    VFX: "\uCCB4\uB825 \uD68C\uBCF5"
     SFX: 
-    Description: "\uCCB4\uB825 \uD68C\uBCF5"
+    Description: 
   - SkillID: 5003
     Name: Fire Zone
     Type: 504
@@ -50,6 +50,6 @@ MonoBehaviour:
     Range: 10
     Duration: 0
     Cooldown: 6
-    VFX: VFX/FireTornado
+    VFX: "\uD654\uC5FC \uC9C0\uC18D \uD53C\uD574"
     SFX: 
-    Description: "\uD654\uC5FC \uC9C0\uC18D \uD53C\uD574"
+    Description: 
