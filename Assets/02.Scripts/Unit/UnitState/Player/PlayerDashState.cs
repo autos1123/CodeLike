@@ -12,10 +12,17 @@ public class PlayerDashState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
+
+        if(!Player.Condition.UseStamina(15f))
+        {
+            Debug.LogWarning("스테미너가 부족함!");
+            stateMachine.ChangeState(stateMachine.IdleState);
+            return;
+        }
+
         StartAnimation(Player.AnimationData.MoveParameterHash);
         elapsedTime = 0f;
         Player._Rigidbody.useGravity = false;
-        // 반드시 velocity를 0으로
         Player._Rigidbody.velocity = Vector3.zero;
 
         Vector2 input = Player.InputHandler.MoveInput;
@@ -36,7 +43,6 @@ public class PlayerDashState:PlayerBaseState
         float dashPower = 15f;
         Player._Rigidbody.AddForce(dir * dashPower, ForceMode.VelocityChange);
     }
-
 
     public override void StateUpdate()
     {
