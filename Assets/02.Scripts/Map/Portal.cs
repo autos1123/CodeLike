@@ -29,6 +29,7 @@ public class Portal:MonoBehaviour,IInteractable
     {
         room = GetComponentInParent<Room>();
         boxCollider = GetComponent<BoxCollider>();
+        particleSystem.Stop();
         boxCollider.enabled = false;
     }
 
@@ -43,6 +44,7 @@ public class Portal:MonoBehaviour,IInteractable
     /// </summary>
     public void OnPotalActivated()
     {
+        particleSystem.Play();
         boxCollider.enabled = true;
     }
 

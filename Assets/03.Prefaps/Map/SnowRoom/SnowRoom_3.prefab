@@ -6534,7 +6534,6 @@ GameObject:
   - component: {fileID: 2727876817177163004}
   - component: {fileID: 16951718707435000}
   - component: {fileID: 7830622041920587263}
-  - component: {fileID: 6490659174493484750}
   m_Layer: 0
   m_Name: SnowRoom_3
   m_TagString: Untagged
@@ -6615,27 +6614,6 @@ MonoBehaviour:
   - {fileID: 1318460842872682441}
   - {fileID: 3757346015557985189}
   - {fileID: 392750736123759825}
---- !u!65 &6490659174493484750
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7343230887016783968}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 100, y: 100, z: 100}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7377627175741625181
 GameObject:
   m_ObjectHideFlags: 0
