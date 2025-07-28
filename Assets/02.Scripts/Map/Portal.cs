@@ -7,6 +7,7 @@ public class Portal:MonoBehaviour,IInteractable
     [SerializeField] private string interactionPrompt = "[F] 문열기";
     [SerializeField] private Transform promptPivot;
     [SerializeField] private Room room;
+    [SerializeField] private ParticleSystem particle;
     [SerializeField] private BoxCollider boxCollider;
     [SerializeField] private Direction exitDirection;
     [SerializeField] private float offsetDistance = 3f;
@@ -29,7 +30,7 @@ public class Portal:MonoBehaviour,IInteractable
     {
         room = GetComponentInParent<Room>();
         boxCollider = GetComponent<BoxCollider>();
-        particleSystem.Stop();
+        particle.Stop();
         boxCollider.enabled = false;
     }
 
@@ -44,7 +45,7 @@ public class Portal:MonoBehaviour,IInteractable
     /// </summary>
     public void OnPotalActivated()
     {
-        particleSystem.Play();
+        particle.Play();
         boxCollider.enabled = true;
     }
 
