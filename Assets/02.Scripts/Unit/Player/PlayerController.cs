@@ -58,6 +58,10 @@ public class PlayerController:BaseController
                 Condition.CurrentConditions[ConditionType.Stamina] = Mathf.Max(0f, Condition.CurrentConditions[ConditionType.Stamina]);
                 Condition.statModifiers[ConditionType.Stamina]?.Invoke();
             }
+            else
+            {
+                
+            }
         }
         else
         {
