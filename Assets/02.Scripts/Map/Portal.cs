@@ -7,7 +7,6 @@ public class Portal:MonoBehaviour,IInteractable
     [SerializeField] private string interactionPrompt = "[F] 문열기";
     [SerializeField] private Transform promptPivot;
     [SerializeField] private Room room;
-    [SerializeField] private MeshRenderer rendererMesh;
     [SerializeField] private BoxCollider boxCollider;
     [SerializeField] private Direction exitDirection;
     [SerializeField] private float offsetDistance = 3f;
@@ -29,9 +28,7 @@ public class Portal:MonoBehaviour,IInteractable
     private void Start()
     {
         room = GetComponentInParent<Room>();
-        rendererMesh = GetComponent<MeshRenderer>();
         boxCollider = GetComponent<BoxCollider>();
-        rendererMesh.enabled = false;
         boxCollider.enabled = false;
     }
 
@@ -46,7 +43,6 @@ public class Portal:MonoBehaviour,IInteractable
     /// </summary>
     public void OnPotalActivated()
     {
-        rendererMesh.enabled = true;
         boxCollider.enabled = true;
     }
 
