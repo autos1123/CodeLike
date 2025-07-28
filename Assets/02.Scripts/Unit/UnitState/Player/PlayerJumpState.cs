@@ -49,22 +49,18 @@ public class PlayerJumpState:PlayerBaseState
             stateMachine.ChangeState(stateMachine.MoveState);
             return;
         }
-        if(Player.IsGrounded)
+        if(Player.InputHandler.SkillXPressed)
         {
-            // 착지 시 Idle 상태로 전환
-            stateMachine.ChangeState(stateMachine.IdleState);
+            stateMachine.SkillState.SetSkill(Skillinput.X);
+            stateMachine.ChangeState(stateMachine.SkillState);
             return;
         }
-
-        // 하강 시작 감지
-        //if(Player._Rigidbody.velocity.y <= 0f)
-        //{
-        //    Debug.Log(">> FallState로 전환 시도!");
-        //    Debug.Log($"stateMachine.FallState is null? {stateMachine.FallState == null}");
-        //    StopAnimation(Player.AnimationData.JumpParameterHash);
-        //    stateMachine.ChangeState(stateMachine.FallState);
-        //    return;
-        //}
+        if(Player.InputHandler.SkillCPressed)
+        {
+            stateMachine.SkillState.SetSkill(Skillinput.C);
+            stateMachine.ChangeState(stateMachine.SkillState);
+            return;
+        }
     }
 
 
