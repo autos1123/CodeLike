@@ -23,6 +23,8 @@ public class PlayerController:BaseController
     [SerializeField] private float attackDuration = 0.5f;
     [SerializeField] private float startTime;
 
+    private float staminaDrainPerSecond = 5f;
+
     public bool IsGrounded { get; private set; }
 
     protected override void Awake()
@@ -47,7 +49,25 @@ public class PlayerController:BaseController
         StateMachine.Update();
         AttackCheck();
         InputHandler.ResetOneTimeInputs();
-        
+
+        if(ViewManager.Instance.CurrentViewMode == ViewModeType.View3D)
+        {
+            if(Condition.CurrentConditions[ConditionType.Stamina] > 0f)
+            {
+                Condition.CurrentConditions[ConditionType.Stamina] -= staminaDrainPerSecond * Time.deltaTime;
+                Condition.CurrentConditions[ConditionType.Stamina] = Mathf.Max(0f, Condition.CurrentConditions[ConditionType.Stamina]);
+                Condition.statModifiers[ConditionType.Stamina]?.Invoke();
+            }
+            else
+            {
+                ViewManager.Instance.SwitchView(ViewModeType.View2D);
+            }
+        }
+        else
+        {
+            // 2D일 때만 리젠!
+            Condition.RegenerateStamina();
+        }
     }
 
     private void FixedUpdate()

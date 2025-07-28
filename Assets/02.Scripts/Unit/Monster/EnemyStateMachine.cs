@@ -8,7 +8,8 @@ public enum EnemyStateType
     Chase,
     Attack,
     Die,
-    Hit
+    Hit,
+    Dash
 }
 
 public class EnemyStateMachine : UnitStateMachine
