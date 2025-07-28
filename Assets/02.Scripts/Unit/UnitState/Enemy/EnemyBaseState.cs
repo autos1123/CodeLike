@@ -84,24 +84,29 @@ public class EnemyBaseState:IUnitState
     protected void Move(Vector3 movementDirection)
     {
         float movementSpeed = GetMovementSpeed();
+        float moveStop = 1;
 
         if(GetDistanceToTarget() < 0.2f)
         {
-            movementSpeed = 0f;
+            moveStop = 0f;
             stateMachine.Enemy.NavMeshAgent.acceleration = 0f; // NavMeshAgent의 가속도를 0으로 설정하여 정지 상태 유지
+        }
+        else
+        {
+            moveStop = 1f;
         }
 
         // 2D인 경우 Rigidbody를 사용하고, 3D인 경우 NavMeshAgent를 사용
         if(viewMode == ViewModeType.View2D)
         {
             stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
-            stateMachine.Enemy._Rigidbody.velocity = movementDirection * movementSpeed;
+            stateMachine.Enemy._Rigidbody.velocity = movementDirection * movementSpeed * moveStop;
         }
         else
         {
             stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
-            stateMachine.Enemy.NavMeshAgent.isStopped = false; 
-            stateMachine.Enemy.NavMeshAgent.speed = movementSpeed;
+            stateMachine.Enemy.NavMeshAgent.isStopped = false;
+            stateMachine.Enemy.NavMeshAgent.speed = movementSpeed * moveStop;
             stateMachine.Enemy.NavMeshAgent.SetDestination(targetPos);
         }
     }

@@ -35,7 +35,23 @@ public class PlayerIdleState:PlayerBaseState
             Debug.Log(">> PlayerIdleState: 점프 입력 감지!");
             stateMachine.ChangeState(stateMachine.JumpState);
         }
-            
+        if(Player.InputHandler.AttackPressed)
+        {
+            stateMachine.ChangeState(stateMachine.Attack1State);
+        }
+        if(Player.InputHandler.SkillXPressed)
+        {
+            stateMachine.SkillState.SetSkill(Skillinput.X);
+            stateMachine.ChangeState(stateMachine.SkillState);
+            return;
+        }
+        if(Player.InputHandler.SkillCPressed)
+        {
+            stateMachine.SkillState.SetSkill(Skillinput.C);
+            stateMachine.ChangeState(stateMachine.SkillState);
+            return;
+        }
+
     }
 
     public override void StatePhysicsUpdate() 
