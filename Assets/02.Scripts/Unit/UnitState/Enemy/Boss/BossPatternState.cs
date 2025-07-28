@@ -33,7 +33,7 @@ public class BossPatternState:EnemyBaseState
     public override void StateExit()
     {
         base.StateExit();
-
+        StopAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
     }
 
     public override void StateUpdate()
