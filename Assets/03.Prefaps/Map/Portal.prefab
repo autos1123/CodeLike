@@ -19494,7 +19494,7 @@ Transform:
   m_GameObject: {fileID: 6419117428102612277}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.11, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24430,7 +24430,7 @@ MonoBehaviour:
   interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
   promptPivot: {fileID: 8081424682180415206}
   room: {fileID: 0}
-  rendererMesh: {fileID: 0}
+  particleSystem: {fileID: 5635067380931651422}
   boxCollider: {fileID: 0}
   exitDirection: 0
   offsetDistance: 3
