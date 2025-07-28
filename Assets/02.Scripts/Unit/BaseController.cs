@@ -72,7 +72,7 @@ public abstract class BaseController:MonoBehaviour
 
     protected virtual IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => GameManager.HasInstance && ViewManager.HasInstance && PoolManager.Instance.IsInitialized&&UIManager.Instance.IsUILoaded());
+        yield return new WaitUntil(() => GameManager.HasInstance && ViewManager.HasInstance && PoolManager.Instance.IsInitialized&&UIManager.Instance.IsUILoaded()&&SoundManager.Instance.IsOnLoad());
         Initialize();
     }
 
