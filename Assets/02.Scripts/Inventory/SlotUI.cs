@@ -17,8 +17,8 @@ public class SlotUI : MonoBehaviour
     public SlotType slotType;
     
     public Image iconImage;
-    [CanBeNull] public TextMeshProUGUI EquipText;
     public Image backgroundImage;
+    public Image equipFrame;
     public InventoryUI inventoryUI { get; private set; }
     public InventoryItemSlot InventorySlot { get; private set; }
     public ActiveItemSlot ActiveSlot { get; private set; }
@@ -77,9 +77,9 @@ public class SlotUI : MonoBehaviour
             iconImage.sprite = null;
             iconImage.enabled = false;
 
-            if (slotType == SlotType.Equip && EquipText != null)
+            if (slotType == SlotType.Equip && equipFrame != null)
             {
-                EquipText.gameObject.SetActive(false);
+                equipFrame.gameObject.SetActive(false);
             }
 
             return;
@@ -87,10 +87,10 @@ public class SlotUI : MonoBehaviour
 
         iconImage.sprite = Resources.Load<Sprite>(InventorySlot.InventoryItem.IconPath);
         iconImage.enabled = true;
-        //장비 텍스트 활성화
-        if (slotType == SlotType.Equip && EquipText != null)
+        //장비 프레임 활성화
+        if (slotType == SlotType.Equip && equipFrame != null)
         {
-            EquipText.gameObject.SetActive(true);
+            equipFrame.gameObject.SetActive(true);
         }
     }
     
