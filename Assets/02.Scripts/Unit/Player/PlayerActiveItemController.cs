@@ -81,24 +81,29 @@ public class PlayerActiveItemController:MonoBehaviour
         StartCoroutine(CoolDown(index));
     }
 
-    public void UseItem(Skillinput skillinput)
+    public bool UseItem(Skillinput skillinput)
     {
         int index = (int)skillinput;
         if(index < 0 || index >= activeItemDatas.Count)
         {
             Debug.LogError($"잘못된 스킬 인덱스: {index}");
-            return;
+            return false;
         }
         if(activeItemDatas[index] == null)
-            return;
-        if(activeItemCoolTime[index] >= 0)
-            return;
+            return false;
+        if(activeItemCoolTime[index] > 0) // ★ 쿨타임 체크는 '>'가 더 일반적
+            return false;
 
         var used = activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID);
         activeItemCoolTime[index] = used.Cooldown;
         StartCoroutine(CoolDown(index));
         executors[used.Type].Execute(used, projectileSpawnPos);
+
+        return true;
     }
+
+
+
 
     IEnumerator CoolDown(int index)
     {

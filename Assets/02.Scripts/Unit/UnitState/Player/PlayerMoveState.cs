@@ -36,6 +36,22 @@ public class PlayerMoveState:PlayerBaseState
         {
             stateMachine.ChangeState(stateMachine.DashState);
         }
+        if(Player.InputHandler.AttackPressed)
+        {
+            stateMachine.ChangeState(stateMachine.Attack1State);
+        }
+        if(Player.InputHandler.SkillXPressed)
+        {
+            stateMachine.SkillState.SetSkill(Skillinput.X);
+            stateMachine.ChangeState(stateMachine.SkillState);
+            return;
+        }
+        if(Player.InputHandler.SkillCPressed)
+        {
+            stateMachine.SkillState.SetSkill(Skillinput.C);
+            stateMachine.ChangeState(stateMachine.SkillState);
+            return;
+        }
 
         if(move != Vector2.zero)
         {
