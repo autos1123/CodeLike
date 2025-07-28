@@ -13,21 +13,26 @@ public class PlayerSkillState:PlayerBaseState
         usingSkill = skill;
     }
 
+    public void UseSkill()
+    {
+        Player.ActiveItemController.UseItem(usingSkill);
+    }
+
     public override void StateEnter()
     {
         base.StateEnter();
-        bool success = Player.ActiveItemController.UseItem(usingSkill);
+        bool success = Player.ActiveItemController.CanUseSkill(usingSkill);
         if(!success)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
-
+        Player.OnSkillInput += UseSkill;
         Debug.LogWarning("PlayerSkillState Entered with skill: " + usingSkill);
         StartAnimation(Player.AnimationData.SkillParameterHash);
-        Player.ActiveItemController.UseItem(usingSkill);
         timer = 0f;
     }
+
 
     public override void StateUpdate()
     {
@@ -47,6 +52,7 @@ public class PlayerSkillState:PlayerBaseState
     public override void StateExit()
     {
         base.StateExit();
+        Player.OnSkillInput -= UseSkill;
         StopAnimation(Player.AnimationData.SkillParameterHash);
         // 필요시 상태 초기화, 입력 해제 등
     }

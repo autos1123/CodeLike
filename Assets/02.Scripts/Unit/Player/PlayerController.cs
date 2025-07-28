@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 /// 플레이어 이동, 공격, 점프, 데미지 처리 및 FSM 관리
@@ -21,6 +22,8 @@ public class PlayerController:BaseController
     [SerializeField] private float groundRayOffset = 0.1f;
 
     private float staminaDrainPerSecond = 5f;
+
+    public Action OnSkillInput;
 
     public bool IsGrounded { get; private set; }
 
