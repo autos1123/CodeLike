@@ -15,6 +15,7 @@ public class MenuSelectionMarker : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("[MenuSelectionMarker] Awake 호출됨");
         foreach (GameObject buttonObject in menuButtons)
         {
             AddEventTriggersToButton(buttonObject);

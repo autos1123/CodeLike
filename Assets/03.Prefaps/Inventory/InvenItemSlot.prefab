@@ -201,7 +201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1011238365, guid: 3a0bb2692c8b9f4479a18211f65e34a6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -245,8 +245,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0, y: -0.5387}
+  m_SizeDelta: {x: -21.5499, y: -24.0639}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1393367330249616657
 CanvasRenderer:
@@ -317,7 +317,7 @@ RectTransform:
   m_GameObject: {fileID: 5800349593635815395}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3595037758335080188}
@@ -388,6 +388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf88ff26316072448b233cec392d9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipManager: {fileID: 0}
+  dragManager: {fileID: 0}
 --- !u!114 &1236391591053063456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,3 +402,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc5218fd7a080a4e8fc9cb4063f465a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipManager: {fileID: 0}

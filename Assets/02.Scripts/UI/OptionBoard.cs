@@ -105,16 +105,17 @@ public class OptionBoard : UIBase
             ApplySoundSetting(sfxVolumeDataKey, sfxMuteDataKey); // 사운드 설정 적용
         });
 
-        exitToGameButton.onClick.AddListener(OnClickExitToGameButton); // 게임으로 돌아가는 버튼 클릭 이벤트 등록
-        exitToLobbyButton.onClick.AddListener(OnClickExitToLobbyButton); // 로비로 돌아가는 버튼 클릭 이벤트 등록
+        if(exitToGameButton!=null) exitToGameButton.onClick.AddListener(OnClickExitToGameButton); // 게임으로 돌아가는 버튼 클릭 이벤트 등록
+        if(exitToLobbyButton != null) exitToLobbyButton.onClick.AddListener(OnClickExitToLobbyButton); // 로비로 돌아가는 버튼 클릭 이벤트 등록
 
 
         // 로비로 돌아가는 버튼은 게임씬에서만 활성화
-        if(SceneManager.GetActiveScene().name != gameSceneName)
+        if(SceneManager.GetActiveScene().name != gameSceneName && exitToLobbyButton != null)
         {
             exitToLobbyButton.gameObject.SetActive(true);
         }
     }
+
 
     public override void Close()
     {

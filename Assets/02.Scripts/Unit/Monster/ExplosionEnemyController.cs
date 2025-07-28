@@ -79,4 +79,9 @@ public class ExplosionEnemyController:EnemyController
 
         return playerDistanceSqr <= range * range;
     }
+
+    public override AnimationClip GetPatternAnimationClip()
+    {
+        throw new System.NotImplementedException();
+    }
 }

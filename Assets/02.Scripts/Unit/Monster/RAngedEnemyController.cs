@@ -45,4 +45,9 @@ public class RangedEnemyController : EnemyController
 
         StateMachine.StartStateMachine(EnemyStateType.Idle);
     }
+
+    public override AnimationClip GetPatternAnimationClip()
+    {
+        throw new System.NotImplementedException();
+    }
 }

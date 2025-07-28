@@ -167,6 +167,37 @@ public class BaseCondition
         ConditionModifier.Clear();
     }
 
+    public bool UseStamina(float amount)
+    {
+        if(!CurrentConditions.ContainsKey(ConditionType.Stamina))
+        {
+            Debug.LogError("STAMINA ConditionType이 존재하지 않습니다.");
+            return false;
+        }
+
+        float cur = CurrentConditions[ConditionType.Stamina];
+
+        if(cur < amount)
+            return false; // 부족
+
+        CurrentConditions[ConditionType.Stamina] -= amount;
+        statModifiers[ConditionType.Stamina]?.Invoke(); // 스테미너 변경 이벤트
+
+        return true;
+    }
+
+    public void RegenerateStamina()
+    {
+        float regen = GetTotalCurrentValue(ConditionType.StaminaRegen);
+        if(regen > 0)
+        {
+            CurrentConditions[ConditionType.Stamina] += regen * Time.deltaTime;
+            CurrentConditions[ConditionType.Stamina] = Mathf.Min(CurrentConditions[ConditionType.Stamina], GetTotalMaxValue(ConditionType.Stamina));
+            statModifiers[ConditionType.Stamina]?.Invoke();
+        }
+    }
+
+
     public bool GetDamaged(float damage)
     {
         if(!CurrentConditions.ContainsKey(ConditionType.HP))
