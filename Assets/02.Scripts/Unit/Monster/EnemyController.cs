@@ -44,6 +44,7 @@ public abstract class EnemyController:BaseController
         NavMeshAgent = GetComponent<NavMeshAgent>();
         NavMeshAgent.speed = 0;
         NavMeshAgent.updateRotation = false; // NavMeshAgent가 회전을 처리하지 않도록 설정
+        NavMeshAgent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     protected virtual void Update()
@@ -185,6 +186,8 @@ public abstract class EnemyController:BaseController
             NavMeshAgent.speed = agentSpeedTmp; // NavMeshAgent 속도 복원
         }
     }
+
+    public abstract AnimationClip GetPatternAnimationClip();
 
     /// <summary>
     /// 운명 변경이벤트 발생시 실행할 함수

@@ -23,6 +23,11 @@ public class MeleeEnemyController : EnemyController
         }
     }
 
+    public override AnimationClip GetPatternAnimationClip()
+    {
+        throw new System.NotImplementedException();
+    }
+
     protected override void SetEnemyState()
     {
         StateMachine.AddState(EnemyStateType.Idle, new EnemyIdleState(StateMachine));
