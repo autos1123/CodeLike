@@ -47,6 +47,12 @@ public class TakePassiveItem : UIBase
         playerInventory.AddToInventory(currentItem);
         if (sourceItemBox != null)
         {
+            InteractionController interactionController = GameManager.Instance.Player.GetComponent<InteractionController>();
+            if (interactionController != null)
+            {
+                interactionController.SetInteractTextParentToPlayer();
+            }
+            sourceItemBox.gameObject.SetActive(false);
             Destroy(sourceItemBox.gameObject); 
         }
         Close();

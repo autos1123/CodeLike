@@ -54,6 +54,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - BGM
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 089f4c3299a3e804f9350d7d4533e412
+    m_Address: Assets/TextMesh Pro/Fonts/NEXONLv1GothicRegular SDF.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 74cbcf65116d0754e8e3dd9aafe2289e
     m_Address: Assets/99.Externals/2D Pixel Quest Vol.3 - The UI-GUI/Sprites/Panels/Panels/F_UI_Panel_B.png
     m_ReadOnly: 0
@@ -161,6 +166,16 @@ MonoBehaviour:
   - m_GUID: 3a0bb2692c8b9f4479a18211f65e34a6
     m_Address: Assets/99.Externals/2D Pixel Quest Vol.3 - The UI-GUI/Sprites/Panels/Slots/Slots
       Tilemap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 596523f8d8661a3479b84dedcb77e63a
+    m_Address: Assets/99.Externals/2D Pixel Quest Vol.3 - The UI-GUI/Sprites/Panels/Panels/F_UI_Panel_M.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac94ce48c56e5d548bdf447481e5835b
+    m_Address: Assets/99.Externals/2D Pixel Quest Vol.3 - The UI-GUI/Sprites/Panels/Frames/F_U_Frame23.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

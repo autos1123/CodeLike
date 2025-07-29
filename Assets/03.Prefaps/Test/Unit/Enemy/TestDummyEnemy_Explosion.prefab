@@ -826,10 +826,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1002
-  fullSize: 20
   visualTransform: {fileID: 3280770444801531554}
   visualRotateSpeed: 10
-  room: {fileID: 0}
   stayTime: 1
 --- !u!1 &2772843672967747882
 GameObject:
