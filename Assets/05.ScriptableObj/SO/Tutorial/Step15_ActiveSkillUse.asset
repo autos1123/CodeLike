@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc081b96190591a4b8835149c4f53a26, type: 3}
-  m_Name: Step10_inventoryOpen
+  m_Name: Step15_ActiveSkillUse
   m_EditorClassIdentifier: 
   QuestDescription: 
-  waitMessage: "I\uD0A4\uB97C \uB20C\uB7EC \uC778\uBCA4\uD1A0\uB9AC\uB97C \uC5F4\uC5B4\uBCF4\uC138\uC694"
-  eventToWait: 7
+  waitMessage: "X or C \uD0A4\uB97C \uB20C\uB7EC \n\uCCB4\uB825\uBC14\uC606 \uC2AC\uB86F\uC5D0
+    \uD45C\uC2DC\uB41C \uC561\uD2F0\uBE0C \uC544\uC774\uD15C \uC2A4\uD0AC\uC744 \uC368\uBCF4\uC138\uC694."
+  eventToWait: 6

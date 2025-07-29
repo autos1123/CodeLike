@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aedcb122d7e2cf41b972bd36323f4a0, type: 3}
-  m_Name: Step13_ViewChange
+  m_Script: {fileID: 11500000, guid: 838d665dcf5d99d4b9c4b4a6edb07e86, type: 3}
+  m_Name: Step16_GotoPoint6
   m_EditorClassIdentifier: 
   QuestDescription: 
-  viewChangeHintMessage: "V\uD0A4\uB97C \uB20C\uB7EC \uC2DC\uC810 \uBCC0\uD658\uC744
-    \uD574\uBCF4\uC138\uC694"
+  stepStartHintMessage: "\uD45C\uC2DC\uD55C \uC704\uCE58\uB85C \uC774\uB3D9\uD558\uC138\uC694"
+  targetTriggerID: 6

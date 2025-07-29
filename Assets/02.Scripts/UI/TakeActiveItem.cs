@@ -68,6 +68,8 @@ public class TakeActiveItem:UIBase
 
         acquiredItemImage.sprite = GetIcon(acquiredItem);
         acquiredItemDescription.text = GetDescriptionByID(acquiredItem?.ID ?? -1);
+        
+        GameEvents.TriggerActiveItemUIOpened();
     }
 
     private void OnSlotSelected(int slotIndex)

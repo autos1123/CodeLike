@@ -60,10 +60,9 @@ public class TutorialDummy : MonoBehaviour, IDamagable
     private void Die()
     {
         Vector3 dropPosition_1 = transform.position + Vector3.up * 0.5f;
-        Vector3 dropPosition_2 = transform.position + new Vector3(2,0,0) + Vector3.up * 0.5f;
-
+        
         Instantiate(dropPassiveItemBox, dropPosition_1, Quaternion.identity);
-        Instantiate(dropActiveItemBox, dropPosition_2, Quaternion.identity);
+        
         gameObject.SetActive(false);
         GameEvents.TriggerMonsterKilled();
     }

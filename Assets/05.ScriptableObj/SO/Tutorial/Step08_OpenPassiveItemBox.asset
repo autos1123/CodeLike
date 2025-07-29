@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc081b96190591a4b8835149c4f53a26, type: 3}
-  m_Name: Step10_inventoryOpen
+  m_Name: Step08_OpenPassiveItemBox
   m_EditorClassIdentifier: 
   QuestDescription: 
-  waitMessage: "I\uD0A4\uB97C \uB20C\uB7EC \uC778\uBCA4\uD1A0\uB9AC\uB97C \uC5F4\uC5B4\uBCF4\uC138\uC694"
-  eventToWait: 7
+  waitMessage: "F\uD0A4\uB97C \uB20C\uB7EC \uC544\uC774\uD15C \uC0C1\uC790\uB97C
+    \uC5F4\uC5B4\uBCF4\uC138\uC694\n\uBAA8\uB4E0 \uC544\uC774\uD15C\uC0C1\uC790\uB294
+    \uB79C\uB364\uC73C\uB85C \uC544\uC774\uD15C\uC744 \uAC00\uC9C0\uACE0\uC788\uC2B5\uB2C8\uB2E4"
+  eventToWait: 2

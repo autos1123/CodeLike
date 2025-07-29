@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc081b96190591a4b8835149c4f53a26, type: 3}
-  m_Name: Step10_inventoryOpen
+  m_Name: Step14_TakeActiveItem
   m_EditorClassIdentifier: 
   QuestDescription: 
-  waitMessage: "I\uD0A4\uB97C \uB20C\uB7EC \uC778\uBCA4\uD1A0\uB9AC\uB97C \uC5F4\uC5B4\uBCF4\uC138\uC694"
-  eventToWait: 7
+  waitMessage: "\uAC00\uC6B4\uB370 \uB450 \uC2AC\uB86F\uC911 \uD558\uB098\uB97C \uB204\uB978\uD6C4
+    \n\uC5BB\uAE30 \uBC84\uD2BC\uC744 \uB20C\uB7EC \uC561\uD2F0\uBE0C\uC544\uC774\uD15C\uC744
+    \uC5BB\uC5B4\uBCF4\uC138\uC694"
+  eventToWait: 5

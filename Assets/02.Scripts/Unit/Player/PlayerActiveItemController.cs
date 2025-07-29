@@ -87,6 +87,7 @@ public class PlayerActiveItemController:MonoBehaviour
         
         var used = activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID);
         activeItemCoolTime[index] = used.Cooldown;
+        GameEvents.TriggerActiveSkillUse();
         StartCoroutine(CoolDown(index));
         executors[used.Type].Execute(used, projectileSpawnPos);
     }

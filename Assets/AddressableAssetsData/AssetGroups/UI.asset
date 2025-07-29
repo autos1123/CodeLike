@@ -72,14 +72,14 @@ MonoBehaviour:
     m_SerializedLabels:
     - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0916ec83b518fca43a808d8d4d33d831
-    m_Address: Assets/03.Prefaps/UI/ContextualUIHInt.prefab
+  - m_GUID: 9c57b4596c66ff34c94640159fc0a031
+    m_Address: Assets/03.Prefaps/UI/TutorialTipUI.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - TutorialUI
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9c57b4596c66ff34c94640159fc0a031
-    m_Address: Assets/03.Prefaps/UI/TutorialTipUI.prefab
+  - m_GUID: 932dc52e2c9cc8047be77be31c087bcc
+    m_Address: Assets/03.Prefaps/UI/ContextualUIHint2.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - TutorialUI
