@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PlayerAnimationEventSender:AnimationEventSender<PlayerController>
 {
     public override void SendEvent()
@@ -7,6 +9,7 @@ public class PlayerAnimationEventSender:AnimationEventSender<PlayerController>
     }
     public void SendSkillEvent()
     {
+        Debug.Log("SendSkillEvent 호출됨");
         originObject.OnSkillInput?.Invoke();
     }
 }

@@ -69,6 +69,11 @@ public class InteractionController:MonoBehaviour
 
     private void InteractableCheck()
     {
+        if (interactableObj != null && (interactableObj as MonoBehaviour) == null)
+        {
+            interactableObj = null;
+        }
+        
         if(interactTextTr == null) return; // 텍스트 Transform이 없으면 더 이상 진행하지 않음
         // 상호작용 오브젝트 탐색
         Collider[] hitColliders;

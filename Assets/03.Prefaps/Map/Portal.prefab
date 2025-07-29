@@ -24430,7 +24430,7 @@ MonoBehaviour:
   interactionPrompt: "[F] \uBB38\uC5F4\uAE30"
   promptPivot: {fileID: 8081424682180415206}
   room: {fileID: 0}
-  particleSystem: {fileID: 5635067380931651422}
+  particle: {fileID: 5635067380931651422}
   boxCollider: {fileID: 0}
   exitDirection: 0
   offsetDistance: 3
