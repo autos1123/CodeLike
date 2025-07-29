@@ -88,7 +88,7 @@ public class PlayerController:BaseController
         Vector3 boxCenter = center + Vector3.down * (extents.y + groundRayOffset * 0.5f);
 
         // 박스 크기 (살짝 얇게 Y축 조정)
-        Vector3 boxHalfExtents = new Vector3(extents.x, groundRayOffset * 0.5f, extents.z);
+        Vector3 boxHalfExtents = new Vector3(extents.x - 0.1f, groundRayOffset * 0.5f, extents.z - 0.1f);
 
         bool isGrounded = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, groundLayer).Length > 0;
 

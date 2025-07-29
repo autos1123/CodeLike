@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 4817326668214601560}
   - component: {fileID: 5717666181321749350}
   - component: {fileID: 5357778375023383328}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Forward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3544,7 +3544,7 @@ GameObject:
   - component: {fileID: 8004597837834777227}
   - component: {fileID: 7985024973579032297}
   - component: {fileID: 8025070634353517683}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_TreePine_03_Snow (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3625,7 +3625,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5360907216447911596}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3647,7 +3647,7 @@ Transform:
   m_Children:
   - {fileID: 2875197685579940489}
   - {fileID: 8004597837834777227}
-  m_Father: {fileID: 510271335117676654}
+  m_Father: {fileID: 8344576325680834663}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &561739855511938160
 GameObject:
@@ -3718,7 +3718,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8333288622180914138}
-  - {fileID: 5941765811609208337}
+  - {fileID: 5360907216447911596}
   - {fileID: 4461120500310737441}
   m_Father: {fileID: 1657896657805482283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16799,7 +16799,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5941765811609208337}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16814,13 +16814,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4229304728133275574}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6884065778514310224}
-  m_Father: {fileID: 8344576325680834663}
+  m_Father: {fileID: 510271335117676654}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4391288441224879290
 GameObject:
@@ -17239,7 +17239,7 @@ GameObject:
   - component: {fileID: 2875197685579940489}
   - component: {fileID: 1068549225088799786}
   - component: {fileID: 5408991178771155952}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Env_TreePine_03_Snow (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22232,7 +22232,7 @@ GameObject:
   - component: {fileID: 6884065778514310224}
   - component: {fileID: 6884065778517179512}
   - component: {fileID: 6884065778516528364}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: SM_Env_TreePine_03_Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33278,8 +33278,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4506549466159529715}
-  - {fileID: 5360907216447911596}
   - {fileID: 3040452527358158955}
+  - {fileID: 5941765811609208337}
   m_Father: {fileID: 1657896657805482283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8002299724183004084
