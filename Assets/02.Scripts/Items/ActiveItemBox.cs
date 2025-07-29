@@ -9,7 +9,8 @@ public class ActiveItemBox:MonoBehaviour, IInteractable
 
     // 드랍 아이템 후보 ID 배열 (필요시 인스펙터에서 추가 가능)
     [SerializeField] private int[] possibleItemIds = { 4000, 4001, 4002, 4003 };
-
+    // 한번 뽑히면 저장되는 아이템 ID 값
+    private int? fixedPickedId; 
     public string InteractionPrompt => interactionPrompt;
     public Transform PromptPivot => promptPivot;
 
@@ -29,14 +30,19 @@ public class ActiveItemBox:MonoBehaviour, IInteractable
             return;
         }
 
-        // 2. 랜덤 아이템 선택
+        // 2. 랜덤 아이템 선택 (한번상호작용하면 고정)
         if(possibleItemIds == null || possibleItemIds.Length == 0)
         {
             Debug.LogError("[ActiveItemBox] possibleItemIds 배열이 비어 있습니다!");
             return;
         }
-        int randomIndex = UnityEngine.Random.Range(0, possibleItemIds.Length);
-        int pickedId = possibleItemIds[randomIndex];
+
+        if(fixedPickedId == null) // 아직 아이템이 선택되지 않았다면
+        {
+            int randomIndex = Random.Range(0, possibleItemIds.Length);
+            fixedPickedId = possibleItemIds[randomIndex];
+        }
+        int pickedId = fixedPickedId.Value;
         var acquiredItem = TableManager.Instance.GetTable<ActiveItemDataTable>().GetDataByID(pickedId);
         if(acquiredItem == null)
         {
@@ -67,8 +73,13 @@ public class ActiveItemBox:MonoBehaviour, IInteractable
             return;
         }
 
-        takeActiveItemUI.Open(activeItemSlots, acquiredItem, inventory);
+        takeActiveItemUI.Open(activeItemSlots, acquiredItem, inventory,this);
 
-        // ※ 필요에 따라 박스를 파괴하거나, 재사용금지 처리 등 추가 가능
+        // ※ 필요에 따라 박스를 파괴하거나, 재사용금지 처리 등 추가 가능 -> TakeActiveItem.cs에서 처리햇읍니다 -lym
+        InteractionController interactionController = interactor.GetComponent<InteractionController>();
+        if (interactionController != null)
+        {
+            interactionController.SetInteractTextParentToPlayer(); // UI 숨기기 및 부모 리셋
+        }
     }
 }
