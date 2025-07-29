@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1035,6 +1035,10 @@ PrefabInstance:
     - target: {fileID: 1717745442147195869, guid: 640161abf0c33f648ace071e6273fb13, type: 3}
       propertyPath: m_Name
       value: DragManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136907679294195489, guid: 640161abf0c33f648ace071e6273fb13, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 9222437499481611982, guid: 640161abf0c33f648ace071e6273fb13, type: 3}
       propertyPath: m_LocalPosition.x
