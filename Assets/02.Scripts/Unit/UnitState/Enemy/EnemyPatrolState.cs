@@ -62,7 +62,7 @@ public class EnemyPatrolState : EnemyMoveState
         
         // 2D 뷰 모드에서 이동 속도가 1 이하인 경우
         // 최소 순찰 시간 이후에 도착한 것으로 간주
-        if(viewMode == ViewModeType.View2D && stateMachine.Enemy._Rigidbody.velocity.magnitude < 1f && Time.time - startTime > minimumPatrolTime)
+        if(viewMode == ViewModeType.View2D && stateMachine.Enemy._Rigidbody.velocity.magnitude < 0.5f && Time.time - startTime > minimumPatrolTime)
         {
             return true;
         }
