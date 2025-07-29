@@ -13,15 +13,32 @@ public class Status : MonoBehaviour
 
     private void OnEnable()
     {
-        if(text == null) text = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        if (text == null)
+            text = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
-        GameManager.Instance.Player.GetComponent<PlayerController>().Condition.statModifiers[_conditionType] += onChangeText;
+        var gameManager = GameManager.Instance;
+        if (gameManager == null || gameManager.Player == null) return;
+
+        var playerController = gameManager.Player.GetComponent<PlayerController>();
+        if (playerController == null || playerController.Condition == null) return;
+
+        if (!playerController.Condition.statModifiers.ContainsKey(_conditionType)) return;
+
+        playerController.Condition.statModifiers[_conditionType] += onChangeText;
         onChangeText();
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.Player.GetComponent<PlayerController>().Condition.statModifiers[_conditionType] -= onChangeText;
+        var gameManager = GameManager.Instance;
+        if (gameManager == null || gameManager.Player == null) return;
+
+        var playerController = gameManager.Player.GetComponent<PlayerController>();
+        if (playerController == null || playerController.Condition == null) return;
+
+        if (!playerController.Condition.statModifiers.ContainsKey(_conditionType)) return;
+
+        playerController.Condition.statModifiers[_conditionType] -= onChangeText;
     }
 
     void onChangeText()
