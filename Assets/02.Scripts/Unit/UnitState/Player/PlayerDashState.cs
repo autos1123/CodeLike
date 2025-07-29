@@ -20,7 +20,7 @@ public class PlayerDashState:PlayerBaseState
             return;
         }
 
-        StartAnimation(Player.AnimationData.MoveParameterHash);
+        StartAnimation(Player.AnimationData.DashParameterHash);
         elapsedTime = 0f;
         Player._Rigidbody.useGravity = false;
         Player._Rigidbody.velocity = Vector3.zero;
@@ -28,20 +28,41 @@ public class PlayerDashState:PlayerBaseState
         Vector2 input = Player.InputHandler.MoveInput;
         Vector3 dir;
         if(viewMode == ViewModeType.View2D)
+        {
             dir = new Vector3(input.x, 0, 0).normalized;
+        }
         else
         {
             var f = Camera.main.transform.forward; f.y = 0; f.Normalize();
             var r = Camera.main.transform.right; r.y = 0; r.Normalize();
             dir = (r * input.x + f * input.y).normalized;
         }
-        if(dir == Vector3.zero)
-            dir = Player.VisualTransform.forward;
 
-        Debug.Log("DASH INPUT: " + input + " DIR: " + dir);
+        if(dir == Vector3.zero)
+        {
+            dir = Player.VisualTransform.forward;
+        }
 
         float dashPower = 15f;
         Player._Rigidbody.AddForce(dir * dashPower, ForceMode.VelocityChange);
+
+        if(Player.DashVFXPrefab != null)
+        {
+            Vector3 spawnPosition = Player.transform.position 
+                + Vector3.up
+                - dir * 0.8f;
+            Quaternion rotation = Quaternion.LookRotation(dir); 
+
+            GameObject vfx = GameObject.Instantiate(
+                Player.DashVFXPrefab,
+                spawnPosition,
+                rotation
+            );
+
+            GameObject.Destroy(vfx, 2f); // 자동 제거
+        }
+
+        Debug.Log("DASH INPUT: " + input + " DIR: " + dir);
     }
 
     public override void StateUpdate()

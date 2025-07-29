@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "NewTutorialTriggerStep", menuName = "Tutorial/Trigger Step")]
 public class TutorialTriggerStep : TutorialStep
@@ -46,8 +47,8 @@ public class TutorialTriggerStep : TutorialStep
         if (targetTrigger != null && _cachedTriggerCallback != null)
         {
             targetTrigger.OnTriggerCompletedByPlayer -= _cachedTriggerCallback;
+            targetTrigger.gameObject.SetActive(false);
         }
-    
-        targetTrigger.gameObject.SetActive(false);
+        _cachedTriggerCallback = null;
     }
 }

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18c048c43037f714d8dbdc9dcbe6ebd5, type: 3}
-  m_Name: Step08_OpenItemBox
+  m_Script: {fileID: 11500000, guid: cc081b96190591a4b8835149c4f53a26, type: 3}
+  m_Name: Step13_OpenActiveItemBox
   m_EditorClassIdentifier: 
   QuestDescription: 
-  uiOpenHintMessage: "F\uD0A4\uB97C \uB20C\uB7EC \uC544\uC774\uD15C \uC0C1\uC790\uB97C
-    \uC5F4\uC5B4\uBCF4\uC138\uC694"
+  waitMessage: "\uBCF4\uBB3C\uC0C1\uC790\uB97C \uC5F4\uC5B4\uBCF4\uC138\uC694"
+  eventToWait: 4

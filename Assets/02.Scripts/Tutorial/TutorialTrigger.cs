@@ -13,7 +13,10 @@ public class TutorialTrigger : MonoBehaviour
     public bool activateOnce = true; 
     private bool hasActivated = false; 
     private TutorialStep ownerStep;
-    
+    [Header("조건만족할때 true되는 오브젝트들")]
+    public GameObject monster_1;
+    public GameObject monster_2;
+    public GameObject activeItemBox;
     public event Action<TutorialTrigger> OnTriggerCompletedByPlayer; 
     
     [Header("이벤트")]
@@ -39,6 +42,14 @@ public class TutorialTrigger : MonoBehaviour
         {
             onTriggerEnterEvent?.Invoke();
             hasActivated = true;
+            if (triggerID == "4" && monster_1 != null)
+            {
+                monster_1.SetActive(true);
+            }
+            if (triggerID == "5" && activeItemBox != null)
+            {
+                activeItemBox.SetActive(true);
+            }
             CompleteTrigger();
         }
     }

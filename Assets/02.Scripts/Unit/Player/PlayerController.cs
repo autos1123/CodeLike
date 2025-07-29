@@ -21,9 +21,19 @@ public class PlayerController:BaseController
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRayOffset = 0.1f;
 
+    [Header("Dash VFX")]
+    public GameObject DashVFXPrefab;
+    [Header("TrailRenderer")]
+    public TrailEffectController LeftArmTrailController;
+    public TrailEffectController RightArmTrailController;
+
+
     private float staminaDrainPerSecond = 5f;
 
     public Action OnSkillInput;
+
+
+
 
     public bool IsGrounded { get; private set; }
 
