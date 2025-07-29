@@ -163,9 +163,15 @@ public class OptionBoard : UIBase
     // Dropdown UI 값 변경 이벤트
     private void ResolutionDropDownOptionChange(int x)
     {
+        int screenModeIdx = (int)FullScreenMode.Windowed;
+        if(PlayerPrefs.HasKey(screenModeDataKey))
+        {
+            screenModeIdx = PlayerPrefs.GetInt(screenModeDataKey);
+        }
+
         Screen.SetResolution(resolutions[x].width,
             resolutions[x].height,
-            GetScreenModeToIndex(PlayerPrefs.GetInt(screenModeDataKey)),
+            GetScreenModeToIndex(screenModeIdx),
             resolutions[x].refreshRateRatio);
 
         PlayerPrefs.SetInt(resolutionDataKey, x);
