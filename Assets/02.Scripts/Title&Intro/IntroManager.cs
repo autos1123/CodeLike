@@ -28,6 +28,9 @@ public class IntroManager : MonoBehaviour
 
     public void PlayVideo()
     {
+        videoPlayer.source = VideoSource.Url;
+        videoPlayer.url = Application.streamingAssetsPath + "/Intro_book4.mp4";
+
         if (videoPlayer != null)
         {
             if (!videoPlayer.isPrepared) 
