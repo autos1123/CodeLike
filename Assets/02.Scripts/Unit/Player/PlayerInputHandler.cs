@@ -65,7 +65,7 @@ public class PlayerInputHandler:MonoBehaviour
         {   //v키 입력이 허용되지않았다면
             if (TutorialManager.HasInstance && !TutorialManager.Instance.IsViewChangeInputAllowed())
             {
-                Debug.Log("V키 입력 막혀있음");
+                Debug.Log("V키 입력 막혀있음 (튜토리얼)");
                 return;
             }
             ViewManager.Instance.ToggleView();
