@@ -32,7 +32,7 @@ public class TakeActiveItem:UIBase
     private ActiveItemData acquiredItem;
     private int selectedSlot = -1;
     private Inventory playerInventory;
-
+    private ActiveItemBox sourceActiveItemBox; 
     public override string UIName => this.GetType().Name;
 
     private void Start()
@@ -43,16 +43,16 @@ public class TakeActiveItem:UIBase
             slotButtons[i].onClick.AddListener(() => OnSlotSelected(idx));
         }
         takeButton.interactable = false;
-        closeButton.onClick.AddListener(OnCloseButton); // 나가기 버튼 이벤트 등록
+        closeButton.onClick.AddListener(Close); // 나가기 버튼 이벤트 등록
     }
 
-    public void Open(ActiveItemSlot[] _activeItemSlots, ActiveItemData _acquiredItem, Inventory _playerInventory = null)
+    public void Open(ActiveItemSlot[] _activeItemSlots, ActiveItemData _acquiredItem, Inventory _playerInventory = null,ActiveItemBox _sourceActiveItemBox = null)
     {
         base.Open();
         activeItemSlots = _activeItemSlots;
         acquiredItem = _acquiredItem;
         playerInventory = _playerInventory;
-
+        sourceActiveItemBox = _sourceActiveItemBox;
         for(int i = 0; i < activeItemSlots.Length; i++)
         {
             var itemData = activeItemSlots[i].ActiveItem;
@@ -106,15 +106,18 @@ public class TakeActiveItem:UIBase
         }
 
         UIManager.Instance.GetUI<HUD>()?.UpdateActiveItemIcons();
-
-        this.Close();
+        if (sourceActiveItemBox != null)
+        {
+            InteractionController interactionController = GameManager.Instance.Player.GetComponent<InteractionController>();
+            if (interactionController != null)
+            {
+                interactionController.SetInteractTextParentToPlayer();
+            }
+            sourceActiveItemBox.gameObject.SetActive(false);
+            Destroy(sourceActiveItemBox.gameObject);
+        }
+        Close();
     }
-
-    private void OnCloseButton()
-    {
-        this.Close();
-    }
-
     Sprite GetIcon(ActiveItemData item)
     {
         return item == null ? null : Resources.Load<Sprite>(item.IconPath);
