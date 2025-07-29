@@ -13,16 +13,20 @@ public class PlayerAttack1State:PlayerBaseState
         Debug.LogWarning("PlayerAttack1State Entered");
         StartAnimation(Player.AnimationData.Attack1ParameterHash);
         comboTimer = 0f;
+
+        Player.LeftArmTrailController?.PlayTrail(0.4f);
+        Player.RightArmTrailController?.PlayTrail(0.4f);
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
         comboTimer += Time.deltaTime;
+
         Vector2 move = Player.InputHandler.MoveInput;
         if(move.magnitude > 0.1f)
         {
-            PlayerLookAt();
+            PlayerLookAt(); // 이동 중 회전
         }
 
         // 콤보 입력 체크
@@ -32,7 +36,7 @@ public class PlayerAttack1State:PlayerBaseState
             return;
         }
 
-        // 콤보 입력 시간 초과 또는 애니메이션 끝나면 Idle로
+        // 콤보 시간 초과 or 종료
         if(comboTimer > comboWindow)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
@@ -43,6 +47,7 @@ public class PlayerAttack1State:PlayerBaseState
     {
         base.StateExit();
     }
+
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
