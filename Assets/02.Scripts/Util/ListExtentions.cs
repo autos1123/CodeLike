@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
-public static class ListExtensions 
+public static class ListExtensions
 {
     /// <summary>
     /// 리스트의 요소를 주어진 System.Random 인스턴스로 섞는다.
@@ -12,17 +11,18 @@ public static class ListExtensions
     /// <param name="rng">시드를 설정한 System.Random 인스턴스</param>
     public static void Shuffle<T>(this List<T> list, System.Random rng)
     {
-        if (list == null || list.Count <= 1) return;
+        if(list == null || list.Count <= 1) return;
         int n = list.Count;
-        while (n > 0)
+        while(n > 0)
         {
             int k = rng.Next(n--);
             (list[n], list[k]) = (list[k], list[n]);
         }
     }
 
-    public static List<T> ShuffleData<T>(this List<T> _list)
+    public static List<T> ShuffleWithSeed<T>(this IEnumerable<T> source, int seed)
     {
-        return _list.OrderBy(_ => Random.value).ToList();
+        System.Random rng = new System.Random(seed);
+        return source.OrderBy(_ => rng.Next()).ToList();
     }
 }

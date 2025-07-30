@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 [CreateAssetMenu(fileName = "NewTutorialEventWaitStep", menuName = "Tutorial/Event Wait Step")]
 public class TutorialEventWaitStep : TutorialStep
 {
      [Header("Event Wait Settings")]
-    [TextArea] public string waitMessage; // 이 스텝에서 보여줄 힌트
-    
-    // 어떤 이벤트를 기다릴지 UnityEvent로 설정하여 인스펙터에서 연결
-    // GameEvents의 특정 Action을 기다릴 경우, 이 부분은 코드로 직접 구독해야 합니다.
-    // 여기서는 GameEvents를 직접 구독하는 방식으로 진행하겠습니다.
-    // UnityEvent는 에디터에서 다른 컴포넌트의 메서드를 연결할 때 유용합니다.
-
+    [TextArea] public string waitMessage;
+     
     public enum GameEventTypeToWait
     {
         None,

@@ -11,4 +11,6 @@ public class EnhanceData
     public float minvalue;
     public float maxvalue;
     public string description;
+    public List<Sprite> flipFrontFrames;
+    public List<Sprite> flipBackFrames;
 }

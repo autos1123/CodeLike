@@ -187,7 +187,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 6272
   groundRayOffset: 0.1
-  DashVFXPrefab: {fileID: 2405561134475471800, guid: 3a02df53c191b6e4585a416a7a59a7ae, type: 3}
+  DashVFXPrefab: {fileID: 2405561134475471800, guid: b641023c16ddda446be5aad785cbac59, type: 3}
   LeftArmTrailController: {fileID: 2100740774863726849}
   RightArmTrailController: {fileID: 9162195011808295430}
 --- !u!114 &4688552309220638433

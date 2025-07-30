@@ -7,12 +7,14 @@ public class CharacterNameText:MonoBehaviour
 
     private void OnEnable()
     {
-        if(nameText == null)
+        if (nameText == null)
             nameText = GetComponent<TextMeshProUGUI>();
 
-        // 플레이어 이름 세팅 (예시)
-        var playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
-        nameText.text = playerController.Condition.Data.CharacterName;
+        if (GameManager.Instance == null || GameManager.Instance.Player == null) return;
 
+        var playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
+        if (playerController == null || playerController.Condition == null || playerController.Condition.Data == null) return;
+
+        nameText.text = playerController.Condition.Data.CharacterName;
     }
 }
