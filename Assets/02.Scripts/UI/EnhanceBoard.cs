@@ -16,7 +16,7 @@ public class EnhanceBoard : UIBase
     
     private Dictionary<int, List<EnhanceData>> _npcEnhanceDataCache = new();
     private Dictionary<int, Dictionary<EnhanceCard, bool>> _npcCardFlippedStates = new();
-
+    public bool isEnhanceCompleted = false;
     public Button exitButton;
     public override string UIName => this.GetType().Name;
 
@@ -116,13 +116,13 @@ public class EnhanceBoard : UIBase
     }
     public override void Close()
     {
-        if (_selectedCardInstance == null)
+        if (!isEnhanceCompleted)
         {
-            foreach(var item in cards)
+            foreach(var card in cards)
             {
-                item.gameObject.SetActive(false); 
-                item.SetInteractable(false); 
-                item.SetSelectButtonActive(false);
+                card.gameObject.SetActive(false); 
+                card.SetInteractable(false); 
+                card.SetSelectButtonActive(false);
             }
         }
         else // 카드를 선택하여 닫혔을 경우 (강화가 완료된 경우)
@@ -130,8 +130,6 @@ public class EnhanceBoard : UIBase
             foreach (var card in cards)
                 card.Clear();
             
-            _selectedCardInstance = null;
-
             // 캐시 초기화
             _npcEnhanceDataCache.Remove(_callingNpcId);
             _npcCardFlippedStates.Remove(_callingNpcId);
@@ -139,8 +137,12 @@ public class EnhanceBoard : UIBase
             if (GameManager.Instance != null && _callingNpcId != 0)
             {
                 GameManager.Instance.SetEnhancementProcessed(_callingNpcId, true);
+                Debug.Log($"NPC ID {_callingNpcId}의 강화 서비스 완료 상태가 GameManager에 반영되었습니다.");
             }
         }
+        _selectedCardInstance = null;
+        isEnhanceCompleted = false;
+        
         base.Close();
     }
 

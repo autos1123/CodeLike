@@ -151,8 +151,13 @@ public class EnhanceCard:MonoBehaviour
     {
         if (GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
         {
-            playerController.Condition.ChangeModifierValue(_enhanceData.ConditionType, ModifierType.BuffEnhance, _randomIncreaseValue);
+            playerController.Condition.ChangeModifierValue(
+                _enhanceData.ConditionType, 
+                ModifierType.BuffEnhance, 
+                _randomIncreaseValue
+                );
         }
+        _enhanceBoard.isEnhanceCompleted = true;
         _enhanceBoard.Close(); 
     }
     public void SetSelectButtonActive(bool active)
