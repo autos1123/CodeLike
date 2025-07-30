@@ -45,7 +45,7 @@ public class NPCController : MonoBehaviour, IInteractable
                 OpenDialogue(interactor);
                 break;
             case NPCType.Enhancer:
-                if (GameManager.Instance != null && GameManager.Instance.GetEnhancementProcessed(ID))
+                if (GameManager.Instance != null && GameManager.Instance.GetEnhancementProcessed(this.gameObject))
                 {
                     UIManager.Instance.ShowConfirmPopup(
                         "이미 강화를 완료했습니다",
@@ -100,7 +100,7 @@ public class NPCController : MonoBehaviour, IInteractable
 
         if(!enhanceBoard.gameObject.activeSelf)
         {
-            enhanceBoard.Open(ID);
+            enhanceBoard.Open(this.gameObject);
         }
     }
 }

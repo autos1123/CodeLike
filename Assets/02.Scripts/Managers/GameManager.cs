@@ -24,7 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
     public GameState curGameState;
     public event Action onGameStateChange;
 
-    public Dictionary<int, bool> processedEnhancerNpcs = new Dictionary<int, bool>();
+    public Dictionary<int, bool> processedEnhancerObjects = new();
 
     public void setState(GameState gameState)
     {
@@ -48,9 +48,9 @@ public class GameManager : MonoSingleton<GameManager>
 
         Application.targetFrameRate = 60;
         
-        if (processedEnhancerNpcs == null)
+        if (processedEnhancerObjects == null)
         {
-            processedEnhancerNpcs = new Dictionary<int, bool>();
+            processedEnhancerObjects = new Dictionary<int, bool>();
         }
     }
     private void Start()
@@ -58,27 +58,17 @@ public class GameManager : MonoSingleton<GameManager>
         //Application.targetFrameRate = 60;
     }
     // 강화 NPC의 완료 상태를 설정하는 공용 메소드
-    public void SetEnhancementProcessed(int npcId, bool processed)
+    public void SetEnhancementProcessed(GameObject npcObject, bool processed)
     {
-        if (processedEnhancerNpcs.ContainsKey(npcId))
-        {
-            processedEnhancerNpcs[npcId] = processed;
-        }
-        else
-        {
-            processedEnhancerNpcs.Add(npcId, processed);
-        }
+        int instanceId = npcObject.GetInstanceID();
+        processedEnhancerObjects[instanceId] = processed;
     }
 
     // 강화 NPC의 완료 상태를 확인하는 공용 메소드
-    public bool GetEnhancementProcessed(int npcId)
+    public bool GetEnhancementProcessed(GameObject npcObject)
     {
-        if(processedEnhancerNpcs.TryGetValue(npcId, out bool processed))
-        {
-            return processed;
-        }
-
-        return false;
+        int instanceId = npcObject.GetInstanceID();
+        return processedEnhancerObjects.TryGetValue(instanceId, out bool processed) && processed;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)

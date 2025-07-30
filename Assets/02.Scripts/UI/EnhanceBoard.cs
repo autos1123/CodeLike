@@ -12,10 +12,12 @@ public class EnhanceBoard : UIBase
     // 각 EnhanceCard 인스턴스의 선택 상태를 저장할 변수 (선택된 카드가 하나만 있다고 가정)
     private EnhanceCard _selectedCardInstance = null; // 선택된 카드를 저장
     // EnhanceBoard를 연 NPCController의 ID를 저장할 변수
-    private int _callingNpcId;
+    private int _callingInstanceId;
     
-    private Dictionary<int, List<EnhanceData>> _npcEnhanceDataCache = new();
-    private Dictionary<int, Dictionary<EnhanceCard, bool>> _npcCardFlippedStates = new();
+    private Dictionary<int, List<EnhanceData>> _enhanceCacheByInstance = new();
+    private Dictionary<int, Dictionary<EnhanceCard, bool>> _flippedStatesByInstance = new();
+    private GameObject _callingNpcObject;
+    
     public bool isEnhanceCompleted = false;
     public Button exitButton;
     public override string UIName => this.GetType().Name;
@@ -31,27 +33,28 @@ public class EnhanceBoard : UIBase
     public override void Open()
     {
         base.Open();
-        Open(0);
+        Open(gameObject);
     }
-    public void Open(int callingNpcId)
+    public void Open(GameObject callingNpcObject)
     {
         base.Open();
-        _callingNpcId = callingNpcId;
+        _callingNpcObject = callingNpcObject;
+        _callingInstanceId = callingNpcObject.GetInstanceID();
         
         if(_tableManager == null) _tableManager = TableManager.Instance;
         
-        if (!_npcEnhanceDataCache.TryGetValue(callingNpcId, out var npcEnhanceList))
+        if (!_enhanceCacheByInstance.TryGetValue(_callingInstanceId, out var npcEnhanceList))
         {
             npcEnhanceList = _tableManager.GetTable<EnhanceDataTable>().dataList
-                .ShuffleWithSeed(callingNpcId) // NPC ID를 시드로 활용
+                .ShuffleWithSeed(_callingInstanceId)
                 .Take(cards.Length)
                 .ToList();
 
-            _npcEnhanceDataCache.Add(callingNpcId, npcEnhanceList);
+            _enhanceCacheByInstance[_callingInstanceId] = npcEnhanceList;
         }
-        
+
         _selectedCardInstance = null;
-        
+
         for (int i = 0; i < cards.Length; i++)
         {
             cards[i].Clear();
@@ -67,15 +70,11 @@ public class EnhanceBoard : UIBase
             }
         }
 
-        // 카드 뒤집힘 상태 복원
-        if (_npcCardFlippedStates.TryGetValue(_callingNpcId, out var flippedDict))
+        if (_flippedStatesByInstance.TryGetValue(_callingInstanceId, out var flippedDict))
         {
             foreach (var card in cards)
             {
-                if (flippedDict.TryGetValue(card, out bool isFlipped))
-                    card.SetFlippedState(isFlipped);
-                else
-                    card.SetFlippedState(false);
+                card.SetFlippedState(flippedDict.TryGetValue(card, out var flip) ? flip : false);
             }
         }
         else
@@ -90,16 +89,17 @@ public class EnhanceBoard : UIBase
             card.SetSelectButtonActive(false);
         }
 
+
         if (exitButton != null)
             exitButton.gameObject.SetActive(true);
     }
     // 각 EnhanceCard에서 카드가 뒤집혔음을 알릴 때 호출될 메소드
     public void CardFlipped(EnhanceCard card, bool isFlipped)
     {
-        if (!_npcCardFlippedStates.ContainsKey(_callingNpcId))
-            _npcCardFlippedStates[_callingNpcId] = new();
+        if (!_flippedStatesByInstance.ContainsKey(_callingInstanceId))
+            _flippedStatesByInstance[_callingInstanceId] = new();
 
-        _npcCardFlippedStates[_callingNpcId][card] = isFlipped;
+        _flippedStatesByInstance[_callingInstanceId][card] = isFlipped;
     }
     // 각 EnhanceCard에서 카드가 선택되었음을 알리는 메소드
     public void CardSelected(EnhanceCard selectcard)
@@ -131,13 +131,12 @@ public class EnhanceBoard : UIBase
                 card.Clear();
             
             // 캐시 초기화
-            _npcEnhanceDataCache.Remove(_callingNpcId);
-            _npcCardFlippedStates.Remove(_callingNpcId);
+            _enhanceCacheByInstance.Remove(_callingInstanceId);
+            _flippedStatesByInstance.Remove(_callingInstanceId);
             
-            if (GameManager.Instance != null && _callingNpcId != 0)
+            if (GameManager.Instance != null && _callingNpcObject != null)
             {
-                GameManager.Instance.SetEnhancementProcessed(_callingNpcId, true);
-                Debug.Log($"NPC ID {_callingNpcId}의 강화 서비스 완료 상태가 GameManager에 반영되었습니다.");
+                GameManager.Instance.SetEnhancementProcessed(_callingNpcObject, true);
             }
         }
         _selectedCardInstance = null;
