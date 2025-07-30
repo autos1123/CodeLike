@@ -32,12 +32,18 @@ public class AoE:MonoBehaviour, IPoolObject
         // 새로운 VFX 생성 및 자식으로 부착
         if(!string.IsNullOrEmpty(data.VFX))
         {
-            var vfxPrefab = Resources.Load<ParticleSystem>(data.VFX);
-            if(vfxPrefab != null)
+            Debug.Log("VFX 경로: " + data.VFX); // ★ 실제 경로 출력
+            var vfxPrefabObj = Resources.Load<GameObject>(data.VFX);
+            if(vfxPrefabObj != null)
             {
-                vfx = Instantiate(vfxPrefab, transform);
-                vfx.transform.localPosition = Vector3.zero;
-                vfx.Play();
+                var vfxObj = Instantiate(vfxPrefabObj, transform);
+                vfxObj.transform.localPosition = Vector3.zero;
+                vfx = vfxObj.GetComponent<ParticleSystem>();
+                if(vfx != null) vfx.Play();
+            }
+            else
+            {
+                Debug.LogError("VFX 프리팹을 찾을 수 없습니다: " + data.VFX);
             }
         }
 

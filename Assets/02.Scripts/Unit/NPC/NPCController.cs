@@ -45,7 +45,19 @@ public class NPCController : MonoBehaviour, IInteractable
                 OpenDialogue(interactor);
                 break;
             case NPCType.Enhancer:
-                TryOpenEnhance();
+                if (GameManager.Instance != null && GameManager.Instance.GetEnhancementProcessed(this.gameObject))
+                {
+                    UIManager.Instance.ShowConfirmPopup(
+                        "이미 강화를 완료했습니다",
+                        onConfirm: () => { },
+                        onCancel: null,
+                        confirmText: "확인"
+                    );
+                }
+                else
+                {
+                    TryOpenEnhance(); // 강화 서비스가 아직 완료되지 않았다면 EnhanceBoard 열기 시도
+                }
                 break;
         }
     }
@@ -85,6 +97,10 @@ public class NPCController : MonoBehaviour, IInteractable
             Debug.LogError("[NPCController] EnhanceBoard를 찾을 수 없습니다.");
             return;
         }
-        enhanceBoard.Open();
+
+        if(!enhanceBoard.gameObject.activeSelf)
+        {
+            enhanceBoard.Open(this.gameObject);
+        }
     }
 }

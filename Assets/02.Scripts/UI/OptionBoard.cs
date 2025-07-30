@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -43,6 +44,9 @@ public class OptionBoard : UIBase
     [SerializeField] private Toggle masterToggle;
     [SerializeField] private Toggle bgmToggle;
     [SerializeField] private Toggle sfxToggle;
+
+
+    bool hasSavedResolution = false;
 
     private void Awake()
     {
@@ -148,6 +152,7 @@ public class OptionBoard : UIBase
                 if(resolutions[i].Equals(Screen.currentResolution))
                 {
                     PlayerPrefs.SetInt(resolutionDataKey, i);
+                    hasSavedResolution = true;
                 }
             }
         }
@@ -158,17 +163,37 @@ public class OptionBoard : UIBase
         ResolutionDropDownOptionChange(idx);
 
         resolutionDropdown.RefreshShownValue();
+
+#if UNITY_WEBGL
+        if(hasSavedResolution)
+        {
+            PlayerPrefs.Save(); // WebGL에서는 확실하게 저장
+            Debug.Log("Saved resolution index in WebGL PlayerPrefs.");
+        }
+#endif
     }
 
     // Dropdown UI 값 변경 이벤트
     private void ResolutionDropDownOptionChange(int x)
     {
-        Screen.SetResolution(resolutions[x].width,
-            resolutions[x].height,
-            GetScreenModeToIndex(PlayerPrefs.GetInt(screenModeDataKey)),
-            resolutions[x].refreshRateRatio);
+        int screenModeIdx = (int)FullScreenMode.Windowed;
+
+        if(PlayerPrefs.HasKey(screenModeDataKey))
+        {
+            screenModeIdx = PlayerPrefs.GetInt(screenModeDataKey);
+        }
+
+        StartCoroutine(FixWebGLCanvas(x, screenModeIdx));
 
         PlayerPrefs.SetInt(resolutionDataKey, x);
+    }
+    IEnumerator FixWebGLCanvas(int x , int screenModeIdx)
+    {
+        yield return new WaitForEndOfFrame(); // 초기화 후 한 프레임 기다림
+        Screen.SetResolution(resolutions[x].width,
+    resolutions[x].height,
+    GetScreenModeToIndex(screenModeIdx),
+    resolutions[x].refreshRateRatio);
     }
 
     // 화면 모드 드롭다운 초기화

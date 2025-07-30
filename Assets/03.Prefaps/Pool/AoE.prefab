@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5999880867196537133}
   - component: {fileID: 6462473762212300125}
-  - component: {fileID: 7720004722298039244}
+  - component: {fileID: 4018027651017396795}
   m_Layer: 0
   m_Name: AoE
   m_TagString: Untagged
@@ -54,7 +54,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7720004722298039244
+--- !u!114 &4018027651017396795
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2115685298041601392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ef49d90390f6484995b6ebb9d2bff33, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e21dec8c8662c0488848efd9132a039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   poolType: 6

@@ -33,7 +33,7 @@ public class TakePassiveItem : UIBase
         itemIcon.sprite = Resources.Load<Sprite>(item.IconPath);
         descriptionText.text = item.description;
         
-        GameEvents.TriggerRandomItemUIOpened();
+        GameEvents.TriggerPassiveItemUIOpened();
     }
 
     private void OnTake()
@@ -47,6 +47,12 @@ public class TakePassiveItem : UIBase
         playerInventory.AddToInventory(currentItem);
         if (sourceItemBox != null)
         {
+            InteractionController interactionController = GameManager.Instance.Player.GetComponent<InteractionController>();
+            if (interactionController != null)
+            {
+                interactionController.SetInteractTextParentToPlayer();
+            }
+            sourceItemBox.gameObject.SetActive(false);
             Destroy(sourceItemBox.gameObject); 
         }
         Close();

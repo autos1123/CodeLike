@@ -435,10 +435,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1985143623796453560, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2512002609239974462, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: fullSize
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7197296124414012102, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
+      propertyPath: DashVFXPrefab
+      value: 
+      objectReference: {fileID: 2405561134475471800, guid: b641023c16ddda446be5aad785cbac59, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1322,15 +1330,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb36f9566807c824f93c0ce22b0e581d, type: 2}
   - {fileID: 11400000, guid: 375386f714cba80429204d2d591eca30, type: 2}
   - {fileID: 11400000, guid: a65494626bc28154cb2edc139b161c82, type: 2}
-  - {fileID: 11400000, guid: 267e5b5b9cd616b42a5ffc8f4f83353b, type: 2}
-  - {fileID: 11400000, guid: a53f77ded2ad56d4fa21f98764c1f563, type: 2}
-  - {fileID: 11400000, guid: 47b9e03b51d8d7b42bec1b855af63b4c, type: 2}
-  - {fileID: 11400000, guid: aeee807cfd61eb545b0d40fc6117cf99, type: 2}
-  - {fileID: 11400000, guid: 1275f66ecf4879449b8f6b3634e869f3, type: 2}
+  - {fileID: 11400000, guid: 151f7423c9394234e820f293db64bcc2, type: 2}
+  - {fileID: 11400000, guid: c1ada7800eef139489c2d0506105fe04, type: 2}
+  - {fileID: 11400000, guid: d3ce9e2adebc967479edb56590efedea, type: 2}
+  - {fileID: 11400000, guid: 146bece504319264e93761bf84b2586c, type: 2}
+  - {fileID: 11400000, guid: 8e44af3df87d6f44fa2241f8260877a6, type: 2}
   - {fileID: 11400000, guid: 65442aeb3192f4c44b0430e1015d76bb, type: 2}
-  - {fileID: 11400000, guid: d9ed56dab7462594a87192ada496c1e5, type: 2}
+  - {fileID: 11400000, guid: db2306772a1686a479a8aebbc2cb78ff, type: 2}
+  - {fileID: 11400000, guid: 56726192015710749a5261c71b524c9e, type: 2}
+  - {fileID: 11400000, guid: eafcab9897a108949b22c48f35fc04bd, type: 2}
   - {fileID: 11400000, guid: e98e6b9a44854d74ba674db8a948807c, type: 2}
+  - {fileID: 11400000, guid: d9ed56dab7462594a87192ada496c1e5, type: 2}
   - {fileID: 11400000, guid: 782778aea94da1940a2fbc5e77ca75db, type: 2}
+  - {fileID: 11400000, guid: c54c02037fad5174d93c428955f3ac60, type: 2}
   nextSceneName: LobbyScene
 --- !u!4 &2109587197
 Transform:

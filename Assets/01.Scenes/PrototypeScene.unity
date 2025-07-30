@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -201,6 +201,17 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!114 &301087581 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2834581293470904418, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
+  m_PrefabInstance: {fileID: 745168802}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e54dd6be1c67e04581491c6323d323a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &745168802
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -267,17 +278,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 134378f331964214488a0695e2951f04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &745168804 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2834581293470904418, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
-  m_PrefabInstance: {fileID: 745168802}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e54dd6be1c67e04581491c6323d323a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &765587999 stripped
@@ -693,7 +693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 1250406768}
   stageMapCountData: 04000000060000000700000008000000090000000a000000
-  viewCameraController: {fileID: 745168804}
+  viewCameraController: {fileID: 301087581}
 --- !u!4 &1250406770
 Transform:
   m_ObjectHideFlags: 0
@@ -1035,6 +1035,10 @@ PrefabInstance:
     - target: {fileID: 1717745442147195869, guid: 640161abf0c33f648ace071e6273fb13, type: 3}
       propertyPath: m_Name
       value: DragManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136907679294195489, guid: 640161abf0c33f648ace071e6273fb13, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 9222437499481611982, guid: 640161abf0c33f648ace071e6273fb13, type: 3}
       propertyPath: m_LocalPosition.x

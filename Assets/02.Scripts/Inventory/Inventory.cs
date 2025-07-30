@@ -119,37 +119,13 @@ public class Inventory : MonoBehaviour, IInventory
             if (slot.IsEmpty)
             {
                 slot.Set(item);
-                GameEvents.TriggerItemTake();
+                GameEvents.TriggerPassiveItemTake();
                 return true;
             }
         }
         //혹시몰라 방어 코드임다
         UIManager.Instance.ShowConfirmPopup(
             "인벤토리가 가득 차서 아이템을 추가할 수 없습니다.",
-            onConfirm: () => { },
-            onCancel: null,
-            confirmText: "확인"
-        );
-        return false;
-    }
-    /// <summary>
-    /// 비어있는 액티브아이템 슬롯에 아이템 추가
-    /// </summary>
-    /// <param name="activeItem">추가할 액티브아이템</param>
-    /// <returns>성공적으로 추가되었는지 여부</returns>
-    public bool AddtoActiveSlot(ActiveItemData activeItem)
-    {
-        foreach(var slot in activeItemSlots)
-        {
-            if (slot.IsEmpty)
-            {
-                slot.Set(activeItem);
-                PlayerActiveItemController.TakeItem(activeItem);
-                return true;
-            }
-        }
-        UIManager.Instance.ShowConfirmPopup(
-            "액티브아이템 슬롯이 가득 차서 아이템을 추가할 수 없습니다.",
             onConfirm: () => { },
             onCancel: null,
             confirmText: "확인"
@@ -174,6 +150,7 @@ public class Inventory : MonoBehaviour, IInventory
         {
             slot.Set(activeItem);
             PlayerActiveItemController.TakeItem(skillinput, activeItem);
+            GameEvents.TriggerActiveItemTake();
             return true;
         }
         return false; // 이미 아이템이 들어있으면 추가 불가

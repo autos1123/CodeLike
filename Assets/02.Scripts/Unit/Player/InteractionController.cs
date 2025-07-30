@@ -53,6 +53,18 @@ public class InteractionController:MonoBehaviour
     }
 
     /// <summary>
+    /// 외부에서 interactTextTr의 부모를 플레이어로 되돌리는 메서드.
+    /// </summary>
+    public void SetInteractTextParentToPlayer()
+    {
+        if (interactTextTr != null && transform != null)
+        {
+            interactTextTr.SetParent(transform, false);
+            interactTextTr.gameObject.SetActive(false); 
+        }
+    }
+    
+    /// <summary>
     /// 상호작용 키 입력 시 호출되는 메서드
     /// 플레이어 중심으로 상호작용 오브젝트 탐색 후 상호작용 메서드 호출
     /// </summary>
@@ -60,15 +72,28 @@ public class InteractionController:MonoBehaviour
     public void OnInteractableAction(InputAction.CallbackContext context)
     {
         // 상호작용 오브젝트가 없거나, 비활성화된 경우 무시
-        if(interactableObj == null)
+        if(interactableObj == null || !IsValidInteractable(interactableObj))
             return;
 
         if(interactableObj.CanInteract(gameObject))
+        {
             interactableObj.Interact(gameObject);
+            interactableObj = null;
+            
+            InteractableCheck(); 
+        }
     }
 
     private void InteractableCheck()
     {
+        if (interactableObj != null && !IsValidInteractable(interactableObj))
+        {
+            interactableObj = null;
+            if (interactTextTr != null && interactTextTr.gameObject.activeSelf)
+            {
+                SetInteractTextParentToPlayer();
+            }
+        }
         if(interactTextTr == null) return; // 텍스트 Transform이 없으면 더 이상 진행하지 않음
         // 상호작용 오브젝트 탐색
         Collider[] hitColliders;
@@ -91,14 +116,11 @@ public class InteractionController:MonoBehaviour
         float minDistanceSq = float.MaxValue;
         for(int i = 0; i < hitColliders.Length; i++)
         {
-            if(hitColliders[i].TryGetComponent(out IInteractable interactable))
+            if(hitColliders[i].TryGetComponent(out IInteractable interactable) && IsValidInteractable(interactable))
             {
-                // 오브젝트가 유효한지 확인
-                if((interactable as MonoBehaviour) != null)
+                if(IsValidInteractable(interactable))
                 {
-                    float distSq = (ViewManager.Instance.CurrentViewMode == ViewModeType.View3D) ?
-                        (hitColliders[i].transform.position - transform.position).sqrMagnitude :
-                        Mathf.Abs(hitColliders[i].transform.position.x - transform.position.x);
+                    float distSq = (ViewManager.Instance.CurrentViewMode == ViewModeType.View3D) ? (hitColliders[i].transform.position - transform.position).sqrMagnitude : Mathf.Abs(hitColliders[i].transform.position.x - transform.position.x);
 
                     if(distSq < minDistanceSq)
                     {
@@ -108,7 +130,7 @@ public class InteractionController:MonoBehaviour
                 }
             }
         }
-
+        
         // 대상 교체가 일어났다면
         if(interactableObj != currentBestInteractable)
         {
@@ -122,8 +144,7 @@ public class InteractionController:MonoBehaviour
         {
             if(interactTextTr.gameObject.activeSelf) // 이미 비활성화되어 있지 않은 경우에만
             {
-                SetInteractTextTransform(transform);
-                interactTextTr.gameObject.SetActive(false);
+                SetInteractTextParentToPlayer();
             }
             return;
         }
@@ -133,6 +154,14 @@ public class InteractionController:MonoBehaviour
         {
             SetInteractTextTransform(interactableObj.PromptPivot, interactableObj.InteractionPrompt);
             interactTextTr.gameObject.SetActive(true); // 활성화
+        }
+        else
+        {
+            // 상호작용은 가능하지만 지금은 할 수 없는 상태일 경우 UI를 숨깁
+            if (interactTextTr.gameObject.activeSelf)
+            {
+                SetInteractTextParentToPlayer();
+            }
         }
     }
 
@@ -166,5 +195,11 @@ public class InteractionController:MonoBehaviour
                 Gizmos.DrawWireCube(col.bounds.center, size_2D * 2);
             }
         }
+    }
+    // 오브젝트가 유효한지 확인하는 메서드
+    private bool IsValidInteractable(IInteractable interactable)
+    {
+        var mb = interactable as MonoBehaviour;
+        return mb != null && mb.gameObject != null && mb.gameObject.activeInHierarchy;
     }
 }

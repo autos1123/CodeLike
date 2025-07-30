@@ -21,8 +21,7 @@ public class PlayerSkillState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        bool success = Player.ActiveItemController.CanUseSkill(usingSkill);
-        if(!success)
+        if(!Player.ActiveItemController.CanUseSkill(usingSkill))
         {
             stateMachine.ChangeState(stateMachine.IdleState);
             return;

@@ -142,7 +142,53 @@ public static class ExcelSOGenerator
                     enhanceData.minvalue = float.Parse(row[3].ToString());
                     enhanceData.maxvalue = float.Parse(row[4].ToString());
                     enhanceData.description = row[5].ToString();
+                    
+                    enhanceData.flipFrontFrames = new List<Sprite>();
+                    string flipFrontFramesString = row[6].ToString();
+                    if(!string.IsNullOrEmpty(flipFrontFramesString))
+                    {
+                        string[] frameNames = flipFrontFramesString.Split(',');
+                        foreach (string frameName in frameNames)
+                        {
+                            string spritePath = $"Assets/Sprite/Enhance/{frameName.Trim()}.png"; 
+                            
+                            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+                
+                            if (sprite != null)
+                            {
+                                enhanceData.flipFrontFrames.Add(sprite);
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"경고: 스프라이트를 로드할 수 없습니다. 경로: {spritePath} (ID: {enhanceData.ID}, Name: {enhanceData.name})");
+                            }
+                        }
+                    }
+                    
+                    enhanceData.flipBackFrames = new List<Sprite>();
+                    string flipBackFramesString = row[7].ToString(); 
+
+                    if (!string.IsNullOrEmpty(flipBackFramesString))
+                    {
+                        string[] frameNames = flipBackFramesString.Split(',');
+                        foreach (string frameName in frameNames)
+                        {
+                            string spritePath = $"Assets/Sprite/Enhance/{frameName.Trim()}.png"; // 경로 수정 필요
+                            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+                
+                            if (sprite != null)
+                            {
+                                enhanceData.flipBackFrames.Add(sprite);
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"경고: 스프라이트를 로드할 수 없습니다. 경로: {spritePath} (ID: {enhanceData.ID}, Name: {enhanceData.name})");
+                            }
+                        }
+                    }
+
                     enhanceDataTable.dataList.Add(enhanceData);
+                    
                 }
                 string enhancePath = $"{assetOutputPath}/{sheetName}Table.asset";
                 AssetDatabase.CreateAsset(enhanceDataTable, enhancePath);

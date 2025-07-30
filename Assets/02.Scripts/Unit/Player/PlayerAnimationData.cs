@@ -4,6 +4,7 @@ public class PlayerAnimationData
 {
     private string idleParameterName = "Idle";
     private string moveParameterName = "isMoving";
+    private string dashParameterName = "Dash";
     private string jumpParameterName = "isJumping";
     private string attack1ParameterName = "Attack1";
     private string attack2ParameterName = "Attack2";
@@ -16,6 +17,7 @@ public class PlayerAnimationData
 
     public int IdleParameterHash { get; private set; }
     public int MoveParameterHash { get; private set; }
+    public int DashParameterHash { get; private set; }
     public int JumpParameterHash { get; private set; }
     public int Attack1ParameterHash { get; private set; }
     public int Attack2ParameterHash { get; private set; }
@@ -30,6 +32,7 @@ public class PlayerAnimationData
     {
         IdleParameterHash = Animator.StringToHash(idleParameterName);
         MoveParameterHash = Animator.StringToHash(moveParameterName);
+        DashParameterHash = Animator.StringToHash(dashParameterName);
         JumpParameterHash = Animator.StringToHash(jumpParameterName);
         Attack1ParameterHash = Animator.StringToHash(attack1ParameterName);
         Attack2ParameterHash = Animator.StringToHash(attack2ParameterName);

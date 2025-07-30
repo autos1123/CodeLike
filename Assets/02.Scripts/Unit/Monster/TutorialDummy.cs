@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TutorialDummy : MonoBehaviour, IDamagable
@@ -7,7 +6,8 @@ public class TutorialDummy : MonoBehaviour, IDamagable
     [SerializeField] private float hp = 100;
     private float curHp;
     [SerializeField] private float dropGold = 10;
-    [SerializeField] private GameObject dropItemBox;
+    [SerializeField] private GameObject dropPassiveItemBox;
+    [SerializeField] private GameObject dropActiveItemBox;
 
     private Animator anim;
     private PlayerController player;
@@ -58,9 +58,10 @@ public class TutorialDummy : MonoBehaviour, IDamagable
 
     private void Die()
     {
-        Vector3 dropPosition = transform.position + Vector3.up * 0.5f;
-
-        Instantiate(dropItemBox, dropPosition, Quaternion.identity);
+        Vector3 dropPosition_1 = transform.position + Vector3.up * 0.5f;
+        
+        Instantiate(dropPassiveItemBox, dropPosition_1, Quaternion.identity);
+        
         gameObject.SetActive(false);
         GameEvents.TriggerMonsterKilled();
     }

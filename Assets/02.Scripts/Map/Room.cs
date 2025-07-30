@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ public class Room : MonoBehaviour
 
     public bool isClearRoom { get; private set; } = false;
 
-    [SerializeField] private GameObject[] Enumys;
+    private Transform enemyContainer;
     private int enemyCount;
 
     public List<RoomConnection> Connections { get; private set; } = new();
@@ -45,16 +46,23 @@ public class Room : MonoBehaviour
             surface.BuildNavMesh();
             yield return null;
         }
-        foreach(var item in Enumys)
-        {
-            item.SetActive(true);
-        }
-        if(Enumys.Count() == 0)
-        {
-            StartCoroutine(RoomClear());
-        }
 
-        enemyCount = Enumys.Length;
+        enemyContainer = transform.Find("Enemies");
+
+        if(enemyContainer != null)
+        {
+            for(int i = 0; i < enemyContainer.childCount; i++)
+            {
+                enemyContainer.GetChild(i).gameObject.SetActive(true);
+            }
+
+            if(enemyContainer.childCount == 0)
+            {
+                StartCoroutine(RoomClear());
+            }
+
+            enemyCount = enemyContainer.childCount;
+        }
     }
 
     public void Initialize(int id, Vector2Int gridPos, RoomType type)
