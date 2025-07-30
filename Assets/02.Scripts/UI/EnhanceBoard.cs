@@ -111,12 +111,7 @@ public class EnhanceBoard : UIBase
             if(card != selectcard)
             {
                 card.SetSelectButtonActive(false); // 선택되지 않은 카드의 선택 버튼 비활성화
-                card.SetInteractable(false);
             }
-        }
-        if (exitButton != null)
-        {
-            exitButton.gameObject.SetActive(false); // 카드 선택 시 나가기 버튼 숨김
         }
     }
     public override void Close()
