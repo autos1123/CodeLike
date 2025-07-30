@@ -49,7 +49,6 @@ public class Room : MonoBehaviour
 
         if(Enumys != null)
         {
-            Debug.Log("dd");
             foreach(var item in Enumys)
             {
                 item.SetActive(true);
