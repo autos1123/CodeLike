@@ -1415,7 +1415,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6418944821377177208}
   - {fileID: 7012841812265721162}
   - {fileID: 5896601207330084979}
   - {fileID: 613184586392580084}
@@ -1444,7 +1443,6 @@ MonoBehaviour:
   entranceDown: {fileID: 337986642345884801}
   entranceLeft: {fileID: 4788205265329703020}
   entranceRight: {fileID: 4204111744703570904}
-  Enumys: []
 --- !u!1 &2462326850061244131
 GameObject:
   m_ObjectHideFlags: 0
@@ -20835,7 +20833,7 @@ Transform:
   - {fileID: 1960799191377059100}
   - {fileID: 6036628585957884175}
   - {fileID: 1488177087157606471}
-  m_Father: {fileID: 6898284051146785974}
+  m_Father: {fileID: 2581223389359404504}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5916990300691119555
 GameObject:
@@ -21999,6 +21997,7 @@ Transform:
   - {fileID: 861758233826321646}
   - {fileID: 1515794120582749684}
   - {fileID: 3098712171663530732}
+  - {fileID: 6418944821377177208}
   m_Father: {fileID: 6898284051146785974}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7445139900851363159

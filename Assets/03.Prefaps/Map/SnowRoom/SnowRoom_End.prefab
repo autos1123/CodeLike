@@ -21074,7 +21074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e230241e0b2c405498058bd7bf318869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicalCollider: {fileID: 0}
+  physicalCollider: {fileID: 7053666520889209370}
 --- !u!1 &4487897036093485274
 GameObject:
   m_ObjectHideFlags: 0
@@ -21423,7 +21423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e230241e0b2c405498058bd7bf318869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicalCollider: {fileID: 0}
+  physicalCollider: {fileID: 3660531110562188785}
 --- !u!1 &4639658861222749475
 GameObject:
   m_ObjectHideFlags: 0
@@ -37329,6 +37329,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3202528582644097575}
   - {fileID: 2951631624179703058}
   - {fileID: 8280643813830861593}
   - {fileID: 3595710251845737358}
@@ -37353,7 +37354,6 @@ MonoBehaviour:
   entranceDown: {fileID: 348197337090350133}
   entranceLeft: {fileID: 5846567309672450054}
   entranceRight: {fileID: 7349725530057876295}
-  Enumys: []
 --- !u!1 &6681751980982270708
 GameObject:
   m_ObjectHideFlags: 0
@@ -48414,6 +48414,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7747945419082572237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3202528582644097575}
+  m_Layer: 0
+  m_Name: Enemies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3202528582644097575
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747945419082572237}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2417502924645606960}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7770426905212151652
 GameObject:
   m_ObjectHideFlags: 0
