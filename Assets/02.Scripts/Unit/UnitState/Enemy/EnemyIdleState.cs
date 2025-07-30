@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -81,9 +82,13 @@ public class EnemyIdleState:EnemyBaseState
             Vector2 samplePosV2 = Random.insideUnitCircle * patrolRange;
             Vector3 sample = new Vector3(samplePosV2.x, 0, samplePosV2.y);
 
-            int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
-            if(NavMesh.SamplePosition(stateMachine.Enemy.patrolPivot + sample, out hit, patrolRange, walkableMask))
+            if(NavMesh.SamplePosition(stateMachine.Enemy.patrolPivot + sample, out hit, patrolRange, NavMesh.AllAreas))
             {
+                if(Mathf.Abs(stateMachine.Enemy.transform.position.y - hit.position.y) > 1f)
+                {
+                    continue; // 높이 차이가 너무 큰 경우 무시
+                }
+
                 if(Vector3.Distance(stateMachine.Enemy.transform.position, hit.position) > patrolRange * 0.8f)
                 {
                     return hit.position; // 유효한 위치를 반환

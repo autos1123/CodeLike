@@ -33,7 +33,7 @@ public class Room : MonoBehaviour
 
     public bool isClearRoom { get; private set; } = false;
 
-    [SerializeField] [CanBeNull] private GameObject[] Enumys;
+    private Transform enemyContainer;
     private int enemyCount;
 
     public List<RoomConnection> Connections { get; private set; } = new();
@@ -47,19 +47,21 @@ public class Room : MonoBehaviour
             yield return null;
         }
 
-        if(Enumys != null)
+        enemyContainer = transform.Find("Enemies");
+
+        if(enemyContainer != null)
         {
-            foreach(var item in Enumys)
+            for(int i = 0; i < enemyContainer.childCount; i++)
             {
-                item.SetActive(true);
+                enemyContainer.GetChild(i).gameObject.SetActive(true);
             }
 
-            if(Enumys.Count() == 0)
+            if(enemyContainer.childCount == 0)
             {
                 StartCoroutine(RoomClear());
             }
 
-            enemyCount = Enumys.Length;
+            enemyCount = enemyContainer.childCount;
         }
     }
 
