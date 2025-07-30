@@ -54,6 +54,13 @@ MonoBehaviour:
     m_SerializedLabels:
     - BGM
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e5186ca63bf7c64e990f6d05d92f301
+    m_Address: Assets/03.Prefaps/UI/Option.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    - TutorialUI
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:
