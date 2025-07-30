@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,6 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
     public GameState curGameState;
     public event Action onGameStateChange;
 
+    public Dictionary<int, bool> processedEnhancerNpcs = new Dictionary<int, bool>();
 
     public void setState(GameState gameState)
     {
@@ -40,10 +42,43 @@ public class GameManager : MonoSingleton<GameManager>
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+    protected override void Awake()
+    {
+        base.Awake();
 
+        Application.targetFrameRate = 60;
+        
+        if (processedEnhancerNpcs == null)
+        {
+            processedEnhancerNpcs = new Dictionary<int, bool>();
+        }
+    }
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = 60;
+    }
+    // 강화 NPC의 완료 상태를 설정하는 공용 메소드
+    public void SetEnhancementProcessed(int npcId, bool processed)
+    {
+        if (processedEnhancerNpcs.ContainsKey(npcId))
+        {
+            processedEnhancerNpcs[npcId] = processed;
+        }
+        else
+        {
+            processedEnhancerNpcs.Add(npcId, processed);
+        }
+    }
+
+    // 강화 NPC의 완료 상태를 확인하는 공용 메소드
+    public bool GetEnhancementProcessed(int npcId)
+    {
+        if(processedEnhancerNpcs.TryGetValue(npcId, out bool processed))
+        {
+            return processed;
+        }
+
+        return false;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)

@@ -38,8 +38,6 @@ public class EnhanceCard:MonoBehaviour
         _enhanceBoard = enhanceBoard; // 참조 저장
         _enhanceData = enhanceData;
         
-        _title.text = enhanceData.name;
-
         float value = Random.Range(enhanceData.minvalue, enhanceData.maxvalue);
 
         // 1. 플레이어 기본 ConditionData에서 "초기값" 가져오기
@@ -61,23 +59,18 @@ public class EnhanceCard:MonoBehaviour
 
         // 3. 증가량/설명
         float increaseStat = baseStat * value; // 기준은 "초기값" 배율 (원하는대로 바꿔도 됨)
-        float finalStat = currentStat + increaseStat;
-
-        string statName = _enhanceData.name.Replace("증가", "");
-        string line1 = $"{statName}이 {increaseStat:F1} 증가합니다.";
-        string line2 = $"강화 후: {currentStat:F2} → {finalStat:F1}";
-        _enhaceDescription.text = line1 + "\n" + line2;
-
         _randomIncreaseValue = increaseStat;
         
         // 초기 상태는 뒷면 (숨김)
         _isFlipped = false;
-        _cardImage.sprite = _enhanceData.flipBackFrames.FirstOrDefault(); 
-        _frontContent.SetActive(false); 
-        
         _selectButton.gameObject.SetActive(false); 
         _selectButton.onClick.RemoveAllListeners();
         _selectButton.onClick.AddListener(SelectCard);
+
+        gameObject.SetActive(true);
+        _button.interactable = true;
+        
+        RefreshUI();
     }
     void Click()
     {
@@ -109,6 +102,7 @@ public class EnhanceCard:MonoBehaviour
     {
         if (_isFlipped) yield break; 
         
+        _enhanceBoard.exitButton.gameObject.SetActive(false);
         _button.interactable = false; // 애니메이션 시작 시 클릭 비활성화
         
         if (_enhanceData.flipBackFrames != null)
@@ -129,8 +123,11 @@ public class EnhanceCard:MonoBehaviour
                 yield return new WaitForSeconds(_flipSpeed);
             }
         }
-        
         _isFlipped = true; 
+        
+        _enhanceBoard.CardFlipped(this, _isFlipped);
+        
+        _enhanceBoard.exitButton.gameObject.SetActive(true);
         _button.interactable = true; // 애니메이션 종료 후 클릭 다시 활성화
         
     }
@@ -158,13 +155,86 @@ public class EnhanceCard:MonoBehaviour
         }
         _enhanceBoard.Close(); 
     }
+    public void SetSelectButtonActive(bool active)
+    {
+        _selectButton.gameObject.SetActive(active);
+    }
+
+    public void SetInteractable(bool interactable)
+    {
+        _button.interactable = interactable;
+    }
+    // UI (텍스트, 이미지)를 현재 _enhanceData와 _isFlipped 상태에 맞춰 갱신하는 메소드
+    public void RefreshUI() 
+    {
+        if (_enhanceData == null) // 데이터가 없으면 UI를 비움
+        {
+            _title.text = string.Empty;
+            _enhaceDescription.text = string.Empty;
+            _cardImage.sprite = null;
+            _frontContent.SetActive(false);
+            return;
+        }
+        
+        _title.text = _enhanceData.name;
+
+        // 설명 텍스트 재구성 (init에서 계산된 _randomIncreaseValue 사용)
+        string statName = _enhanceData.name.Replace("증가", "");
+        float currentStat = 0f; // 현재 스탯 값은 Refresh 시에도 다시 가져올 수 있음
+        if (GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
+        {
+            currentStat = playerController.Condition.GetTotalCurrentValue(_enhanceData.ConditionType);
+        }
+        string line1 = $"{statName}이 {_randomIncreaseValue:F1} 증가합니다.";
+        string line2 = $"강화 후: {currentStat:F2} → {currentStat + _randomIncreaseValue:F1}";
+        _enhaceDescription.text = line1 + "\n" + line2;
+
+        // 이미지와 앞면 내용 갱신
+        if (_isFlipped)
+        {
+            // 뒤집힌 상태면 앞면 프레임의 마지막을 보여줌
+            if (_enhanceData.flipFrontFrames != null && _enhanceData.flipFrontFrames.Any())
+            {
+                _cardImage.sprite = _enhanceData.flipFrontFrames.LastOrDefault(); // 마지막 앞면 프레임
+            }
+            else
+            {
+                _cardImage.sprite = null; // 프레임이 없으면 이미지 비움
+            }
+            _frontContent.SetActive(true);
+        }
+        else
+        {
+            // 뒤집히지 않은 상태면 뒷면 프레임의 첫 번째를 보여줌
+            if (_enhanceData.flipBackFrames != null && _enhanceData.flipBackFrames.Any())
+            {
+                _cardImage.sprite = _enhanceData.flipBackFrames.FirstOrDefault(); // 첫 번째 뒷면 프레임
+            }
+            else
+            {
+                _cardImage.sprite = null; // 프레임이 없으면 이미지 비움
+            }
+            _frontContent.SetActive(false);
+        }
+    }
+    public void SetFlippedState(bool flipped)
+    {
+        _isFlipped = flipped;
+        RefreshUI();
+    }
     public void Clear()
     {
-        _title.text = string.Empty;
-        _enhaceDescription.text = string.Empty;
-        _isFlipped = false;
-        _cardImage.sprite = null; // 스프라이트 초기화
+        _isFlipped = false; // 기본적으로 뒤집히지 않은 상태로 클리어
+        
         _frontContent.SetActive(false);
         _selectButton.gameObject.SetActive(false);
+
+        // 클리어 시에는 카드를 비활성화 (EnhanceBoard.Open()에서 다시 활성화되도록)
+        gameObject.SetActive(false);
+        _button.interactable = false; // 버튼 비활성화
+
+        // Clear 후에는 기본 상태 (뒷면)를 강제로 적용
+        SetFlippedState(false);
+
     }
 }
