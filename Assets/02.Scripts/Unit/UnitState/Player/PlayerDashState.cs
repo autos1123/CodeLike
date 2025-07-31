@@ -21,6 +21,7 @@ public class PlayerDashState:PlayerBaseState
         }
 
         StartAnimation(Player.AnimationData.DashParameterHash);
+        SoundManager.Instance.PlaySFX(Player.transform.position, SoundAddressbleName.DashSound);
         elapsedTime = 0f;
         Player._Rigidbody.useGravity = false;
         Player._Rigidbody.velocity = Vector3.zero;
