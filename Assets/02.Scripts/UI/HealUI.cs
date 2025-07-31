@@ -34,11 +34,6 @@ public class HealUI : UIBase
             // 캐시에 없다면 새로운 랜덤 값 생성하여 저장
             storedPercentage = Random.Range(0, 101); // 0%에서 100% 사이의 랜덤 값 생성
             _healingPercentageByNPC[_currentNPCInstanceId] = storedPercentage;
-            Debug.Log($"NPC({npcObject.name} ID:{_currentNPCInstanceId})에 대한 새로운 회복 퍼센트 계산: {storedPercentage}%");
-        }
-        else
-        {
-            Debug.Log($"NPC({npcObject.name} ID:{_currentNPCInstanceId})에 대한 기존 회복 퍼센트 사용: {storedPercentage}%");
         }
         
         // UI에 표시할 회복 퍼센트를 현재 NPC에 맞는 값으로 설정
@@ -58,7 +53,6 @@ public class HealUI : UIBase
             GameManager.Instance.GetNpcInteractionProcessed(_interactedNPC))
         {
             _healingPercentageByNPC.Remove(_currentNPCInstanceId);
-            Debug.Log($"NPC({_interactedNPC.name} ID:{_currentNPCInstanceId}) 치료 완료. 캐시된 회복 퍼센트 제거.");
         }
         
         base.Close();
@@ -133,8 +127,6 @@ public class HealUI : UIBase
         
         // NPC가 치료 완료 상태임을 GameManager에 기록
         GameManager.Instance.SetNpcInteractionProcessed(_interactedNPC, true);
-        Debug.Log($"{_interactedNPC.name} NPC로부터 치료를 완료했습니다.");
-
         Close(); 
     }
 

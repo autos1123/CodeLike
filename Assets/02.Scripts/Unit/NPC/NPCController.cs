@@ -58,29 +58,24 @@ public class NPCController : MonoBehaviour, IInteractable
     }
     private void TryOpenShop()
     {
-        Debug.Log("TryOpenShop");
         if (!TryGetComponent(out ShopInventory shopInventory))
         {
-            Debug.Log("dd1");
             Debug.LogWarning($"[NPCController] 이 NPC({ID})에 ShopInventory 컴포넌트가 없습니다.");
             return;
         }
 
         if (!UIManager.Instance.TryGetUI<ShopUI>(out var shopUI))
         {
-            Debug.Log("dd2");
             Debug.LogError("[NPCController] ShopUI를 찾을 수 없습니다.");
             return;
         }
 
         if (!shopInventory.Initialized)
         {
-            Debug.Log("dd3");
             shopInventory.OnInitialized += () => shopUI.OpenWithInventory(shopInventory);
         }
         else
         {
-            Debug.Log("dd4");
             shopUI.OpenWithInventory(shopInventory);
         }
     }
