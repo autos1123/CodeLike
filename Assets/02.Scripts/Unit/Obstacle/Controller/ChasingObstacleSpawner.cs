@@ -10,6 +10,11 @@ public class ChasingObstacleSpawner :ObstacleController
     private float resetTimer = 0f;
     private Coroutine resetCoroutine;
 
+    private void Start()
+    {
+        obstacle.Init(this);
+    }
+
     public override void PatternPlay()
     {
         isPatternEnd = false;
