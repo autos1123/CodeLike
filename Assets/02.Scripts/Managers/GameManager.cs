@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,7 +23,7 @@ public class GameManager : MonoSingleton<GameManager>
     public GameState curGameState;
     public event Action onGameStateChange;
 
-    public Dictionary<int, bool> processedEnhancerObjects = new();
+    public Dictionary<int, bool> processedNpcObjects = new();
 
     public void setState(GameState gameState)
     {
@@ -48,27 +47,27 @@ public class GameManager : MonoSingleton<GameManager>
 
         Application.targetFrameRate = 60;
         
-        if (processedEnhancerObjects == null)
+        if (processedNpcObjects == null)
         {
-            processedEnhancerObjects = new Dictionary<int, bool>();
+            processedNpcObjects = new Dictionary<int, bool>();
         }
     }
     private void Start()
     {
         //Application.targetFrameRate = 60;
     }
-    // 강화 NPC의 완료 상태를 설정하는 공용 메소드
-    public void SetEnhancementProcessed(GameObject npcObject, bool processed)
+    // 각종 NPC 상호작용의 완료 상태를 설정하는 공용 메소드
+    public void SetNpcInteractionProcessed(GameObject npcObject, bool processed)
     {
         int instanceId = npcObject.GetInstanceID();
-        processedEnhancerObjects[instanceId] = processed;
+        processedNpcObjects[instanceId] = processed;
     }
 
-    // 강화 NPC의 완료 상태를 확인하는 공용 메소드
-    public bool GetEnhancementProcessed(GameObject npcObject)
+    // 각종 NPC 상호작용의 완료 상태를 확인하는 공용 메소드
+    public bool GetNpcInteractionProcessed(GameObject npcObject)
     {
         int instanceId = npcObject.GetInstanceID();
-        return processedEnhancerObjects.TryGetValue(instanceId, out bool processed) && processed;
+        return processedNpcObjects.TryGetValue(instanceId, out bool processed) && processed;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
