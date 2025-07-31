@@ -61,8 +61,6 @@ public class PlayerDashState:PlayerBaseState
 
             GameObject.Destroy(vfx, 2f); // 자동 제거
         }
-
-        Debug.Log("DASH INPUT: " + input + " DIR: " + dir);
     }
 
     public override void StateUpdate()

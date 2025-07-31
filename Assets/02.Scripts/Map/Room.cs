@@ -71,7 +71,7 @@ public class Room : MonoBehaviour
         GridPosition = gridPos;
         Type = type;
     }
-    public void ChackClear()
+    public void CheckClear()
     {
         enemyCount--;
 
