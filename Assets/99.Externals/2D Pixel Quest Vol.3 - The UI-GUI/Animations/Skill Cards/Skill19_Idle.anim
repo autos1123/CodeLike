@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Skill19_Idle
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,8 +18,11 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
+      value: {fileID: 21300000, guid: 179932cf1ce22274d8320e1b95e8ad28, type: 3}
+    - time: 0.016666668
       value: {fileID: 21300000, guid: 179932cf1ce22274d8320e1b95e8ad28, type: 3}
     - time: 0.25
       value: {fileID: 21300000, guid: 179932cf1ce22274d8320e1b95e8ad28, type: 3}
@@ -55,6 +58,7 @@ AnimationClip:
     path: 
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -69,7 +73,10 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
+    - {fileID: 21300000, guid: 179932cf1ce22274d8320e1b95e8ad28, type: 3}
     - {fileID: 21300000, guid: 179932cf1ce22274d8320e1b95e8ad28, type: 3}
     - {fileID: 21300000, guid: 179932cf1ce22274d8320e1b95e8ad28, type: 3}
     - {fileID: 21300000, guid: 5020d5618973fa440a0b602839d847f4, type: 3}
