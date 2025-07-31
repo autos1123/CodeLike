@@ -97,7 +97,7 @@ public class PlayerActiveItemController:MonoBehaviour
         int index = (int)skillinput;
         if(index < 0 || index >= activeItemDatas.Count)
         {
-            Debug.LogError($"잘못된 스킬 인덱스: {index}");
+            Debug.LogWarning($"잘못된 스킬 인덱스: {index}");
             return false;
         }
         if(activeItemDatas[index] == null)

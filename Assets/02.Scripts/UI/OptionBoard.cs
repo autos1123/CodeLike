@@ -304,8 +304,14 @@ public class OptionBoard : UIBase
 
     private void OnClickExitToLobbyButton()
     {
-        // TODO : 로비로 돌아가는 로직 구현
-        Debug.Log("로비로 돌아갑니다."); // 로비로 돌아가는 버튼 클릭 이벤트
+        UIManager.Instance.ShowConfirmPopup(
+            "모든 정보를 잃고 로비씬으로 돌아갑니다",
+            onConfirm: () =>
+            {
+                SceneManager.LoadScene("LobbyScene");
+            },
+            onCancel: () => {}
+        );
     }
 
     private void OnClickExitToGameButton()
