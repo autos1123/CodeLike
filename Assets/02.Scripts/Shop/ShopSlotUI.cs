@@ -79,6 +79,7 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     {
         if(!isInteractable)
             return;
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ShopSlotClick");
         // 장착중인 아이템인지 확인 (플레이어 슬롯일 때만)
         OnClicked?.Invoke(this); 
     }

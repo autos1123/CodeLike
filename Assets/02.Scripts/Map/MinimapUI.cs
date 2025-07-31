@@ -35,12 +35,14 @@ public class MinimapUI: UIBase
     public override void Open()
     {
         base.Open();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"MapUIOpen");
         if(player == null) player = GameManager.Instance.Player.GetComponent<PlayerController>();
         UpdateCurrentRoomInfo();
     }
     public override void Close()
     {
         base.Close();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"MapUIClose");
     }
 
     

@@ -38,6 +38,9 @@ public class EnhanceBoard : UIBase
     public void Open(GameObject callingNpcObject)
     {
         base.Open();
+        
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"EnhanceOpen");
+        
         _callingNpcObject = callingNpcObject;
         _callingInstanceId = callingNpcObject.GetInstanceID();
         
@@ -118,6 +121,7 @@ public class EnhanceBoard : UIBase
     {
         if (!isEnhanceCompleted)
         {
+            SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"EnhanceClose");
             foreach(var card in cards)
             {
                 card.gameObject.SetActive(false); 

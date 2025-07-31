@@ -71,7 +71,8 @@ public class OptionBoard : UIBase
     public override void Open()
     {
         base.Open();
-
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"OptionOpen");
+        
         resolutionDropdown.onValueChanged.AddListener(ResolutionDropDownOptionChange); // 해상도 드롭다운 값 변경 이벤트 등록
         fullscreenDropdown.onValueChanged.AddListener(ScreenModeDropDownOptionChange); // 화면 모드 드롭다운 값 변경 이벤트 등록
 
@@ -124,6 +125,7 @@ public class OptionBoard : UIBase
     public override void Close()
     {
         base.Close();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"OptionClose");
 
         resolutionDropdown.onValueChanged.RemoveAllListeners(); // 해상도 드롭다운 값 변경 이벤트 제거
         fullscreenDropdown.onValueChanged.RemoveAllListeners(); // 화면 모드 드롭다운 값 변경 이벤트 제거

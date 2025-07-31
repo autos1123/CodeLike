@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -19,10 +20,20 @@ public class SlotClickHandler : MonoBehaviour, IPointerClickHandler
     /// </summary>
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (slotUI.slotType != SlotType.ActiveItem || slotUI.ActiveSlot == null || slotUI.ActiveSlot.ActiveItem == null)
+        if (slotUI.slotType != SlotType.ActiveItem)
             return;
-
-        string description = slotUI.ActiveSlot.GetDescription();
-        slotUI.inventoryUI?.SetInfoText(description);
+        
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position, "ButtonClick");
+        
+        if(slotUI.ActiveSlot == null || slotUI.ActiveSlot.ActiveItem == null)
+        {
+            string description = String.Empty;
+            slotUI.inventoryUI?.SetInfoText(description);
+        }
+        else
+        {
+            string description = slotUI.ActiveSlot.GetDescription();
+            slotUI.inventoryUI?.SetInfoText(description);
+        }
     }
 }

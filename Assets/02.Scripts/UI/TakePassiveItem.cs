@@ -19,13 +19,13 @@ public class TakePassiveItem : UIBase
     private void Start()
     {
         takeButton.onClick.AddListener(OnTake);
-        exitButton.onClick.AddListener(Close);
+        exitButton.onClick.AddListener(OnCloseButtonClicked);
     }
 
     public void Open(ItemData item, Inventory inventory,PassiveItemBox itemBox)
     {
         base.Open();
-
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxOpen");
         currentItem = item;
         playerInventory = inventory;
         sourceItemBox = itemBox;
@@ -43,6 +43,8 @@ public class TakePassiveItem : UIBase
             Debug.LogWarning("[TakePassiveItem] 아이템 또는 인벤토리 없음");
             return;
         }
+        
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"GetItem");
 
         playerInventory.AddToInventory(currentItem);
         if (sourceItemBox != null)
@@ -55,6 +57,11 @@ public class TakePassiveItem : UIBase
             sourceItemBox.gameObject.SetActive(false);
             Destroy(sourceItemBox.gameObject); 
         }
+        Close();
+    }
+    private void OnCloseButtonClicked()
+    {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxClose");
         Close();
     }
 }

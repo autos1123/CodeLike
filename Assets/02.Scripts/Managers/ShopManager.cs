@@ -140,7 +140,7 @@ public class ShopManager:MonoBehaviour
             playerInventory.AddToInventory(slot.InventoryItem);
 
         result = $"거래 완료! 현재 골드: {newGold}";
-        UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인");
+        UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인",playOpenSound:false);
         return true;
     }
     
