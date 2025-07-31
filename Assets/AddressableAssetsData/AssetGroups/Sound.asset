@@ -40,6 +40,31 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 436f1f5151dd06249bdf950d0e94a258
+    m_Address: HandAttack
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6dfa47fec76e0fe4a8c1f0f3ab4b4547
+    m_Address: CastSound
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e5186ca63bf7c64e990f6d05d92f301
+    m_Address: Assets/03.Prefaps/UI/Option.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    - TutorialUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93d387773a6b5504089e1f98a2d9fc3f
+    m_Address: HitSound
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:
