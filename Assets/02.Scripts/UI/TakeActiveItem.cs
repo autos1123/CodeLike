@@ -57,13 +57,14 @@ public class TakeActiveItem:UIBase
         {
             var itemData = activeItemSlots[i].ActiveItem;
             slotImages[i].sprite = GetIcon(itemData);
-            slotImages[i].color = Color.white;
+            slotImages[i].color = new Color32(0, 0, 0, 0);
         }
 
         selectedSlot = -1;
         takeButton.interactable = false;
 
         leftItemImage.sprite = GetIcon(activeItemSlots[0].ActiveItem);
+        if(leftItemImage.sprite == null) leftItemImage.color = new Color32(0, 0, 0, 0);
         leftItemDescription.text = GetDescriptionByID(activeItemSlots[0].ActiveItem?.ID ?? -1);
 
         acquiredItemImage.sprite = GetIcon(acquiredItem);
@@ -77,7 +78,7 @@ public class TakeActiveItem:UIBase
         selectedSlot = slotIndex;
 
         for(int i = 0; i < slotImages.Length; i++)
-            slotImages[i].color = (i == slotIndex) ? Color.yellow : Color.white;
+            slotImages[i].color = (i == slotIndex) ? new Color32(255, 100, 0, 255) : new Color32(0, 0, 0, 0);
 
         var selectedItem = activeItemSlots[slotIndex].ActiveItem;
         leftItemImage.sprite = GetIcon(selectedItem);
