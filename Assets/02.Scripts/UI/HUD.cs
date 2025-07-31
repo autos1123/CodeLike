@@ -76,12 +76,19 @@ public class HUD:UIBase
 
     void ChangeHP()
     {
-        HPFill.fillAmount = player.Condition.GetConditionRatio(ConditionType.HP);
+        float currentHP = player.Condition.CurrentConditions[ConditionType.HP]; // 실제 현재 HP
+        float maxHP = player.Condition.GetTotalMaxValue(ConditionType.HP); // 강화 포함한 최대 HP
+
+        HPFill.fillAmount = currentHP / maxHP;
     }
 
     void ChangeStamina()
     {
-        StaminaFill.fillAmount = player.Condition.GetConditionRatio(ConditionType.Stamina);
+        float currentStamina = player.Condition.CurrentConditions[ConditionType.Stamina]; // 실제 현재 HP
+        float maxStamina = player.Condition.GetTotalMaxValue(ConditionType.Stamina); // 강화 포함한 최대 HP
+
+        StaminaFill.fillAmount = currentStamina / maxStamina;
+        
     }
 
     void ChangeItemSlot1CoolTime(float time)

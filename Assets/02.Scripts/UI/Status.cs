@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class Status : MonoBehaviour
+public class Status:MonoBehaviour
 {
     TextMeshProUGUI text;
     [SerializeField] ConditionType _conditionType;
@@ -13,16 +13,16 @@ public class Status : MonoBehaviour
 
     private void OnEnable()
     {
-        if (text == null)
+        if(text == null)
             text = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
 
         var gameManager = GameManager.Instance;
-        if (gameManager == null || gameManager.Player == null) return;
+        if(gameManager == null || gameManager.Player == null) return;
 
         var playerController = gameManager.Player.GetComponent<PlayerController>();
-        if (playerController == null || playerController.Condition == null) return;
+        if(playerController == null || playerController.Condition == null) return;
 
-        if (!playerController.Condition.statModifiers.ContainsKey(_conditionType)) return;
+        if(!playerController.Condition.statModifiers.ContainsKey(_conditionType)) return;
 
         playerController.Condition.statModifiers[_conditionType] += onChangeText;
         onChangeText();
@@ -31,18 +31,33 @@ public class Status : MonoBehaviour
     private void OnDisable()
     {
         var gameManager = GameManager.Instance;
-        if (gameManager == null || gameManager.Player == null) return;
+        if(gameManager == null || gameManager.Player == null) return;
 
         var playerController = gameManager.Player.GetComponent<PlayerController>();
-        if (playerController == null || playerController.Condition == null) return;
+        if(playerController == null || playerController.Condition == null) return;
 
-        if (!playerController.Condition.statModifiers.ContainsKey(_conditionType)) return;
+        if(!playerController.Condition.statModifiers.ContainsKey(_conditionType)) return;
 
         playerController.Condition.statModifiers[_conditionType] -= onChangeText;
     }
 
     void onChangeText()
     {
-        text.text = GameManager.Instance.Player.GetComponent<PlayerController>().Condition.GetStatus(_conditionType);
+        var player = GameManager.Instance.Player.GetComponent<PlayerController>();
+
+        float currentValue = player.Condition.CurrentConditions[_conditionType];
+        float maxValue = player.Condition.GetTotalMaxValue(_conditionType);
+        if (_conditionType == ConditionType.HP)
+        {
+            text.text = $"{currentValue:F0} / {maxValue:F0}";
+        }
+        else if(_conditionType == ConditionType.Stamina)
+        {
+            text.text = $"{maxValue:F0}";
+        }
+        else
+        {
+            text.text = currentValue.ToString("F0");
+        }
     }
 }
