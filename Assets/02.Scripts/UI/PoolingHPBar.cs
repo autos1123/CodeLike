@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PoolingHPBar : MonoBehaviour, IPoolObject
@@ -11,7 +12,7 @@ public class PoolingHPBar : MonoBehaviour, IPoolObject
     [Header("체력 UI")]
     [SerializeField] private Image hpBarImage;
 
-    public GameObject GameObject => gameObject;
+    public GameObject GameObject => this != null ? gameObject : null;
 
     public PoolType PoolType => poolType;
 
@@ -22,10 +23,7 @@ public class PoolingHPBar : MonoBehaviour, IPoolObject
     {
         mainCam = Camera.main;
     }
-    private void OnDestroy()
-    {
-        PoolManager.Instance.ReturnObject(this);
-    }
+
     void LateUpdate()
     {
         transform.forward = mainCam.transform.forward;

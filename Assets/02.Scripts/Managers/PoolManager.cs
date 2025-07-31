@@ -116,14 +116,7 @@ public class PoolManager:MonoSingleton<PoolManager>
 
     public void ReturnObject(IPoolObject obj, float returnTime = 0, UnityAction action = null)
     {
-        if(returnTime == 0)
-        {
-            ReturnObject(obj, action);
-        }
-        else
-        {
             StartCoroutine(DelayedReturnObject(obj, returnTime, action));
-        }
     }
 
     IEnumerator DelayedReturnObject(IPoolObject obj, float returnTime, UnityAction action)
@@ -140,6 +133,8 @@ public class PoolManager:MonoSingleton<PoolManager>
 
     public void ReturnObject(IPoolObject obj, UnityAction action)
     {
+        if(obj == null || obj.GameObject == null) return;
+
         obj.GameObject.SetActive(false);
         obj.GameObject.transform.position = Vector3.zero;
         action?.Invoke();

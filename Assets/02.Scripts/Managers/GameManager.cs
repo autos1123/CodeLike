@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,8 +13,6 @@ public enum GameState
 [DefaultExecutionOrder(-100)]
 public class GameManager : MonoSingleton<GameManager>
 {
-
-
     [SerializeField]private GameObject _player;
     public GameObject Player
     {
@@ -25,6 +24,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     public Dictionary<int, bool> processedNpcObjects = new();
 
+    public float Gold=0;
+    public Dictionary<ConditionType, Dictionary<ModifierType, float>> ConditionModifier;
     public void setState(GameState gameState)
     {
         curGameState = gameState;
@@ -33,7 +34,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     void OnEnable()
     {
-
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -75,8 +75,31 @@ public class GameManager : MonoSingleton<GameManager>
         if(_player != null)
         {
             Destroy(_player);
-            _player=null;
+            _player = null;
         }
         _player = GameObject.FindGameObjectWithTag(TagName.Player);
+
+        StartCoroutine(DelayedSceneInit());
+
+    }
+    IEnumerator DelayedSceneInit()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+
+
+        if(SceneManager.GetActiveScene().name.CompareTo("PrototypeScene") == 0)
+        {
+            if(ConditionModifier != null)
+            {
+                _player.GetComponent<BaseController>().Condition.SetModifier(ConditionModifier);
+                _player.GetComponent<BaseController>().Condition.CurrentConditions[ConditionType.Gold] = 0;
+                _player.GetComponent<BaseController>().Condition.ChangeGold(Gold);
+            }
+        }
+        if(SceneManager.GetActiveScene().name.CompareTo("LobbyScene") == 0)
+        {
+            _player.GetComponent<BaseController>().Condition.ResetModifier();
+            _player.GetComponent<BaseController>().Condition.ChangeGold(-Gold * 0.2f);
+        }
     }
 }
