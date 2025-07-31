@@ -133,7 +133,7 @@ public class PoolManager:MonoSingleton<PoolManager>
 
     public void ReturnObject(IPoolObject obj, UnityAction action)
     {
-        if(obj.GameObject == null) return;
+        if(obj == null || obj.GameObject == null) return;
 
         obj.GameObject.SetActive(false);
         obj.GameObject.transform.position = Vector3.zero;
