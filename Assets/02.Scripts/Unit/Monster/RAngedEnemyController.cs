@@ -4,6 +4,8 @@ public class RangedEnemyController : EnemyController
 {
     [Header("원거리 적 설정")]
     [SerializeField] private Transform projectileOffset;
+    [Header("투사체 방식")]
+    [SerializeField] private int projectileType;
 
 
     /// <summary>
@@ -24,7 +26,7 @@ public class RangedEnemyController : EnemyController
     private void FireProjectile(Vector3 targetPos)
     {
         // 타겟까지의 방향 계산
-        Vector3 direction = (targetPos + Vector3.up * 1.5f)- projectileOffset.position;
+        Vector3 direction = (targetPos + Vector3.up * 1.5f) - projectileOffset.position;
         direction.y = 0; // 수평 방향으로만 발사
         direction.Normalize();
 
@@ -32,6 +34,15 @@ public class RangedEnemyController : EnemyController
         GameObject projectile = PoolManager.Instance.GetObject(PoolType.projectile);
         projectile.transform.position = projectileOffset.position;
         projectile.GetComponent<Projectile>()?.InitProjectile(direction, 10f, Condition.GetTotalCurrentValue(ConditionType.AttackPower));
+        switch(projectileType) {
+            case 0:
+        SoundManager.Instance.PlaySFX(transform.position, "ARROW_01");
+            break;
+            case 1:
+        SoundManager.Instance.PlaySFX(transform.position, "GUN_01");
+            break;
+
+    }
     }
 
     protected override void SetEnemyState()
