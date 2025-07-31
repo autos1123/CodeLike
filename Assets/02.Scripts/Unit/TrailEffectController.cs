@@ -22,6 +22,9 @@ public class TrailEffectController:MonoBehaviour
     {
         if(trail == null) return;
         StopAllCoroutines();
+
+        trail.Clear();
+
         trail.enabled = true;
         StartCoroutine(DisableTrailAfter(duration > 0 ? duration : defaultTrailTime));
     }

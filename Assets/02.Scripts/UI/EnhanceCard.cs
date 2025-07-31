@@ -188,7 +188,7 @@ public class EnhanceCard:MonoBehaviour
         float currentStat = 0f; // 현재 스탯 값은 Refresh 시에도 다시 가져올 수 있음
         if (GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
         {
-            currentStat = playerController.Condition.GetTotalCurrentValue(_enhanceData.ConditionType);
+            currentStat = playerController.Condition.GetTotalMaxValue(_enhanceData.ConditionType);
         }
         string line1 = $"{statName}이 {_randomIncreaseValue:F1} 증가합니다.";
         string line2 = $"강화 후: {currentStat:F2} → {currentStat + _randomIncreaseValue:F1}";

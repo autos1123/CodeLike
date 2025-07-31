@@ -136,7 +136,7 @@ public class EnhanceBoard : UIBase
             
             if (GameManager.Instance != null && _callingNpcObject != null)
             {
-                GameManager.Instance.SetEnhancementProcessed(_callingNpcObject, true);
+                GameManager.Instance.SetNpcInteractionProcessed(_callingNpcObject, true);
             }
         }
         _selectedCardInstance = null;

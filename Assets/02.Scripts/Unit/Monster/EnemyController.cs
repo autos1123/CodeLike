@@ -21,6 +21,7 @@ public abstract class EnemyController:BaseController
     private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
     private float agentSpeedTmp; // NavMeshAgent의 속도 저장
 
+    public string soundName;
     public Room room {  get; private set; }
 
     protected override void OnEnable()

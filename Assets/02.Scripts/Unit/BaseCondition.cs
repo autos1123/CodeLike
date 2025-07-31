@@ -39,7 +39,7 @@ public class BaseCondition
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    private float GetCurrentConditionValue(ConditionType type)
+    public float GetCurrentConditionValue(ConditionType type)
     {
         float baseValue = 0;
         if(CurrentConditions.TryGetValue(type, out float curValue))
@@ -154,7 +154,13 @@ public class BaseCondition
         {
             ConditionModifier[c_type] = new Dictionary<ModifierType, float> { { m_type, value } };
         }
-        
+        //임시
+        GameManager.Instance.ConditionModifier = ConditionModifier;
+        Debug.Log(CurrentConditions[c_type]);
+        Debug.Log(GetOriginConditionValue(c_type));
+        Debug.Log(GetCurrentConditionValue(c_type));
+        Debug.Log(GetModifierValue(c_type));
+
         statModifiers[c_type]?.Invoke();
     }
 
@@ -165,6 +171,11 @@ public class BaseCondition
     public void ResetModifier()
     {
         ConditionModifier.Clear();
+    }
+
+    public void SetModifier(Dictionary<ConditionType, Dictionary<ModifierType, float>> conditionModifier)
+    {
+        ConditionModifier = conditionModifier;
     }
 
     public bool UseStamina(float amount)
@@ -250,5 +261,8 @@ public class BaseCondition
 
         CurrentConditions[ConditionType.Gold] += value;
         statModifiers[ConditionType.Gold]?.Invoke(); // 골드 변경 이벤트
+
+        //임시                                             
+        GameManager.Instance.Gold = CurrentConditions[ConditionType.Gold];
     }
 }
