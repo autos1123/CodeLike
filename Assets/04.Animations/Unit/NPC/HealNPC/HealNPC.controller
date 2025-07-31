@@ -28,7 +28,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnhanceNPC
+  m_Name: HealNPC
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
@@ -64,7 +64,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 809cae09ad2a9cc4598ee4a402dff79f, type: 2}
+  m_Motion: {fileID: 7400000, guid: 658cb2beab339774385bd8d1797dbcf9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
