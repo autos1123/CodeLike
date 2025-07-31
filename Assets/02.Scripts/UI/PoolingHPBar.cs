@@ -22,7 +22,10 @@ public class PoolingHPBar : MonoBehaviour, IPoolObject
     {
         mainCam = Camera.main;
     }
-
+    private void OnDestroy()
+    {
+        PoolManager.Instance.ReturnObject(this);
+    }
     void LateUpdate()
     {
         transform.forward = mainCam.transform.forward;
