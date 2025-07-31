@@ -22,8 +22,6 @@ public class SoundSource : MonoBehaviour ,IPoolObject
     
     public void Play(AudioClip clip,bool issfx)
     {
-
-
         HandleViewModeChange(issfx);
 
         if(issfx) 
