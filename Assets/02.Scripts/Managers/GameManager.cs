@@ -79,14 +79,10 @@ public class GameManager : MonoSingleton<GameManager>
         }
         _player = GameObject.FindGameObjectWithTag(TagName.Player);
 
-        StartCoroutine(DelayedSceneInit());
 
     }
-    IEnumerator DelayedSceneInit()
+    public void  DelayedSceneInit()
     {
-        yield return new WaitForSecondsRealtime(1f);
-
-
         if(SceneManager.GetActiveScene().name.CompareTo("PrototypeScene") == 0)
         {
             if(ConditionModifier != null)

@@ -179,6 +179,8 @@ public class PlayerController:BaseController
             inventory.InitializeInventory(); // TableManager 준비될 때까지 대기 후 초기화
         }
         //UIManager.Instance.ShowUI<HUD>();
+
+        GameManager.Instance.DelayedSceneInit();
         isInitialized = true;
     }
 }
