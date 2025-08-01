@@ -46,7 +46,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b6f13615a0aba0a4ba7f961a2be2e173
+  - m_GUID: 82586271362148849bbb38c4c60a8aa8
     m_Address: HandAttack
     m_ReadOnly: 0
     m_SerializedLabels:
@@ -229,6 +229,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 93d387773a6b5504089e1f98a2d9fc3f
     m_Address: HitSound
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e587c584f3f46c9408e15a6768cddec1
+    m_Address: DashSound
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
