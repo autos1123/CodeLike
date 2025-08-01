@@ -77,8 +77,7 @@ public class PlayerActiveItemController:MonoBehaviour
             activeItemCoolTime.Add(0);
         }
         activeItemDatas[index] = activeItemData;
-        activeItemCoolTime[index] = activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID).Cooldown;
-        StartCoroutine(CoolDown(index));
+        activeItemCoolTime[index] = 0;
     }
 
     public void UseItem(Skillinput skillinput)

@@ -64,7 +64,6 @@ public class TutorialEventWaitStep : TutorialStep
     public override void Deactivate()
     {
         base.Deactivate();
-        Debug.Log($"[TutorialStep] '{QuestDescription}' 스텝 비활성화.");
         
         switch (eventToWait)
         {
