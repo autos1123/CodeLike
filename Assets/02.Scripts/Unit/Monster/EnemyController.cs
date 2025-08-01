@@ -97,7 +97,7 @@ public abstract class EnemyController:BaseController
         // 체력 UI 초기화
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
         hpBar.transform.SetParent(transform);
-        hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
+        hpBar.transform.localPosition = Vector3.zero + Vector3.up * (col.bounds.size.y + 0.5f); // HP Bar 위치 조정
         HpBarUpdate();
         Condition.statModifiers[ConditionType.HP] += HpBarUpdate; // 체력 변화시 UI 업데이트
 

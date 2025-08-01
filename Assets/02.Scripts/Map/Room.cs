@@ -10,6 +10,7 @@ using UnityEngine;
 public enum RoomType
 {
     Start,
+    End,
     Normal,
     Boss,
     Shop,
