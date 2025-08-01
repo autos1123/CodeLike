@@ -10,7 +10,8 @@ public enum PoolType
     SoundSource,
     AoE,
     Zone,
-    Heal
+    Heal,
+    ArrowProjectile
 }
 public interface IPoolObject
 {

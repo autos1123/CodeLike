@@ -15,17 +15,36 @@ MonoBehaviour:
   dataList:
   - ID: 8000
     Name: kim
-    Type: 1
-    description: []
+    Type: 0
+    description:
+    - Merchant
+    - "\uCCAB\uBB38\uC7A5"
+    - "\uB450\uBB38\uC7A5"
+    - "\uC138\uBB38\uC7A5"
+    - "\uB124\uBB38\uC7A5"
+    - "\uB2E4\uC12F\uBB38\uC7A5"
   - ID: 8001
     Name: lee
-    Type: 1
-    description: []
+    Type: 0
+    description:
+    - Merchant
+    - "\uCCAB\uBB38\uC7A5"
+    - "\uB450\uBB38\uC7A5"
+    - "\uC138\uBB38\uC7A5"
+    - "\uB124\uBB38\uC7A5"
+    - "\uB2E4\uC12F\uBB38\uC7A5"
+    - "\uCCAB\uBB38\uC7A5"
+    - "\uB450\uBB38\uC7A5"
+    - "\uC138\uBB38\uC7A5"
+    - "\uB124\uBB38\uC7A5"
+    - "\uB2E4\uC12F\uBB38\uC7A5"
   - ID: 8002
     Name: gong
-    Type: 2
-    description: []
+    Type: 0
+    description:
+    - Enhancer
   - ID: 8003
     Name: lym
-    Type: 3
-    description: []
+    Type: 0
+    description:
+    - Healer
