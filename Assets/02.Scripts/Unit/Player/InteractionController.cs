@@ -135,8 +135,6 @@ public class InteractionController:MonoBehaviour
         if(interactableObj != currentBestInteractable)
         {
             interactableObj = currentBestInteractable;
-            UIManager.Instance.Hide<DialogueBoard>();
-            UIManager.Instance.Hide<ShopUI>();
         }
 
         // 대상이 없으면 UI 초기화 후 종료

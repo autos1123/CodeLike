@@ -161,13 +161,25 @@ public class UIManager:MonoSingleton<UIManager>
             hintUI.Close();
         }
     }
-    public void ShowConfirmPopup(string message, Action onConfirm, Action onCancel = null,string confirmText = "예", string cancelText = "아니오")
+    public void ShowConfirmPopup(
+        string message, 
+        Action onConfirm, 
+        Action onCancel = null,string confirmText = "예", 
+        string cancelText = "아니오",bool playOpenSound = true
+        )
     {
         if (_uiInstances.TryGetValue(nameof(ConfirmPopup), out var ui))
         {
             var popup = ui as ConfirmPopup;
             popup.Setup(message, onConfirm, onCancel,confirmText, cancelText);
-            popup.Open();
+            if(playOpenSound)
+            {
+                popup.Open();
+            }
+            else
+            {
+                popup.gameObject.SetActive(true);
+            }
         }
         else
         {

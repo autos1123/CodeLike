@@ -24,6 +24,7 @@ public class SlotTooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerE
     /// </summary>
     public void OnPointerEnter(PointerEventData eventData)
     {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"SlotPointer");         
         if (slotUI.backgroundImage != null)
         {
             slotUI.backgroundImage.color = new Color(0.9f, 0.9f, 0.9f, 1f);

@@ -13,9 +13,11 @@ public class StatusBoard : UIBase
     public override void Open()
     {
         base.Open();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"StatusClose");
     }
     public override void Close()
     {
         base.Close();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"StatusOpen");
     }
 }

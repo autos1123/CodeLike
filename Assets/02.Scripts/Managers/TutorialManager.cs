@@ -70,6 +70,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         currentStep = tutorialSteps[currentStepIndex];
         currentStep.OnStepCompleted += NextStep;
         currentStep.Activate();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"TutorialHint");
     }
     public void NotifyStepActivated(string hintMessage, string questDescription)
     {

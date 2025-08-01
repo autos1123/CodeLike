@@ -25,6 +25,8 @@ public class HealUI : UIBase
 
     public void Open(GameObject npcObject)
     {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"PopUpOpen");
+        
         _interactedNPC = npcObject;
         _currentNPCInstanceId = npcObject.GetInstanceID();
         
@@ -60,7 +62,7 @@ public class HealUI : UIBase
 
     private void UpdateUI(int percentage)
     {
-        _healMessageText.text = $"현재 플레이어의 최대 체력의 <color=green>{percentage}%</color>만큼 체력을 회복합니다.\n진행하시겠습니까?";
+        _healMessageText.text = $"현재 플레이어의 최대 체력의 <color=green>{percentage}%</color>만큼 체력을 회복합니다.\n진행하시겠습니까? \n";
     }
 
     private void AddListeners()
@@ -117,12 +119,15 @@ public class HealUI : UIBase
         
         //실제 회복한 양
         float actualHealedAmount = playerCondition.CurrentConditions[ConditionType.HP] - oldHealth;
-
+        
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"Heal");
+        
         UIManager.Instance.ShowConfirmPopup(
             $"체력을 {actualHealedAmount}만큼 회복했습니다",
             onConfirm: () => { },
             onCancel: null,
-            confirmText: "확인"
+            confirmText: "확인",
+            playOpenSound:false
         );
         
         // NPC가 치료 완료 상태임을 GameManager에 기록
@@ -132,6 +137,7 @@ public class HealUI : UIBase
 
     private void OnExitButtonClick()
     {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ButtonClick");
         Close();
     }
 }

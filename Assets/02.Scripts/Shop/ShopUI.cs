@@ -46,10 +46,13 @@ public class ShopUI : UIBase
     {
         shopInventoryRaw = inventory;
         base.Open();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ShopOpen");
         
         dealBtn.onClick.RemoveAllListeners();
         dealBtn.onClick.AddListener(ExecuteTransaction);
-
+        exitBtn.onClick.RemoveAllListeners();
+        exitBtn.onClick.AddListener(Close);
+        
         StartCoroutine(WaitForInitAndBind());
     }
     /// <summary>
@@ -57,6 +60,7 @@ public class ShopUI : UIBase
     /// </summary>
     public override void Close()
     {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ShopClose");
         base.Close();
         selectedSellItems.Clear();
         UnsubscribeGoldUpdate();
@@ -209,6 +213,7 @@ public class ShopUI : UIBase
         
         if (shopManager.TryExecuteTransaction(sellItems, buyItems, out var result))
         {
+            SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"Deal");
             foreach(var slot in buySlotSelected)
             {
                 purchaseSlots.Add(slot.InventoryItemSlot);

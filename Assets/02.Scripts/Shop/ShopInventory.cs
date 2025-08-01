@@ -8,10 +8,12 @@ public class ShopInventory : MonoBehaviour,IInventory
 {
     public int npcID;
     
+    [Header("판매할 아이템 ID 리스트")]
+    [SerializeField] private List<int> itemIDs = new(); // 인스펙터에서 ID만 입력
     private ItemDataTable itemDataTable;
-    private NPCDataTable npcDataTable;
     
-    public List<InventoryItemSlot> inventorySlots = new List<InventoryItemSlot>();
+    public List<InventoryItemSlot> inventorySlots { get; private set; } = new();
+
     public bool Initialized { get; private set; } = false;
     public event Action OnInitialized;
     
@@ -32,26 +34,21 @@ public class ShopInventory : MonoBehaviour,IInventory
     private void Start()
     {
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
-        npcDataTable = TableManager.Instance.GetTable<NPCDataTable>();
-        
-        Init();
-        var npcData = npcDataTable.GetDataByID(npcID);
-        if (npcData == null)
-        {
-            Debug.LogError($"[ShopInventory] NPCData를 찾을 수 없습니다. ID: {npcID}");
-            return;
-        }
 
-        foreach (var id in npcData.shopItemIDs)
+        Init();
+        foreach (int id in itemIDs)
         {
             var item = itemDataTable.GetDataByID(id);
             if (item != null)
+            {
                 inventorySlots.Add(CreateSlot(item));
+            }
+            else
+            {
+                Debug.LogWarning($"[ShopInventory] ID {id}에 해당하는 ItemData를 찾을 수 없습니다.");
+            }
         }
-        // var item1 = itemDataTable.GetDataByID(6000);
-        // var item2 = itemDataTable.GetDataByID(6001);
-        // inventorySlots.Add(CreateSlot(item1));
-        // inventorySlots.Add(CreateSlot(item2));
+        
         Initialized = true;
         OnInitialized?.Invoke();
     }

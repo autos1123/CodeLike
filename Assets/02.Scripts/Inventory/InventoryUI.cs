@@ -36,7 +36,7 @@ public class InventoryUI : UIBase
     public override void Open()
     {
         base.Open();
-        
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BookOpen");
         foreach (var slot in inventorySlotUIs)
             slot.Init(this); 
 
@@ -54,6 +54,7 @@ public class InventoryUI : UIBase
     public override void Close()
     {
         base.Close();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BookClose");
         tooltipManager.Hide(); // 툴팁 강제 비활성화
     }
     

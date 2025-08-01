@@ -40,14 +40,182 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b6f13615a0aba0a4ba7f961a2be2e173
+  - m_GUID: 5079e337295ed8f4eadeb269ed600150
+    m_Address: Assets/98.Sound/CardFlip.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 82586271362148849bbb38c4c60a8aa8
     m_Address: HandAttack
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 518d301dae48534439be69071f713f56
+    m_Address: Assets/98.Sound/ButtonClick.wav
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6dfa47fec76e0fe4a8c1f0f3ab4b4547
     m_Address: CastSound
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b907928de69dbd4587237c39a5be980
+    m_Address: Assets/98.Sound/CardSelect.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e0623660aa6d0f4b8bbbc26e9adf4fb
+    m_Address: Assets/98.Sound/CardSecondClick.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 09f285f0b8860fb4b803dd323e2bdbff
+    m_Address: Assets/98.Sound/PopUpOpen.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df21d2a3d6d3f4e4fb07149ee94798a4
+    m_Address: Assets/98.Sound/TutorialHint.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0bf03584341022c498f34e711ff3fe4b
+    m_Address: Assets/98.Sound/BookOpen.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d047ee8cb6fafe343871d7a835cd409e
+    m_Address: Assets/98.Sound/Drop.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23eb3777225dcf54fbb6aab4ccff2b9f
+    m_Address: Assets/98.Sound/Drag.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7f4b37836cbc744baf4540dc6e2aeea
+    m_Address: Assets/98.Sound/SlotPointer.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 535a6e0ad6d03704aa92dd113bfaf707
+    m_Address: Assets/98.Sound/Equip.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6311ee99f184e0468d5f5cba0440293
+    m_Address: Assets/98.Sound/BookClose.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 802b0fc52acb5c14f950653c5d25c57b
+    m_Address: Assets/98.Sound/Heal.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8d22a1d9411cc945bc90e8f8b6b774f
+    m_Address: Assets/98.Sound/MapUIOpen.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0dc2693162de7f94d87ab6d02c2a9263
+    m_Address: Assets/98.Sound/MapUIClose.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 291354c89d2eaa74eb733c496cc10616
+    m_Address: Assets/98.Sound/OptionOpen.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 07a6002f026914b41b0fda8e324c90e9
+    m_Address: Assets/98.Sound/OptionClose.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f622fb91ea11a924a8c01457508fb86d
+    m_Address: Assets/98.Sound/StatusClose.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ecf17eb88225b5e4098bcb7a9db02d19
+    m_Address: Assets/98.Sound/StatusOpen.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8ad0a8f9a0e070242aa7330dd6cd5cae
+    m_Address: Assets/98.Sound/ShopOpen.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b93ee11ee3d76ab48b53f5d17b2430ed
+    m_Address: Assets/98.Sound/ShopClose.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88f9835902f7b374f9dd7d6deb0b6606
+    m_Address: Assets/98.Sound/BoxOpen.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 310879c3f91a2634ba6e977996bd5948
+    m_Address: Assets/98.Sound/BoxClose.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 010492e95f397c54785eaa6605e81f6d
+    m_Address: Assets/98.Sound/EnhanceOpen.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f61f404ecfae43e47a7e84f23cfbde4b
+    m_Address: Assets/98.Sound/EnhanceClose.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55201ec8c3590e44482e94372b842e48
+    m_Address: Assets/98.Sound/Deal.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3caf66bb749d734dbda9bd2644d06bf
+    m_Address: Assets/98.Sound/ShopSlotClick.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a2de526b7fdb5c4184ba88d3d48c226
+    m_Address: Assets/98.Sound/GetItem.wav
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
@@ -61,6 +229,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 93d387773a6b5504089e1f98a2d9fc3f
     m_Address: HitSound
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e587c584f3f46c9408e15a6768cddec1
+    m_Address: DashSound
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX

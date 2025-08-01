@@ -23,42 +23,34 @@ public static class GameEvents
     public static void TriggerMonsterKilled()
     {
         OnMonsterKilled?.Invoke();
-        Debug.Log("GameEvents: OnMonsterKilled 이벤트가 발생했습니다");
     }
     public static void TriggerPassiveItemUIOpened()
     {
         OnPassiveItemUIOpened?.Invoke();
-        Debug.Log("GameEvents: OnRandomItemUIOpened 이벤트가 발생했습니다.");
     }
     public static void TriggerPassiveItemTake()
     {
         OnPassiveItemTake?.Invoke();
-        Debug.Log("GameEvents: OnItemAcquired 이벤트가 발생했습니다.");
     }
     public static void TriggerActiveItemUIOpened()
     {
         OnActiveItemUIOpened?.Invoke();
-        Debug.Log("GameEvents: OnRandomItemUIOpened 이벤트가 발생했습니다.");
     }
     public static void TriggerActiveItemTake()
     {
         OnActiveItemTake?.Invoke();
-        Debug.Log("GameEvents: OnActiveItemTake 이벤트가 발생했습니다.");
     }
 
     public static void TriggerActiveSkillUse()
     {
         OnActiveSkillUse?.Invoke();
-        Debug.Log("GameEvents: OnActiveSkillUse 이벤트가 발생했습니다.");
     }
     public static void TriggerInventoryOpened()
     {
         OnInventoryOpened?.Invoke();
-        Debug.Log("GameEvents: OnInventoryOpened 이벤트가 발생했습니다.");
     }
     public static void TriggerItemEquipped()
     {
         OnItemEquipped?.Invoke();
-        Debug.Log("GameEvents: OnItemEquipped 이벤트가 발생했습니다.");
     }
 }

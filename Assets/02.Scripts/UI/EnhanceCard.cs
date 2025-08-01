@@ -77,11 +77,13 @@ public class EnhanceCard:MonoBehaviour
         if (!_button.interactable) return;
         
         if (!_isFlipped)
-        {
+        { 
+            SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"CardFlip");
             StartCoroutine(FlipAnimation());  // 아직 안 뒤집었으면 뒤집기
         }
         else
         {
+            SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"CardSecondClick");
             _selectButton.gameObject.SetActive(true);
             StartCoroutine(SecondClickAnimation());
             _enhanceBoard.CardSelected(this);
@@ -147,8 +149,17 @@ public class EnhanceCard:MonoBehaviour
         yield return new WaitForSeconds(_secondClickAnimDuration / 2); 
 
     }
-    void SelectCard() // 선택 버튼이 눌렸을 때 호출될 메소드
+
+    void SelectCard()
     {
+        StartCoroutine(CoroutineSelectCardEffect());
+    }
+    private IEnumerator CoroutineSelectCardEffect() // 선택 버튼이 눌렸을 때 호출될 메소드
+    {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"CardSelect");
+        yield return StartCoroutine(PlayCardBumpAnimation());
+        yield return new WaitForSeconds(0.5f);
+        
         if (GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
         {
             playerController.Condition.ChangeModifierValue(
@@ -160,6 +171,24 @@ public class EnhanceCard:MonoBehaviour
         _enhanceBoard.isEnhanceCompleted = true;
         _enhanceBoard.Close(); 
     }
+    
+    private IEnumerator PlayCardBumpAnimation()
+    {
+        RectTransform cardRect = _cardImage.rectTransform;
+        Vector3 originalPos = cardRect.anchoredPosition;
+
+        float moveAmount = 50f; // 위로 올라갈 거리
+        float moveDuration = 0.3f;
+
+        // 위로 올라가기
+        cardRect.DOAnchorPosY(originalPos.y + moveAmount, moveDuration).SetEase(Ease.OutQuad);
+        yield return new WaitForSeconds(moveDuration);
+        
+        // 다시 내려오기
+        cardRect.DOAnchorPosY(originalPos.y, moveDuration).SetEase(Ease.InQuad);
+        yield return new WaitForSeconds(moveDuration);
+    }
+    
     public void SetSelectButtonActive(bool active)
     {
         _selectButton.gameObject.SetActive(active);

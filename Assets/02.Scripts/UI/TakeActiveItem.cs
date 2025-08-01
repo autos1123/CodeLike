@@ -43,12 +43,14 @@ public class TakeActiveItem:UIBase
             slotButtons[i].onClick.AddListener(() => OnSlotSelected(idx));
         }
         takeButton.interactable = false;
-        closeButton.onClick.AddListener(Close); // 나가기 버튼 이벤트 등록
+        closeButton.onClick.AddListener(OnCloseButtonClicked); // 나가기 버튼 이벤트 등록
     }
 
     public void Open(ActiveItemSlot[] _activeItemSlots, ActiveItemData _acquiredItem, Inventory _playerInventory = null,ActiveItemBox _sourceActiveItemBox = null)
     {
         base.Open();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxOpen");
+
         activeItemSlots = _activeItemSlots;
         acquiredItem = _acquiredItem;
         playerInventory = _playerInventory;
@@ -75,8 +77,9 @@ public class TakeActiveItem:UIBase
 
     private void OnSlotSelected(int slotIndex)
     {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ShopSlotClick");
         selectedSlot = slotIndex;
-
+        
         for(int i = 0; i < slotImages.Length; i++)
             slotImages[i].color = (i == slotIndex) ? new Color32(255, 100, 0, 255) : new Color32(0, 0, 0, 0);
 
@@ -94,6 +97,8 @@ public class TakeActiveItem:UIBase
     public void OnTakeButton()
     {
         if(selectedSlot == -1) return;
+        
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"GetItem");
 
         var slotObj = activeItemSlots[selectedSlot];
 
@@ -121,6 +126,12 @@ public class TakeActiveItem:UIBase
         }
         Close();
     }
+    private void OnCloseButtonClicked()
+    {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxClose");
+        Close();
+    }
+    
     Sprite GetIcon(ActiveItemData item)
     {
         return item == null ? null : Resources.Load<Sprite>(item.IconPath);

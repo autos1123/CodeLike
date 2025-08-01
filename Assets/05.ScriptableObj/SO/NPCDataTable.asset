@@ -15,36 +15,17 @@ MonoBehaviour:
   dataList:
   - ID: 8000
     Name: kim
-    shopItemIDs: 7017000071170000
     Type: 1
-    description:
-    - "\uCCAB\uBB38\uC7A5"
-    - "\uB450\uBB38\uC7A5"
-    - "\uC138\uBB38\uC7A5"
-    - "\uB124\uBB38\uC7A5"
-    - "\uB2E4\uC12F\uBB38\uC7A5"
+    description: []
   - ID: 8001
     Name: lee
-    shopItemIDs: 701700007117000072170000
     Type: 1
-    description:
-    - "\uCCAB\uBB38\uC7A5"
-    - "\uB450\uBB38\uC7A5"
-    - "\uC138\uBB38\uC7A5"
-    - "\uB124\uBB38\uC7A5"
-    - "\uB2E4\uC12F\uBB38\uC7A5"
-    - "\uCCAB\uBB38\uC7A5"
-    - "\uB450\uBB38\uC7A5"
-    - "\uC138\uBB38\uC7A5"
-    - "\uB124\uBB38\uC7A5"
-    - "\uB2E4\uC12F\uBB38\uC7A5"
+    description: []
   - ID: 8002
     Name: gong
-    shopItemIDs: 
     Type: 2
     description: []
   - ID: 8003
     Name: lym
-    shopItemIDs: 
     Type: 3
     description: []

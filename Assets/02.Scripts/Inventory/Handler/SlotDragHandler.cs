@@ -41,6 +41,7 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         tooltipManager.Hide();
 
         dragManager.CreateGhost(iconImage.sprite);
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"Drag");
     }
     /// <summary>
     /// 드래그 중 위치 업데이트
@@ -72,5 +73,10 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             return;
 
         slotUI.inventoryUI.HandleSlotSwap(slotUI, draggedSlotUI);
+        
+        if(slotUI.slotType == SlotType.Equip)
+            SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"Equip");
+        else if(slotUI.slotType == SlotType.Inventory)
+            SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"Drop");
     }
 }
