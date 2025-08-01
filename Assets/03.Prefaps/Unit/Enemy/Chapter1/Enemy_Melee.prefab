@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1461931272376375138
 Transform:
   m_ObjectHideFlags: 0
@@ -123,6 +123,7 @@ MonoBehaviour:
   ID: 1000
   visualTransform: {fileID: 5214860142047641454}
   visualRotateSpeed: 10
+  soundName: 
 --- !u!114 &89685900046415156
 MonoBehaviour:
   m_ObjectHideFlags: 0

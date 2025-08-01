@@ -64,7 +64,7 @@ public class MinimapUI: UIBase
         return type switch
         {
             RoomType.Start => Color.green,
-            RoomType.Boss => Color.red,
+            RoomType.End => Color.red,
             RoomType.Normal => Color.gray,
             _ => Color.white
         };
