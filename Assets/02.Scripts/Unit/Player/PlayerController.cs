@@ -23,9 +23,6 @@ public class PlayerController:BaseController
 
     [Header("Dash VFX")]
     public GameObject DashVFXPrefab;
-    [Header("TrailRenderer")]
-    public TrailEffectController LeftArmTrailController;
-    public TrailEffectController RightArmTrailController;
 
 
     private float staminaDrainPerSecond = 5f;
