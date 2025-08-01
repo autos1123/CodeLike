@@ -44,6 +44,8 @@ public class CombatController : MonoBehaviour, IDamagable
         float defense = baseController.Condition.GetTotalCurrentValue(ConditionType.Defense);
         float reducedDamage = Mathf.Max(0, damage - defense);
 
+        SoundManager.Instance.PlaySFX(transform.position, SoundAddressbleName.HitSound);
+
         if(baseController.Condition.GetDamaged(reducedDamage))
         {
             baseController.Die();

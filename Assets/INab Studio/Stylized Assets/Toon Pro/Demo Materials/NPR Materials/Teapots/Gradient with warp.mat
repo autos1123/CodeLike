@@ -12,18 +12,18 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _OUTLINETYPE_NORMAL
   - _OVERLAYMODE1_NONE
   - _OVERLAYMODE_NONE
-  - _RIMSPLITCOLOR_NOSPLIT
-  - _USEADAPTIVESCREENUVSWARP_ON
   - _USEHATCHINGCONSTANTSCALE_ON
   - _USELIGHTRAMP_DIFFUSERAMP
-  - _USEPURESKETCH_ON
-  - _USESCREENUVSWARP_ON
   - _USESPECULAR_ON
   m_InvalidKeywords:
+  - _OUTLINETYPE_NORMAL
+  - _RIMSPLITCOLOR_NOSPLIT
+  - _USEADAPTIVESCREENUVSWARP_ON
   - _USEDIFFUSEWARP_ON
+  - _USEPURESKETCH_ON
+  - _USESCREENUVSWARP_ON
   - _USESHADOWS_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -164,7 +164,7 @@ Material:
     - _IndirectLightAffectOnHatch: 0
     - _IndirectLightStrength: 0.413
     - _InverseMask: 0
-    - _LightRampOffset: 0
+    - _LightRampOffset: 0.2
     - _Lighten: 0
     - _MainLightIntesity: 1.49
     - _MaxScaleDependingOnCamera: 1

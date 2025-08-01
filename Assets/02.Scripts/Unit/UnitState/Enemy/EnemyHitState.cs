@@ -15,7 +15,6 @@ public class EnemyHitState : EnemyBaseState
 
         StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
         stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.HitParameterHash);
-        SoundManager.Instance.PlaySFX(stateMachine.Enemy.transform.position, SoundAddressbleName.HitSound);
     }
 
     public override void StateExit()
