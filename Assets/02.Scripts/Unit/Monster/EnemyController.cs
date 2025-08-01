@@ -113,7 +113,8 @@ public abstract class EnemyController:BaseController
 
     public override void Hit()
     {
-        StateMachine.ChangeState(EnemyStateType.Hit); // 데미지를 받았을 때 상태 변경
+        if(StateMachine.HasState(EnemyStateType.Hit))
+            StateMachine.ChangeState(EnemyStateType.Hit); // Hit 상태로 변경
     }
 
     public override void Die()
