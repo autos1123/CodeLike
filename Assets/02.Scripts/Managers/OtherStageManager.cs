@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class OtherStageManager : StageManager
 {
+    [SerializeField] private string mapTitle;
     [SerializeField] private Room otherRoomPrefab;
     public bool IsStageReady { get; private set; } = false;
     protected override bool Persistent => false;  
+    
+    private bool _titleShown = false;
     public override void LoadStage()
     {
         ClearStage();
@@ -37,6 +40,7 @@ public class OtherStageManager : StageManager
                     Debug.LogWarning("[StageManager] ViewManager가 아직 초기화되지 않았습니다. 기본 뷰 모드로 설정.");
                     viewCameraController.InitCameraForStage(ViewModeType.View2D); // 안전을 위한 기본값
                 }
+                
             }
             else
             {
@@ -48,8 +52,36 @@ public class OtherStageManager : StageManager
         {
             Debug.LogError("튜토리얼 방 프리팹이 할당되지 않았습니다!");
         }
+        
+        TryShowMapTitle();
     }
-    
+    private void TryShowMapTitle()
+    {
+        if (_titleShown) return;
+        
+        void Show()
+        {
+            if (UIManager.Instance.TryGetUI<MapTitleUI>(out var mapTitleUI))
+            {
+                UIManager.Instance.ShowUI<MapTitleUI>();
+                mapTitleUI.ShowTitle(mapTitle);
+                _titleShown = true;
+            }
+            else
+            {
+                Debug.LogWarning("[OtherStageManager] MapTitleUI를 찾을 수 없습니다.");
+            }
+        }
+
+        if (UIManager.Instance.IsUILoaded())
+        {
+            Show();
+        }
+        else
+        {
+            UIManager.Instance.OnAllUIReady(() => Show());
+        }
+    }
     protected override void Awake()
     {
         base.Awake(); 
