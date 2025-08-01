@@ -274,6 +274,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4223102427382493442, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
+      propertyPath: m_RenderingPath
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 7197296124414012102, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: DashVFXPrefab
       value: 
