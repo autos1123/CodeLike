@@ -5,7 +5,7 @@ public class TutorialDummy : MonoBehaviour, IDamagable
 {
     [SerializeField] private float hp = 100;
     private float curHp;
-    [SerializeField] private float dropGold = 10;
+    [SerializeField] private float dropGold = 0;
     [SerializeField] private GameObject dropPassiveItemBox;
     [SerializeField] private GameObject dropActiveItemBox;
 
@@ -53,6 +53,7 @@ public class TutorialDummy : MonoBehaviour, IDamagable
         }
 
         anim.SetTrigger("Hit");
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"HitSound");
         return true;
     }
 

@@ -34212,7 +34212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
-  dropGold: 10
+  dropGold: 0
   dropPassiveItemBox: {fileID: 4511851304918632690, guid: 347b14c68cd95fb4ca1f045d13fec62d, type: 3}
   dropActiveItemBox: {fileID: 4511851304918632690, guid: ccbe3b51ce905b04782901fba2a50bde, type: 3}
 --- !u!114 &7715543844932218485
