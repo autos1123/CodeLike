@@ -79,7 +79,15 @@ public class UIManager:MonoSingleton<UIManager>
                 }
             }
             uiLoaded = true;
-            Addressables.Release(handle); 
+            
+            //콜백 실행
+            foreach (var callback in _onUILoaded)
+            {
+                callback?.Invoke();
+            }
+            _onUILoaded.Clear();
+
+            Addressables.Release(handle);
         };
     }
 

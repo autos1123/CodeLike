@@ -77,6 +77,13 @@ MonoBehaviour:
     m_SerializedLabels:
     - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ec417ef67baf9946a26d8a89be3875a
+    m_Address: Assets/03.Prefaps/UI/MapTitleUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    - TutorialUI
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:
