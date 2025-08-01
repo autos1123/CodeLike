@@ -4,6 +4,10 @@ Shader "Stylized Toon"
 {
 	Properties
 	{
+		//추가
+		_GrayscaleAmount("Grayscale Amount", Range(0, 1)) = 0
+		//추가
+
 		[Toggle(_USERIMLIGHT_ON)] _UseRimLight("UseRim Light", Float) = 0
 		[Toggle(_USESPECULAR_ON)] _UseSpecular("UseSpecular Highlights", Float) = 1
 		_SpecColor("Specular Value", Color) = (1,1,1,0)
@@ -729,7 +733,8 @@ Shader "Stylized Toon"
 			c.rgb = staticSwitch1024.rgb;
 			//추가
 			float luminance = dot(c.rgb, float3(0.299, 0.587, 0.114));
-			c.rgb = float3(luminance, luminance, luminance);
+			float3 grayscale = float3(luminance, luminance, luminance);
+			c.rgb = lerp(c.rgb, grayscale, _GrayscaleAmount);
 			// 추가
 			c.a = 1;
 			return c;
