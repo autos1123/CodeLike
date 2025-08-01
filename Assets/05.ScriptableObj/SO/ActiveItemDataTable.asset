@@ -18,22 +18,22 @@ MonoBehaviour:
     rarity: 301
     skillID: 5000
     description: "\uC5D0\uB108\uC9C0\uD30C"
-    IconPath: Sprite/BowIcon
+    IconPath: Sprite/EnegyWave
   - ID: 4001
-    name: Fire Wind
+    name: Electro force
     rarity: 301
     skillID: 5001
-    description: "\uBD88 \uD68C\uC624\uB9AC\uB97C \uB0A0\uB9B0\uB2E4."
-    IconPath: Sprite/BlackOraIcon
+    description: "\uB9E4\uC6B0 \uD070 \uBC88\uAC1C \uC5D0\uB108\uC9C0\uB97C \uC2DC\uC804\uD55C\uB2E4."
+    IconPath: Sprite/ElectroForce
   - ID: 4002
-    name: Fire Zone
+    name: Poison Meteor
     rarity: 301
     skillID: 5003
-    description: "\uD654\uC5FC\uC744 \uC77C\uC73C\uD0A8\uB2E4."
-    IconPath: Sprite/BlackOraIcon
+    description: "\uB3C5\uC131 \uBA54\uD14C\uC624\uB97C \uC2DC\uC804\uD55C\uB2E4."
+    IconPath: Sprite/PoisonMeteor
   - ID: 4003
     name: Heal
     rarity: 301
     skillID: 5002
     description: "\uD68C\uBCF5\uD55C\uB2E4."
-    IconPath: Sprite/BlackOraIcon
+    IconPath: Sprite/Heal
