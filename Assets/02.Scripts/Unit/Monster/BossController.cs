@@ -18,10 +18,6 @@ public class BossController : EnemyController
         }   
     }
 
-    public override void Hit()
-    {
-    }
-
     public void SetRandomPattern()
     {
         currentPatternIndex = UnityEngine.Random.Range(0, patterns.Count);
