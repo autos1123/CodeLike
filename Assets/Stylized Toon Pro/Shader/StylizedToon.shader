@@ -197,7 +197,9 @@ Shader "Stylized Toon"
 			Input SurfInput;
 			UnityGIInput GIData;
 		};
-
+		//추가
+		uniform float _GrayscaleAmount; 
+		//추가
 		uniform float _RampDiffuseTextureLoaded;
 		uniform float4 _ShadowColor;
 		uniform float _StepOffset;
