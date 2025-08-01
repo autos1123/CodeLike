@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class MainMenuButtons : MonoBehaviour
 {
-    public GameObject optionPanel;   
-    public GameObject loadPanel; 
+    public GameObject optionPanel; 
     
     public Button defaultSelectedButton; //메뉴 진입 시 기본으로 선택될 버튼
     public AudioSource bgmAudioSource; 
@@ -14,7 +13,6 @@ public class MainMenuButtons : MonoBehaviour
     {
         // 모든 왼쪽 페이지 패널들을 초기에는 비활성화
         if (optionPanel != null) optionPanel.SetActive(false);
-        if (loadPanel != null) loadPanel.SetActive(false);
         
     }
     void OnEnable()
@@ -45,18 +43,11 @@ public class MainMenuButtons : MonoBehaviour
     void HideAllLeftPanels()
     {
         if (optionPanel != null) optionPanel.SetActive(false);
-        if (loadPanel != null) loadPanel.SetActive(false);
     }
     
     public void OnStartGameButton()
     {
         LoadingSceneController.LoadScene("TutorialScene");
-    }
-
-    public void OnLoadGameButton()
-    {
-        HideAllLeftPanels(); // 다른 패널 숨기기
-        if (loadPanel != null) loadPanel.SetActive(true);
     }
 
     public void OnOptionButton()

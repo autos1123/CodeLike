@@ -16,7 +16,7 @@ public class ProceduralStageGenerator:MonoBehaviour
     [SerializeField] private Transform roomParent;
 
     // 임시 리팩토링 필요
-    private bool isShopRoomSpawned;
+    private bool isShopSpawnable;
     private int shopRoomPlacementOrder;
 
     public StageData Generate(int seed, int roomCount, int stageID)
@@ -30,11 +30,25 @@ public class ProceduralStageGenerator:MonoBehaviour
 
         // 스테이지 생성
         StageData stageData = new StageData(stageID);
+        roomCount += 2; // 시작 방과 종료 방을 포함하기 위해 2개 추가
+        bool isBossStage = (stageID + 1) % 3 == 0; // 3번째 스테이지마다 보스 스테이지로 설정
 
-        isShopRoomSpawned = false;
-        shopRoomPlacementOrder = random.Next(1, roomCount - 1);
-        
-        Stack<Vector2Int> stack = new();
+        // 상점 생성 여부 결정 및 생성 순서 결정
+        // 3번째 스테이지 마다 보스 스테이지 == 다른 룸 없이 보스 룸만 생성
+        if(isBossStage)
+        {
+            roomCount = 3; // 보스 스테이지는 시작 방, 보스 방, 종료 방으로 구성
+            isShopSpawnable = false;
+            shopRoomPlacementOrder = 0;
+        }
+        else
+        {
+            isShopSpawnable = true;
+            shopRoomPlacementOrder = random.Next(1, roomCount - 1); // 시작 방과 종료 방 사이에 상점 방을 배치
+        }
+
+
+            Stack<Vector2Int> stack = new();
         Dictionary<Vector2Int, Direction> cameFrom = new();
 
         // 시작 그리드는 (0, 0)
@@ -51,8 +65,9 @@ public class ProceduralStageGenerator:MonoBehaviour
 
             RoomType type = RoomType.Normal;
             if(currentRoomID == 0) type = RoomType.Start;
-            else if(currentRoomID == roomCount - 1) type = RoomType.Boss;
-            else if(currentRoomID == shopRoomPlacementOrder && !isShopRoomSpawned) type = RoomType.Shop;
+            else if(currentRoomID == roomCount - 1) type = RoomType.End;
+            else if(currentRoomID == shopRoomPlacementOrder && isShopSpawnable) type = RoomType.Shop;
+            else if(isBossStage) type = RoomType.Boss;
 
             // 이전 방과의 연결 생성
             // 현재 -> 이전 방향

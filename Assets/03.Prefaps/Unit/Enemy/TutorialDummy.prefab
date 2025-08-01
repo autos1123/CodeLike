@@ -3137,8 +3137,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
-  dropGold: 10
-  dropItemBox: {fileID: 4511851304918632690, guid: 347b14c68cd95fb4ca1f045d13fec62d, type: 3}
+  dropGold: 0
+  dropPassiveItemBox: {fileID: 0}
+  dropActiveItemBox: {fileID: 0}
 --- !u!114 &8677915652699387344
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,8 +10,9 @@ public class DropObstacle :Obstacle
     {
         base.OnEnable();
 
+        float power = Random.Range(8f, 10f);
         // 초기 속도 설정
-        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * power, ForceMode.Impulse);
     }
 
     protected override void OnDisable()
