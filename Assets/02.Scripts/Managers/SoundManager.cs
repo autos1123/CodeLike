@@ -73,7 +73,7 @@ public class SoundManager:MonoSingleton<SoundManager>
     public void PlaySFX(Vector3 pos, string key)
     {
         var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
-        sound.transform.position = pos;
+        sound.transform.position = GetVector3(pos);
         SoundSource soundSource = sound.GetComponent<SoundSource>();
         if(sfxdic.TryGetValue(key, out var clip))
         {
@@ -88,7 +88,7 @@ public class SoundManager:MonoSingleton<SoundManager>
     public void PlaySFX(float time, Vector3 pos, string key)
     {
         var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
-        sound.transform.position = pos;
+        sound.transform.position = GetVector3(pos);
         SoundSource soundSource = sound.GetComponent<SoundSource>();
 
         if(sfxdic.TryGetValue(key, out var clip))
@@ -127,6 +127,10 @@ public class SoundManager:MonoSingleton<SoundManager>
         audioBgm = soundSource;
     }
 
+    Vector3 GetVector3(Vector3 vector3)
+    {
+        return new Vector3(vector3.x, vector3.y, vector3.z);
+    }
     // 현재 재생 중인 배경 음악 정지
     public void StopBGM()
     {
