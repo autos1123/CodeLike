@@ -10,7 +10,6 @@ public class PlayerAttack3State:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        Debug.LogWarning("PlayerAttack3State Entered");
         StartAnimation(Player.AnimationData.Attack3ParameterHash);
         comboTimer = 0f;
 

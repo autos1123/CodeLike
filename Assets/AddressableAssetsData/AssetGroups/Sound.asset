@@ -42,12 +42,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5079e337295ed8f4eadeb269ed600150
     m_Address: Assets/98.Sound/CardFlip.wav
+  - m_GUID: b6f13615a0aba0a4ba7f961a2be2e173
+    m_Address: HandAttack
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 518d301dae48534439be69071f713f56
     m_Address: Assets/98.Sound/ButtonClick.wav
+  - m_GUID: 6dfa47fec76e0fe4a8c1f0f3ab4b4547
+    m_Address: CastSound
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
@@ -204,6 +208,15 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3a2de526b7fdb5c4184ba88d3d48c226
     m_Address: Assets/98.Sound/GetItem.wav
+  - m_GUID: 0e5186ca63bf7c64e990f6d05d92f301
+    m_Address: Assets/03.Prefaps/UI/Option.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    - TutorialUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93d387773a6b5504089e1f98a2d9fc3f
+    m_Address: HitSound
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX

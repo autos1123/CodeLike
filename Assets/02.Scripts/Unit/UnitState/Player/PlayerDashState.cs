@@ -21,6 +21,7 @@ public class PlayerDashState:PlayerBaseState
         }
 
         StartAnimation(Player.AnimationData.DashParameterHash);
+        SoundManager.Instance.PlaySFX(Player.transform.position, SoundAddressbleName.DashSound);
         elapsedTime = 0f;
         Player._Rigidbody.useGravity = false;
         Player._Rigidbody.velocity = Vector3.zero;
@@ -61,8 +62,6 @@ public class PlayerDashState:PlayerBaseState
 
             GameObject.Destroy(vfx, 2f); // 자동 제거
         }
-
-        Debug.Log("DASH INPUT: " + input + " DIR: " + dir);
     }
 
     public override void StateUpdate()

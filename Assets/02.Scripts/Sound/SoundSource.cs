@@ -22,8 +22,6 @@ public class SoundSource : MonoBehaviour ,IPoolObject
     
     public void Play(AudioClip clip,bool issfx)
     {
-
-
         HandleViewModeChange(issfx);
 
         if(issfx) 
@@ -68,6 +66,7 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     private void HandleViewModeChange(bool issfx)
     {
-        audioSource.spatialBlend = (issfx) ? 1f : 0f;
+        audioSource.spatialBlend = 
+            (issfx || ViewManager.Instance.CurrentViewMode == ViewModeType.View3D) ? 1f : 0f;
     }
 }

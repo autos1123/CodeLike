@@ -45,10 +45,11 @@ public class Status:MonoBehaviour
     {
         var player = GameManager.Instance.Player.GetComponent<PlayerController>();
 
-        float currentValue = player.Condition.CurrentConditions[_conditionType];
+        float currentValue = player.Condition.GetCurrentConditionValue(_conditionType);
         float maxValue = player.Condition.GetTotalMaxValue(_conditionType);
         if (_conditionType == ConditionType.HP)
         {
+            currentValue = player.Condition.CurrentConditions[_conditionType];
             text.text = $"{currentValue:F0} / {maxValue:F0}";
         }
         else if(_conditionType == ConditionType.Stamina)
@@ -57,7 +58,7 @@ public class Status:MonoBehaviour
         }
         else
         {
-            text.text = currentValue.ToString("F0");
+            text.text = currentValue.ToString("F2");
         }
     }
 }
