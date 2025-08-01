@@ -21,12 +21,16 @@ public class BookObstacle :ObstacleController, IDamagable
     private ObstacleController currentPattern;
     [SerializeField] private float patternInterval = 5f;
 
+    [Header("HPUI")]
+    [SerializeField] private GameObject hpBar;
+
     public bool GetDamaged(float damage)
     {
         if(isShieldActive)
             return true; // 방어막이 활성화된 경우 데미지를 받지 않음
 
         currentHealth -= Mathf.Clamp(damage, 0f, currentHealth);
+        HpBarUpdate();
         if(currentHealth <= 0f)
         {
             room.CheckClear();
@@ -40,6 +44,13 @@ public class BookObstacle :ObstacleController, IDamagable
     protected override void OnEnable()
     {
         base.OnEnable();
+        currentHealth = health;
+
+        // 체력 UI 초기화
+        hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
+        hpBar.transform.SetParent(transform);
+        hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
+        HpBarUpdate();
 
         StartCoroutine(WaitForNextPattern());
     }
@@ -47,13 +58,11 @@ public class BookObstacle :ObstacleController, IDamagable
     protected override void OnDisable()
     {
         base.OnDisable();
-        StopAllCoroutines();
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        currentHealth = health;
+        if(PoolManager.HasInstance && hpBar != null)
+            PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
+
+        StopAllCoroutines();
     }
 
     // Update is called once per frame
@@ -61,6 +70,11 @@ public class BookObstacle :ObstacleController, IDamagable
     {
         CheckShieldActive();
         shieldEffect.SetActive(isShieldActive);
+    }
+
+    public void HpBarUpdate()
+    {
+        hpBar.GetComponent<PoolingHPBar>().HpBarUpdate(currentHealth / health);
     }
 
     private void PlayRandomPattern()

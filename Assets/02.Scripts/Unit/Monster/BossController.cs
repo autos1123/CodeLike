@@ -22,11 +22,6 @@ public class BossController : EnemyController
     {
     }
 
-    public override void Die()
-    {
-        StateMachine.ChangeState(EnemyStateType.Die);
-    }
-
     public void SetRandomPattern()
     {
         currentPatternIndex = UnityEngine.Random.Range(0, patterns.Count);

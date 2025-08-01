@@ -206,11 +206,10 @@ public static class ExcelSOGenerator
                     var npcData = new NPCData();
                     npcData.ID = int.Parse(row[0].ToString());
                     npcData.Name = row[1].ToString();
-                    npcData.shopItemIDs = ParseIntListFromCell(row[2]);
-                    npcData.Type = ParseEnumFromCell<NPCType>(row[3]);
+                    npcData.Type = ParseEnumFromCell<NPCType>(row[2]);
 
                     npcData.description = Enumerable
-                        .Range(4, table.Columns.Count - 4)
+                        .Range(3, table.Columns.Count - 3)
                         .Select(i => row[i]?.ToString())
                         .Where(s => !string.IsNullOrWhiteSpace(s))
                         .ToList();
