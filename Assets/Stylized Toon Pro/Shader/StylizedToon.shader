@@ -727,6 +727,10 @@ Shader "Stylized Toon"
 				float4 staticSwitch1024 = temp_output_282_0;
 			#endif
 			c.rgb = staticSwitch1024.rgb;
+			//추가
+			float luminance = dot(c.rgb, float3(0.299, 0.587, 0.114));
+			c.rgb = float3(luminance, luminance, luminance);
+			// 추가
 			c.a = 1;
 			return c;
 		}
