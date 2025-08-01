@@ -6,9 +6,22 @@ public class BossDownState : EnemyBaseState
 {
     private float recoveryTerm = 10f; // 부활 대기 시간
     private float recoveryTimer = 0f; // 부활 타이머
+    BookObstacle bookObstacle;
 
     public BossDownState(EnemyStateMachine stateMachine) : base(stateMachine)
     {
+        Transform parent = stateMachine.Enemy.transform.parent;
+
+        if(parent != null)
+        {
+            foreach(Transform sibling in parent)
+            {
+                if(sibling.TryGetComponent<BookObstacle>(out BookObstacle component))
+                {
+                    bookObstacle = component;
+                }
+            }
+        }
     }
 
     public override void StateEnter()
@@ -36,6 +49,13 @@ public class BossDownState : EnemyBaseState
     {
         base.StateUpdate();
 
+        if(bookObstacle.gameObject.activeSelf == false)
+        {
+            stateMachine.Enemy.room.CheckClear();
+            stateMachine.Enemy.gameObject.SetActive(false); // 적 오브젝트를 비활성화
+            return; // BookObstacle이 비활성화된 경우 더 이상 진행하지 않음
+        }
+
         // 회복 시간 대기 후 부활
         recoveryTimer += Time.deltaTime;
         stateMachine.Enemy.Condition.Heal(Time.deltaTime / recoveryTerm * stateMachine.Enemy.Condition.GetTotalMaxValue(ConditionType.HP)); // HP 회복
@@ -43,6 +63,7 @@ public class BossDownState : EnemyBaseState
         if(recoveryTimer >= recoveryTerm)
         {
             stateMachine.Enemy.Condition.Heal(stateMachine.Enemy.Condition.GetTotalMaxValue(ConditionType.HP));
+            stateMachine.Enemy.Condition.IsDied = false; // 사망 상태 해제
             // 부활 후 Idle 상태로 전환
             if(stateMachine.ChangeState(EnemyStateType.Idle))
                 return;

@@ -20,7 +20,7 @@ public class BaseCondition
 
     public Dictionary<ConditionType, Action> statModifiers = new();
 
-    public bool IsDied => GetCurrentConditionValue(ConditionType.HP) <= 0;
+    public bool IsDied = false;
 
     public BaseCondition(ConditionData data)
     {
@@ -223,6 +223,7 @@ public class BaseCondition
         if(CurrentConditions[ConditionType.HP] <= 0)
         {
             CurrentConditions[ConditionType.HP] = 0;
+            IsDied = true;
             return true; // 사망 처리
         }
 
