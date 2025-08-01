@@ -62,8 +62,7 @@ public class HealUI : UIBase
 
     private void UpdateUI(int percentage)
     {
-        _healMessageText.text = $"현재 플레이어의 최대 체력의 <color=green>{percentage}%</color>만큼 체력을 회복합니다.\n진행하시겠습니까? \n" +
-                                $"<color=red>주의! 현재체력의 100% 초과로 회복할 수 없습니다.</color>";
+        _healMessageText.text = $"현재 플레이어의 최대 체력의 <color=green>{percentage}%</color>만큼 체력을 회복합니다.\n진행하시겠습니까? \n";
     }
 
     private void AddListeners()

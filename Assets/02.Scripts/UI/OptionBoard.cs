@@ -71,8 +71,12 @@ public class OptionBoard : UIBase
     public override void Open()
     {
         base.Open();
-        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"OptionOpen");
-        
+        string currentScene = SceneManager.GetActiveScene().name;
+        if(currentScene != "IntroScene")
+        {
+            SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position, "OptionOpen");
+        }
+
         resolutionDropdown.onValueChanged.AddListener(ResolutionDropDownOptionChange); // 해상도 드롭다운 값 변경 이벤트 등록
         fullscreenDropdown.onValueChanged.AddListener(ScreenModeDropDownOptionChange); // 화면 모드 드롭다운 값 변경 이벤트 등록
 
@@ -310,7 +314,7 @@ public class OptionBoard : UIBase
             "모든 정보를 잃고 로비씬으로 돌아갑니다",
             onConfirm: () =>
             {
-                SceneManager.LoadScene("LobbyScene");
+                LoadingSceneController.LoadScene("LobbyScene");
             },
             onCancel: () => {}
         );
