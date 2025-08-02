@@ -13,8 +13,6 @@ public class PlayerAttack3State:PlayerBaseState
         StartAnimation(Player.AnimationData.Attack3ParameterHash);
         comboTimer = 0f;
 
-        Player.LeftArmTrailController?.PlayTrail(0.4f);
-        Player.RightArmTrailController?.PlayTrail(0.4f);
     }
 
     public override void StateUpdate()

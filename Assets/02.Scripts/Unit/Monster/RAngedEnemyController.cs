@@ -29,12 +29,21 @@ public class RangedEnemyController : EnemyController
         Vector3 direction = (targetPos + Vector3.up * 1.5f) - projectileOffset.position;
         direction.y = 0; // 수평 방향으로만 발사
         direction.Normalize();
+        PoolType poolToUse = projectileType switch
+        {
+            0 => PoolType.projectile,       // 기존 TestProjectile
+            1 => PoolType.ArrowProjectile,  // 새로 추가한 화살
+            _ => PoolType.projectile
+        };
 
-        // 투사체를 풀에서 가져오기
-        GameObject projectile = PoolManager.Instance.GetObject(PoolType.projectile);
+        GameObject projectile = PoolManager.Instance.GetObject(poolToUse);
         projectile.transform.position = projectileOffset.position;
-        projectile.GetComponent<Projectile>()?.InitProjectile(direction, 10f, Condition.GetTotalCurrentValue(ConditionType.AttackPower));
 
+        projectile.GetComponent<Projectile>()?.InitProjectile(
+            direction,
+            10f,
+            Condition.GetTotalCurrentValue(ConditionType.AttackPower)
+        );
     }
 
     protected override void SetEnemyState()

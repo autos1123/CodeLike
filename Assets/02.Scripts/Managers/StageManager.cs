@@ -35,11 +35,13 @@ public class StageManager:MonoSingleton<StageManager>
 
     public ViewCameraController viewCameraController; 
     
+    protected bool titleShown = false;
     public virtual void LoadStage()
     {
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
         ClearStage();
-
+        
+        int displayStageID = stageID;
         int roomCountBase = stageMapCountData[stageID];
 
         currentStage = generator.Generate(randomSeed, roomCountBase, stageID);
@@ -72,6 +74,9 @@ public class StageManager:MonoSingleton<StageManager>
             StopCoroutine(waitUntilCoroutine);
 
         waitUntilCoroutine = StartCoroutine(WaitUntilCreateUI());
+        
+        TryShowMapTitle(displayStageID);
+        
         ChangeStage?.Invoke();
 
         stageID++;
@@ -105,7 +110,42 @@ public class StageManager:MonoSingleton<StageManager>
         yield return new WaitUntil(() => UIManager.Instance.GetUI<MinimapUI>() != null);
         UIManager.Instance.GetUI<MinimapUI>().BuildMinimap();
     }
+    
+    private void TryShowMapTitle(int stageIndex)
+    {
+        if (titleShown) return;
 
+        void Show()
+        {
+            if (UIManager.Instance.TryGetUI<MapTitleUI>(out var mapTitleUI))
+            {
+                UIManager.Instance.ShowUI<MapTitleUI>();
+
+                //맵 타이틀 텍스트 설정
+                string titleText = stageIndex switch
+                {
+                    0 => "얼어붙은 폐허 : 초입",
+                    1 => "얼어붙은 폐허 : 길목",
+                    2 => "얼어붙은 폐허 : 전사의 쉼터",
+                    _ => $"스테이지 {stageIndex + 1}"
+                };
+
+                mapTitleUI.ShowTitle(titleText);
+                titleShown = true;
+            }
+        }
+
+        if (UIManager.Instance.IsUILoaded())
+            Show();
+        else
+            UIManager.Instance.OnAllUIReady(() => Show());
+    }
+
+    public void ReLoadStage()
+    {
+        stageID--;
+        LoadStage();
+    }
     // ===== 미니맵 시스템 전달용 데이터 정리 =====
     // 이 구문은 현재 생성된 모든 Room 정보를 바탕으로
     // 미니맵 UI 제작자가 사용할 수 있도록 필요한 데이터를 추출하는 파트입니다.
