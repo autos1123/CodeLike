@@ -8,7 +8,7 @@ public class MainMenuButtons : MonoBehaviour
     
     public Button defaultSelectedButton; //메뉴 진입 시 기본으로 선택될 버튼
     public AudioSource bgmAudioSource; 
-
+    public IntroManager introManager;
     void Awake()
     {
         // 모든 왼쪽 페이지 패널들을 초기에는 비활성화
@@ -47,7 +47,8 @@ public class MainMenuButtons : MonoBehaviour
     
     public void OnStartGameButton()
     {
-        LoadingSceneController.LoadScene("TutorialScene");
+        //LoadingSceneController.LoadScene("TutorialScene");
+        introManager.StartStorySequence();
     }
 
     public void OnOptionButton()
