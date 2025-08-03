@@ -13,6 +13,7 @@ public class EnemyDieState:EnemyBaseState
         stateMachine.Enemy._Rigidbody.isKinematic = true; // Rigidbody를 Kinematic으로 설정하여 물리적 상호작용을 비활성화
         stateMachine.Enemy.GetComponent<Collider>().enabled = false; // Collider를 비활성화하여 충돌을 방지
         base.StateEnter();
+        SoundManager.Instance.PlaySFX(stateMachine.Enemy.transform.position, "Death");
         stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.DieParameterHash);
 
         // 아이템 드랍, 골드 획득 로직

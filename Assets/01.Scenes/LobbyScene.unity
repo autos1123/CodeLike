@@ -752,7 +752,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1618210732143505081, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: _showGUI
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1618210732143505081, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: _pixelate
@@ -1269,6 +1269,7 @@ MonoBehaviour:
   generator: {fileID: 0}
   stageMapCountData: 
   viewCameraController: {fileID: 621157373}
+  mapTitle: "\uD3D0\uD5C8\uAC00 \uB41C \uB9C8\uC744"
   otherRoomPrefab: {fileID: 6203069154772650647, guid: 751482c992e71b944841945456609f16, type: 3}
 --- !u!4 &8622674653407761979
 Transform:

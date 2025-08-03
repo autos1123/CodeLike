@@ -2260,8 +2260,9 @@ MonoBehaviour:
   ID: 1001
   visualTransform: {fileID: 4190059534003958448}
   visualRotateSpeed: 10
+  soundName: 
   projectileOffset: {fileID: 3713298371429760379}
-  projectileType: 1
+  projectileType: 0
 --- !u!114 &6654005697271066974
 MonoBehaviour:
   m_ObjectHideFlags: 0

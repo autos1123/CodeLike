@@ -27,13 +27,12 @@ public class MapTitleUI : UIBase
         // 중복 재생 방지
         if (currentRoutine != null)
             StopCoroutine(currentRoutine);
-
+        gameObject.SetActive(true);
         currentRoutine = StartCoroutine(PlaySequence());
     }
 
     private IEnumerator PlaySequence()
-    {
-        gameObject.SetActive(true);
+    {        
         SetAlpha(0f);
 
         // Fade In

@@ -140,6 +140,12 @@ public class StageManager:MonoSingleton<StageManager>
         else
             UIManager.Instance.OnAllUIReady(() => Show());
     }
+
+    public void ReLoadStage()
+    {
+        stageID--;
+        LoadStage();
+    }
     // ===== 미니맵 시스템 전달용 데이터 정리 =====
     // 이 구문은 현재 생성된 모든 Room 정보를 바탕으로
     // 미니맵 UI 제작자가 사용할 수 있도록 필요한 데이터를 추출하는 파트입니다.

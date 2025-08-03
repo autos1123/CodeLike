@@ -53,6 +53,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Pool
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a61d396d78ca5a645b232f7ecc019a72
+    m_Address: Assets/03.Prefaps/Pool/Arrow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:
