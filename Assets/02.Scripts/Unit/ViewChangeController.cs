@@ -22,6 +22,12 @@ public class ViewChangeController : MonoBehaviour
             ViewManager.Instance.OnViewChanged -= OnViewChange;
     }
 
+    private void Start()
+    {
+        Init();
+        OnViewChange(ViewManager.Instance.CurrentViewMode);
+    }
+
     private void Init()
     {
         _Rigidbody = GetComponent<Rigidbody>();
