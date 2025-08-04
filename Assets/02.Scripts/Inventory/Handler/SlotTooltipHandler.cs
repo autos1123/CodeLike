@@ -8,15 +8,9 @@ using UnityEngine.EventSystems;
 public class SlotTooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private SlotUI slotUI;
-    [SerializeField] private TooltipManager tooltipManager;
     private void Awake()
     {
         slotUI = GetComponent<SlotUI>();
-    }
-
-    private void Start()
-    {
-        tooltipManager = FindObjectOfType<TooltipManager>();
     }
 
     /// <summary>
@@ -33,9 +27,14 @@ public class SlotTooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerE
 
         if (slotUI.InventorySlot == null || slotUI.InventorySlot.IsEmpty) return;
 
-        if (!tooltipManager.IsVisible)
+        var item = slotUI.InventorySlot.InventoryItem;
+        if (item == null) return;
+
+        var tooltip = UIManager.Instance.GetUI<TooltipUI>();
+        if (tooltip != null)
         {
-            tooltipManager.Show(slotUI.InventorySlot.GetDescription(slotUI.slotType), eventData.position);
+            bool isEqiupSlot = slotUI.slotType == SlotType.Equip;
+            tooltip.Show(item, eventData.position,isEqiupSlot);
         }
     }
     /// <summary>
@@ -47,6 +46,10 @@ public class SlotTooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             slotUI.backgroundImage.color = new Color(1f, 1f, 1f, 1f);
         }
-        tooltipManager.Hide();
+        var tooltip = UIManager.Instance.GetUI<TooltipUI>();
+        if (tooltip != null)
+        {
+            tooltip.Hide();
+        }
     }
 }

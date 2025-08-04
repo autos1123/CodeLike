@@ -11,7 +11,6 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 {
     private SlotUI slotUI;
     private Image iconImage;
-    [SerializeField]private TooltipManager tooltipManager;
     [SerializeField]private DragManager dragManager;
     private void Awake()
     {
@@ -21,7 +20,6 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     private void Start()
     {
-        tooltipManager = FindObjectOfType<TooltipManager>();
         dragManager = FindObjectOfType<DragManager>();
     }
     /// <summary>
@@ -38,7 +36,6 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         iconImage.raycastTarget = false;
 
         slotUI.RefreshVisual();
-        tooltipManager.Hide();
 
         dragManager.CreateGhost(iconImage.sprite);
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"Drag");
