@@ -6,13 +6,13 @@ public class Portal:MonoBehaviour,IInteractable
 {
     [SerializeField] private string interactionPrompt = "[F] 문열기";
     [SerializeField] private Transform promptPivot;
-    [SerializeField] private Room room;
+    private Room room;
     [SerializeField] private ParticleSystem particle;
-    [SerializeField] private BoxCollider boxCollider;
-    [SerializeField] private Direction exitDirection;
+    private BoxCollider boxCollider;
+    private Direction exitDirection;
     [SerializeField] private float offsetDistance = 3f;
     [SerializeField] private float cooldownDuration = 1f;
-    [SerializeField] private Room destinationRoom;
+    private Room destinationRoom;
 
     private static float lastTeleportTimes = 0;
 
@@ -70,7 +70,7 @@ public class Portal:MonoBehaviour,IInteractable
         // 다음 방 활성화
         destinationRoom.gameObject.SetActive(true);
 
-        other.transform.position = destinationRoom.GetSponPos().position;
+        other.transform.position = destinationRoom.GetEntranceAnchor((Direction)((int)exitDirection * -1)).position;
 
         lastTeleportTimes = Time.time;
 

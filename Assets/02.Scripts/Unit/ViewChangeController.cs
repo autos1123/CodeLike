@@ -22,16 +22,20 @@ public class ViewChangeController : MonoBehaviour
             ViewManager.Instance.OnViewChanged -= OnViewChange;
     }
 
-    private void Start()
+    private void Init()
     {
         _Rigidbody = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
         colliderSizeTmp = col.size;
-        OnViewChange(ViewManager.Instance.CurrentViewMode);
     }
 
     public virtual void OnViewChange(ViewModeType viewMode)
     {
+        if(_Rigidbody == null || col == null)
+        {
+            Init();
+        }
+
         if(viewMode == ViewModeType.View2D)
         {
             _Rigidbody.detectCollisions = false;

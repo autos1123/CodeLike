@@ -12,7 +12,7 @@ public enum SlotType
 /// <summary>
 /// 하나의 인벤토리 또는 장비 슬롯을 표현하는 UI 컴포넌트
 /// </summary>
-public class SlotUI : MonoBehaviour
+public class SlotUI : MonoBehaviour, ISlotTooltipTarget
 {
     public SlotType slotType;
     
@@ -22,6 +22,10 @@ public class SlotUI : MonoBehaviour
     public InventoryUI inventoryUI { get; private set; }
     public InventoryItemSlot InventorySlot { get; private set; }
     public ActiveItemSlot ActiveSlot { get; private set; }
+    
+    public InventoryItemSlot GetItemSlot() => InventorySlot;
+    public RectTransform GetTooltipPosition() => (RectTransform)transform;
+    public bool IsEquipSlot() => slotType == SlotType.Equip;
     
     public void Init(InventoryUI ui)
     {

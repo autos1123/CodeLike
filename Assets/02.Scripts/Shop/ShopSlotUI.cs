@@ -8,7 +8,7 @@ using Image = UnityEngine.UI.Image;
 /// <summary>
 /// 상점 슬롯 UI 컴포넌트. 아이템 아이콘/가격 출력, 클릭 선택/장착 해제 처리 및 선택 상태 유지 기능을 담당.
 /// </summary>
-public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
+public class ShopSlotUI : MonoBehaviour,IPointerClickHandler, ISlotTooltipTarget
 {
     [Header("UI")]
     public Image iconImage;
@@ -20,6 +20,8 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     private ShopUI shopUI;
 
     private InventoryItemSlot inventoryItemSlot;
+    public RectTransform TooltipAnchor;
+    
     public bool isPlayerSlot;
     private bool isSelected;
     private bool isInteractable = true;
@@ -30,6 +32,8 @@ public class ShopSlotUI : MonoBehaviour,IPointerClickHandler
     public bool IsSelected => isSelected;
     public InventoryItemSlot InventoryItemSlot => inventoryItemSlot;
     
+    public InventoryItemSlot GetItemSlot() => InventoryItemSlot;
+    public bool IsEquipSlot() => isPlayerSlot && equipText != null && equipText.gameObject.activeSelf;
     public event Action<ShopSlotUI> OnClicked;
     
     /// <summary>

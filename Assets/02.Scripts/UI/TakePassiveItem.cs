@@ -34,6 +34,7 @@ public class TakePassiveItem : UIBase
         playerInventory = inventory;
         sourceItemBox = itemBox;
         
+        GameEvents.TriggerPassiveItemUIOpened();
         //연출이 끝나면 활성화
         takeButton.gameObject.SetActive(false);
 
