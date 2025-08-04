@@ -4,7 +4,9 @@ public class PassiveItemBox : MonoBehaviour,IInteractable
 {
     [SerializeField] private string interactionPrompt = "[F] 열기";
     [SerializeField] private Transform promptPivot;
-    [SerializeField] private int[] possibleItemIds; // 랜덤 대상 ID 목록
+    [SerializeField] private ItemDataTable itemDataTable;
+    
+    private List<int> possibleItemIds = new List<int>(); // 랜덤 대상 ID 목록
 
     private int? fixedPicekedId; //한번 뽑히면 저장되는 아이템id값
     

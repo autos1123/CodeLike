@@ -14,29 +14,254 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - ID: 6000
-    name: "\uBC29\uD328"
+    name: "\uD558\uAE09\uC804\uC0AC\uC758 \uAC11\uC637"
     Rarity: 301
-    ConditionType: 6
-    value: 10
-    description: "\uBC29\uC5B4\uB825\uC774 10\uC99D\uAC00\uD55C\uB2E4."
-    IconPath: Sprite/ShieldIcon
+    ConditionType: 0
+    value: 20
+    description: "\uCCB4\uB825\uC774 20\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Armor/Armor1
+    buyPrice: 100
+    sellPrice: 50
+  - ID: 6001
+    name: "\uC911\uAE09\uC804\uC0AC\uC758 \uAC11\uC637"
+    Rarity: 302
+    ConditionType: 0
+    value: 40
+    description: "\uCCB4\uB825\uC774 40\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Armor/Armor2
     buyPrice: 200
     sellPrice: 100
-  - ID: 6001
-    name: "\uAC80"
+  - ID: 6002
+    name: "\uC0C1\uAE09\uC804\uC0AC\uC758 \uAC11\uC637"
+    Rarity: 303
+    ConditionType: 0
+    value: 60
+    description: "\uCCB4\uB825\uC774 60\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Armor/Armor3
+    buyPrice: 350
+    sellPrice: 175
+  - ID: 6003
+    name: "\uC6A9\uC0AC\uC758 \uAC11\uC637"
+    Rarity: 304
+    ConditionType: 0
+    value: 80
+    description: "\uCCB4\uB825\uC774 80\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Armor/Armor4
+    buyPrice: 500
+    sellPrice: 250
+  - ID: 6010
+    name: "\uC0AC\uACFC"
+    Rarity: 301
+    ConditionType: 1
+    value: 20
+    description: "\uC2A4\uD0DC\uBBF8\uB098\uAC00 20\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Food/Apple
+    buyPrice: 50
+    sellPrice: 25
+  - ID: 6011
+    name: "\uCE58\uC988"
+    Rarity: 302
+    ConditionType: 1
+    value: 40
+    description: "\uC2A4\uD0DC\uBBF8\uB098\uAC00 40\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Food/Cheese
+    buyPrice: 100
+    sellPrice: 50
+  - ID: 6012
+    name: "\uB2ED\uB2E4\uB9AC"
+    Rarity: 303
+    ConditionType: 1
+    value: 60
+    description: "\uC2A4\uD0DC\uBBF8\uB098\uAC00 60\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Food/ChickenLeg
+    buyPrice: 175
+    sellPrice: 87
+  - ID: 6013
+    name: "\uB9E5\uC8FC"
+    Rarity: 304
+    ConditionType: 1
+    value: 80
+    description: "\uC2A4\uD0DC\uBBF8\uB098\uAC00 80\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Food/Grog
+    buyPrice: 250
+    sellPrice: 125
+  - ID: 6020
+    name: "\uBABD\uB465\uC774"
     Rarity: 301
     ConditionType: 3
     value: 10
     description: "\uACF5\uACA9\uB825\uC774 10\uC99D\uAC00\uD55C\uB2E4."
-    IconPath: Sprite/SwordIcon
+    IconPath: Sprite/PassiveItemIcon/Weapon/Weapon1
     buyPrice: 100
     sellPrice: 50
-  - ID: 6002
-    name: "\uCD1D"
-    Rarity: 301
+  - ID: 6021
+    name: "\uB2E8\uAC80"
+    Rarity: 302
     ConditionType: 3
     value: 20
     description: "\uACF5\uACA9\uB825\uC774 20\uC99D\uAC00\uD55C\uB2E4."
-    IconPath: Sprite/GunIcon
+    IconPath: Sprite/PassiveItemIcon/Weapon/Weapon2
+    buyPrice: 250
+    sellPrice: 125
+  - ID: 6022
+    name: "\uCE74\uD0C0\uB098"
+    Rarity: 303
+    ConditionType: 3
+    value: 35
+    description: "\uACF5\uACA9\uB825\uC774 35\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Weapon/Weapon3
+    buyPrice: 450
+    sellPrice: 225
+  - ID: 6023
+    name: "\uC6A9\uC0AC\uC758 \uAC80"
+    Rarity: 304
+    ConditionType: 3
+    value: 50
+    description: "\uACF5\uACA9\uB825\uC774 50\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Weapon/Weapon4
+    buyPrice: 1000
+    sellPrice: 500
+  - ID: 6030
+    name: "\uB098\uBB34 \uBC29\uD328"
+    Rarity: 301
+    ConditionType: 6
+    value: 1
+    description: "\uBC29\uC5B4\uB825\uC774 1\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Shield/Shield1
+    buyPrice: 30
+    sellPrice: 15
+  - ID: 6031
+    name: "\uCCA0 \uBC29\uD328"
+    Rarity: 302
+    ConditionType: 6
+    value: 2
+    description: "\uBC29\uC5B4\uB825\uC774 2\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Shield/Shield2
+    buyPrice: 70
+    sellPrice: 35
+  - ID: 6032
+    name: "\uAE30\uC0AC\uC758 \uBC29\uD328"
+    Rarity: 303
+    ConditionType: 6
+    value: 4
+    description: "\uBC29\uC5B4\uB825\uC774 4\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Shield/Shield3
+    buyPrice: 120
+    sellPrice: 60
+  - ID: 6033
+    name: "\uAC80\uD22C\uC0AC\uC758 \uBC29\uD328"
+    Rarity: 304
+    ConditionType: 6
+    value: 6
+    description: "\uBC29\uC5B4\uB825\uC774 6\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Shield/Shield4
+    buyPrice: 180
+    sellPrice: 90
+  - ID: 6040
+    name: "\uCC9C \uC2E0\uBC1C"
+    Rarity: 301
+    ConditionType: 7
+    value: 0.5
+    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 0.5\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Shoes/Shoes1
+    buyPrice: 40
+    sellPrice: 20
+  - ID: 6041
+    name: "\uAC00\uC8FD \uC2E0\uBC1C"
+    Rarity: 302
+    ConditionType: 7
+    value: 1
+    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 1\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Shoes/Shoes2
+    buyPrice: 80
+    sellPrice: 40
+  - ID: 6042
+    name: "\uBAA8\uD5D8\uAC00\uC758 \uC2E0\uBC1C"
+    Rarity: 303
+    ConditionType: 7
+    value: 1.5
+    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 1.5\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Shoes/Shoes3
+    buyPrice: 120
+    sellPrice: 60
+  - ID: 6043
+    name: "\uC6A9\uC0AC\uC758 \uC2E0\uBC1C"
+    Rarity: 304
+    ConditionType: 7
+    value: 2
+    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 2\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Shoes/Shoes4
+    buyPrice: 160
+    sellPrice: 80
+  - ID: 6050
+    name: "\uB0A1\uC740 \uC7A5\uAC11"
+    Rarity: 301
+    ConditionType: 9
+    value: 0.05
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 0.05\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Gloves/Gloves1
+    buyPrice: 100
+    sellPrice: 50
+  - ID: 6051
+    name: "\uC804\uD22C \uC7A5\uAC11"
+    Rarity: 302
+    ConditionType: 9
+    value: 0.1
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 0.1\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Gloves/Gloves2
+    buyPrice: 200
+    sellPrice: 100
+  - ID: 6052
+    name: "\uAC80\uC0AC\uC758 \uC7A5\uAC11"
+    Rarity: 303
+    ConditionType: 9
+    value: 0.15
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 0.15\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Gloves/Gloves3
     buyPrice: 300
     sellPrice: 150
+  - ID: 6053
+    name: "\uC6A9\uC0AC\uC758 \uC7A5\uAC11"
+    Rarity: 304
+    ConditionType: 9
+    value: 0.2
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 0.2\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Gloves/Gloves4
+    buyPrice: 400
+    sellPrice: 200
+  - ID: 6060
+    name: "\uBE0C\uB860\uC988 \uBC18\uC9C0"
+    Rarity: 301
+    ConditionType: 10
+    value: 0.2
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 0.2\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Ring/Ring1
+    buyPrice: 100
+    sellPrice: 50
+  - ID: 6061
+    name: "\uACE8\uB4E0 \uB9C1"
+    Rarity: 302
+    ConditionType: 10
+    value: 0.4
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 0.4\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Ring/Ring2
+    buyPrice: 200
+    sellPrice: 100
+  - ID: 6062
+    name: "\uB9C8\uBC95\uBD80\uC5EC\uB41C \uBC18\uC9C0"
+    Rarity: 303
+    ConditionType: 10
+    value: 0.6
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 0.6\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Ring/Ring3
+    buyPrice: 300
+    sellPrice: 150
+  - ID: 6063
+    name: "\uC6A9\uC0AC\uC758 \uB9C1"
+    Rarity: 304
+    ConditionType: 10
+    value: 1
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 1\uC99D\uAC00\uD55C\uB2E4."
+    IconPath: Sprite/PassiveItemIcon/Ring/Ring4
+    buyPrice: 500
+    sellPrice: 250

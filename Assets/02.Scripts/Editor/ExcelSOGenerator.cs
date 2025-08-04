@@ -106,7 +106,7 @@ public static class ExcelSOGenerator
                     itemData.name = row[1].ToString();
                     itemData.Rarity = (Rarity)int.Parse(row[2].ToString());
                     itemData.ConditionType = ParseEnumFromCell<ConditionType>(row[3]);
-                    itemData.value = int.Parse(row[4].ToString());
+                    itemData.value = float.Parse(row[4].ToString());
                     itemData.description = row[5].ToString().Replace("@", itemData.value.ToString());
                     itemData.IconPath = row[6].ToString();
                     itemData.buyPrice = int.Parse(row[7].ToString());
