@@ -27,7 +27,6 @@ public class ViewManager : MonoSingleton<ViewManager>
         base.Awake();
         
         CurrentViewMode = ViewModeType.View2D;
-        OnViewChanged?.Invoke(CurrentViewMode);
     }
     /// <summary>
     /// 지정한 시점 모드로 전환, 동일한 모드일 경우 무시
