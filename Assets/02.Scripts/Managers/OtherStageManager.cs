@@ -5,13 +5,14 @@ public class OtherStageManager : StageManager
     [SerializeField] private string mapTitle;
     [SerializeField] private Room otherRoomPrefab;
     public bool IsStageReady { get; private set; } = false;
+    //[SerializeField] protected Material _skyboxMaterial; 
     protected override bool Persistent => false;
 
     private bool _titleShown = false;
     public override void LoadStage()
     {
         ClearStage();
-
+        ApplyStageEnvironment();
         // 튜토리얼 방 하나만 생성
         if (otherRoomPrefab != null)
         {
@@ -91,6 +92,15 @@ public class OtherStageManager : StageManager
     {
         LoadStage();
     }
+    protected void ApplyStageEnvironment()
+    {
+        // 스카이박스 변경
+        if(skyboxMaterial != null)
+        {
+            Debug.Log("스카이박스 바뀜");
 
+            RenderSettings.skybox = skyboxMaterial;
+        }
+    }
 
 }
