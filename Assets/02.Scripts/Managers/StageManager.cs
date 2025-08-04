@@ -41,6 +41,7 @@ public class StageManager:MonoSingleton<StageManager>
     [SerializeField] protected Material skyboxMaterial;    // 인스펙터에서 지정
     public virtual void LoadStage()
     {
+        ApplyStageEnvironment();
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
         ClearStage();
         
@@ -88,7 +89,7 @@ public class StageManager:MonoSingleton<StageManager>
     void Start()
     {
         LoadStage();
-        ApplyStageEnvironment();
+        //ApplyStageEnvironment();
         // 나중에 저장 로직 추가 가능
     }
 
@@ -156,10 +157,14 @@ public class StageManager:MonoSingleton<StageManager>
         // BGM 재생
         if(SoundManager.HasInstance && !string.IsNullOrEmpty(bgmKey))
             SoundManager.Instance.PlayBGM(null, bgmKey);
-
+        
         // 스카이박스 변경
         if(skyboxMaterial != null)
+        {
+            Debug.Log("스카이박스 바뀜");
+
             RenderSettings.skybox = skyboxMaterial;
+        }
     }
     // ===== 미니맵 시스템 전달용 데이터 정리 =====
     // 이 구문은 현재 생성된 모든 Room 정보를 바탕으로
