@@ -19,7 +19,6 @@ public class UIManager:MonoSingleton<UIManager>
     private List<Action> _onUILoaded = new();
 
     [SerializeField] private List<UILabel> uiLabel;
-    [SerializeField] private TooltipManager tooltipManager;
     private ContextualUIHint _currentContextualHintUI;
 
     public bool IsInitialized { get; private set; } = false;
@@ -73,10 +72,10 @@ public class UIManager:MonoSingleton<UIManager>
                 {
                     _uiInstances[uIBase.UIName] = uIBase;
                 }
-                if (tableObj.name.Contains("TooltipUI"))
-                {
-                    tooltipManager.RegisterTooltipUI(tableObj);
-                }
+                // if (tableObj.name.Contains("TooltipUI"))
+                // {
+                //     tooltipManager.RegisterTooltipUI(tableObj);
+                // }
             }
             uiLoaded = true;
             
