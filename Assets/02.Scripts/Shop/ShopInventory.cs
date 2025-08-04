@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 /// <summary>
 /// 상점 전용 인벤토리. 초기 아이템 셋업 및 IInventory 인터
@@ -8,10 +9,28 @@ public class ShopInventory : MonoBehaviour,IInventory
 {
     public int npcID;
     
-    [Header("판매할 아이템 ID 리스트")]
-    [SerializeField] private List<int> itemIDs = new(); // 인스펙터에서 ID만 입력
-    private ItemDataTable itemDataTable;
+    [Header("레어도별 등장 확률 (%)")]
+    private Dictionary<Rarity, float> rarityChances = new()
+    {
+        { Rarity.Common, 84f },
+        { Rarity.Uncommon, 10f },
+        { Rarity.Rare, 5f },
+        { Rarity.Epic, 1f }
+    };
     
+    [Header("아이템 개수 확률 (%)")]
+    private readonly Dictionary<int, float> itemCountChances = new()
+    {
+        { 1, 30f },
+        { 2, 20f },
+        { 3, 15f },
+        { 4, 12f },
+        { 5, 10f },
+        { 6, 8f },
+        { 7, 4f },
+        { 8, 1f }
+    };
+    private ItemDataTable itemDataTable;
     public List<InventoryItemSlot> inventorySlots { get; private set; } = new();
 
     public bool Initialized { get; private set; } = false;
@@ -36,19 +55,8 @@ public class ShopInventory : MonoBehaviour,IInventory
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
 
         Init();
-        foreach (int id in itemIDs)
-        {
-            var item = itemDataTable.GetDataByID(id);
-            if (item != null)
-            {
-                inventorySlots.Add(CreateSlot(item));
-            }
-            else
-            {
-                Debug.LogWarning($"[ShopInventory] ID {id}에 해당하는 ItemData를 찾을 수 없습니다.");
-            }
-        }
-        
+        GenerateRandomItems();
+
         Initialized = true;
         OnInitialized?.Invoke();
     }
@@ -62,6 +70,66 @@ public class ShopInventory : MonoBehaviour,IInventory
     }
     
     /// <summary>
+    /// 레어도 확률 기반으로 랜덤 아이템 생성
+    /// </summary>
+    private void GenerateRandomItems()
+    {
+        int itemCount = GetRandomItemCount(); // 1~8개 확률적 선택
+        var allItems = itemDataTable.dataList;
+        int attempts = 0;
+
+        while (inventorySlots.Count < itemCount && attempts < 100)
+        {
+            attempts++;
+
+            Rarity selectedRarity = GetRandomRarityByChance();
+            var candidates = allItems.Where(i => i.Rarity == selectedRarity).ToList();
+            if (candidates.Count == 0) continue;
+
+            var selectedItem = candidates[UnityEngine.Random.Range(0, candidates.Count)];
+
+            if (!inventorySlots.Exists(s => s.InventoryItem == selectedItem))
+            {
+                inventorySlots.Add(CreateSlot(selectedItem));
+            }
+        }
+    }
+    private int GetRandomItemCount()
+    {
+        float total = itemCountChances.Values.Sum();
+        float roll = UnityEngine.Random.Range(0f, total);
+        float current = 0f;
+
+        foreach (var kvp in itemCountChances)
+        {
+            current += kvp.Value;
+            if (roll <= current)
+                return kvp.Key;
+        }
+
+        return 1;
+    }
+    /// <summary>
+    /// 가중치 확률 기반으로 랜덤 레어도 반환
+    /// </summary>
+    private Rarity GetRandomRarityByChance()
+    {
+        float total = rarityChances.Values.Sum();
+        float roll = UnityEngine.Random.Range(0f, total);
+        float current = 0f;
+
+        foreach (var kvp in rarityChances)
+        {
+            current += kvp.Value;
+            if (roll <= current)
+                return kvp.Key;
+        }
+
+        // 예외적으로 Common 반환
+        return Rarity.Common;
+    }
+    
+    /// <summary>
     /// 지정된 아이템과 수량으로 새로운 ItemSlot 생성
     /// </summary>
     private InventoryItemSlot CreateSlot(ItemData item)
@@ -70,6 +138,7 @@ public class ShopInventory : MonoBehaviour,IInventory
         slot.Set(item);
         return slot;
     }
+    
     
     /// <summary>
     /// 현재 보유한 모든 아이템 슬롯 반환 (IInventory 구현)

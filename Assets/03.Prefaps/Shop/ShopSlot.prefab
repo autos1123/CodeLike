@@ -508,6 +508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6952558228594492141}
   - component: {fileID: 8218751727142498828}
+  - component: {fileID: 3039493018827293218}
   m_Layer: 5
   m_Name: ShopSlot
   m_TagString: Untagged
@@ -552,10 +553,23 @@ MonoBehaviour:
   blockText: {fileID: 4195379859625684052}
   equipText: {fileID: 5277575988503421252}
   BackgroundImage: {fileID: 7242263145851090109}
+  TooltipAnchor: {fileID: 0}
   isPlayerSlot: 0
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   selectedColor: {r: 1, g: 0, b: 0, a: 1}
   disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!114 &3039493018827293218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8126799198006157991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cc5218fd7a080a4e8fc9cb4063f465a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8910437982929499243
 GameObject:
   m_ObjectHideFlags: 0
