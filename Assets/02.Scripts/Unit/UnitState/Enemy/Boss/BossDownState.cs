@@ -7,10 +7,12 @@ public class BossDownState : EnemyBaseState
     private float recoveryTerm = 10f; // 부활 대기 시간
     private float recoveryTimer = 0f; // 부활 타이머
     BookObstacle bookObstacle;
+    private ItemDropper itemDropper; // 아이템 드랍을 위한 ItemDropper 컴포넌트
 
     public BossDownState(EnemyStateMachine stateMachine) : base(stateMachine)
     {
         Transform parent = stateMachine.Enemy.transform.parent;
+        stateMachine.Enemy.TryGetComponent<ItemDropper>(out itemDropper);
 
         if(parent != null)
         {
@@ -51,6 +53,7 @@ public class BossDownState : EnemyBaseState
 
         if(bookObstacle.gameObject.activeSelf == false)
         {
+            itemDropper?.TryDropItem();
             stateMachine.Enemy.room.CheckClear();
             stateMachine.Enemy.gameObject.SetActive(false); // 적 오브젝트를 비활성화
             return; // BookObstacle이 비활성화된 경우 더 이상 진행하지 않음

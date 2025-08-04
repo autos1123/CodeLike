@@ -119,7 +119,7 @@ Material:
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Darken: -0.5
+    - _Darken: -1
     - _DiffusePosterizeOffset: 0
     - _DiffusePosterizePower: 1
     - _DiffusePosterizeSteps: 3
@@ -130,7 +130,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0.506
     - _GlossyReflections: 0
-    - _GrayscaleAmount: 1
+    - _GrayscaleAmount: 0
     - _HairSpecularMaskRotation: 0
     - _HairSpecularMaskScale: 1
     - _HairSpecularMaskStrength: 1

@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class EnemyDieState:EnemyBaseState
 {
+    private ItemDropper itemDropper; // 아이템 드랍을 위한 ItemDropper 컴포넌트
+
     public EnemyDieState(EnemyStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        stateMachine.Enemy.TryGetComponent<ItemDropper>(out itemDropper);
     }
 
     public override void StateEnter()
@@ -29,6 +32,7 @@ public class EnemyDieState:EnemyBaseState
         if(stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).IsName("Die") && 
             stateMachine.Enemy._Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
+            itemDropper?.TryDropItem();
             stateMachine.Enemy.room.CheckClear();
             stateMachine.Enemy.gameObject.SetActive(false); // 적 오브젝트를 비활성화
         }

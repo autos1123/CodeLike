@@ -48331,15 +48331,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4157283245401787165, guid: c82fd57b947932a4796907732de3b276, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.25
+      value: 9.13
       objectReference: {fileID: 0}
     - target: {fileID: 4157283245401787165, guid: c82fd57b947932a4796907732de3b276, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.58
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 4157283245401787165, guid: c82fd57b947932a4796907732de3b276, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -3.99
       objectReference: {fileID: 0}
     - target: {fileID: 4157283245401787165, guid: c82fd57b947932a4796907732de3b276, type: 3}
       propertyPath: m_LocalRotation.w
@@ -48368,6 +48368,10 @@ PrefabInstance:
     - target: {fileID: 4157283245401787165, guid: c82fd57b947932a4796907732de3b276, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330388122257662274, guid: c82fd57b947932a4796907732de3b276, type: 3}
+      propertyPath: sentence
+      value: "\uD3B8\uBC95 \uAE08\uC9C0! \uCCA8\uBD80\uD130 \uB2E4\uC2DC!"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
