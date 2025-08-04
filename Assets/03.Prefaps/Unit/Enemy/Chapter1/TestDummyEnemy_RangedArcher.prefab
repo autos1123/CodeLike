@@ -2152,6 +2152,7 @@ GameObject:
   - component: {fileID: 4370809980041531726}
   - component: {fileID: 6654005697271066974}
   - component: {fileID: 956156921027454820}
+  - component: {fileID: -362287774363033233}
   m_Layer: 9
   m_Name: TestDummyEnemy_RangedArcher
   m_TagString: Untagged
@@ -2288,6 +2289,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullSize: 20
+--- !u!114 &-362287774363033233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4204164173341962984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d08d0b414dc83d142b1eeaf8a9833283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropRate: 0.2
+  dropItems:
+  - itemPrefab: {fileID: 4511851304918632690, guid: ccbe3b51ce905b04782901fba2a50bde, type: 3}
+    dropChance: 0.15
+  - itemPrefab: {fileID: 4511851304918632690, guid: 347b14c68cd95fb4ca1f045d13fec62d, type: 3}
+    dropChance: 0.85
 --- !u!1 &6203914761673305147
 GameObject:
   m_ObjectHideFlags: 0
