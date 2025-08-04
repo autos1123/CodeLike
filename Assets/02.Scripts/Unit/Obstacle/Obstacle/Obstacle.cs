@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
 
 public abstract class Obstacle : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public abstract class Obstacle : MonoBehaviour
 
     protected bool isPlaying = true; // 게임이 플레이 중인지 여부
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
