@@ -42,7 +42,7 @@ public class CombatController : MonoBehaviour, IDamagable
         // Knockback();
 
         float defense = baseController.Condition.GetTotalCurrentValue(ConditionType.Defense);
-        float reducedDamage = Mathf.Max(0, damage - defense);
+        float reducedDamage = Mathf.Max(5, damage - defense);
 
         SoundManager.Instance.PlaySFX(transform.position, SoundAddressbleName.HitSound);
 
