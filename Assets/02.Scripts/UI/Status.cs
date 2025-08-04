@@ -56,6 +56,10 @@ public class Status:MonoBehaviour
         {
             text.text = $"{maxValue:F0}";
         }
+        else if (_conditionType == ConditionType.CriticalChance || _conditionType == ConditionType.CriticalDamage)
+        {
+            text.text = $"{(currentValue * 100f):F0}%";
+        }
         else
         {
             text.text = currentValue.ToString("F2");

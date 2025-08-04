@@ -23,8 +23,7 @@ public class TutorialEventWaitStep : TutorialStep
     public override void Activate()
     {
         base.Activate();
-        Debug.Log($"[TutorialStep] '{QuestDescription}' 스텝 활성화. 이벤트 대기 중: {eventToWait}");
-        
+       
         TutorialManager.Instance.NotifyStepActivated(waitMessage, QuestDescription);
 
         
@@ -97,7 +96,6 @@ public class TutorialEventWaitStep : TutorialStep
 
     private void OnEventTriggered()
     {
-        Debug.Log($"[TutorialEventWaitStep] '{QuestDescription}' 스텝: 이벤트 ({eventToWait}) 감지. 스텝 완료.");
         CompleteStep();
     }
 }

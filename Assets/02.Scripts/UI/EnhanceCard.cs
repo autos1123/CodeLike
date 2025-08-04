@@ -219,8 +219,22 @@ public class EnhanceCard:MonoBehaviour
         {
             currentStat = playerController.Condition.GetTotalMaxValue(_enhanceData.ConditionType);
         }
-        string line1 = $"{statName}이 {_randomIncreaseValue:F1} 증가합니다.";
-        string line2 = $"강화 후: {currentStat:F2} → {currentStat + _randomIncreaseValue:F1}";
+        
+        string line1, line2;
+
+        //치명타 계열은 퍼센트로 출력
+        if (_enhanceData.ConditionType == ConditionType.CriticalChance ||
+            _enhanceData.ConditionType == ConditionType.CriticalDamage)
+        {
+            line1 = $"{statName}이 {_randomIncreaseValue * 100f:F0}% 증가합니다.";
+            line2 = $"강화 후: {currentStat * 100f:F0}% → {(currentStat + _randomIncreaseValue) * 100f:F0}%";
+        }
+        else
+        {
+            line1 = $"{statName}이 {_randomIncreaseValue:F1} 증가합니다.";
+            line2 = $"강화 후: {currentStat:F2} → {currentStat + _randomIncreaseValue:F1}";
+        }
+
         _enhaceDescription.text = line1 + "\n" + line2;
 
         // 이미지와 앞면 내용 갱신

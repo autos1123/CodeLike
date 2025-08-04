@@ -1,44 +1,58 @@
+using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
 
 public enum TrapType
 {
     None,
     Return,
-    Mine
+    Mine,
+    Fake,
 }
-public class TrapControlLer : MonoBehaviour
+public class TrapControlLer:MonoBehaviour
 {
-    public TrapType type;
+    [SerializeField] private TrapType type;
+    [SerializeField] private string sentence;
     [SerializeField] private ParticleSystem particle;
 
     private void OnTriggerEnter(Collider other)
     {
         if(!other.transform.CompareTag(TagName.Player)) return;
 
+        UIManager.Instance.GetUI<MapTitleUI>().ShowTitle(sentence);
         switch(type)
         {
             case TrapType.None:
-                UIManager.Instance.GetUI<MapTitleUI>().ShowTitle("함정인가?");
-                break;
+                return;
             case TrapType.Return:
-                UIManager.Instance.GetUI<MapTitleUI>().ShowTitle("처음부터 다시~");
                 StageManager.Instance.ReLoadStage();
                 break;
             case TrapType.Mine:
                 if(particle != null)
                 {
-                    UIManager.Instance.GetUI<MapTitleUI>().ShowTitle("!!뿜!!");
+                    Instantiate(particle.gameObject, this.transform);
                     particle.Play();
-                    if(other.transform.TryGetComponent(out IDamagable enemy))
+                    if(other.transform.TryGetComponent(out IDamagable damagable))
                     {
-                        enemy.GetDamaged(50f);
+                        damagable.GetDamaged(50f);
                     }
                 }
-                else
-                {
-                    UIManager.Instance.GetUI<MapTitleUI>().ShowTitle("??뿜??");
-                }
                 break;
+
+            case TrapType.Fake:
+
+                if(other.transform.TryGetComponent(out BoxCollider box))
+                {
+                    box.isTrigger = true;
+                    StartCoroutine(Fake(box,1.5f));
+                }
+                return;
         }
+    }
+
+    IEnumerator Fake(BoxCollider box , float time)
+    {
+        yield return new WaitForSeconds(time);
+        box.isTrigger = false;
     }
 }

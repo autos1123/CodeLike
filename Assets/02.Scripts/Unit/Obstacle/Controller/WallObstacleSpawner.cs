@@ -9,8 +9,7 @@ public class WallObstacleSpawner : ObstacleController
     private float spawnTimer = 0f;
     private Coroutine spawnCoroutine;
 
-    private float resetTimer = 0f;
-    private Coroutine resetCoroutine;
+    private int endWallCount = 0;
 
     private void Start()
     {
@@ -52,13 +51,6 @@ public class WallObstacleSpawner : ObstacleController
                 }
             }
         }
-
-        if(resetCoroutine != null)
-        {
-            StopCoroutine(resetCoroutine);
-        }
-
-        resetCoroutine = StartCoroutine(WaitResetObstacle());
     }
 
     private void ResetObstacle()
@@ -67,27 +59,19 @@ public class WallObstacleSpawner : ObstacleController
         {
             for(int j = 0; j < obstacleContainers[i].transform.childCount; j++)
             {
-                obstacleContainers[i].transform.GetChild(j).gameObject.SetActive(false);
+                obstacleContainers[i].gameObject.SetActive(false);
             }
         }
-        resetTimer = 0f;
     }
 
-    IEnumerator WaitResetObstacle()
+    public void EndWallCountUp()
     {
-        while(true)
+        endWallCount++;
+        if(endWallCount >= obstacleContainers.Length)
         {
-            yield return null;
-            if(isPlaying) resetTimer += Time.deltaTime;
-
-            if(resetTimer >= 5f)
-            {
-                ResetObstacle();
-                isPatternEnd = true;
-                break;
-            }
+            isPatternEnd = true;
+            ResetObstacle();
+            endWallCount = 0;
         }
-
-        resetCoroutine = null;
     }
 }

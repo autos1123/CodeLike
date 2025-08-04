@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System;
 
@@ -14,26 +13,31 @@ public class PlayerController:BaseController
     public PlayerInputHandler InputHandler { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerAnimationData AnimationData { get; private set; }
+    public Animator Animator { get; private set; }
     public PlayerActiveItemController ActiveItemController { get; private set; }
     public Room CurrentRoom { get; private set; }
 
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask platformLayer;
     [SerializeField] private float groundRayOffset = 0.1f;
 
     [Header("Dash VFX")]
     public GameObject DashVFXPrefab;
 
-
+    public Vector3 LastSafePosition { get; private set; }
+    private Transform currentPlatform = null;
+    private Vector3 platformLocalPosition;
+    
     private float staminaDrainPerSecond = 5f;
 
     public Action OnSkillInput;
 
-
+    private Vector3 lastSafePosition;
 
 
     public bool IsGrounded { get; private set; }
-
+    
     protected override void Awake()
     {
         base.Awake();
@@ -43,15 +47,18 @@ public class PlayerController:BaseController
         base.Start();
         InputHandler = GetComponent<PlayerInputHandler>();
         ActiveItemController = GetComponent<PlayerActiveItemController>();
+        Animator = GetComponentInChildren<Animator>();
         _Rigidbody.freezeRotation = true;
     }
 
     private void Update()
     {
-        if(!isInitialized || !isPlaying)
+        if(!isInitialized || !isPlaying || Condition.IsDied)
             return;
-
+        
         UpdateGrounded();
+        UpdateSafePosition();
+        
         StateMachine.Update();
         InputHandler.ResetOneTimeInputs();
 
@@ -96,10 +103,11 @@ public class PlayerController:BaseController
 
         // 박스 크기 (살짝 얇게 Y축 조정)
         Vector3 boxHalfExtents = new Vector3(extents.x - 0.1f, groundRayOffset * 0.5f, extents.z - 0.1f);
+    
+        int combinedLayerMask = groundLayer | platformLayer;
+        
+        IsGrounded = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, combinedLayerMask).Length > 0;
 
-        bool isGrounded = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, groundLayer).Length > 0;
-
-        IsGrounded = isGrounded;
     }
 
     protected override void OnDrawGizmosSelected()
@@ -126,14 +134,30 @@ public class PlayerController:BaseController
     {
         Collider[] hitColliders = _CombatController.GetTargetColliders(LayerMask.GetMask("Enemy"));
 
+        float attackPower = Condition.GetTotalCurrentValue(ConditionType.AttackPower);
+        float criticalChance = Condition.GetTotalCurrentValue(ConditionType.CriticalChance);
+        float criticalDamage = Condition.GetTotalCurrentValue(ConditionType.CriticalDamage);
+
         foreach(var hitCollider in hitColliders)
         {
             if(hitCollider.TryGetComponent(out IDamagable enemy))
             {
-                enemy.GetDamaged(Condition.GetTotalCurrentValue(ConditionType.AttackPower));
+                // 크리티컬 판정
+                bool isCritical = UnityEngine.Random.value < criticalChance;
+
+                float finalDamage = attackPower;
+                if(isCritical)
+                {
+                    finalDamage *= criticalDamage;
+                    // 여기서 크리티컬 이펙트, 사운드, UI 띄우기도 가능
+                    Debug.Log("Critical Hit!"); // 임시 디버그 메시지
+                }
+
+                enemy.GetDamaged(finalDamage);
             }
         }
     }
+
 
     public override void Hit()
     {
@@ -179,5 +203,71 @@ public class PlayerController:BaseController
 
         GameManager.Instance.DelayedSceneInit();
         isInitialized = true;
+    }
+    private void UpdateSafePosition()
+    {
+        Vector3 boxCenter = col.bounds.center + Vector3.down * (col.bounds.extents.y + 0.05f);
+        Vector3 boxHalfExtents = new Vector3(col.bounds.extents.x * 0.9f, 0.05f, col.bounds.extents.z * 0.9f);
+        int combinedLayer = groundLayer | platformLayer;
+
+        Collider[] hits = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, combinedLayer);
+
+        if (hits.Length > 0)
+        {
+            LastSafePosition = transform.position;
+
+            // 플랫폼일 경우 현재 플랫폼 정보 저장
+            foreach (var hit in hits)
+            {
+                if (((1 << hit.gameObject.layer) & platformLayer) != 0)
+                {
+                    currentPlatform = hit.transform;
+                    platformLocalPosition = currentPlatform.InverseTransformPoint(transform.position);
+                    return;
+                }
+            }
+            // 플랫폼이 아니라면
+            currentPlatform = null;
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("FallZone"))
+        {
+            ApplyFallDamage(20);
+            if (!Condition.IsDied)
+            {
+                RespawnToSafePosition(); // 죽지 않았으면 리스폰
+            }
+        }
+    }
+
+    private void ApplyFallDamage(float damageAmount)
+    {
+        if (Condition.IsDied) return; // 이미 죽었으면 낙사 데미지 무시
+
+        bool isDead = Condition.GetDamaged(damageAmount);
+        if (isDead)
+        {
+            Die(); // PlayerController에 있는 Die() 함수 호출
+        }
+    }
+    
+    public void RespawnToSafePosition()
+    {
+        if (Condition.CurrentConditions[ConditionType.HP] <= 0)
+        {
+            Debug.Log("사망 상태 -> 리스폰 불가");
+            return;
+        }
+
+        Debug.Log("낙사! 안전지점으로 리스폰");
+
+        Vector3 respawnPosition = (currentPlatform != null)
+            ? currentPlatform.TransformPoint(platformLocalPosition)
+            : LastSafePosition;
+
+        _Rigidbody.velocity = Vector3.zero;
+        transform.position = respawnPosition + Vector3.up * 1f; // 살짝 띄워서 리스폰
     }
 }

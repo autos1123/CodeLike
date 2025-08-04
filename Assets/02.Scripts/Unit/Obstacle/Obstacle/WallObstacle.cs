@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class WallObstacle : Obstacle
 {
+    private WallObstacleSpawner spawner;
+
     [SerializeField] private float speed = 5f;
     private Vector3 velocityTmp;
     private bool alreadyAttacked = false;
+
+    [SerializeField] private GameObject endWall;
+    private bool alreadyEnd = false;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        spawner = GetComponentInParent<WallObstacleSpawner>();
+    }
 
     protected override void OnEnable()
     {
@@ -62,6 +73,12 @@ public class WallObstacle : Obstacle
 
             controller.Attack(damagable);
             alreadyAttacked = true;
+        }
+
+        if(other.gameObject.Equals(endWall) && !alreadyEnd)
+        {
+            spawner.EndWallCountUp();
+            alreadyEnd = true;
         }
     }
 }
