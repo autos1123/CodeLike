@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
-  currentStage:
-    stageID: 0
-    playerSpawnPoint: {x: 0, y: 0, z: 0}
-  allRooms: []
-  tutorialRoomPrefab: {fileID: 6203069154772650647, guid: db0d9fe219f9942428b6856ecf7254a0, type: 3}
+  stageMapCountData: 05000000060000000700000008000000090000000a000000
+  viewCameraController: {fileID: 0}
+  bgmKey: 
+  skyboxMaterial: {fileID: 2100000, guid: 2d796ced94d61438fbab81b194038162, type: 2}
+  mapTitle: 
+  otherRoomPrefab: {fileID: 0}

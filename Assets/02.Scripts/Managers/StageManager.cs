@@ -87,7 +87,8 @@ public class StageManager:MonoSingleton<StageManager>
 
     void Start()
     {
-        LoadStage();        
+        LoadStage();
+        ApplyStageEnvironment();
         // 나중에 저장 로직 추가 가능
     }
 
