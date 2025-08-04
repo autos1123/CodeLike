@@ -71,7 +71,15 @@ public class TakePassiveItem : UIBase
         //
         // GameEvents.TriggerPassiveItemUIOpened();
     }
-    
+
+    public override void Close()
+    {
+        base.Close();
+        nameText.text = "";
+        descriptionText.text = "";
+        rarityText.text = "";
+    }
+
     private IEnumerator StartSlotRolling()
     {
         float rollTime = 2f;
@@ -144,9 +152,6 @@ public class TakePassiveItem : UIBase
     private void OnCloseButtonClicked()
     {
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxClose");
-        nameText.text = "";
-        descriptionText.text = "";
-        rarityText.text = "";
         Close();
     }
 }

@@ -162,7 +162,7 @@ MonoBehaviour:
     Rarity: 301
     ConditionType: 7
     value: 0.5
-    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 0.5\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 1\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Shoes/Shoes1
     buyPrice: 40
     sellPrice: 20
@@ -180,7 +180,7 @@ MonoBehaviour:
     Rarity: 303
     ConditionType: 7
     value: 1.5
-    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 1.5\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 2\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Shoes/Shoes3
     buyPrice: 120
     sellPrice: 60
@@ -198,7 +198,7 @@ MonoBehaviour:
     Rarity: 301
     ConditionType: 9
     value: 0.05
-    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 0.05\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 5%\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Gloves/Gloves1
     buyPrice: 100
     sellPrice: 50
@@ -207,7 +207,7 @@ MonoBehaviour:
     Rarity: 302
     ConditionType: 9
     value: 0.1
-    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 0.1\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 10%\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Gloves/Gloves2
     buyPrice: 200
     sellPrice: 100
@@ -216,7 +216,7 @@ MonoBehaviour:
     Rarity: 303
     ConditionType: 9
     value: 0.15
-    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 0.15\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 15%\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Gloves/Gloves3
     buyPrice: 300
     sellPrice: 150
@@ -225,7 +225,7 @@ MonoBehaviour:
     Rarity: 304
     ConditionType: 9
     value: 0.2
-    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 0.2\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uD655\uB960\uC774 20%\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Gloves/Gloves4
     buyPrice: 400
     sellPrice: 200
@@ -234,7 +234,7 @@ MonoBehaviour:
     Rarity: 301
     ConditionType: 10
     value: 0.2
-    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 0.2\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 20%\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Ring/Ring1
     buyPrice: 100
     sellPrice: 50
@@ -243,7 +243,7 @@ MonoBehaviour:
     Rarity: 302
     ConditionType: 10
     value: 0.4
-    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 0.4\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 40%\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Ring/Ring2
     buyPrice: 200
     sellPrice: 100
@@ -252,7 +252,7 @@ MonoBehaviour:
     Rarity: 303
     ConditionType: 10
     value: 0.6
-    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 0.6\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 60%\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Ring/Ring3
     buyPrice: 300
     sellPrice: 150
@@ -261,7 +261,7 @@ MonoBehaviour:
     Rarity: 304
     ConditionType: 10
     value: 1
-    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 1\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uD06C\uB9AC\uD2F0\uCEEC\uB370\uBBF8\uC9C0\uAC00 100%\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Ring/Ring4
     buyPrice: 500
     sellPrice: 250

@@ -107,7 +107,7 @@ public static class ExcelSOGenerator
                     itemData.Rarity = (Rarity)int.Parse(row[2].ToString());
                     itemData.ConditionType = ParseEnumFromCell<ConditionType>(row[3]);
                     itemData.value = float.Parse(row[4].ToString());
-                    itemData.description = row[5].ToString().Replace("@", itemData.value.ToString());
+                    itemData.description = row[5].ToString().Replace("@", GetParsedValueForTooltip(itemData.ConditionType, itemData.value));
                     itemData.IconPath = row[6].ToString();
                     itemData.buyPrice = int.Parse(row[7].ToString());
                     //판매가격은 구매가격의 50퍼
@@ -270,6 +270,23 @@ public static class ExcelSOGenerator
         {
             Debug.LogError($"Failed to parse '{raw}' as enum type {typeof(T).Name}. Returning default value.");
             return default(T); // 파싱 실패 시 Enum의 기본값 (보통 0번째 값) 반환
+        }
+    }
+    /// <summary>
+    /// 툴팁을 위한 크확,크뎀 치환메소드
+    /// </summary>
+    /// <param name="conditionType"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    private static string GetParsedValueForTooltip(ConditionType conditionType, float value)
+    {
+        switch (conditionType)
+        {
+            case ConditionType.CriticalChance:
+            case ConditionType.CriticalDamage:
+                return $"{value * 100f:F0}%"; 
+            default:
+                return value.ToString("F0");  // 일반 숫자
         }
     }
 }
