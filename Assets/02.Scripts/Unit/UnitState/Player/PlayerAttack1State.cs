@@ -1,18 +1,31 @@
+using System.Linq;
 using UnityEngine;
 
 public class PlayerAttack1State:PlayerBaseState
 {
     private float comboTimer = 0f;
-    private float comboWindow = 0.5f; // 다음 콤보 입력 가능 시간
+    private float comboWindowStart = 0.2f;  // comboWindow 시작 시간 (예시값)
+    private float comboWindowEnd = 0.5f;    // comboWindow 끝 시간 (예시값)
 
     public PlayerAttack1State(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void StateEnter()
     {
         base.StateEnter();
-        StartAnimation(Player.AnimationData.Attack1ParameterHash);
-        comboTimer = 0f;
 
+        float attackSpeed = Player.Condition.GetTotalCurrentValue(ConditionType.AttackSpeed);
+        Player.Animator.SetFloat("AttackSpeed", attackSpeed);
+
+        float baseClipLength = Player.Animator.runtimeAnimatorController.animationClips
+            .FirstOrDefault(x => x.name == "Slap Attack").length;
+        float actualClipLength = baseClipLength / attackSpeed;
+
+        // comboWindow의 구간 비율(직접 조절 가능)
+        comboWindowStart = actualClipLength * 0.3f;
+        comboWindowEnd = actualClipLength * 0.8f;
+
+        comboTimer = 0f;
+        StartAnimation(Player.AnimationData.Attack1ParameterHash);
     }
 
     public override void StateUpdate()
@@ -21,29 +34,27 @@ public class PlayerAttack1State:PlayerBaseState
         comboTimer += Time.deltaTime;
 
         Vector2 move = Player.InputHandler.MoveInput;
-        if(move.magnitude > 0.1f)
+        if(move.magnitude > 0.1f) PlayerLookAt();
+
+        // comboWindow 구간에서만 입력을 받음
+        if(comboTimer >= comboWindowStart && comboTimer <= comboWindowEnd)
         {
-            PlayerLookAt(); // 이동 중 회전
+            if(Player.InputHandler.AttackPressed)
+            {
+                stateMachine.ChangeState(stateMachine.Attack2State);
+                return;
+            }
         }
 
-        // 콤보 입력 체크
-        if(Player.InputHandler.AttackPressed && comboTimer < comboWindow)
-        {
-            stateMachine.ChangeState(stateMachine.Attack2State);
-            return;
-        }
-
-        // 콤보 시간 초과 or 종료
-        if(comboTimer > comboWindow)
+        // 애니메이션이 끝났거나, comboWindow도 끝났으면 Idle로
+        float animEnd = comboWindowEnd + 0.1f; // 70% 이후엔 애니메이션이 거의 끝났다고 가정
+        if(comboTimer > animEnd)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
 
-    public override void StateExit()
-    {
-        base.StateExit();
-    }
+    public override void StateExit() { base.StateExit(); }
 
     public override void StatePhysicsUpdate()
     {

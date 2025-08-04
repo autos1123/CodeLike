@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RangedEnemyController : EnemyController
+public class RangedEnemyController:EnemyController
 {
     [Header("원거리 적 설정")]
     [SerializeField] private Transform projectileOffset;
@@ -25,26 +25,36 @@ public class RangedEnemyController : EnemyController
 
     private void FireProjectile(Vector3 targetPos)
     {
-        // 타겟까지의 방향 계산
         Vector3 direction = (targetPos + Vector3.up * 1.5f) - projectileOffset.position;
-        direction.y = 0; // 수평 방향으로만 발사
+        direction.y = 0; // 수평 발사
         direction.Normalize();
+
         PoolType poolToUse = projectileType switch
         {
-            0 => PoolType.projectile,       // 기존 TestProjectile
-            1 => PoolType.ArrowProjectile,  // 새로 추가한 화살
+            0 => PoolType.projectile,
+            1 => PoolType.ArrowProjectile,
             _ => PoolType.projectile
         };
 
         GameObject projectile = PoolManager.Instance.GetObject(poolToUse);
         projectile.transform.position = projectileOffset.position;
 
+        // === 크리티컬 처리 ===
+        float attackPower = Condition.GetTotalCurrentValue(ConditionType.AttackPower);
+        float criticalChance = Condition.GetTotalCurrentValue(ConditionType.CriticalChance);
+        float criticalDamage = Condition.GetTotalCurrentValue(ConditionType.CriticalDamage);
+
+        bool isCritical = UnityEngine.Random.value < criticalChance;
+
         projectile.GetComponent<Projectile>()?.InitProjectile(
-            direction,
-            10f,
-            Condition.GetTotalCurrentValue(ConditionType.AttackPower)
+            dir: direction,
+            speed: 10f,
+            damage: attackPower,
+            isCritical: isCritical,
+            criticalDamageMultiplier: criticalDamage
         );
     }
+
 
     protected override void SetEnemyState()
     {

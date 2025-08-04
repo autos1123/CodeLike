@@ -14,6 +14,7 @@ public class PlayerController:BaseController
     public PlayerInputHandler InputHandler { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerAnimationData AnimationData { get; private set; }
+    public Animator Animator { get; private set; }
     public PlayerActiveItemController ActiveItemController { get; private set; }
     public Room CurrentRoom { get; private set; }
 
@@ -29,9 +30,6 @@ public class PlayerController:BaseController
 
     public Action OnSkillInput;
 
-
-
-
     public bool IsGrounded { get; private set; }
 
     protected override void Awake()
@@ -43,6 +41,7 @@ public class PlayerController:BaseController
         base.Start();
         InputHandler = GetComponent<PlayerInputHandler>();
         ActiveItemController = GetComponent<PlayerActiveItemController>();
+        Animator = GetComponentInChildren<Animator>();
         _Rigidbody.freezeRotation = true;
     }
 
@@ -126,14 +125,30 @@ public class PlayerController:BaseController
     {
         Collider[] hitColliders = _CombatController.GetTargetColliders(LayerMask.GetMask("Enemy"));
 
+        float attackPower = Condition.GetTotalCurrentValue(ConditionType.AttackPower);
+        float criticalChance = Condition.GetTotalCurrentValue(ConditionType.CriticalChance);
+        float criticalDamage = Condition.GetTotalCurrentValue(ConditionType.CriticalDamage);
+
         foreach(var hitCollider in hitColliders)
         {
             if(hitCollider.TryGetComponent(out IDamagable enemy))
             {
-                enemy.GetDamaged(Condition.GetTotalCurrentValue(ConditionType.AttackPower));
+                // 크리티컬 판정
+                bool isCritical = UnityEngine.Random.value < criticalChance;
+
+                float finalDamage = attackPower;
+                if(isCritical)
+                {
+                    finalDamage *= criticalDamage;
+                    // 여기서 크리티컬 이펙트, 사운드, UI 띄우기도 가능
+                    Debug.Log("Critical Hit!"); // 임시 디버그 메시지
+                }
+
+                enemy.GetDamaged(finalDamage);
             }
         }
     }
+
 
     public override void Hit()
     {
