@@ -10,19 +10,34 @@ public class MeleeEnemyController : EnemyController
     {
         Collider[] hitColliders = _CombatController.GetTargetColliders(LayerMask.GetMask("Player"));
 
+        float attackPower = Condition.GetTotalCurrentValue(ConditionType.AttackPower);
+        float criticalChance = Condition.GetTotalCurrentValue(ConditionType.CriticalChance);
+        float criticalDamage = Condition.GetTotalCurrentValue(ConditionType.CriticalDamage);
+
         foreach(var hitCollider in hitColliders)
         {
             if(hitCollider.TryGetComponent(out IDamagable player))
             {
+                // 크리티컬 판정
+                bool isCritical = UnityEngine.Random.value < criticalChance;
+
+                float finalDamage = attackPower;
+                if(isCritical)
+                {
+                    finalDamage *= criticalDamage;
+                    Debug.Log("Enemy Critical Hit!"); // 임시로 크리티컬 로그
+                }
+
                 // 플레이어에게 피해를 입히는 로직
-                if(!player.GetDamaged(Condition.GetTotalCurrentValue(ConditionType.AttackPower)))
+                if(!player.GetDamaged(finalDamage))
                 {
                     StateMachine.ChangeState(EnemyStateType.Idle);
                 }
             }
         }
     }
-    
+
+
     public override AnimationClip GetPatternAnimationClip()
     {
         throw new System.NotImplementedException();

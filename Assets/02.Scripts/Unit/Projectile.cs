@@ -11,12 +11,15 @@ public class Projectile:MonoBehaviour, IPoolObject
     private float speed;
     private int hitCount;
 
-    private float ignoreTime = 0.1f; // 발사 직후 무시할 시간
+    private float ignoreTime = 0.1f;
     private float currentIgnore = 0f;
 
-    private ParticleSystem vfx; // 현재 붙은 VFX 참조
+    private ParticleSystem vfx;
 
-    // IPoolObject
+    // === 크리티컬 관련 필드 추가 ===
+    private bool isCritical = false;
+    private float criticalDamageMultiplier = 1f;
+
     public GameObject GameObject => gameObject;
     public PoolType PoolType => poolType;
     public int PoolSize => poolSize;
@@ -32,20 +35,22 @@ public class Projectile:MonoBehaviour, IPoolObject
             return;
         }
 
-        // 무시 시간 카운트
         if(currentIgnore > 0f)
             currentIgnore -= Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // 발사 직후 ignoreTime 동안은 아무것도 처리하지 않음
         if(currentIgnore > 0f) return;
 
-        // 타겟 레이어 체크
         if(other.TryGetComponent(out IDamagable target) && ((1 << other.gameObject.layer) & layer) != 0)
         {
-            target.GetDamaged(damage);
+            // === 크리티컬 적용 ===
+            float finalDamage = isCritical ? damage * criticalDamageMultiplier : damage;
+            if(isCritical)
+                Debug.Log("Projectile Critical Hit!");
+
+            target.GetDamaged(finalDamage);
             hitCount--;
             if(hitCount <= 0)
                 PoolManager.Instance.ReturnObject(this);
@@ -53,8 +58,7 @@ public class Projectile:MonoBehaviour, IPoolObject
     }
 
     /// <summary>
-    /// 발사체를 초기화(재사용)합니다.
-    /// 반드시 외부에서 position, 방향(dir)을 명확히 넘겨주세요!
+    /// 발사체 초기화 (크리티컬 정보까지 확장)
     /// </summary>
     public void InitProjectile(
         Vector3 dir,
@@ -62,7 +66,9 @@ public class Projectile:MonoBehaviour, IPoolObject
         float damage,
         float lifeTime = 3f,
         int hitCount = 1,
-        string vfxPath = null)
+        string vfxPath = null,
+        bool isCritical = false,
+        float criticalDamageMultiplier = 1f)
     {
         transform.forward = dir.normalized;
 
@@ -70,6 +76,9 @@ public class Projectile:MonoBehaviour, IPoolObject
         this.damage = damage;
         this.lifeTime = lifeTime > 0 ? lifeTime : 3f;
         this.hitCount = hitCount;
+
+        this.isCritical = isCritical;
+        this.criticalDamageMultiplier = criticalDamageMultiplier;
 
         currentIgnore = ignoreTime;
 
