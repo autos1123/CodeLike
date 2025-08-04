@@ -936,6 +936,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f0a28af3fad0d54890a3af408219de7, type: 3}
+--- !u!114 &933504023 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2834581293470904418, guid: 3f0a28af3fad0d54890a3af408219de7, type: 3}
+  m_PrefabInstance: {fileID: 933504022}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e54dd6be1c67e04581491c6323d323a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &940270292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,7 +1292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   stageMapCountData: 
-  viewCameraController: {fileID: 0}
+  viewCameraController: {fileID: 933504023}
   mapTitle: "\uC2DC\uC791\uC758 \uB545"
   otherRoomPrefab: {fileID: 6203069154772650647, guid: db0d9fe219f9942428b6856ecf7254a0, type: 3}
 --- !u!4 &4242359486327678730
