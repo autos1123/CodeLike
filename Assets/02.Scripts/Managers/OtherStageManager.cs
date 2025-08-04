@@ -5,8 +5,8 @@ public class OtherStageManager : StageManager
     [SerializeField] private string mapTitle;
     [SerializeField] private Room otherRoomPrefab;
     public bool IsStageReady { get; private set; } = false;
-    protected override bool Persistent => false;  
-    
+    protected override bool Persistent => false;
+
     private bool _titleShown = false;
     public override void LoadStage()
     {
@@ -91,4 +91,6 @@ public class OtherStageManager : StageManager
     {
         LoadStage();
     }
+
+
 }

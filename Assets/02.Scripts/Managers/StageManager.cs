@@ -36,6 +36,9 @@ public class StageManager:MonoSingleton<StageManager>
     public ViewCameraController viewCameraController; 
     
     protected bool titleShown = false;
+
+    [SerializeField] protected string bgmKey;              // 인스펙터에서 지정 (예: "TutorialBGM")
+    [SerializeField] protected Material skyboxMaterial;    // 인스펙터에서 지정
     public virtual void LoadStage()
     {
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
@@ -145,6 +148,17 @@ public class StageManager:MonoSingleton<StageManager>
     {
         stageID--;
         LoadStage();
+    }
+
+    protected void ApplyStageEnvironment()
+    {
+        // BGM 재생
+        if(SoundManager.HasInstance && !string.IsNullOrEmpty(bgmKey))
+            SoundManager.Instance.PlayBGM(null, bgmKey);
+
+        // 스카이박스 변경
+        if(skyboxMaterial != null)
+            RenderSettings.skybox = skyboxMaterial;
     }
     // ===== 미니맵 시스템 전달용 데이터 정리 =====
     // 이 구문은 현재 생성된 모든 Room 정보를 바탕으로
