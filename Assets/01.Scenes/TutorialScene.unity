@@ -393,7 +393,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 725818217871478009, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: m_Name
-      value: Player 1
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1985143623796453560, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
       propertyPath: m_LocalPosition.x
@@ -435,18 +435,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1985143623796453560, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2512002609239974462, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
-      propertyPath: fullSize
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7197296124414012102, guid: 3c5a746d7ac78684ab80c19a4dca8717, type: 3}
-      propertyPath: DashVFXPrefab
-      value: 
-      objectReference: {fileID: 2405561134475471800, guid: b641023c16ddda446be5aad785cbac59, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
