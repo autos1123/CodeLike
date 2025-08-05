@@ -28,7 +28,7 @@ public class PlayerProjectile:MonoBehaviour, IPoolObject
         {
             
             damagable.GetDamaged(damage);
-            PoolManager.Instance.ReturnObject(this);
+            PoolManager.Instance.ReturnObject(this, null);
         }
     }
 

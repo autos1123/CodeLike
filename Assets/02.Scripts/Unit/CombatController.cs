@@ -41,6 +41,9 @@ public class CombatController : MonoBehaviour, IDamagable
     {
         // Knockback();
 
+        if(baseController.Condition.IsDied)
+            return false; // 이미 죽은 상태에서는 데미지를 받지 않음
+
         float defense = baseController.Condition.GetTotalCurrentValue(ConditionType.Defense);
         float reducedDamage = Mathf.Max(5, damage - defense);
 

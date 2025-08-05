@@ -113,12 +113,13 @@ public abstract class EnemyController:BaseController
 
     public override void Hit()
     {
-        if(StateMachine.HasState(EnemyStateType.Hit))
-            StateMachine.ChangeState(EnemyStateType.Hit); // Hit 상태로 변경
+        Debug.LogWarning($"[EnemyController] {gameObject.name} has been hit.");
+        StateMachine.ChangeState(EnemyStateType.Hit); // Hit 상태로 변경
     }
 
     public override void Die()
     {
+        Debug.LogWarning($"[EnemyController] {gameObject.name} has died.");
         StateMachine.ChangeState(EnemyStateType.Die);
     }
 
