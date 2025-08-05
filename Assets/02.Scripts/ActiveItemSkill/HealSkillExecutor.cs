@@ -4,11 +4,18 @@ public class HealSkillExecutor:ISkillExecutor
 {
     public void Execute(ActiveItemEffectData data, Transform caster)
     {
-        if(caster.TryGetComponent<IDamagable>(out var damagable))
+        // 예시: PlayerController가 BaseCondition을 가진 경우
+        if(caster.TryGetComponent<PlayerController>(out var playerController))
         {
-            damagable.GetDamaged(-data.Power);
+            playerController.Condition.Heal(data.Power);
         }
+        // 또는, 적이나 몬스터도 유사하게
+        // if (caster.TryGetComponent<EnemyController>(out var enemyController))
+        // {
+        //     enemyController.Condition.Heal(data.Power);
+        // }
 
+        // 이하 VFX 처리 코드는 동일하게 유지
         if(!string.IsNullOrEmpty(data.VFX))
         {
             var vfxPrefab = Resources.Load<ParticleSystem>(data.VFX);

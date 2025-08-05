@@ -24,10 +24,10 @@ MonoBehaviour:
     SFX: 
     Description: "\uC5D0\uB108\uC9C0\uD30C \uBC1C\uC0AC"
   - SkillID: 5001
-    Name: Fire Wind
+    Name: Electro force
     Type: 502
     Power: 60
-    Range: 10
+    Range: 5
     Duration: 0
     Cooldown: 6
     VFX: VFX/LightningExplosion
@@ -36,18 +36,18 @@ MonoBehaviour:
   - SkillID: 5002
     Name: Heal
     Type: 503
-    Power: 60
+    Power: 25
     Range: 0
     Duration: 0
-    Cooldown: 6
+    Cooldown: 45
     VFX: VFX/GreenLoot
     SFX: 
     Description: "\uCCB4\uB825 \uD68C\uBCF5"
   - SkillID: 5003
-    Name: Fire Zone
+    Name: Poison Meteor
     Type: 504
     Power: 10
-    Range: 10
+    Range: 5
     Duration: 0
     Cooldown: 6
     VFX: VFX/Meteors
