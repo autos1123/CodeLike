@@ -286,7 +286,7 @@ public static class ExcelSOGenerator
             case ConditionType.CriticalDamage:
                 return $"{value * 100f:F0}%"; 
             default:
-                return value.ToString("F0");  // 일반 숫자
+                return value.ToString();  // 일반 숫자
         }
     }
 }
