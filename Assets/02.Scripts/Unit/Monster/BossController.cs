@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossController : EnemyController
 {
@@ -39,6 +40,12 @@ public class BossController : EnemyController
     public override void AttackAction()
     {
         patterns[currentPatternIndex].PatternAction();
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        SceneManager.LoadScene("EndingScene");
     }
 
     protected override void SetEnemyState()
