@@ -94,7 +94,6 @@ public class GameManager : MonoSingleton<GameManager>
         }
         if(SceneManager.GetActiveScene().name.CompareTo("LobbyScene") == 0)
         {
-            _player.GetComponent<BaseController>().Condition.ResetModifier();
             _player.GetComponent<BaseController>().Condition.ChangeGold(-Gold * 0.2f);
         }
     }
