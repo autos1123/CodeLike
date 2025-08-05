@@ -192,6 +192,7 @@ public class ProceduralStageGenerator:MonoBehaviour
             // 직전 방과 연결된 포탈 반대 방향에 스테이지 클리어 포탈 생성하기
             if(i == conn.Count - 1)
             {
+                fromRoom.AddConnection(new RoomConnection(fromRoom.Id, -1, (Direction)((int)conn[i].Direction * -1)));
                 CreatePortal(fromRoom, null, (Direction)((int)conn[i].Direction * -1));
             }
         }

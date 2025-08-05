@@ -233,10 +233,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74db0375b4ccdbd4d8f2cfd07cca242d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portalsUp: {fileID: 2289627539311736654}
-  portalsDown: {fileID: 7183321058712010241}
-  portalsLeft: {fileID: 7839091007544501560}
-  portalsRight: {fileID: 5072940796937900327}
+  portalsUp: {fileID: 1743976818189736053}
+  portalsDown: {fileID: 2643020894123829508}
+  portalsLeft: {fileID: 63533789073558096}
+  portalsRight: {fileID: 1881926650596370117}
 --- !u!1 &5072940796937900327
 GameObject:
   m_ObjectHideFlags: 0

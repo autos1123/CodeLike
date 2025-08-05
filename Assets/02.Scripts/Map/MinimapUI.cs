@@ -84,8 +84,10 @@ public class MinimapUI: UIBase
 
         StageData stageData = StageManager.Instance.CurrentStage;
 
+        int roomCnt = 0;
         foreach(KeyValuePair<int, Room> pair in stageData.roomMap)
         {
+            roomCnt++;
             Vector2Int index = pair.Value.GridPosition;
 
             roomIcons[index].ChangeColor(GetColorByRoomType(pair.Value.Type));
@@ -93,13 +95,12 @@ public class MinimapUI: UIBase
 
             for(int i = 0; i < pair.Value.Connections.Count; i++)
             {
-                roomIcons[index].SetPortalUI(pair.Value.Connections[i].Direction);
-            }
-        }
+                bool isEnd = false;
+                if(i == pair.Value.Connections.Count - 1 && roomCnt == stageData.roomMap.Count)
+                    isEnd = true;
 
-        foreach(RoomConnection con in stageData.connections)
-        {
-            Vector2Int idx = stageData.roomMap[con.FromRoomID].GridPosition;
+                roomIcons[index].SetPortalUI(pair.Value.Connections[i].Direction, isEnd);
+            }
         }
     }
 

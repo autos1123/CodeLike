@@ -8,10 +8,10 @@ public class RoomIcon:MonoBehaviour
     private Image image;
     private Outline outline;
 
-    [SerializeField] private GameObject portalsUp;
-    [SerializeField] private GameObject portalsDown;
-    [SerializeField] private GameObject portalsLeft;
-    [SerializeField] private GameObject portalsRight;
+    [SerializeField] private Image portalsUp;
+    [SerializeField] private Image portalsDown;
+    [SerializeField] private Image portalsLeft;
+    [SerializeField] private Image portalsRight;
 
     // Start is called before the first frame update
     void Awake()
@@ -25,10 +25,10 @@ public class RoomIcon:MonoBehaviour
         image.color = Color.clear;
         outline.enabled = false;
 
-        portalsUp.SetActive(false);
-        portalsDown.SetActive(false);
-        portalsLeft.SetActive(false);
-        portalsRight.SetActive(false);
+        portalsUp.gameObject.SetActive(false);
+        portalsDown.gameObject.SetActive(false);
+        portalsLeft.gameObject.SetActive(false);
+        portalsRight.gameObject.SetActive(false);
     }
 
     public void ChangeColor(Color color)
@@ -41,22 +41,30 @@ public class RoomIcon:MonoBehaviour
         outline.enabled = isEnable;
     }
 
-    public void SetPortalUI(Direction direction)
+    public void SetPortalUI(Direction direction, bool isEnd)
     {
+        Image portalImage = null;
+
         switch(direction)
         {
             case Direction.Up:
-                portalsUp.SetActive(true);
+                portalImage = portalsUp;
                 break;
             case Direction.Down:
-                portalsDown.SetActive(true);
+                portalImage = portalsDown;
                 break;
             case Direction.Left:
-                portalsLeft.SetActive(true);
+                portalImage = portalsLeft;
                 break;
             case Direction.Right:
-                portalsRight.SetActive(true);
+                portalImage = portalsRight;
                 break;
+        }
+
+        if(portalImage != null)
+        {
+            portalImage.gameObject.SetActive(true);
+            portalImage.color = isEnd ? Color.black : Color.white;
         }
     }
 }
