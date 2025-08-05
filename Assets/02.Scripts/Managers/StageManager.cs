@@ -42,6 +42,8 @@ public class StageManager:MonoSingleton<StageManager>
     [SerializeField] protected Material skyboxMaterial;    // 인스펙터에서 지정
     public virtual void LoadStage()
     {
+        titleShown = false;
+        
         if (stageID >= stageMapCountData.Length)
         {
             SceneManager.LoadScene("EndingScene");
