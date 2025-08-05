@@ -47,8 +47,10 @@ public class Projectile:MonoBehaviour, IPoolObject
         {
             // === 크리티컬 적용 ===
             float finalDamage = isCritical ? damage * criticalDamageMultiplier : damage;
-            if(isCritical)
-                Debug.Log("Projectile Critical Hit!");
+
+            DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+            PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+            damageUI.InitDamageText(target.GetDamagedPos(), damageType, finalDamage);
 
             target.GetDamaged(finalDamage);
             hitCount--;

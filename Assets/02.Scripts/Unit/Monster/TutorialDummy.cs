@@ -72,4 +72,14 @@ public class TutorialDummy : MonoBehaviour, IDamagable
         yield return new WaitUntil(() => PoolManager.Instance.IsInitialized);
         Initialize();
     }
+
+    public Vector3 GetDamagedPos()
+    {
+        Collider col = GetComponent<Collider>();
+        if(col != null)
+        {
+            return col.bounds.center + (col.transform.up * (col.bounds.size.y / 2)); // 충돌체의 중심 위치 반환
+        }
+        return transform.position;
+    }
 }

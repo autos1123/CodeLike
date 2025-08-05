@@ -70,7 +70,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.25
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9
@@ -118,11 +118,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Fantasypixelfont SDF
+  m_Name: DamageFont
   m_EditorClassIdentifier: 
-  hashCode: -1464649956
+  hashCode: 1240281432
   material: {fileID: -3650841308131034549}
-  materialHashCode: 706846780
+  materialHashCode: -592384392
   m_Version: 1.1.0
   m_SourceFontFileGUID: 1f55b6fbea7e21142a5e334afdcd957f
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 1f55b6fbea7e21142a5e334afdcd957f, type: 3}
