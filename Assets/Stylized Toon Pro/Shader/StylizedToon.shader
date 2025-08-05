@@ -734,7 +734,7 @@ Shader "Stylized Toon"
 			#endif
 			c.rgb = staticSwitch1024.rgb;
 			//추가
-			float luminance = dot(c.rgb, float3(0.299, 0.587, 0.114));
+			float luminance = dot(c.rgb, float3(0.33, 0.33, 0.33));
 			float3 grayscale = float3(luminance, luminance, luminance);
 			c.rgb = lerp(c.rgb, grayscale, _GrayscaleAmount);
 			// 추가

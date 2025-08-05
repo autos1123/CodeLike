@@ -23,10 +23,11 @@ public abstract class ObstacleController : MonoBehaviour
 
     public void Attack(IDamagable player)
     {
-        PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
-        damageUI.InitDamageText(player.GetDamagedPos(), DamageType.Normal, damage);
-
-        player.GetDamaged(damage);
+        if(player.GetDamaged(damage))
+        {
+            PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+            damageUI.InitDamageText(player.GetDamagedPos(), DamageType.Normal, damage);
+        }
     } 
     
     /// <summary>

@@ -65,10 +65,11 @@ public class SlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     /// </summary>
     public void OnDrop(PointerEventData eventData)
     {
+        
         var draggedSlotUI = eventData.pointerDrag?.GetComponent<SlotUI>();
         if (draggedSlotUI == null || draggedSlotUI == slotUI || draggedSlotUI.InventorySlot == null)
             return;
-
+        
         slotUI.inventoryUI.HandleSlotSwap(slotUI, draggedSlotUI);
         
         if(slotUI.slotType == SlotType.Equip)

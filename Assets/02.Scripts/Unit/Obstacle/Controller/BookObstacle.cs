@@ -27,7 +27,7 @@ public class BookObstacle :ObstacleController, IDamagable
     public bool GetDamaged(float damage)
     {
         if(isShieldActive)
-            return true; // 방어막이 활성화된 경우 데미지를 받지 않음
+            return false; // 방어막이 활성화된 경우 데미지를 받지 않음
 
         currentHealth -= Mathf.Clamp(damage, 0f, currentHealth);
         HpBarUpdate();

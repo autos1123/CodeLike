@@ -17,63 +17,269 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 6a61f33399f67b64d9d1b60fe566b5cf
   m_SerializeEntries:
-  - m_GUID: 089f4c3299a3e804f9350d7d4533e412
-    m_Address: Assets/TextMesh Pro/Fonts/NEXONLv1GothicRegular SDF.asset
+  - m_GUID: 9647ce8cf65f5ff498b406128db94c11
+    m_Address: Assets/99.Externals/2D Pixel Quest Vol.3 - The UI-GUI/Sprites/Menu
+      Icons/F_UI_MenuIcons_Tile Map 16x16.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 81126e8f827347947be71ee90130e5ee
-    m_Address: Assets/Sprite/UI/Res Slot A.png
+  - m_GUID: a88717cc86b95744f8910434ff49822d
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability07_Flip01.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 596523f8d8661a3479b84dedcb77e63a
-    m_Address: Assets/Sprite/UI/F_UI_Panel_M.png
+  - m_GUID: ca8e65a1f7b5a974a88ca4922352e084
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability07_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a9103979a55a0845a91075d8776fdd4
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability07_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3db644cb4c94d98418585befaf6fc8ed
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability07_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2a0a9af0c8b00474d8dff459c26fc143
+    m_Address: Assets/Sprite/Enhance/F_U_CardA_Back_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f78377cd574cc4941842111b12b4eab1
+    m_Address: Assets/Sprite/Enhance/F_U_CardA_Back_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c67826a3d52fc69488df68c84c6c0ee4
+    m_Address: Assets/Sprite/Enhance/F_U_CardA_Back_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 022c7d49b6cc1e64e87a4b1ee05830b0
+    m_Address: Assets/Sprite/Enhance/F_U_CardA_Back_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de89fbb076a6bba49a20a42fbff71439
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability06_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 734bc3ec806918e498028f8133da2f3a
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability06_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c2c977366aedec44af625d71d64cd53
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability06_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c09da1bb20816f4e8f1f37167051cb5
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability06_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6cc8df481a258d046a1d2396a25814ab
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability08_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf3070411c54a254d8508b1756d48eda
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability08_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 216de40727e0d174cba80433709eb30c
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability08_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bae52b44a302e3479e4919422ab4e13
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability08_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf34367b249a4054da7b0d7ce4e22422
+    m_Address: Assets/Sprite/Enhance/F_U_CardB_Back_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e92bb0eec7da2d4aa3a22a69d175883
+    m_Address: Assets/Sprite/Enhance/F_U_CardB_Back_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c25771c58d32fa346993493c2ae6ae84
+    m_Address: Assets/Sprite/Enhance/F_U_CardB_Back_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cdba99f4274886849b9478e103c454d7
+    m_Address: Assets/Sprite/Enhance/F_U_CardB_Back_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3c0867c87b68cf4db7a9d7cfb7f6d92
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability36_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc5e23258822bb245a883cebd72504a4
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability36_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e8d8493f7625474a9d346a605a2dd22
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability36_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9c2133d1f548bf4b906ec28efa2a120
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability36_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c6c36d20db38684aad9e14b74e9eeb5
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability52_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7cc774917a79834cac3471fbd2bbd09
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability52_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ecd9a0b8d19277747b1654981028e05c
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability52_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 028c75492d165c946839c1dda9e82a7e
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability52_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 179932cf1ce22274d8320e1b95e8ad28
+    m_Address: Assets/Sprite/Enhance/F_U_CardC_Back_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5020d5618973fa440a0b602839d847f4
+    m_Address: Assets/Sprite/Enhance/F_U_CardC_Back_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9c0cc602593a2a040975b88ce6ce6aa8
+    m_Address: Assets/Sprite/Enhance/F_U_CardC_Back_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71fed7ec2c9b39e4eaf634b274f94e35
+    m_Address: Assets/Sprite/Enhance/F_U_CardC_Back_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ab5d669d79f02a48902b038bc1f72d8
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability11_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79cf0a92ea1a18444bd51eb902a52218
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability11_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c182b9a35b66a5841a2db124177b100a
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability11_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 34f7c8ca55a26c642897565f7777a9f8
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability11_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74abfa8588ca63b4c862511369aa92bf
+    m_Address: Assets/Sprite/Enhance/F_U_CardD_Back_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 35273acf2ae89be418148a819b8a5290
+    m_Address: Assets/Sprite/Enhance/F_U_CardD_Back_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d488d78c24be6045b57b78135f9e1ad
+    m_Address: Assets/Sprite/Enhance/F_U_CardD_Back_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9985323d4eff7204780176c5200b9e4b
+    m_Address: Assets/Sprite/Enhance/F_U_CardD_Back_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fbd94367cf9bdc41ac84aee10307d8c
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability32_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0d0b4c9f06a5d642a88e82c9d5a9466
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability32_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff699325eb4da0c41b9f63c9a1d91009
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability32_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 593373c0b5ff5ee4eb72449212126ac9
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability32_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cebff8c4944498f4baa1f98126428bf0
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability40_Flip01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46b57102ea9b4444c85df67d77543e66
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability40_Flip02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f5bb9c2fac8707e49b9b38c0075c57cd
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability40_Flip03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f252bc029bd9b824e83d6a288afae098
+    m_Address: Assets/Sprite/Enhance/F_U_Card_Ability40_Flip04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbd68466820f91940b406c2e57016851
+    m_Address: Assets/Sprite/UI/F_U_SlidebarHandle_A1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d324a1828c0ebc42b6eb5a1d01cd1bd
+    m_Address: Assets/Sprite/UI/Title Tilemap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ba3b40e67d1bad4590b6d32ca4feb87
+    m_Address: Assets/Sprite/UI/F_UI_SlideBar_A1.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3b8c1c0b6c3acd64bb6e8b72d56ac656
     m_Address: Assets/Sprite/UI/F_UI_Panel_N.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cf34249993e2fef438df237b181509fa
-    m_Address: Assets/Sprite/UI/Res Slot A_b.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1642ab52862e7bd499a41e674547b0f1
-    m_Address: Assets/Sprite/UI/F_UI_Panel_E.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 74cbcf65116d0754e8e3dd9aafe2289e
-    m_Address: Assets/Sprite/UI/F_UI_Panel_B.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a34c1fabaad3d5344b933f96c11dbf99
-    m_Address: Assets/Sprite/UI/F_UI_Panel_C.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2d9197e8ace0c4f4bb9640268b39f997
-    m_Address: Assets/Sprite/UI/F_UI_Banner_A4.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 16480b0015ffb424d977852cc5ed312a
-    m_Address: Assets/Sprite/UI/F_UI_Banner_B1.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ada77d2eb2309e847aa796ecb28fce3f
-    m_Address: Assets/Sprite/UI/F_UI_Panel_A.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 33969e6e8222df54e85f52562eea832a
-    m_Address: Assets/Sprite/UI/F_U_Detail2.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -87,8 +293,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cbd68466820f91940b406c2e57016851
-    m_Address: Assets/Sprite/UI/F_U_SlidebarHandle_A1.png
+  - m_GUID: ada77d2eb2309e847aa796ecb28fce3f
+    m_Address: Assets/Sprite/UI/F_UI_Panel_A.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e41df3bffbec9e44aa734bf87b1e3d89
+    m_Address: Assets/Sprite/UI/ResOrbB_Base.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33969e6e8222df54e85f52562eea832a
+    m_Address: Assets/Sprite/UI/F_U_Detail2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81126e8f827347947be71ee90130e5ee
+    m_Address: Assets/Sprite/UI/Res Slot A.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85b7b940cea917b40ba25534f97afe63
+    m_Address: Assets/Sprite/UI/ResOrbA_Base.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1642ab52862e7bd499a41e674547b0f1
+    m_Address: Assets/Sprite/UI/F_UI_Panel_E.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -97,8 +328,73 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4ba3b40e67d1bad4590b6d32ca4feb87
-    m_Address: Assets/Sprite/UI/F_UI_SlideBar_A1.png
+  - m_GUID: 2d9197e8ace0c4f4bb9640268b39f997
+    m_Address: Assets/Sprite/UI/F_UI_Banner_A4.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 596523f8d8661a3479b84dedcb77e63a
+    m_Address: Assets/Sprite/UI/F_UI_Panel_M.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a0bb2692c8b9f4479a18211f65e34a6
+    m_Address: Assets/Sprite/UI/Slots Tilemap.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0973735117d7597428a25fc1da3be547
+    m_Address: Assets/Sprite/UI/F_U_Frame5.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fced2d1233d52f248b77bd4e90015995
+    m_Address: Assets/Sprite/UI/Res Slot B.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ef8ac471c4409042a0a4a116a46ff16
+    m_Address: Assets/Sprite/UI/InventoryBook_01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1b149734aed0eb49ad7caaf15856dcf
+    m_Address: Assets/Sprite/UI/F_UI_SlideBar_A2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cb5e598dca803f42905015762d034e2
+    m_Address: Assets/Sprite/UI/F_UI_Panel_D.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a34c1fabaad3d5344b933f96c11dbf99
+    m_Address: Assets/Sprite/UI/F_UI_Panel_C.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 16480b0015ffb424d977852cc5ed312a
+    m_Address: Assets/Sprite/UI/F_UI_Banner_B1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74cbcf65116d0754e8e3dd9aafe2289e
+    m_Address: Assets/Sprite/UI/F_UI_Panel_B.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f964eb426085cb7498320eff94c900b8
+    m_Address: Assets/Sprite/UI/F_U_Frame12.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0485c016c8b96d499a48e19f879f09c
+    m_Address: Assets/Sprite/UI/transparent_sprite_256x256.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf34249993e2fef438df237b181509fa
+    m_Address: Assets/Sprite/UI/Res Slot A_b.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -119,62 +415,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b7c993edf5c6de342923a2c770fca48e
     m_Address: Assets/Sprite/UI/F_UI_GreenBar.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f964eb426085cb7498320eff94c900b8
-    m_Address: Assets/Sprite/UI/F_U_Frame12.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2ef8ac471c4409042a0a4a116a46ff16
-    m_Address: Assets/Sprite/UI/InventoryBook_01.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2cb5e598dca803f42905015762d034e2
-    m_Address: Assets/Sprite/UI/F_UI_Panel_D.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a1b149734aed0eb49ad7caaf15856dcf
-    m_Address: Assets/Sprite/UI/F_UI_SlideBar_A2.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0973735117d7597428a25fc1da3be547
-    m_Address: Assets/Sprite/UI/F_U_Frame5.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fced2d1233d52f248b77bd4e90015995
-    m_Address: Assets/Sprite/UI/Res Slot B.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1d324a1828c0ebc42b6eb5a1d01cd1bd
-    m_Address: Assets/Sprite/UI/Title Tilemap.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3a0bb2692c8b9f4479a18211f65e34a6
-    m_Address: Assets/Sprite/UI/Slots Tilemap.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e41df3bffbec9e44aa734bf87b1e3d89
-    m_Address: Assets/Sprite/UI/ResOrbB_Base.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 85b7b940cea917b40ba25534f97afe63
-    m_Address: Assets/Sprite/UI/ResOrbA_Base.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9647ce8cf65f5ff498b406128db94c11
-    m_Address: Assets/99.Externals/2D Pixel Quest Vol.3 - The UI-GUI/Sprites/Menu
-      Icons/F_UI_MenuIcons_Tile Map 16x16.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -76,6 +76,10 @@ public abstract class BaseController:MonoBehaviour
         Initialize();
     }
 
+    public void init()
+    {
+        StartCoroutine(WaitForDataLoad());
+    }
     /// <summary>
     /// 게임 상태가 변경될 때 호출되는 메서드입니다.
     /// </summary>

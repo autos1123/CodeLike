@@ -101,8 +101,6 @@ public class OtherStageManager : StageManager
         // 스카이박스 변경
         if(skyboxMaterial != null)
         {
-            Debug.Log("스카이박스 바뀜");
-
             RenderSettings.skybox = skyboxMaterial;
         }
     }

@@ -14,6 +14,7 @@ public class Projectile:MonoBehaviour, IPoolObject
     private float ignoreTime = 0.1f;
     private float currentIgnore = 0f;
 
+    private Vector3 moveDir;
     private ParticleSystem vfx;
 
     // === 크리티컬 관련 필드 추가 ===
@@ -26,7 +27,7 @@ public class Projectile:MonoBehaviour, IPoolObject
 
     private void Update()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        transform.position += moveDir * speed * Time.deltaTime;
 
         lifeTime -= Time.deltaTime;
         if(lifeTime <= 0)
@@ -48,14 +49,17 @@ public class Projectile:MonoBehaviour, IPoolObject
             // === 크리티컬 적용 ===
             float finalDamage = isCritical ? damage * criticalDamageMultiplier : damage;
 
-            DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
-            PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
-            damageUI.InitDamageText(target.GetDamagedPos(), damageType, finalDamage);
-
             target.GetDamaged(finalDamage);
-            hitCount--;
-            if(hitCount <= 0)
-                PoolManager.Instance.ReturnObject(this);
+            if(target.GetDamaged(finalDamage))
+            {
+                DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+                PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                damageUI.InitDamageText(target.GetDamagedPos(), damageType, finalDamage);
+
+                hitCount--;
+                if(hitCount <= 0)
+                    PoolManager.Instance.ReturnObject(this);
+            }
         }
     }
 
@@ -72,7 +76,8 @@ public class Projectile:MonoBehaviour, IPoolObject
         bool isCritical = false,
         float criticalDamageMultiplier = 1f)
     {
-        transform.forward = dir.normalized;
+        moveDir = dir.normalized;
+        transform.forward = moveDir;
 
         this.speed = speed;
         this.damage = damage;

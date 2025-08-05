@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class LobbyExitPortal : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class LobbyExitPortal : MonoBehaviour
         {
             UIManager.Instance.ShowConfirmPopup(
                 "모험을 떠나자",
-                onConfirm: () => { 
-                    LoadingSceneController.LoadScene("MainScene");
+                onConfirm: () => {                    
+                    LoadingSceneController.LoadScene("MainScene");                    
                 },
                 onCancel: () =>
                 { });

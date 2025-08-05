@@ -151,11 +151,12 @@ public class PlayerController:BaseController
                     finalDamage *= criticalDamage;
                 }
 
-                DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
-                PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
-                damageUI.InitDamageText(enemy.GetDamagedPos(), damageType, finalDamage);
-
-                enemy.GetDamaged(finalDamage);
+                if(enemy.GetDamaged(finalDamage))
+                {
+                    DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+                    PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                    damageUI.InitDamageText(enemy.GetDamagedPos(), damageType, finalDamage);
+                }
             }
         }
     }
@@ -169,7 +170,10 @@ public class PlayerController:BaseController
     public override void Die()
     {
         StateMachine.ChangeState(StateMachine.DeadState);
-        
+
+        //임시
+        GameManager.Instance.DelayedSceneInit();
+
         UIManager.Instance.ShowConfirmPopup(
             "사망했습니다! 로비로 돌아갑니다.",
             onConfirm: () => {

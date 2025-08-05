@@ -156,10 +156,6 @@ public class BaseCondition
         }
         //임시
         GameManager.Instance.ConditionModifier = ConditionModifier;
-        Debug.Log(CurrentConditions[c_type]);
-        Debug.Log(GetOriginConditionValue(c_type));
-        Debug.Log(GetCurrentConditionValue(c_type));
-        Debug.Log(GetModifierValue(c_type));
 
         statModifiers[c_type]?.Invoke();
     }

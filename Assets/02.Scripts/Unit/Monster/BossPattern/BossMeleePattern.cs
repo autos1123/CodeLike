@@ -34,12 +34,13 @@ public class BossMeleePattern : BossPattern
                     finalDamage *= criticalDamage;
                 }
 
-                DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
-                PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
-                damageUI.InitDamageText(player.GetDamagedPos(), damageType, finalDamage);
-
                 // 플레이어에게 피해를 입히는 로직
-                player.GetDamaged(finalDamage);
+                if(player.GetDamaged(finalDamage))
+                {
+                    DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+                    PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                    damageUI.InitDamageText(player.GetDamagedPos(), damageType, finalDamage);
+                }
             }
         }
     }
