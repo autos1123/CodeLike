@@ -44,8 +44,7 @@ public class Inventory:MonoBehaviour, IInventory
     {
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         activeItemDataTable = TableManager.Instance.GetTable<ActiveItemDataTable>();
-        PlayerActiveItemController = transform.GetComponent<PlayerActiveItemController>();
-        Init();
+        PlayerActiveItemController = transform.GetComponent<PlayerActiveItemController>();        
         Initialized = true;
         OnInitialized?.Invoke();
     }
@@ -66,15 +65,6 @@ public class Inventory:MonoBehaviour, IInventory
         activeItemSlots.Clear();
         for(int i = 0; i < 2; i++)
             activeItemSlots.Add(new ActiveItemSlot());
-    }
-    public void Init(Inventory inventory)
-    {
-        inventorySlots = inventory.inventorySlots;
-        /// <summary> 실제 장비 슬롯 리스트 (4칸) </summary>
-
-        equipSlots = inventory.equipSlots;
-
-        activeItemSlots = inventory.activeItemSlots;
     }
 
     /// <summary>

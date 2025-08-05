@@ -92,6 +92,8 @@ public class UIManager:MonoSingleton<UIManager>
 
     public void ToggleUI<T>() where T : UIBase
     {
+        if(GetUI<T>() == null) return;
+
         if(GetUI<T>().gameObject.activeSelf)
             Hide<T>();
         else

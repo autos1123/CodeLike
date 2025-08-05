@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,9 +12,9 @@ public enum GameState
     Stop,
 }
 [DefaultExecutionOrder(-100)]
-public class GameManager : MonoSingleton<GameManager>
+public class GameManager:MonoSingleton<GameManager>
 {
-    [SerializeField]private GameObject _player;
+    [SerializeField] private GameObject _player;
     public GameObject Player
     {
         get { return _player; }
@@ -24,9 +25,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     public Dictionary<int, bool> processedNpcObjects = new();
 
-    public float Gold=0;
+    public float Gold = 0;
     public Dictionary<ConditionType, Dictionary<ModifierType, float>> ConditionModifier;
-    public Inventory Inventory;
+
     public void setState(GameState gameState)
     {
         curGameState = gameState;
@@ -47,8 +48,8 @@ public class GameManager : MonoSingleton<GameManager>
         base.Awake();
 
         Application.targetFrameRate = 60;
-        
-        if (processedNpcObjects == null)
+
+        if(processedNpcObjects == null)
         {
             processedNpcObjects = new Dictionary<int, bool>();
         }
@@ -73,38 +74,42 @@ public class GameManager : MonoSingleton<GameManager>
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(_player != null)
+
+        if(_player != null && scene.name != "LoadingScene"&& scene.name != "MainScene")
         {
             Destroy(_player);
             _player = null;
         }
         _player = GameObject.FindGameObjectWithTag(TagName.Player);
 
+        if(scene.name == "LobbyScene")
+        {
+            DontDestroyOnLoad(_player);
+        }
+        if(scene.name == "MainScene")
+        {
+            _player.GetComponent<BaseController>().init();
+        }       
 
     }
-    public void  DelayedSceneInit()
+
+
+    public void DelayedSceneInit()
     {
-        if(SceneManager.GetActiveScene().name.CompareTo("PrototypeScene") == 0|| SceneManager.GetActiveScene().name.CompareTo("MainScene") == 0)
+        if(SceneManager.GetActiveScene().name.CompareTo("PrototypeScene") == 0 || SceneManager.GetActiveScene().name.CompareTo("MainScene") == 0)
         {
             if(ConditionModifier != null)
             {
                 _player.GetComponent<BaseController>().Condition.SetModifier(ConditionModifier);
                 _player.GetComponent<BaseController>().Condition.CurrentConditions[ConditionType.Gold] = 0;
-                _player.GetComponent<BaseController>().Condition.ChangeGold(Gold);                    
+                _player.GetComponent<BaseController>().Condition.ChangeGold(Gold);
             }
-            if(Inventory == null)
-            {
 
-            }
-            else
-            {
-
-            }
         }
         if(SceneManager.GetActiveScene().name.CompareTo("LobbyScene") == 0)
         {
             _player.GetComponent<BaseController>().Condition.ChangeGold(Gold * 0.8f);
-
+            _player.GetComponent<Inventory>().Init();
         }
     }
 }
