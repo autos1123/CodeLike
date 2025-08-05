@@ -26,7 +26,6 @@ public class RangedEnemyController:EnemyController
     private void FireProjectile(Vector3 targetPos)
     {
         Vector3 direction = (targetPos + Vector3.up * 1.5f) - projectileOffset.position;
-        direction.y = 0; // 수평 발사
         direction.Normalize();
 
         PoolType poolToUse = projectileType switch
@@ -38,6 +37,7 @@ public class RangedEnemyController:EnemyController
 
         GameObject projectile = PoolManager.Instance.GetObject(poolToUse);
         projectile.transform.position = projectileOffset.position;
+        projectile.transform.rotation *= Quaternion.Euler(90, 0, 0);
 
         // === 크리티컬 처리 ===
         float attackPower = Condition.GetTotalCurrentValue(ConditionType.AttackPower);

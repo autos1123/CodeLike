@@ -91,6 +91,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - BGM
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a538722c1003164b950695a02708a53
+    m_Address: Assets/03.Prefaps/Pool/Fireball.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:

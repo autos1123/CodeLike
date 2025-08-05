@@ -149,9 +149,11 @@ public class PlayerController:BaseController
                 if(isCritical)
                 {
                     finalDamage *= criticalDamage;
-                    // 여기서 크리티컬 이펙트, 사운드, UI 띄우기도 가능
-                    Debug.Log("Critical Hit!"); // 임시 디버그 메시지
                 }
+
+                DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+                PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                damageUI.InitDamageText(enemy.GetDamagedPos(), damageType, finalDamage);
 
                 enemy.GetDamaged(finalDamage);
             }
