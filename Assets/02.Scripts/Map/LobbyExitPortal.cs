@@ -7,6 +7,8 @@ public class LobbyExitPortal : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GameManager.Instance.DelayedSceneInit();
+
             UIManager.Instance.ShowConfirmPopup(
                 "모험을 떠나자",
                 onConfirm: () => { 

@@ -79,7 +79,7 @@ public class HUD:UIBase
         float currentHP = player.Condition.CurrentConditions[ConditionType.HP]; // 실제 현재 HP
         float maxHP = player.Condition.GetTotalMaxValue(ConditionType.HP); // 강화 포함한 최대 HP
 
-        HPFill.fillAmount = currentHP / maxHP;
+        HPFill.fillAmount = Mathf.Min(1f, currentHP / maxHP);
     }
 
     void ChangeStamina()
@@ -87,7 +87,7 @@ public class HUD:UIBase
         float currentStamina = player.Condition.CurrentConditions[ConditionType.Stamina]; // 실제 현재 HP
         float maxStamina = player.Condition.GetTotalMaxValue(ConditionType.Stamina); // 강화 포함한 최대 HP
 
-        StaminaFill.fillAmount = currentStamina / maxStamina;
+        StaminaFill.fillAmount = Mathf.Min(1f,(currentStamina / maxStamina));
         
     }
 
