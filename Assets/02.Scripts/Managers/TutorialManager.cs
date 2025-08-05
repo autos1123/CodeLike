@@ -88,7 +88,8 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         }
 
         UIManager.Instance.HideContextualHint();
-        
+
+        PlayerPrefs.SetInt("TutorialCompleted", 1); // 튜토리얼 완료로 설정
         SceneManager.LoadScene(nextSceneName);
     }
 }
