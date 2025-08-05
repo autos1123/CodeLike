@@ -11,7 +11,8 @@ public enum PoolType
     AoE,
     Zone,
     Heal,
-    ArrowProjectile
+    ArrowProjectile,
+    DamageUI
 }
 public interface IPoolObject
 {
