@@ -28,7 +28,10 @@ public class PoolingHPBar : MonoBehaviour, IPoolObject
 
     void LateUpdate()
     {
-        transform.forward = mainCam.transform.forward;
+        if(mainCam != null)
+        {
+            transform.forward = mainCam.transform.forward;
+        }
     }
 
     public void HpBarUpdate(float hpRatio)

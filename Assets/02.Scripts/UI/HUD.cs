@@ -72,6 +72,11 @@ public class HUD:UIBase
                 controller.Condition.statModifiers[ConditionType.Stamina] -= ChangeStamina;
             }
         }
+
+        if(activeItemController.OnActiveItemCoolTime.Count > 1)
+            activeItemController.OnActiveItemCoolTime[(int)Skillinput.X] -= ChangeItemSlot1CoolTime;
+        if(activeItemController.OnActiveItemCoolTime.Count > 2)
+            activeItemController.OnActiveItemCoolTime[(int)Skillinput.C] -= ChangeItemSlot2CoolTime;
     }
 
     void ChangeGold()
