@@ -47923,6 +47923,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1916066296976855009}
     - target: {fileID: 3078969097119569753, guid: 91a2760387cb8a7428c083a9220e865c, type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078969097119569753, guid: 91a2760387cb8a7428c083a9220e865c, type: 3}
       propertyPath: enemies.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -48209,6 +48213,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8195387974572468025}
     m_Modifications:
+    - target: {fileID: 1631731012554686860, guid: c82fd57b947932a4796907732de3b276, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3499699131691732720, guid: c82fd57b947932a4796907732de3b276, type: 3}
       propertyPath: m_Name
       value: Trap

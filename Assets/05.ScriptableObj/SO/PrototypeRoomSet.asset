@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e2f8ea9a904c9f46be7661890755399, type: 3}
-  m_Name: RoomPrefabSet
+  m_Name: PrototypeRoomSet
   m_EditorClassIdentifier: 
-  startRoom: {fileID: 5162951960160801927, guid: ace598f547f185041bcfbc2792007d99, type: 3}
+  startRoom: {fileID: 6644655524022018225, guid: 75fe17bb27d04a64ba36addc6a8dde0b, type: 3}
   endRoom: {fileID: 6644655524022018225, guid: 1f2cc830f81a75a4fb7b2c6042eae6ed, type: 3}
   normalRooms:
   - {fileID: 6077389564974058983, guid: 2783e0b19299a624a924f6cf52ed208a, type: 3}
