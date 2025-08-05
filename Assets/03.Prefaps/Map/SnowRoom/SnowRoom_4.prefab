@@ -47923,6 +47923,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1916066296976855009}
     - target: {fileID: 3078969097119569753, guid: 91a2760387cb8a7428c083a9220e865c, type: 3}
+      propertyPath: health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3078969097119569753, guid: 91a2760387cb8a7428c083a9220e865c, type: 3}
       propertyPath: enemies.Array.size
       value: 5
       objectReference: {fileID: 0}
