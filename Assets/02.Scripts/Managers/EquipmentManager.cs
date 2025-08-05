@@ -7,17 +7,31 @@ using UnityEngine;
 /// </summary>
 public class EquipmentManager : MonoSingleton<EquipmentManager>
 {
-    private BaseCondition playerCondition;
-    [SerializeField] private Inventory playerInventory;
+    private GameObject cachedPlayer;
+    private Inventory playerInventory;
     
+    private BaseCondition playerCondition;
+    private BaseCondition PlayerCondition
+    {
+        get
+        {
+            if (cachedPlayer != GameManager.Instance.Player)
+            {
+                cachedPlayer = GameManager.Instance.Player;
+                playerCondition = null;
+
+                if (cachedPlayer != null && cachedPlayer.TryGetComponent<PlayerController>(out var controller))
+                {
+                    playerCondition = controller.Condition;
+                }
+            }
+            return playerCondition;
+        }
+    }
     protected override void Awake()
     {
         base.Awake(); // MonoSingleton<T> 내부 싱글톤 초기화 로직 실행
 
-        if (GameManager.Instance != null && GameManager.Instance.Player.TryGetComponent<PlayerController>(out var controller))
-        {
-            playerCondition = controller.Condition;
-        }
     }
     
     /// <summary>
@@ -29,7 +43,7 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     /// <param name="typeB">두 번째 슬롯 타입</param>
     public void SwapItemEffects(InventoryItemSlot slotA, SlotType typeA, InventoryItemSlot slotB, SlotType typeB)
     {
-        if (playerCondition == null) return;
+        if (PlayerCondition == null) return;
         if(typeA == SlotType.ActiveItem || typeB == SlotType.ActiveItem) return;
         // 기존 스탯 제거
         RemoveItemStat(slotA.InventoryItem, typeA);
@@ -53,7 +67,7 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     private void ApplyItemStat(ItemData item, SlotType type)
     {
         if (item == null || type != SlotType.Equip) return;
-        playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, item.value);
+        PlayerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, item.value);
         GameEvents.TriggerItemEquipped();
     }
     
@@ -65,7 +79,7 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     private void RemoveItemStat(ItemData item, SlotType type)
     {
         if (item == null || type != SlotType.Equip) return;
-        playerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, -item.value);
+        PlayerCondition.ChangeModifierValue(item.ConditionType, ModifierType.ItemEnhance, -item.value);
     }
     /// <summary>
     /// 아이템 장착 해제처리
@@ -73,7 +87,8 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     /// <param name="equipSlot"></param>
     public void UnEquip(InventoryItemSlot equipSlot)
     {
-        if(playerCondition == null || equipSlot == null || equipSlot.IsEmpty)
+        Debug.Log("장착해제");
+        if(PlayerCondition == null || equipSlot == null || equipSlot.IsEmpty)
             return;
 
         var item = equipSlot.InventoryItem;
@@ -88,6 +103,7 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
             if (GameManager.Instance != null && GameManager.Instance.Player != null)
             {
                 playerInventory = GameManager.Instance.Player.GetComponent<Inventory>();
+                Debug.Log("플레이어 인벤토리 참조완료");
             }
 
             if (playerInventory == null)
