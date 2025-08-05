@@ -74,7 +74,7 @@ MonoBehaviour:
     - type: 12
       value: 4
     - type: 13
-      value: 60
+      value: 30
   - id: 1001
     characterName: Warrior_Big_Snow
     initialConditions:
@@ -105,7 +105,7 @@ MonoBehaviour:
     - type: 12
       value: 4
     - type: 13
-      value: 90
+      value: 50
   - id: 1002
     characterName: Archer_Snow
     initialConditions:
@@ -136,7 +136,7 @@ MonoBehaviour:
     - type: 12
       value: 6
     - type: 13
-      value: 75
+      value: 40
   - id: 1003
     characterName: Magician_Snow
     initialConditions:
@@ -167,7 +167,7 @@ MonoBehaviour:
     - type: 12
       value: 6
     - type: 13
-      value: 75
+      value: 40
   - id: 1004
     characterName: Viking_Snow
     initialConditions:
@@ -198,4 +198,4 @@ MonoBehaviour:
     - type: 12
       value: 6
     - type: 13
-      value: 200
+      value: 150
