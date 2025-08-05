@@ -14,19 +14,13 @@ public class RangedEnemyController:EnemyController
     /// </summary>
     public override void AttackAction()
     {
-        Collider[] hitColliders = _CombatController.GetTargetColliders(LayerMask.GetMask("Player"));
-
-        foreach(var hitCollider in hitColliders)
-        {
-            // 투사체 생성 및 발사
-            FireProjectile(hitCollider.transform.position);
-        }
+        FireProjectile(GameManager.Instance.Player.transform);
     }
 
-    private void FireProjectile(Vector3 targetPos)
+    private void FireProjectile(Transform target)
     {
-        Collider p_collider = Player.GetComponent<Collider>();
-        Vector3 direction = (targetPos + (Vector3.up * (p_collider.bounds.size.y / 2))) - projectileOffset.position;
+        Collider p_collider = target.GetComponent<Collider>();
+        Vector3 direction = p_collider.bounds.center - projectileOffset.position;
         direction.Normalize();
 
         PoolType poolToUse = projectileType switch
@@ -38,7 +32,6 @@ public class RangedEnemyController:EnemyController
 
         GameObject projectile = PoolManager.Instance.GetObject(poolToUse);
         projectile.transform.position = projectileOffset.position;
-        projectile.transform.rotation *= Quaternion.Euler(90, 0, 0);
 
         // === 크리티컬 처리 ===
         float attackPower = Condition.GetTotalCurrentValue(ConditionType.AttackPower);
