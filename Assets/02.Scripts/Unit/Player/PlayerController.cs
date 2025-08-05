@@ -177,6 +177,7 @@ public class PlayerController:BaseController
         UIManager.Instance.ShowConfirmPopup(
             "사망했습니다! 로비로 돌아갑니다.",
             onConfirm: () => {
+                Destroy(GameManager.Instance.Player);
                 SceneManager.LoadScene("LobbyScene");
             },
             onCancel: null, 
