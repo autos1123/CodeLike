@@ -162,7 +162,7 @@ MonoBehaviour:
     Rarity: 301
     ConditionType: 7
     value: 0.5
-    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 1\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 0.5\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Shoes/Shoes1
     buyPrice: 40
     sellPrice: 20
@@ -180,7 +180,7 @@ MonoBehaviour:
     Rarity: 303
     ConditionType: 7
     value: 1.5
-    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 2\uC99D\uAC00\uD55C\uB2E4."
+    description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 1.5\uC99D\uAC00\uD55C\uB2E4."
     IconPath: Sprite/PassiveItemIcon/Shoes/Shoes3
     buyPrice: 120
     sellPrice: 60

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public interface IDamagable
 {
     /// <summary>
@@ -6,4 +8,6 @@ public interface IDamagable
     /// <param name="damage"></param>
     /// <returns>피격 후 사망 여부</returns>
     bool GetDamaged(float damage);
+
+    Vector3 GetDamagedPos();
 }

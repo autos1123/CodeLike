@@ -53,6 +53,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Pool
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8dfcb8f49a199fe45a15f91f10c3e0ad
+    m_Address: Assets/03.Prefaps/Pool/DamageUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:

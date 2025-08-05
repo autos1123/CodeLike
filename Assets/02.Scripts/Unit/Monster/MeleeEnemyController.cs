@@ -19,14 +19,17 @@ public class MeleeEnemyController : EnemyController
             if(hitCollider.TryGetComponent(out IDamagable player))
             {
                 // 크리티컬 판정
-                bool isCritical = UnityEngine.Random.value < criticalChance;
+                bool isCritical = Random.value < criticalChance;
 
                 float finalDamage = attackPower;
                 if(isCritical)
                 {
                     finalDamage *= criticalDamage;
-                    Debug.Log("Enemy Critical Hit!"); // 임시로 크리티컬 로그
                 }
+
+                DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+                PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                damageUI.InitDamageText(player.GetDamagedPos(), damageType, finalDamage);
 
                 // 플레이어에게 피해를 입히는 로직
                 if(!player.GetDamaged(finalDamage))
