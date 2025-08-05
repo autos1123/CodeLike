@@ -25,7 +25,8 @@ public class RangedEnemyController:EnemyController
 
     private void FireProjectile(Vector3 targetPos)
     {
-        Vector3 direction = (targetPos + Vector3.up * 1.5f) - projectileOffset.position;
+        Collider p_collider = Player.GetComponent<Collider>();
+        Vector3 direction = (targetPos + (Vector3.up * (p_collider.bounds.size.y / 2))) - projectileOffset.position;
         direction.Normalize();
 
         PoolType poolToUse = projectileType switch
