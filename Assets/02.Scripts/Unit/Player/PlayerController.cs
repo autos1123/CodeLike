@@ -202,13 +202,10 @@ public class PlayerController:BaseController
 
         // 인벤토리 초기화 
         Inventory inventory = GetComponent<Inventory>();
-        if(inventory != null)
+        if(inventory != null&& !inventory.Initialized)
         {
             inventory.InitializeInventory(); // TableManager 준비될 때까지 대기 후 초기화
         }
-        //UIManager.Instance.ShowUI<HUD>();
-
-        GameManager.Instance.DelayedSceneInit();
         isInitialized = true;
     }
     private void UpdateSafePosition()
