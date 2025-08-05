@@ -32,7 +32,6 @@ public class AoE:MonoBehaviour, IPoolObject
         // 새로운 VFX 생성 및 자식으로 부착
         if(!string.IsNullOrEmpty(data.VFX))
         {
-            Debug.Log("VFX 경로: " + data.VFX); // ★ 실제 경로 출력
             var vfxPrefabObj = Resources.Load<GameObject>(data.VFX);
             if(vfxPrefabObj != null)
             {
