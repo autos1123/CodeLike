@@ -148,4 +148,9 @@ public class PoolManager:MonoSingleton<PoolManager>
         poolObjects.Remove(poolType);
         registeredObj.Remove(poolType);
     }
+    
+    public bool HasPool(PoolType type)
+    {
+        return poolObjects.ContainsKey(type);
+    }
 }

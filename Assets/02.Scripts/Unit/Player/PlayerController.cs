@@ -191,7 +191,7 @@ public class PlayerController:BaseController
         UIManager.Instance.ShowUI<HUD>();
 
         //임식 bgm 시작
-        SoundManager.Instance.PlayBGM(this.transform, SoundAddressbleName.Boss_Battle);
+        //SoundManager.Instance.PlayBGM(this.transform, SoundAddressbleName.Boss_Battle);
 
         // 인벤토리 초기화 
         Inventory inventory = GetComponent<Inventory>();

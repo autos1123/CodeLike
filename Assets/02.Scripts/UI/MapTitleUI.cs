@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,7 +69,7 @@ public class MapTitleUI : UIBase
         titleText.color = textColor;
         
         // 배경 알파
-        float maxBGAlpha = 53f / 255f;
+        float maxBGAlpha = 255f / 255f;
         var bgColor = backgroundImage.color;
         bgColor.a = Mathf.Clamp01(alpha) * maxBGAlpha;
         backgroundImage.color = bgColor;
@@ -79,7 +78,6 @@ public class MapTitleUI : UIBase
     public override void Open()
     {
         base.Open();
-        // 열리는 순간에는 아무 일도 안 함
     }
 
     public override void Close()

@@ -805,6 +805,16 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1282144145 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1985143623796453560, guid: 3f0a28af3fad0d54890a3af408219de7, type: 3}
+  m_PrefabInstance: {fileID: 1802725356}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1629779133 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4851177912727492012, guid: 3f0a28af3fad0d54890a3af408219de7, type: 3}
+  m_PrefabInstance: {fileID: 1802725356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1747147325
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,19 +995,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4851177912727492012, guid: 3f0a28af3fad0d54890a3af408219de7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1802725362}
   m_SourcePrefab: {fileID: 100100000, guid: 3f0a28af3fad0d54890a3af408219de7, type: 3}
 --- !u!114 &1802725357 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2834581293470904418, guid: 3f0a28af3fad0d54890a3af408219de7, type: 3}
   m_PrefabInstance: {fileID: 1802725356}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1629779133}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e54dd6be1c67e04581491c6323d323a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1802725362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629779133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 982e3e79bd6e8f94bb919ba92656bebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1282144145}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 6144
 --- !u!1001 &1917669258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1189,7 +1218,7 @@ MonoBehaviour:
   generator: {fileID: 0}
   stageMapCountData: 
   viewCameraController: {fileID: 1802725357}
-  bgmKey: 
+  bgmKey: LobbyBGM
   skyboxMaterial: {fileID: 2100000, guid: b4f152e0498484391a9f0d5a1facf03b, type: 2}
   mapTitle: "\uD3D0\uD5C8\uAC00 \uB41C \uB9C8\uC744"
   otherRoomPrefab: {fileID: 6203069154772650647, guid: 751482c992e71b944841945456609f16, type: 3}
