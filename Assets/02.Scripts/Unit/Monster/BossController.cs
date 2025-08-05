@@ -45,7 +45,6 @@ public class BossController : EnemyController
     public override void Die()
     {
         base.Die();
-        SceneManager.LoadScene("EndingScene");
     }
 
     protected override void SetEnemyState()
