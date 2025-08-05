@@ -62,11 +62,16 @@ public class HUD:UIBase
 
     private void OnDestroy()
     {
-        if(player == null) return;
-
-        player.Condition.statModifiers[ConditionType.Gold] -= ChangeGold;
-        player.Condition.statModifiers[ConditionType.HP] -= ChangeHP;
-        player.Condition.statModifiers[ConditionType.Stamina] -= ChangeStamina;
+        var playerObject = GameManager.Instance?.Player;
+        if (playerObject != null)
+        {
+            if (playerObject.TryGetComponent<PlayerController>(out var controller))
+            {
+                controller.Condition.statModifiers[ConditionType.Gold] -= ChangeGold;
+                controller.Condition.statModifiers[ConditionType.HP] -= ChangeHP;
+                controller.Condition.statModifiers[ConditionType.Stamina] -= ChangeStamina;
+            }
+        }
     }
 
     void ChangeGold()
@@ -76,6 +81,8 @@ public class HUD:UIBase
 
     void ChangeHP()
     {
+        if (HPFill == null || player == null || player.Condition == null) return;
+
         float currentHP = player.Condition.CurrentConditions[ConditionType.HP]; // 실제 현재 HP
         float maxHP = player.Condition.GetTotalMaxValue(ConditionType.HP); // 강화 포함한 최대 HP
 
@@ -84,6 +91,8 @@ public class HUD:UIBase
 
     void ChangeStamina()
     {
+        if (StaminaFill == null || player == null || player.Condition == null) return;
+
         float currentStamina = player.Condition.CurrentConditions[ConditionType.Stamina]; // 실제 현재 HP
         float maxStamina = player.Condition.GetTotalMaxValue(ConditionType.Stamina); // 강화 포함한 최대 HP
 
