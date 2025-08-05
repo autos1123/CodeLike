@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageManager:MonoSingleton<StageManager>
 {
@@ -40,6 +41,12 @@ public class StageManager:MonoSingleton<StageManager>
     [SerializeField] protected Material skyboxMaterial;    // 인스펙터에서 지정
     public virtual void LoadStage()
     {
+        if (stageID >= stageMapCountData.Length)
+        {
+            SceneManager.LoadScene("EndingScene");
+            return;
+        }
+        
         ApplyStageEnvironment();
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
         ClearStage();
