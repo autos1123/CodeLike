@@ -4,8 +4,11 @@ using UnityEngine;
 public class PlayerAttack3State:PlayerBaseState
 {
     private float comboTimer = 0f;
-    private float comboWindowStart = 0.2f;
-    private float comboWindowEnd = 0.5f;
+    private float comboWindowStart = 0f;
+    private float comboWindowEnd = 0f;
+    private float actualClipLength = 0f;
+
+    private const float MinComboWindow = 0.18f;
 
     public PlayerAttack3State(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
@@ -18,10 +21,11 @@ public class PlayerAttack3State:PlayerBaseState
 
         float baseClipLength = Player.Animator.runtimeAnimatorController.animationClips
             .FirstOrDefault(x => x.name == "Clap Attack").length;
-        float actualClipLength = baseClipLength / attackSpeed;
+        actualClipLength = baseClipLength / attackSpeed;
 
         comboWindowStart = actualClipLength * 0.3f;
-        comboWindowEnd = actualClipLength * 0.8f;
+        comboWindowEnd = Mathf.Max(comboWindowStart + MinComboWindow, actualClipLength * 0.8f);
+        comboWindowEnd = Mathf.Min(comboWindowEnd, actualClipLength);
 
         comboTimer = 0f;
         StartAnimation(Player.AnimationData.Attack3ParameterHash);
@@ -36,8 +40,7 @@ public class PlayerAttack3State:PlayerBaseState
         if(move.magnitude > 0.1f) PlayerLookAt();
 
         // 3타는 추가 콤보 없이 Idle로 마무리
-        float animEnd = comboWindowEnd + 0.1f;
-        if(comboTimer > animEnd)
+        if(comboTimer > actualClipLength)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }

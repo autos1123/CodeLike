@@ -4,8 +4,11 @@ using UnityEngine;
 public class PlayerAttack1State:PlayerBaseState
 {
     private float comboTimer = 0f;
-    private float comboWindowStart = 0.2f;  // comboWindow 시작 시간 (예시값)
-    private float comboWindowEnd = 0.5f;    // comboWindow 끝 시간 (예시값)
+    private float comboWindowStart = 0f;
+    private float comboWindowEnd = 0f;
+    private float actualClipLength = 0f; // 👈 필드 선언
+
+    private const float MinComboWindow = 0.18f;
 
     public PlayerAttack1State(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
@@ -18,11 +21,11 @@ public class PlayerAttack1State:PlayerBaseState
 
         float baseClipLength = Player.Animator.runtimeAnimatorController.animationClips
             .FirstOrDefault(x => x.name == "Slap Attack").length;
-        float actualClipLength = baseClipLength / attackSpeed;
+        actualClipLength = baseClipLength / attackSpeed;
 
-        // comboWindow의 구간 비율(직접 조절 가능)
         comboWindowStart = actualClipLength * 0.3f;
-        comboWindowEnd = actualClipLength * 0.8f;
+        comboWindowEnd = Mathf.Max(comboWindowStart + MinComboWindow, actualClipLength * 0.8f);
+        comboWindowEnd = Mathf.Min(comboWindowEnd, actualClipLength);
 
         comboTimer = 0f;
         StartAnimation(Player.AnimationData.Attack1ParameterHash);
@@ -36,7 +39,6 @@ public class PlayerAttack1State:PlayerBaseState
         Vector2 move = Player.InputHandler.MoveInput;
         if(move.magnitude > 0.1f) PlayerLookAt();
 
-        // comboWindow 구간에서만 입력을 받음
         if(comboTimer >= comboWindowStart && comboTimer <= comboWindowEnd)
         {
             if(Player.InputHandler.AttackPressed)
@@ -46,9 +48,7 @@ public class PlayerAttack1State:PlayerBaseState
             }
         }
 
-        // 애니메이션이 끝났거나, comboWindow도 끝났으면 Idle로
-        float animEnd = comboWindowEnd + 0.1f; // 70% 이후엔 애니메이션이 거의 끝났다고 가정
-        if(comboTimer > animEnd)
+        if(comboTimer > actualClipLength)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }
