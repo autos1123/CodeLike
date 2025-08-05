@@ -44,7 +44,8 @@ public class Inventory:MonoBehaviour, IInventory
     {
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
         activeItemDataTable = TableManager.Instance.GetTable<ActiveItemDataTable>();
-        PlayerActiveItemController = transform.GetComponent<PlayerActiveItemController>();        
+        PlayerActiveItemController = transform.GetComponent<PlayerActiveItemController>();
+        Init();
         Initialized = true;
         OnInitialized?.Invoke();
     }
