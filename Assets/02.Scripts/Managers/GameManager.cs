@@ -26,6 +26,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public float Gold=0;
     public Dictionary<ConditionType, Dictionary<ModifierType, float>> ConditionModifier;
+    public Inventory Inventory;
     public void setState(GameState gameState)
     {
         curGameState = gameState;
@@ -83,18 +84,27 @@ public class GameManager : MonoSingleton<GameManager>
     }
     public void  DelayedSceneInit()
     {
-        if(SceneManager.GetActiveScene().name.CompareTo("PrototypeScene") == 0)
+        if(SceneManager.GetActiveScene().name.CompareTo("PrototypeScene") == 0|| SceneManager.GetActiveScene().name.CompareTo("MainScene") == 0)
         {
             if(ConditionModifier != null)
             {
                 _player.GetComponent<BaseController>().Condition.SetModifier(ConditionModifier);
                 _player.GetComponent<BaseController>().Condition.CurrentConditions[ConditionType.Gold] = 0;
-                _player.GetComponent<BaseController>().Condition.ChangeGold(Gold);
+                _player.GetComponent<BaseController>().Condition.ChangeGold(Gold);                    
+            }
+            if(Inventory == null)
+            {
+
+            }
+            else
+            {
+
             }
         }
         if(SceneManager.GetActiveScene().name.CompareTo("LobbyScene") == 0)
         {
-            _player.GetComponent<BaseController>().Condition.ChangeGold(-Gold * 0.2f);
+            _player.GetComponent<BaseController>().Condition.ChangeGold(Gold * 0.8f);
+
         }
     }
 }
