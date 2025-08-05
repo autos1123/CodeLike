@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -68,6 +69,7 @@ public class StageManager:MonoSingleton<StageManager>
             else if (viewCameraController == null)
             {
                 Debug.LogWarning("[StageManager] ViewCameraController가 할당되지 않았습니다! 카메라 뷰를 설정할 수 없습니다.");
+                viewCameraController = Camera.main.GetComponent<ViewCameraController>();
             }
             else 
             {

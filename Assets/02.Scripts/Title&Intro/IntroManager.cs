@@ -30,6 +30,8 @@ public class IntroManager : MonoBehaviour
     private bool isTyping = false;
     public static event Action OnMenuFadeInComplete; 
 
+    private const string isTutorialCompletedKey = "TutorialCompleted";
+
     void OnEnable()
     {
         if (videoPlayer != null)
@@ -127,7 +129,16 @@ public class IntroManager : MonoBehaviour
                 currentIndex++;
                 if (currentIndex >= storyLines.Count)
                 {
-                    LoadingSceneController.LoadScene("TutorialScene");
+                    if(PlayerPrefs.HasKey(isTutorialCompletedKey) && PlayerPrefs.GetInt(isTutorialCompletedKey) == 1)
+                    {
+                        // 튜토리얼 완료된 경우
+                        LoadingSceneController.LoadScene("LobbyScene");
+                    }
+                    else
+                    {
+                        PlayerPrefs.SetInt(isTutorialCompletedKey, 0); // 튜토리얼 미완료로 설정
+                        LoadingSceneController.LoadScene("TutorialScene");
+                    }
                 }
                 else
                 {
