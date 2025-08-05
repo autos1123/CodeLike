@@ -171,9 +171,6 @@ public class PlayerController:BaseController
     {
         StateMachine.ChangeState(StateMachine.DeadState);
 
-        //임시
-        GameManager.Instance.DelayedSceneInit();
-
         UIManager.Instance.ShowConfirmPopup(
             "사망했습니다! 로비로 돌아갑니다.",
             onConfirm: () => {
@@ -208,7 +205,7 @@ public class PlayerController:BaseController
         }
         //UIManager.Instance.ShowUI<HUD>();
 
-        GameManager.Instance.DelayedSceneInit();
+
         isInitialized = true;
     }
     private void UpdateSafePosition()

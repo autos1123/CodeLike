@@ -99,22 +99,4 @@ public class GameManager:MonoSingleton<GameManager>
 
     }
 
-
-    public void DelayedSceneInit()
-    {
-        if(SceneManager.GetActiveScene().name.CompareTo("PrototypeScene") == 0 || SceneManager.GetActiveScene().name.CompareTo("MainScene") == 0)
-        {
-            if(ConditionModifier != null)
-            {
-                Player.GetComponent<BaseController>().Condition.SetModifier(ConditionModifier);
-                Player.GetComponent<BaseController>().Condition.CurrentConditions[ConditionType.Gold] = 0;
-                Player.GetComponent<BaseController>().Condition.ChangeGold(Gold);
-            }
-
-        }
-        if(SceneManager.GetActiveScene().name.CompareTo("LobbyScene") == 0)
-        {
-            Player.GetComponent<BaseController>().Condition.ChangeGold(Gold * 0.8f);
-        }
-    }
 }
