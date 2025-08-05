@@ -79,7 +79,6 @@ public class Inventory : MonoBehaviour, IInventory
     {
         if(item == null)
         {
-            Debug.LogWarning("Inventory: 추가하려는 아이템이 null입니다.");
             return false;
         }
 

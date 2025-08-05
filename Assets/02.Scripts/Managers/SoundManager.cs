@@ -79,10 +79,6 @@ public class SoundManager:MonoSingleton<SoundManager>
         {
             soundSource.Play(clip, true);
         }
-        else
-        {
-            Debug.Log("그런 소리 없다");
-        }
     }
 
     public void PlaySFX(float time, Vector3 pos, string key)
@@ -94,10 +90,6 @@ public class SoundManager:MonoSingleton<SoundManager>
         if(sfxdic.TryGetValue(key, out var clip))
         {
             soundSource.Play(time, clip, true);
-        }
-        else
-        {
-            Debug.Log("그런 소리 없다");
         }
     }
     public void PlayBGM(Transform transform, string key)
@@ -119,10 +111,6 @@ public class SoundManager:MonoSingleton<SoundManager>
         if(bgmdic.TryGetValue(key, out var clip))
         {
             soundSource.Play(clip, false);
-        }
-        else
-        {
-            Debug.Log("그런 소리 없다");
         }
         audioBgm = soundSource;
     }
