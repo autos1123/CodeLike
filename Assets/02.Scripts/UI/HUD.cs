@@ -107,11 +107,13 @@ public class HUD:UIBase
 
     void ChangeItemSlot1CoolTime(float time)
     {
+        if (ItemSlot1CoolTime == null) return;
         ItemSlot1CoolTime.fillAmount = time;
     }
 
     void ChangeItemSlot2CoolTime(float time)
     {
+        if (ItemSlot2CoolTime == null) return;
         ItemSlot2CoolTime.fillAmount = time;
     }
 
