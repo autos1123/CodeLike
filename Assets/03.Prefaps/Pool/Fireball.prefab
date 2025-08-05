@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7106927434681496375}
   - component: {fileID: -1884656036192435893}
   - component: {fileID: 6847806026636589369}
+  - component: {fileID: 1838970669535538612}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -4861,7 +4862,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   poolType: 2
-  poolSize: 10
+  poolSize: 20
 --- !u!96 &-1884656036192435893
 TrailRenderer:
   serializedVersion: 3
@@ -5005,3 +5006,30 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1838970669535538612
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140579960723542}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
