@@ -94,6 +94,10 @@ public class OtherStageManager : StageManager
     }
     protected void ApplyStageEnvironment()
     {
+        // BGM 재생
+        if(SoundManager.HasInstance && !string.IsNullOrEmpty(bgmKey))
+            SoundManager.Instance.PlayBGM(null, bgmKey);
+        
         // 스카이박스 변경
         if(skyboxMaterial != null)
         {

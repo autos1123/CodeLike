@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -79,6 +80,10 @@ public class SoundManager:MonoSingleton<SoundManager>
         {
             soundSource.Play(clip, true);
         }
+        else
+        {
+            Debug.Log("그런 소리 없다");
+        }
     }
 
     public void PlaySFX(float time, Vector3 pos, string key)
@@ -91,12 +96,35 @@ public class SoundManager:MonoSingleton<SoundManager>
         {
             soundSource.Play(time, clip, true);
         }
+        else
+        {
+            Debug.Log("그런 소리 없다");
+        }
     }
+    
     public void PlayBGM(Transform transform, string key)
     {
+        StartCoroutine(WaitAndPlayBGM(transform, key));
+    }
+    private IEnumerator WaitAndPlayBGM(Transform transform, string key)
+    {
+        // PoolManager와 BGM 딕셔너리 로딩 완료까지 대기
+        yield return new WaitUntil(() =>
+            PoolManager.HasInstance &&
+            PoolManager.Instance.HasPool(PoolType.SoundSource) &&
+            bgmdic != null &&
+            bgmdic.ContainsKey(key)
+        );
+
         if(audioBgm != null && !audioBgm.Equals(null)) StopBGM();
 
         var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
+        if (sound == null)
+        {
+            Debug.LogError("[SoundManager] 풀에서 SoundSource를 받아오지 못했습니다.");
+            yield break;
+        }
+
         sound.transform.position = transform != null ? transform.position : Vector3.zero;
         sound.transform.SetParent(null);
 
@@ -111,9 +139,39 @@ public class SoundManager:MonoSingleton<SoundManager>
         if(bgmdic.TryGetValue(key, out var clip))
         {
             soundSource.Play(clip, false);
+            audioBgm = soundSource;
         }
-        audioBgm = soundSource;
+        else
+        {
+            Debug.LogError($"[SoundManager] 그런 BGM 키 없다: {key}");
+        }
     }
+    // public void PlayBGM(Transform transform, string key)
+    // {
+    //     if(audioBgm != null && !audioBgm.Equals(null)) StopBGM();
+    //
+    //     var sound = PoolManager.Instance.GetObject(PoolType.SoundSource);
+    //     sound.transform.position = transform != null ? transform.position : Vector3.zero;
+    //     sound.transform.SetParent(null);
+    //
+    //     var follower = sound.GetComponent<FollowTarget>();
+    //     if(follower == null)
+    //         follower = sound.AddComponent<FollowTarget>();
+    //
+    //     follower.target = transform;
+    //
+    //     SoundSource soundSource = sound.GetComponent<SoundSource>();
+    //
+    //     if(bgmdic.TryGetValue(key, out var clip))
+    //     {
+    //         soundSource.Play(clip, false);
+    //     }
+    //     else
+    //     {
+    //         Debug.Log("그런 소리 없다");
+    //     }
+    //     audioBgm = soundSource;
+    // }
 
     Vector3 GetVector3(Vector3 vector3)
     {
