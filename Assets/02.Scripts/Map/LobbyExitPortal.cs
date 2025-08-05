@@ -10,7 +10,7 @@ public class LobbyExitPortal : MonoBehaviour
             UIManager.Instance.ShowConfirmPopup(
                 "모험을 떠나자",
                 onConfirm: () => { 
-                    SceneManager.LoadScene("MainScene"); 
+                    LoadingSceneController.LoadScene("MainScene");
                 },
                 onCancel: () =>
                 { });
