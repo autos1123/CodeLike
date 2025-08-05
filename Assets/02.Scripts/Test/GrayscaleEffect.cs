@@ -18,6 +18,7 @@ public class GrayscaleEffect : MonoBehaviour
     private void OnEnable()
     {
         ViewManager.Instance.OnViewChanged += SwitchView;
+        SwitchView(ViewManager.Instance.CurrentViewMode);
     }
 
     private void OnDisable()

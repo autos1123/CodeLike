@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class StageManager:MonoSingleton<StageManager>
@@ -161,8 +160,6 @@ public class StageManager:MonoSingleton<StageManager>
         // 스카이박스 변경
         if(skyboxMaterial != null)
         {
-            Debug.Log("스카이박스 바뀜");
-
             RenderSettings.skybox = skyboxMaterial;
         }
     }

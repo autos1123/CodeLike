@@ -222,7 +222,6 @@ public class BaseCondition
 
         if(CurrentConditions[ConditionType.HP] <= 0)
         {
-            Debug.Log("사망");
             CurrentConditions[ConditionType.HP] = 0;
             IsDied = true;
             return true; // 사망 처리
