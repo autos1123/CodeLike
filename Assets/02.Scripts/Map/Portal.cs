@@ -85,6 +85,7 @@ public class Portal:MonoBehaviour,IInteractable
     /// <returns></returns>
     public bool CanInteract(GameObject interactor)
     {
+        if(room == null) return false;
         return room.isClearRoom && Time.time - lastTeleportTimes > cooldownDuration;
     }
 }
