@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageManager:MonoSingleton<StageManager>
 {
@@ -40,6 +42,12 @@ public class StageManager:MonoSingleton<StageManager>
     [SerializeField] protected Material skyboxMaterial;    // 인스펙터에서 지정
     public virtual void LoadStage()
     {
+        if (stageID >= stageMapCountData.Length)
+        {
+            SceneManager.LoadScene("EndingScene");
+            return;
+        }
+        
         ApplyStageEnvironment();
         int randomSeed = UnityEngine.Random.Range(0, int.MaxValue);
         ClearStage();
@@ -61,6 +69,7 @@ public class StageManager:MonoSingleton<StageManager>
             else if (viewCameraController == null)
             {
                 Debug.LogWarning("[StageManager] ViewCameraController가 할당되지 않았습니다! 카메라 뷰를 설정할 수 없습니다.");
+                viewCameraController = Camera.main.GetComponent<ViewCameraController>();
             }
             else 
             {

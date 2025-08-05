@@ -17,7 +17,15 @@ public class GameManager:MonoSingleton<GameManager>
     [SerializeField] private GameObject _player;
     public GameObject Player
     {
-        get { return _player; }
+        get
+        {
+            if(_player == null)
+            {
+                _player = GameObject.FindGameObjectWithTag(TagName.Player);
+            }
+            return _player;
+        }
+        private set { _player = value; }
     }
 
     public GameState curGameState;
@@ -74,42 +82,21 @@ public class GameManager:MonoSingleton<GameManager>
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-
         if(_player != null && scene.name != "LoadingScene"&& scene.name != "MainScene")
         {
             Destroy(_player);
             _player = null;
         }
-        _player = GameObject.FindGameObjectWithTag(TagName.Player);
 
         if(scene.name == "LobbyScene")
         {
-            DontDestroyOnLoad(_player);
+            DontDestroyOnLoad(Player);
         }
         if(scene.name == "MainScene")
         {
-            _player.GetComponent<BaseController>().init();
-        }       
+            Player.GetComponent<BaseController>().init();
+        }   
 
     }
 
-
-    public void DelayedSceneInit()
-    {
-        if(SceneManager.GetActiveScene().name.CompareTo("PrototypeScene") == 0 || SceneManager.GetActiveScene().name.CompareTo("MainScene") == 0)
-        {
-            if(ConditionModifier != null)
-            {
-                _player.GetComponent<BaseController>().Condition.SetModifier(ConditionModifier);
-                _player.GetComponent<BaseController>().Condition.CurrentConditions[ConditionType.Gold] = 0;
-                _player.GetComponent<BaseController>().Condition.ChangeGold(Gold);
-            }
-
-        }
-        if(SceneManager.GetActiveScene().name.CompareTo("LobbyScene") == 0)
-        {
-            _player.GetComponent<BaseController>().Condition.ChangeGold(Gold * 0.8f);
-            _player.GetComponent<Inventory>().Init();
-        }
-    }
 }

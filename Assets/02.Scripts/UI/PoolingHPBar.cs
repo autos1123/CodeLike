@@ -18,15 +18,20 @@ public class PoolingHPBar : MonoBehaviour, IPoolObject
 
     public int PoolSize => poolSize;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        mainCam = Camera.main;
+        if(mainCam == null)
+        {
+            mainCam = Camera.main;
+        }
     }
 
     void LateUpdate()
     {
-        transform.forward = mainCam.transform.forward;
+        if(mainCam != null)
+        {
+            transform.forward = mainCam.transform.forward;
+        }
     }
 
     public void HpBarUpdate(float hpRatio)

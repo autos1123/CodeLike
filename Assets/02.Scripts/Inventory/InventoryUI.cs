@@ -31,9 +31,11 @@ public class InventoryUI : UIBase
     {
         base.Open();
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BookOpen");
+
+        inventory = GameManager.Instance.Player.GetComponent<Inventory>();
+
         foreach (var slot in inventorySlotUIs)
             slot.Init(this); 
-
         foreach (var slot in equipSlotUIs)
             slot.Init(this);
         foreach (var slot in activeSlotUIs)
