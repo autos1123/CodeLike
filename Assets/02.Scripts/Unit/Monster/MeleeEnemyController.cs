@@ -27,14 +27,16 @@ public class MeleeEnemyController : EnemyController
                     finalDamage *= criticalDamage;
                 }
 
-                DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
-                PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
-                damageUI.InitDamageText(player.GetDamagedPos(), damageType, finalDamage);
-
                 // 플레이어에게 피해를 입히는 로직
                 if(!player.GetDamaged(finalDamage))
                 {
                     StateMachine.ChangeState(EnemyStateType.Idle);
+                }
+                else
+                {
+                    DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+                    PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                    damageUI.InitDamageText(player.GetDamagedPos(), damageType, finalDamage);
                 }
             }
         }

@@ -151,11 +151,12 @@ public class PlayerController:BaseController
                     finalDamage *= criticalDamage;
                 }
 
-                DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
-                PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
-                damageUI.InitDamageText(enemy.GetDamagedPos(), damageType, finalDamage);
-
-                enemy.GetDamaged(finalDamage);
+                if(enemy.GetDamaged(finalDamage))
+                {
+                    DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+                    PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                    damageUI.InitDamageText(enemy.GetDamagedPos(), damageType, finalDamage);
+                }
             }
         }
     }

@@ -28,10 +28,12 @@ public class PoolingDamageUI : MonoBehaviour, IPoolObject
     public PoolType PoolType => poolType;
     public int PoolSize => poolSize;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        mainCam = Camera.main;
+        if(mainCam == null)
+        {
+            mainCam = Camera.main;
+        }
     }
 
     private void Update()
