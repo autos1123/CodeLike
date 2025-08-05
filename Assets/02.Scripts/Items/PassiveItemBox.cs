@@ -108,10 +108,10 @@ public class PassiveItemBox : MonoBehaviour,IInteractable
         // 2. Rarity 확률 분포 설정 (누적 확률로 사용)
         var rarityChances = new Dictionary<Rarity, float>
         {
-            { Rarity.Common, 60f },
-            { Rarity.Uncommon, 25f },
-            { Rarity.Rare, 10f },
-            { Rarity.Epic, 5f }
+            { Rarity.Common, 70f },
+            { Rarity.Uncommon, 20f },
+            { Rarity.Rare, 7f },
+            { Rarity.Epic, 3f }
         };
 
         // 3. 누적 확률로 Rarity 뽑기
