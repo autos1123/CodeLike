@@ -59,7 +59,9 @@ public class TakeActiveItem:UIBase
         {
             var itemData = activeItemSlots[i].ActiveItem;
             slotImages[i].sprite = GetIcon(itemData);
-            slotImages[i].color = new Color32(0, 0, 0, 0);
+            if(slotImages[i].sprite != null) slotImages[i].color = new Color32(255, 255, 255, 255);
+            else slotImages[i].color = new Color32(255, 255, 255, 0);
+
         }
 
         selectedSlot = -1;
@@ -81,7 +83,12 @@ public class TakeActiveItem:UIBase
         selectedSlot = slotIndex;
         
         for(int i = 0; i < slotImages.Length; i++)
-            slotImages[i].color = (i == slotIndex) ? new Color32(255, 100, 0, 255) : new Color32(0, 0, 0, 0);
+        {
+            slotImages[i].color = (i == slotIndex) ? new Color32(255, 100, 0, 255) : new Color32(255, 255, 255, 255);
+
+            if(slotImages[i].sprite == null&&!((i == slotIndex))) slotImages[i].color = new Color32(255, 255, 255, 0);
+        }
+            
 
         var selectedItem = activeItemSlots[slotIndex].ActiveItem;
         leftItemImage.sprite = GetIcon(selectedItem);
