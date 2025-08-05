@@ -85,10 +85,7 @@ public class Portal:MonoBehaviour,IInteractable
     /// <returns></returns>
     public bool CanInteract(GameObject interactor)
     {
-        Debug.Log($"interactor: {interactor}");
-        Debug.Log($"room: {room}");
-        Debug.Log($"ExitDirection: {exitDirection}");
-        Debug.Log($"destinationRoom: {destinationRoom}");
+        if(room == null) return false;
         return room.isClearRoom && Time.time - lastTeleportTimes > cooldownDuration;
     }
 }
