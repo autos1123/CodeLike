@@ -24,6 +24,8 @@ public class BookObstacle :ObstacleController, IDamagable
     [Header("HPUI")]
     [SerializeField] private GameObject hpBar;
 
+    private Coroutine hintTextCoroutine;
+
     public bool GetDamaged(float damage)
     {
         if(isShieldActive)
@@ -127,12 +129,33 @@ public class BookObstacle :ObstacleController, IDamagable
         while(true)
         {
             yield return new WaitForSeconds(patternInterval);
+            if(hintTextCoroutine != null)
+            {
+                StopCoroutine(hintTextCoroutine);
+            }
+            hintTextCoroutine = StartCoroutine(HintFadeOut());
+
             patternEffect.Clear();
             patternEffect.Play();
             yield return new WaitUntil(() => patternEffect.isPlaying == false);
             PlayRandomPattern();
             yield return new WaitUntil(() => currentPattern.isPatternEnd == true);
         }
+    }
+
+    IEnumerator HintFadeOut()
+    {
+        ContextualUIHint hint = UIManager.Instance.GetUI<ContextualUIHint>();
+        if(hint != null)
+        {
+            hint.SetHintText("창조주의 마도서가 스킬을 사용합니다. 주의하세요! \n 시점을 변환하여 회피하세요.");
+        }
+
+        UIManager.Instance.ShowUI<ContextualUIHint>();
+        yield return new WaitForSeconds(2f);
+        UIManager.Instance.Hide<ContextualUIHint>();
+
+        hintTextCoroutine = null;
     }
 
     public Vector3 GetDamagedPos()
