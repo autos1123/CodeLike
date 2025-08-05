@@ -22,6 +22,13 @@ public class ItemDropper : MonoBehaviour
     [Header("드랍 가능한 아이템 목록")]
     [SerializeField] private ItemDropData[] dropItems;
 
+    private Transform container;
+
+    private void Start()
+    {
+        container = GetComponentInParent<Room>().transform;
+    }
+
     public void TryDropItem()
     {
         // 전체 드랍 확률 체크
@@ -41,7 +48,8 @@ public class ItemDropper : MonoBehaviour
             current += item.DropChance;
             if(randomPoint <= current)
             {
-                Instantiate(item.ItemPrefab, transform.position, Quaternion.identity);
+
+                Instantiate(item.ItemPrefab, transform.position, Quaternion.identity, container);
                 break;
             }
         }
