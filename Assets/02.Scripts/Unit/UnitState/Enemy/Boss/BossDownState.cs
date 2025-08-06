@@ -32,6 +32,9 @@ public class BossDownState : EnemyBaseState
         stateMachine.Enemy.NavMeshAgent.enabled = false; // NavMeshAgent를 정지시킴
         stateMachine.Enemy._Rigidbody.isKinematic = true; // Rigidbody를 정지시킴
         stateMachine.Enemy.col.enabled = false; // 충돌체 비활성화 (부활 중에는 충돌하지 않도록)
+
+        int dieLayerIndex = stateMachine.Enemy._Animator.GetLayerIndex("DieLayer");
+        stateMachine.Enemy._Animator.SetLayerWeight(dieLayerIndex, 1);
         base.StateEnter();
 
         recoveryTimer = 0; // 부활 타이머 초기화
@@ -43,6 +46,8 @@ public class BossDownState : EnemyBaseState
         stateMachine.Enemy.NavMeshAgent.enabled = true; // NavMeshAgent를 정지시킴
         stateMachine.Enemy._Rigidbody.isKinematic = false; // Rigidbody를 정지시킴
         stateMachine.Enemy.col.enabled = true; // 충돌체 비활성화 (부활 중에는 충돌하지 않도록)
+        int dieLayerIndex = stateMachine.Enemy._Animator.GetLayerIndex("DieLayer");
+        stateMachine.Enemy._Animator.SetLayerWeight(dieLayerIndex, 0);
 
         base.StateExit();
     }
