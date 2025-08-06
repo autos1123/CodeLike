@@ -65,17 +65,12 @@ public class BaseCondition
             {
                 return value;
             }
-            Debug.LogError($"ModifierType {m_Type}를 찾을 수 없습니다.");
-        }
-        else
-        {
-            Debug.LogError($"ConditionType {c_Type}에 대한 Modifier가 존재하지 않습니다.");
         }
 
         return 0f;
     }
 
-    private float GetOriginConditionValue(ConditionType type)
+    public float GetOriginConditionValue(ConditionType type)
     {
         if(!Data.TryGetCondition(type, out float baseValue))
         {
