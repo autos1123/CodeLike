@@ -70,7 +70,11 @@ public class Portal:MonoBehaviour,IInteractable
         // 다음 방 활성화
         destinationRoom.gameObject.SetActive(true);
 
-        other.transform.position = destinationRoom.GetEntranceAnchor((Direction)((int)exitDirection * -1)).position + (Vector3.up * 0.2f);
+        var pos = destinationRoom.GetEntranceAnchor((Direction)((int)exitDirection * -1)).position;
+
+        if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D) pos.z = 0;
+
+        other.transform.position = pos + (Vector3.up * 0.2f);
 
         lastTeleportTimes = Time.time;
 
