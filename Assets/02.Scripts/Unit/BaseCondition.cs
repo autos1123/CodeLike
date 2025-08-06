@@ -26,7 +26,7 @@ public class BaseCondition
     {
         this.data = data;
         CurrentConditions = data.GetCurrentConditions();
-        ConditionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();        
+        if(ConditionModifier == null) ConditionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();
 
         foreach(var item in CurrentConditions)
         {
@@ -65,17 +65,12 @@ public class BaseCondition
             {
                 return value;
             }
-            Debug.LogError($"ModifierType {m_Type}를 찾을 수 없습니다.");
-        }
-        else
-        {
-            Debug.LogError($"ConditionType {c_Type}에 대한 Modifier가 존재하지 않습니다.");
         }
 
         return 0f;
     }
 
-    private float GetOriginConditionValue(ConditionType type)
+    public float GetOriginConditionValue(ConditionType type)
     {
         if(!Data.TryGetCondition(type, out float baseValue))
         {
@@ -155,8 +150,6 @@ public class BaseCondition
         {
             ConditionModifier[c_type] = new Dictionary<ModifierType, float> { { m_type, value } };
         }
-        //임시
-        GameManager.Instance.ConditionModifier = ConditionModifier;
 
         statModifiers[c_type]?.Invoke();
     }
@@ -259,8 +252,5 @@ public class BaseCondition
 
         CurrentConditions[ConditionType.Gold] += value;
         statModifiers[ConditionType.Gold]?.Invoke(); // 골드 변경 이벤트
-
-        //임시                                             
-        GameManager.Instance.Gold = CurrentConditions[ConditionType.Gold];
     }
 }

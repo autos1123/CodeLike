@@ -44,25 +44,38 @@ public class Status:MonoBehaviour
     void onChangeText()
     {
         var player = GameManager.Instance.Player.GetComponent<PlayerController>();
-
+        var condition = player.Condition;
+        
+        float baseValue = condition.GetOriginConditionValue(_conditionType);
+        float itemEnhance = condition.GetModifierValue(ModifierType.ItemEnhance, _conditionType);
+        float buffEnhance = condition.GetModifierValue(ModifierType.BuffEnhance, _conditionType);
+        float enhanceValue = itemEnhance + buffEnhance;
+        
         float currentValue = player.Condition.GetCurrentConditionValue(_conditionType);
+        
+        float totalMaxValue = baseValue + enhanceValue;
+        
         float maxValue = player.Condition.GetTotalMaxValue(_conditionType);
         if (_conditionType == ConditionType.HP)
         {
             currentValue = player.Condition.CurrentConditions[_conditionType];
-            text.text = $"{currentValue:F0} / {maxValue:F0}";
+            text.text = $"{currentValue:F0} / {totalMaxValue:F0} <size=50%>({baseValue:F0} + {enhanceValue:F0})</size>";
         }
         else if(_conditionType == ConditionType.Stamina)
         {
-            text.text = $"{maxValue:F0}";
+            text.text = $"{totalMaxValue:F0} <size=50%>({baseValue:F0} + {enhanceValue:F0})</size>";
         }
         else if (_conditionType == ConditionType.CriticalChance || _conditionType == ConditionType.CriticalDamage)
         {
-            text.text = $"{(currentValue * 100f):F0}%";
+            float basePercent = baseValue * 100f;
+            float enhancePercent = enhanceValue * 100f;
+            float totalPercent = basePercent + enhancePercent;
+            
+            text.text = $"{totalPercent:F0}% <size=50%>({basePercent:F0}% + {enhancePercent:F0}%)</size>";
         }
         else
         {
-            text.text = currentValue.ToString("F2");
+            text.text = $"{totalMaxValue:F2} <size=50%>({baseValue:F2} + {enhanceValue:F2})</size>";
         }
     }
 }
