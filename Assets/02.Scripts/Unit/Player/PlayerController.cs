@@ -25,6 +25,7 @@ public class PlayerController:BaseController
     [Header("Dash VFX")]
     public GameObject DashVFXPrefab;
 
+    public bool ComboBuffered { get; set; } = false;
     public Vector3 LastSafePosition { get; private set; }
     private Transform currentPlatform = null;
     private Vector3 platformLocalPosition;
@@ -61,6 +62,9 @@ public class PlayerController:BaseController
         
         StateMachine.Update();
         InputHandler.ResetOneTimeInputs();
+
+        if(InputHandler.AttackPressed)
+            ComboBuffered = true;
 
         if(ViewManager.Instance.CurrentViewMode == ViewModeType.View3D)
         {

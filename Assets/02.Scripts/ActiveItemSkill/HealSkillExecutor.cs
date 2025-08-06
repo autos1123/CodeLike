@@ -9,11 +9,6 @@ public class HealSkillExecutor:ISkillExecutor
         {
             playerController.Condition.Heal(data.Power);
         }
-        // 또는, 적이나 몬스터도 유사하게
-        // if (caster.TryGetComponent<EnemyController>(out var enemyController))
-        // {
-        //     enemyController.Condition.Heal(data.Power);
-        // }
 
         // 이하 VFX 처리 코드는 동일하게 유지
         if(!string.IsNullOrEmpty(data.VFX))
