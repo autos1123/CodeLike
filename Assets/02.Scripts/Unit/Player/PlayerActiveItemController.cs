@@ -88,7 +88,8 @@ public class PlayerActiveItemController:MonoBehaviour
         activeItemCoolTime[index] = used.Cooldown;
         GameEvents.TriggerActiveSkillUse();
         StartCoroutine(CoolDown(index));
-        executors[used.Type].Execute(used, projectileSpawnPos);
+        Transform caster = used.Type == SkillType.Heal ? transform : projectileSpawnPos;
+        executors[used.Type].Execute(used, caster);
     }
 
     public bool CanUseSkill(Skillinput skillinput)
