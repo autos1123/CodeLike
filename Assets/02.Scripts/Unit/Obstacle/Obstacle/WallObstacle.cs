@@ -60,7 +60,8 @@ public class WallObstacle : Obstacle
         }
         else
         {
-            rb.velocity = velocityTmp; // 게임이 일시정지되면 Rigidbody 속도 초기화
+            //rb.velocity = velocityTmp; // 게임이 일시정지되면 Rigidbody 속도 초기화
+            rb.velocity = Vector3.left * speed;
         }
     }
 
