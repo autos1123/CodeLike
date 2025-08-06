@@ -25,6 +25,7 @@ public class PlayerController:BaseController
     [Header("Dash VFX")]
     public GameObject DashVFXPrefab;
 
+    public bool ComboBuffered { get; set; } = false;
     public Vector3 LastSafePosition { get; private set; }
     private Transform currentPlatform = null;
     private Vector3 platformLocalPosition;
@@ -58,7 +59,12 @@ public class PlayerController:BaseController
         
         UpdateGrounded();
         UpdateSafePosition();
-        
+        if(InputHandler.AttackPressed)
+        {
+            ComboBuffered = true;
+            Debug.LogWarning($"[PlayerController] ComboBuffered = true!");
+        }
+
         StateMachine.Update();
         InputHandler.ResetOneTimeInputs();
 
@@ -194,15 +200,23 @@ public class PlayerController:BaseController
 
         UIManager.Instance.ShowUI<HUD>();
 
-        //임식 bgm 시작
-        //SoundManager.Instance.PlayBGM(this.transform, SoundAddressbleName.Boss_Battle);
+
 
         // 인벤토리 초기화 
         Inventory inventory = GetComponent<Inventory>();
-        if(inventory != null&& !inventory.Initialized)
+        if(inventory != null && !inventory.Initialized)
         {
             inventory.InitializeInventory(); // TableManager 준비될 때까지 대기 후 초기화
         }
+        else
+        {
+            inventory.ApplyItemStat();
+        }
+
+
+            //temp
+            EquipmentManager.Instance?.RefreshPlayer(); // 연동 강제 초기화
+
         isInitialized = true;
     }
     private void UpdateSafePosition()

@@ -8,14 +8,14 @@ public class PlayerAttack3State:PlayerBaseState
     private float comboWindowEnd = 0f;
     private float actualClipLength = 0f;
 
-    private const float MinComboWindow = 0.18f;
+    private const float MinComboWindow = 0.25f;
 
     public PlayerAttack3State(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void StateEnter()
     {
         base.StateEnter();
-
+        Debug.LogWarning("3333");
         float attackSpeed = Player.Condition.GetTotalCurrentValue(ConditionType.AttackSpeed);
         Player.Animator.SetFloat("AttackSpeed", attackSpeed);
 
@@ -39,7 +39,6 @@ public class PlayerAttack3State:PlayerBaseState
         Vector2 move = Player.InputHandler.MoveInput;
         if(move.magnitude > 0.1f) PlayerLookAt();
 
-        // 3타는 추가 콤보 없이 Idle로 마무리
         if(comboTimer > actualClipLength)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
@@ -47,7 +46,6 @@ public class PlayerAttack3State:PlayerBaseState
     }
 
     public override void StateExit() { base.StateExit(); }
-
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();

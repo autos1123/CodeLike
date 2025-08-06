@@ -15,12 +15,13 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     {
         get
         {
-            if (cachedPlayer != GameManager.Instance.Player)
+            var currentPlayer = GameManager.Instance.Player;
+            if(cachedPlayer != currentPlayer || playerCondition == null)
             {
-                cachedPlayer = GameManager.Instance.Player;
+                cachedPlayer = currentPlayer;
                 playerCondition = null;
 
-                if (cachedPlayer != null && cachedPlayer.TryGetComponent<PlayerController>(out var controller))
+                if(cachedPlayer != null && cachedPlayer.TryGetComponent<PlayerController>(out var controller))
                 {
                     playerCondition = controller.Condition;
                 }
@@ -31,7 +32,6 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     protected override void Awake()
     {
         base.Awake(); // MonoSingleton<T> 내부 싱글톤 초기화 로직 실행
-
     }
     
     /// <summary>
@@ -71,7 +71,7 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
         GameEvents.TriggerItemEquipped();
     }
     
-    /// <summary>
+    /// <summary>o
     /// 아이템 효과를 플레이어 능력치에서 제거한다. (장비 슬롯일 경우에만 제거)
     /// </summary>
     /// <param name="item">제거할 아이템</param>
@@ -122,5 +122,13 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
                 // 필요 시 아이템 복구 또는 메시지 처리
             }
         }
+    }
+
+
+    public void RefreshPlayer()
+    {
+        cachedPlayer = null;
+        playerCondition = null;
+        playerInventory = null;
     }
 }

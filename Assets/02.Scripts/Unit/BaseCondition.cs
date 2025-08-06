@@ -26,7 +26,7 @@ public class BaseCondition
     {
         this.data = data;
         CurrentConditions = data.GetCurrentConditions();
-        ConditionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();        
+        if(ConditionModifier == null) ConditionModifier = new Dictionary<ConditionType, Dictionary<ModifierType, float>>();
 
         foreach(var item in CurrentConditions)
         {
@@ -139,6 +139,7 @@ public class BaseCondition
             if(modifierDict.TryGetValue(m_type, out float currentValue))
             {
                 modifierDict[m_type] += value;
+                if(modifierDict[m_type] < 0) modifierDict[m_type] = 0; // 음수인 경우 제거
             }
             else
             {
@@ -149,8 +150,6 @@ public class BaseCondition
         {
             ConditionModifier[c_type] = new Dictionary<ModifierType, float> { { m_type, value } };
         }
-        //임시
-        GameManager.Instance.ConditionModifier = ConditionModifier;
 
         statModifiers[c_type]?.Invoke();
     }
@@ -253,8 +252,5 @@ public class BaseCondition
 
         CurrentConditions[ConditionType.Gold] += value;
         statModifiers[ConditionType.Gold]?.Invoke(); // 골드 변경 이벤트
-
-        //임시                                             
-        GameManager.Instance.Gold = CurrentConditions[ConditionType.Gold];
     }
 }

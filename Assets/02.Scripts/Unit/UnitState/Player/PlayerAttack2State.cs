@@ -8,14 +8,14 @@ public class PlayerAttack2State:PlayerBaseState
     private float comboWindowEnd = 0f;
     private float actualClipLength = 0f;
 
-    private const float MinComboWindow = 0.18f;
+    private const float MinComboWindow = 0.25f;
 
     public PlayerAttack2State(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void StateEnter()
     {
         base.StateEnter();
-
+        Debug.LogWarning("2222");
         float attackSpeed = Player.Condition.GetTotalCurrentValue(ConditionType.AttackSpeed);
         Player.Animator.SetFloat("AttackSpeed", attackSpeed);
 
@@ -41,8 +41,9 @@ public class PlayerAttack2State:PlayerBaseState
 
         if(comboTimer >= comboWindowStart && comboTimer <= comboWindowEnd)
         {
-            if(Player.InputHandler.AttackPressed)
+            if(Player.ComboBuffered)
             {
+                Player.ComboBuffered = false;
                 stateMachine.ChangeState(stateMachine.Attack3State);
                 return;
             }
@@ -55,7 +56,6 @@ public class PlayerAttack2State:PlayerBaseState
     }
 
     public override void StateExit() { base.StateExit(); }
-
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
