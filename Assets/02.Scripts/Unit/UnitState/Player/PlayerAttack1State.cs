@@ -6,9 +6,9 @@ public class PlayerAttack1State:PlayerBaseState
     private float comboTimer = 0f;
     private float comboWindowStart = 0f;
     private float comboWindowEnd = 0f;
-    private float actualClipLength = 0f; // 👈 필드 선언
+    private float actualClipLength = 0f;
 
-    private const float MinComboWindow = 0.18f;
+    private const float MinComboWindow = 0.25f; // WebGL이면 더 넉넉하게!
 
     public PlayerAttack1State(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
@@ -39,10 +39,12 @@ public class PlayerAttack1State:PlayerBaseState
         Vector2 move = Player.InputHandler.MoveInput;
         if(move.magnitude > 0.1f) PlayerLookAt();
 
+        // comboWindow 구간에서 "ComboBuffered"를 소비(초기화)하면서 콤보 진행
         if(comboTimer >= comboWindowStart && comboTimer <= comboWindowEnd)
         {
-            if(Player.InputHandler.AttackPressed)
+            if(Player.ComboBuffered)
             {
+                Player.ComboBuffered = false; // 입력 소비!
                 stateMachine.ChangeState(stateMachine.Attack2State);
                 return;
             }
@@ -55,7 +57,6 @@ public class PlayerAttack1State:PlayerBaseState
     }
 
     public override void StateExit() { base.StateExit(); }
-
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
