@@ -10,13 +10,13 @@ public class PlayerIdleState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        StartAnimation(player.AnimationData.IdleParameterHash);
+        StartAnimation(Player.AnimationData.IdleParameterHash);
     }
 
     public override void StateExit()
     {
         base.StateExit();
-        StopAnimation(player.AnimationData.IdleParameterHash);
+        StopAnimation(Player.AnimationData.IdleParameterHash);
     }
 
     public override void StateUpdate()
@@ -28,12 +28,27 @@ public class PlayerIdleState:PlayerBaseState
             stateMachine.ChangeState(stateMachine.MoveState); 
         }
         /// 점프 입력
-        if(player.InputHandler.JumpPressed && player.IsGrounded)
+        if(Player.InputHandler.JumpPressed && Player.IsGrounded)
+        {
             stateMachine.ChangeState(stateMachine.JumpState);
+        }
+        if(Player.InputHandler.AttackPressed)
+        {
+            stateMachine.ChangeState(stateMachine.Attack1State);
+        }
+        if(Player.InputHandler.SkillXPressed)
+        {
+            stateMachine.SkillState.SetSkill(Skillinput.X);
+            stateMachine.ChangeState(stateMachine.SkillState);
+            return;
+        }
+        if(Player.InputHandler.SkillCPressed)
+        {
+            stateMachine.SkillState.SetSkill(Skillinput.C);
+            stateMachine.ChangeState(stateMachine.SkillState);
+            return;
+        }
 
-        // 공격 입력
-        if(player.InputHandler.AttackPressed)
-            stateMachine.ChangeState(stateMachine.AttackState);
     }
 
     public override void StatePhysicsUpdate() 

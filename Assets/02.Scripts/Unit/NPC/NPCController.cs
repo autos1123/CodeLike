@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour, IInteractable
 {
-    public int ID;
+    private UIManager uIManager;
+    private DialogueManager dialogueManager;
 
+    public int ID;
     [SerializeField] private string interactionPrompt = "[F] 대화하기";
     [SerializeField] private Transform promptPivot;
 
@@ -11,6 +13,11 @@ public class NPCController : MonoBehaviour, IInteractable
 
     public Transform PromptPivot => promptPivot;
 
+    private void Start()
+    {
+        uIManager = UIManager.Instance;
+        dialogueManager = DialogueManager.Instance;
+    }
     public bool CanInteract(GameObject interactor)
     {
         return true;
@@ -32,18 +39,23 @@ public class NPCController : MonoBehaviour, IInteractable
             case NPCType.Normal:
                 OpenDialogue(interactor);
                 break;
-
             case NPCType.Merchant:
                 TryOpenShop();
+                break;
+            case NPCType.Enhancer:
+                HandleEnhancerInteraction();
+                break;
+            case NPCType.Healer:
+                HandleHealerInteraction();
                 break;
         }
     }
     private void OpenDialogue(GameObject interactor)
     {
-        UIManager.Instance.ShowUI<DialogueBoard>();
-        DialogueManager.Instance.onDialogue(interactor.transform, this.transform);
+        uIManager.GetUI<DialogueBoard>().Init(TableManager.Instance.GetTable<NPCDataTable>().GetDataByID(ID).description);
+        uIManager.ShowUI<DialogueBoard>();        
+        dialogueManager.onDialogue(interactor.transform, this.transform);
     }
-    
     private void TryOpenShop()
     {
         if (!TryGetComponent(out ShopInventory shopInventory))
@@ -65,6 +77,51 @@ public class NPCController : MonoBehaviour, IInteractable
         else
         {
             shopUI.OpenWithInventory(shopInventory);
+        }
+    }
+    private void HandleEnhancerInteraction()
+    {
+        if (!UIManager.Instance.TryGetUI<EnhanceBoard>(out var enhanceBoard))
+        {
+            Debug.LogError("[NPCController] EnhanceBoard를 찾을 수 없습니다.");
+            return;
+        }
+
+        if(GameManager.Instance != null && GameManager.Instance.GetNpcInteractionProcessed(this.gameObject))
+        {
+            UIManager.Instance.ShowConfirmPopup(
+                "이미 강화를 완료했습니다",
+                onConfirm: () => { },
+                onCancel: null,
+                confirmText: "확인"
+            );
+        }
+        else if(!enhanceBoard.gameObject.activeSelf)
+        {
+            enhanceBoard.Open(this.gameObject);
+        }
+    }
+
+    private void HandleHealerInteraction()
+    {
+        if (!UIManager.Instance.TryGetUI<HealUI>(out var healUI))
+        {
+            Debug.LogError("[NPCController] EnhanceBoard를 찾을 수 없습니다.");
+            return;
+        }
+        
+        if(GameManager.Instance != null && GameManager.Instance.GetNpcInteractionProcessed(this.gameObject))
+        {
+            UIManager.Instance.ShowConfirmPopup(
+                "이미 치료를 완료했습니다",
+                onConfirm: () => { },
+                onCancel: null,
+                confirmText: "확인"
+            );
+        }
+        else if(!healUI.gameObject.activeSelf)
+        {
+            healUI.Open(this.gameObject);
         }
     }
 }

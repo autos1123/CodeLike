@@ -12,8 +12,6 @@ public class ActiveItemEffectData
     public float Range;
     public float Duration;
     public float Cooldown;
-    public CostType CostType;
-    public float Cost;
     public string VFX;
     public string SFX;
     public string Description;

@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public class InventoryUI : UIBase
 {
-    public override string UIName => "InventoryUI"; 
-    
+    public override string UIName => this.GetType().Name;
+
     private Inventory inventory;
     
     public SlotUI[] inventorySlotUIs; // 중간 16칸
@@ -19,9 +19,6 @@ public class InventoryUI : UIBase
     public SlotUI[] activeSlotUIs; //오른쪽위 2칸
     
     [SerializeField] private TextMeshProUGUI infoText;
-    
-    private EquipmentManager equipmentManager;
-    
     private void Awake()
     {
         inventory = GameManager.Instance.Player.GetComponent<Inventory>();
@@ -33,17 +30,19 @@ public class InventoryUI : UIBase
     public override void Open()
     {
         base.Open();
-        
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BookOpen");
+
+        inventory = GameManager.Instance.Player.GetComponent<Inventory>();
+
         foreach (var slot in inventorySlotUIs)
             slot.Init(this); 
-
         foreach (var slot in equipSlotUIs)
             slot.Init(this);
         foreach (var slot in activeSlotUIs)
             slot.Init(this);
         
         StartCoroutine(WaitAndRefresh());
-        
+        GameEvents.TriggerInventoryOpened();
     }
     /// <summary>
     /// 인벤토리 닫을시 설정
@@ -51,7 +50,12 @@ public class InventoryUI : UIBase
     public override void Close()
     {
         base.Close();
-        TooltipManager.Instance.Hide(); // 툴팁 강제 비활성화
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BookClose");
+        var tooltip = UIManager.Instance.GetUI<TooltipUI>();
+        if (tooltip != null)
+        {
+            tooltip.Hide();
+        }
     }
     
     /// <summary>

@@ -25,6 +25,10 @@ public static class SoundAddressbleName
     public const string bgm1 = "bgm1";
     public const string sfx1 = "sfx1";
     public const string SWORD_09 = "SWORD_09";
+    public const string HandAttack = "HandAttack";
+    public const string CastSound = "CastSound";
+    public const string HitSound = "HitSound";
+    public const string DashSound = "DashSound";
     public const string Boss_Battle = "Boss_Battle";
 }
 public static class TableAddressble

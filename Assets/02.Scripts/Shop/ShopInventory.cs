@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 /// <summary>
 /// 상점 전용 인벤토리. 초기 아이템 셋업 및 IInventory 인터
@@ -9,10 +9,30 @@ public class ShopInventory : MonoBehaviour,IInventory
 {
     public int npcID;
     
-    private ItemDataTable itemDataTable;
-    private NPCDataTable npcDataTable;
+    [Header("레어도별 등장 확률 (%)")]
+    private Dictionary<Rarity, float> rarityChances = new()
+    {
+        { Rarity.Common, 84f },
+        { Rarity.Uncommon, 10f },
+        { Rarity.Rare, 5f },
+        { Rarity.Epic, 1f }
+    };
     
-    public List<InventoryItemSlot> inventorySlots = new List<InventoryItemSlot>();
+    [Header("아이템 개수 확률 (%)")]
+    private readonly Dictionary<int, float> itemCountChances = new()
+    {
+        { 1, 30f },
+        { 2, 20f },
+        { 3, 15f },
+        { 4, 12f },
+        { 5, 10f },
+        { 6, 8f },
+        { 7, 4f },
+        { 8, 1f }
+    };
+    private ItemDataTable itemDataTable;
+    public List<InventoryItemSlot> inventorySlots { get; private set; } = new();
+
     public bool Initialized { get; private set; } = false;
     public event Action OnInitialized;
     
@@ -30,30 +50,13 @@ public class ShopInventory : MonoBehaviour,IInventory
     /// <summary>
     /// 테이블 로드가 완료될 때까지 대기 후 상점 아이템 초기화
     /// </summary>
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete);
         itemDataTable = TableManager.Instance.GetTable<ItemDataTable>();
-        npcDataTable = TableManager.Instance.GetTable<NPCDataTable>();
-        
-        Init();
-        var npcData = npcDataTable.GetDataByID(npcID);
-        if (npcData == null)
-        {
-            Debug.LogError($"[ShopInventory] NPCData를 찾을 수 없습니다. ID: {npcID}");
-            yield break;
-        }
 
-        foreach (var id in npcData.shopItemIDs)
-        {
-            var item = itemDataTable.GetDataByID(id);
-            if (item != null)
-                inventorySlots.Add(CreateSlot(item));
-        }
-        // var item1 = itemDataTable.GetDataByID(6000);
-        // var item2 = itemDataTable.GetDataByID(6001);
-        // inventorySlots.Add(CreateSlot(item1));
-        // inventorySlots.Add(CreateSlot(item2));
+        Init();
+        GenerateRandomItems();
+
         Initialized = true;
         OnInitialized?.Invoke();
     }
@@ -67,6 +70,66 @@ public class ShopInventory : MonoBehaviour,IInventory
     }
     
     /// <summary>
+    /// 레어도 확률 기반으로 랜덤 아이템 생성
+    /// </summary>
+    private void GenerateRandomItems()
+    {
+        int itemCount = GetRandomItemCount(); // 1~8개 확률적 선택
+        var allItems = itemDataTable.dataList;
+        int attempts = 0;
+
+        while (inventorySlots.Count < itemCount && attempts < 100)
+        {
+            attempts++;
+
+            Rarity selectedRarity = GetRandomRarityByChance();
+            var candidates = allItems.Where(i => i.Rarity == selectedRarity).ToList();
+            if (candidates.Count == 0) continue;
+
+            var selectedItem = candidates[UnityEngine.Random.Range(0, candidates.Count)];
+
+            if (!inventorySlots.Exists(s => s.InventoryItem == selectedItem))
+            {
+                inventorySlots.Add(CreateSlot(selectedItem));
+            }
+        }
+    }
+    private int GetRandomItemCount()
+    {
+        float total = itemCountChances.Values.Sum();
+        float roll = UnityEngine.Random.Range(0f, total);
+        float current = 0f;
+
+        foreach (var kvp in itemCountChances)
+        {
+            current += kvp.Value;
+            if (roll <= current)
+                return kvp.Key;
+        }
+
+        return 1;
+    }
+    /// <summary>
+    /// 가중치 확률 기반으로 랜덤 레어도 반환
+    /// </summary>
+    private Rarity GetRandomRarityByChance()
+    {
+        float total = rarityChances.Values.Sum();
+        float roll = UnityEngine.Random.Range(0f, total);
+        float current = 0f;
+
+        foreach (var kvp in rarityChances)
+        {
+            current += kvp.Value;
+            if (roll <= current)
+                return kvp.Key;
+        }
+
+        // 예외적으로 Common 반환
+        return Rarity.Common;
+    }
+    
+    /// <summary>
     /// 지정된 아이템과 수량으로 새로운 ItemSlot 생성
     /// </summary>
     private InventoryItemSlot CreateSlot(ItemData item)
@@ -75,6 +138,7 @@ public class ShopInventory : MonoBehaviour,IInventory
         slot.Set(item);
         return slot;
     }
+    
     
     /// <summary>
     /// 현재 보유한 모든 아이템 슬롯 반환 (IInventory 구현)
@@ -113,35 +177,4 @@ public class ShopInventory : MonoBehaviour,IInventory
         return false;
     }
 
-    void OnEnable()
-    {
-        if (GameManager.Instance != null)
-            GameManager.Instance.onDestinyChange += HandleDestinyChange;
-    }
-
-     void OnDisable()
-    {
-        if (GameManager.Instance != null)
-            GameManager.Instance.onDestinyChange -= HandleDestinyChange;
-    }
-    /// <summary>
-    /// 운명 변경이벤트 발생시 실행할 함수
-    /// </summary>
-    /// <param name="data"></param>
-    void HandleDestinyChange(DestinyData data, int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Shop)
-        {
-
-        }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Shop)
-        {
-
-        }
-    }
 }

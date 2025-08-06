@@ -17,12 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 652cb3f6117b7214cbaf50ecab2b6506
   m_SerializeEntries:
-  - m_GUID: 7352689a47a818742b941812fef319af
-    m_Address: Assets/03.Prefaps/Pool/TestProjectile.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Pool
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1372c975087baaf43b35b67376e2b497
     m_Address: Assets/03.Prefaps/Pool/EnemyHPCanvas.prefab
     m_ReadOnly: 0
@@ -31,6 +25,36 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ce48da2b44030d144bb809cf9ff4acc2
     m_Address: Assets/03.Prefaps/Pool/SoundSource.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2792fca345a311d4bacb69ce67b65800
+    m_Address: Assets/03.Prefaps/Pool/AoE.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc13ed2cc786c894193dd50a85d7d2c9
+    m_Address: Assets/03.Prefaps/Pool/PlayerProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 531938b7dbce82346b9c00b6b08a23ce
+    m_Address: Assets/03.Prefaps/Pool/Zone.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a61d396d78ca5a645b232f7ecc019a72
+    m_Address: Assets/03.Prefaps/Pool/Arrow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8dfcb8f49a199fe45a15f91f10c3e0ad
+    m_Address: Assets/03.Prefaps/Pool/DamageUI.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Pool

@@ -7,7 +7,12 @@ public enum PoolType
     projectile,
     PlayerProjectile,
     hpBar,
-    SoundSource
+    SoundSource,
+    AoE,
+    Zone,
+    Heal,
+    ArrowProjectile,
+    DamageUI
 }
 public interface IPoolObject
 {

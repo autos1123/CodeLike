@@ -1,5 +1,7 @@
 using System;
-using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,76 +12,91 @@ public enum GameState
     Stop,
 }
 [DefaultExecutionOrder(-100)]
-public class GameManager : MonoSingleton<GameManager>
+public class GameManager:MonoSingleton<GameManager>
 {
-    //스테이지 마다 생성할 맵의 수
-    public int[] stageMapCountData = {5, 6, 7, 8, 9, 10 };
-
-    public DestinyData curDestinyData;// 현재 적용중인 운명
-
-    public event Action<DestinyData,int> onDestinyChange;
-
-    [SerializeField]private GameObject _player;
+    [SerializeField] private GameObject _player;
     public GameObject Player
     {
-        get { return _player; }
+        get
+        {
+            if(_player == null)
+            {
+                _player = GameObject.FindGameObjectWithTag(TagName.Player);
+            }
+            return _player;
+        }
+        private set { _player = value; }
     }
 
     public GameState curGameState;
     public event Action onGameStateChange;
 
-    public void setCurDestinyData(DestinyData destinyData)
-    {        
-        onDestinyChange?.Invoke(curDestinyData, -1);//기본 운명 해제
-        this.curDestinyData = destinyData;
-        onDestinyChange?.Invoke(curDestinyData, 1);
-    }
+    public Dictionary<int, bool> processedNpcObjects = new();
+
+    public float Gold = 0;
+    public Dictionary<ConditionType, Dictionary<ModifierType, float>> ConditionModifier;
+
     public void setState(GameState gameState)
     {
         curGameState = gameState;
         onGameStateChange?.Invoke();
     }
+
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        onDestinyChange += HandleDestinyChange;
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        onDestinyChange -= HandleDestinyChange;
     }
+    protected override void Awake()
+    {
+        base.Awake();
 
+        Application.targetFrameRate = 60;
+
+        if(processedNpcObjects == null)
+        {
+            processedNpcObjects = new Dictionary<int, bool>();
+        }
+    }
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = 60;
+    }
+    // 각종 NPC 상호작용의 완료 상태를 설정하는 공용 메소드
+    public void SetNpcInteractionProcessed(GameObject npcObject, bool processed)
+    {
+        int instanceId = npcObject.GetInstanceID();
+        processedNpcObjects[instanceId] = processed;
+    }
+
+    // 각종 NPC 상호작용의 완료 상태를 확인하는 공용 메소드
+    public bool GetNpcInteractionProcessed(GameObject npcObject)
+    {
+        int instanceId = npcObject.GetInstanceID();
+        return processedNpcObjects.TryGetValue(instanceId, out bool processed) && processed;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(_player != null)
+        if(_player != null && scene.name != "LoadingScene"&& scene.name != "MainScene")
         {
             Destroy(_player);
-            _player=null;
+            _player = null;
         }
-        _player = GameObject.FindGameObjectWithTag(TagName.Player);
+
+        if(scene.name == "LobbyScene")
+        {
+            DontDestroyOnLoad(Player);
+        }
+        if(scene.name == "MainScene")
+        {
+            Player.GetComponent<BaseController>().init();
+        }   
+
     }
 
-    void HandleDestinyChange(DestinyData data , int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Map)
-        {
-            stageMapCountData = stageMapCountData.Select(n => n + (int)positiveEffect.value * i).ToArray();
-        }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Map)
-        {
-            stageMapCountData = stageMapCountData.Select(n => n - (int)negativeEffect.value * i).ToArray();
-        }
-
-    }
 }

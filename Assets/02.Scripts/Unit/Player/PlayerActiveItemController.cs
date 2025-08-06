@@ -1,5 +1,9 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 
 public enum Skillinput
@@ -12,7 +16,12 @@ public class PlayerActiveItemController:MonoBehaviour
 {
     private Dictionary<SkillType, ISkillExecutor> executors;
     private PlayerController playerController;
+    private ActiveItemEffectDataTable activeItemEffectDataTable;
+
     public List<ActiveItemData> activeItemDatas = new();
+    public List<float> activeItemCoolTime = new();
+    public List<Action<float>> OnActiveItemCoolTime = new();
+
     [SerializeField] private Transform projectileSpawnPos;
 
     private void Awake()
@@ -22,18 +31,38 @@ public class PlayerActiveItemController:MonoBehaviour
 
     private void Start()
     {
+        activeItemEffectDataTable = TableManager.Instance.GetTable<ActiveItemEffectDataTable>();
         executors = new Dictionary<SkillType, ISkillExecutor>
         {
             { SkillType.Projectile, new ProjectileSkillExecutor() },
-            { SkillType.AoE , new AoESkillExecutor() },
-            { SkillType.Heal , new HealSkillExecutor()}
+            { SkillType.AoE, new AoESkillExecutor() },
+            { SkillType.Heal, new HealSkillExecutor() },
+            { SkillType.Zone, new ZoneSkillExecutor() },
         };
     }
 
-    /// <summary>
-    /// 테스트용 (기존 방식 유지)
-    /// </summary>
-    /// <param name="activeItemData"></param>
+    private void Update()
+    {
+        // 예시용 단축키(테스트)
+        if(Input.GetKeyDown(KeyCode.F3))
+        {
+            UseExecutorById(5000, projectileSpawnPos);
+        }
+        if(Input.GetKeyDown(KeyCode.F4))
+        {
+            UseExecutorById(5001, projectileSpawnPos);
+        }
+        if(Input.GetKeyDown(KeyCode.F5))
+        {
+            UseExecutorById(5002, transform);
+        }
+        if(Input.GetKeyDown(KeyCode.F6))
+        {
+            UseExecutorById(5003, projectileSpawnPos);
+        }
+    }
+
+    // 기존 함수 유지
     public void TakeItem(ActiveItemData activeItemData)
     {
         activeItemDatas.Add(activeItemData);
@@ -42,33 +71,66 @@ public class PlayerActiveItemController:MonoBehaviour
     public void TakeItem(Skillinput skillinput, ActiveItemData activeItemData)
     {
         int index = (int)skillinput;
-
-        // 리스트 크기 확장 (필요한 경우만)
         while(activeItemDatas.Count <= index)
         {
             activeItemDatas.Add(null);
+            activeItemCoolTime.Add(0);
         }
-
         activeItemDatas[index] = activeItemData;
+        activeItemCoolTime[index] = 0;
     }
 
     public void UseItem(Skillinput skillinput)
     {
         int index = (int)skillinput;
+        
+        var used = activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID);
+        activeItemCoolTime[index] = used.Cooldown;
+        GameEvents.TriggerActiveSkillUse();
+        StartCoroutine(CoolDown(index));
+        executors[used.Type].Execute(used, projectileSpawnPos);
+    }
 
-        // 안전한 인덱스 체크
+    public bool CanUseSkill(Skillinput skillinput)
+    {
+        int index = (int)skillinput;
         if(index < 0 || index >= activeItemDatas.Count)
         {
-            Debug.LogError($"잘못된 스킬 인덱스: {index}");
-            return;
+            Debug.LogWarning($"잘못된 스킬 인덱스: {index}");
+            return false;
         }
-
         if(activeItemDatas[index] == null)
-        {
-            return;
-        }
+            return false;
+        if(activeItemCoolTime[index] > 0) // ★ 쿨타임 체크는 '>'가 더 일반적
+            return false;
 
-        var used = TableManager.Instance.GetTable<ActiveItemEffectDataTable>().GetDataByID(activeItemDatas[index].skillID);
-        executors[used.Type].Execute(used, projectileSpawnPos, projectileSpawnPos.forward);
+        return true;
+    }
+
+
+
+    IEnumerator CoolDown(int index)
+    {
+        while(activeItemCoolTime[index] >= 0)
+        {
+            activeItemCoolTime[index] -= Time.deltaTime;
+            float tempCoolTime = activeItemCoolTime[index] / activeItemEffectDataTable.GetDataByID(activeItemDatas[index].skillID).Cooldown;
+            OnActiveItemCoolTime[index]?.Invoke(tempCoolTime);
+            yield return null;
+        }
+    }
+
+    // 테스트용 직접 ID 실행 (단축키)
+    private void UseExecutorById(int id, Transform caster)
+    {
+        var used = activeItemEffectDataTable.GetDataByID(id);
+        if(used != null && executors.TryGetValue(used.Type, out var executor))
+        {
+            executor.Execute(used, caster);
+        }
+        else
+        {
+            Debug.LogWarning($"SkillType {used?.Type}에 대한 Executor가 없습니다.");
+        }
     }
 }

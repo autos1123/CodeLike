@@ -15,9 +15,17 @@ MonoBehaviour:
   dataList:
   - ID: 8000
     Name: kim
-    shopItemIDs: 7017000071170000
     Type: 1
+    description: []
   - ID: 8001
     Name: lee
-    shopItemIDs: 701700007117000072170000
     Type: 1
+    description: []
+  - ID: 8002
+    Name: gong
+    Type: 2
+    description: []
+  - ID: 8003
+    Name: lym
+    Type: 3
+    description: []

@@ -32,8 +32,8 @@ public class TakeActiveItem:UIBase
     private ActiveItemData acquiredItem;
     private int selectedSlot = -1;
     private Inventory playerInventory;
-
-    public override string UIName => "TakeActiveItem";
+    private ActiveItemBox sourceActiveItemBox; 
+    public override string UIName => this.GetType().Name;
 
     private void Start()
     {
@@ -43,39 +43,57 @@ public class TakeActiveItem:UIBase
             slotButtons[i].onClick.AddListener(() => OnSlotSelected(idx));
         }
         takeButton.interactable = false;
-        closeButton.onClick.AddListener(OnCloseButton); // 나가기 버튼 이벤트 등록
+        closeButton.onClick.AddListener(OnCloseButtonClicked); // 나가기 버튼 이벤트 등록
     }
-
-    public void Open(ActiveItemSlot[] _activeItemSlots, ActiveItemData _acquiredItem, Inventory _playerInventory = null)
+    public override void Close()
+    {
+        base.Close();
+        GameManager.Instance.setState(GameState.Play);
+    }
+    public void Open(ActiveItemSlot[] _activeItemSlots, ActiveItemData _acquiredItem, Inventory _playerInventory = null,ActiveItemBox _sourceActiveItemBox = null)
     {
         base.Open();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxOpen");
+
         activeItemSlots = _activeItemSlots;
         acquiredItem = _acquiredItem;
         playerInventory = _playerInventory;
-
+        sourceActiveItemBox = _sourceActiveItemBox;
         for(int i = 0; i < activeItemSlots.Length; i++)
         {
             var itemData = activeItemSlots[i].ActiveItem;
             slotImages[i].sprite = GetIcon(itemData);
-            slotImages[i].color = Color.white;
+            if(slotImages[i].sprite != null) slotImages[i].color = new Color32(255, 255, 255, 255);
+            else slotImages[i].color = new Color32(255, 255, 255, 0);
+
         }
 
         selectedSlot = -1;
         takeButton.interactable = false;
 
         leftItemImage.sprite = GetIcon(activeItemSlots[0].ActiveItem);
+        if(leftItemImage.sprite == null) leftItemImage.color = new Color32(0, 0, 0, 0);
         leftItemDescription.text = GetDescriptionByID(activeItemSlots[0].ActiveItem?.ID ?? -1);
 
         acquiredItemImage.sprite = GetIcon(acquiredItem);
         acquiredItemDescription.text = GetDescriptionByID(acquiredItem?.ID ?? -1);
+        
+        GameEvents.TriggerActiveItemUIOpened();
+        GameManager.Instance.setState(GameState.Stop);
     }
 
     private void OnSlotSelected(int slotIndex)
     {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ShopSlotClick");
         selectedSlot = slotIndex;
-
+        
         for(int i = 0; i < slotImages.Length; i++)
-            slotImages[i].color = (i == slotIndex) ? Color.yellow : Color.white;
+        {
+            slotImages[i].color = (i == slotIndex) ? new Color32(255, 100, 0, 255) : new Color32(255, 255, 255, 255);
+
+            if(slotImages[i].sprite == null&&!((i == slotIndex))) slotImages[i].color = new Color32(255, 255, 255, 0);
+        }
+            
 
         var selectedItem = activeItemSlots[slotIndex].ActiveItem;
         leftItemImage.sprite = GetIcon(selectedItem);
@@ -91,7 +109,8 @@ public class TakeActiveItem:UIBase
     public void OnTakeButton()
     {
         if(selectedSlot == -1) return;
-        Debug.Log($"[DEBUG] 선택된 슬롯: {selectedSlot}, 전체 슬롯 수: {activeItemSlots.Length}");
+        
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"GetItem");
 
         var slotObj = activeItemSlots[selectedSlot];
 
@@ -107,15 +126,24 @@ public class TakeActiveItem:UIBase
         }
 
         UIManager.Instance.GetUI<HUD>()?.UpdateActiveItemIcons();
-
-        this.Close();
+        if (sourceActiveItemBox != null)
+        {
+            InteractionController interactionController = GameManager.Instance.Player.GetComponent<InteractionController>();
+            if (interactionController != null)
+            {
+                interactionController.SetInteractTextParentToPlayer();
+            }
+            sourceActiveItemBox.gameObject.SetActive(false);
+            Destroy(sourceActiveItemBox.gameObject);
+        }
+        Close();
     }
-
-    private void OnCloseButton()
+    private void OnCloseButtonClicked()
     {
-        this.Close();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxClose");
+        Close();
     }
-
+    
     Sprite GetIcon(ActiveItemData item)
     {
         return item == null ? null : Resources.Load<Sprite>(item.IconPath);

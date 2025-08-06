@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using UnityEngine;
 public enum RoomType
 {
     Start,
+    End,
     Normal,
     Boss,
     Shop,
@@ -22,25 +24,20 @@ public class Room : MonoBehaviour
     public RoomType Type { get; private set; }
 
     [Header("Anchor")]
-    public Transform playerSpawnPoint;
-    public Transform entranceUp;
-    public Transform entranceDown;
-    public Transform entranceLeft;
-    public Transform entranceRight;
+    [SerializeField] private Transform playerSpawnPoint;
+    [SerializeField] private Transform entranceUp;
+    [SerializeField] private Transform entranceDown;
+    [SerializeField] private Transform entranceLeft;
+    [SerializeField] private Transform entranceRight;
 
-    public bool isClearRoom = false;
+    public List<Portal> Portals { get; private set; } = new List<Portal>();
 
-    public event Action onRoomClear;
+    public bool isClearRoom { get; private set; } = false;
 
-    public GameObject[] Enumys;
+    private Transform enemyContainer;
     private int enemyCount;
 
     public List<RoomConnection> Connections { get; private set; } = new();
-
-
-
-    public int x;
-    public int y;
 
     private IEnumerator Start()
     {
@@ -50,26 +47,32 @@ public class Room : MonoBehaviour
             surface.BuildNavMesh();
             yield return null;
         }
-        foreach(var item in Enumys)
-        {
-            item.SetActive(true);
-        }
-        if(Enumys.Count() == 0)
-        {
-            StartCoroutine(RoomClear());
-        }
 
-        enemyCount = Enumys.Length;
+        enemyContainer = transform.Find("Enemies");
+
+        if(enemyContainer != null)
+        {
+            for(int i = 0; i < enemyContainer.childCount; i++)
+            {
+                enemyContainer.GetChild(i).gameObject.SetActive(true);
+            }
+
+            if(enemyContainer.childCount == 0)
+            {
+                StartCoroutine(RoomClear());
+            }
+
+            enemyCount = enemyContainer.childCount;
+        }
     }
 
     public void Initialize(int id, Vector2Int gridPos, RoomType type)
     {
         Id = id;
         GridPosition = gridPos;
-        x = gridPos.x; y = gridPos.y;
         Type = type;
     }
-    public void ChackClear()
+    public void CheckClear()
     {
         enemyCount--;
 
@@ -81,7 +84,10 @@ public class Room : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         isClearRoom = true;
-        onRoomClear?.Invoke();
+        for(int i = 0; i < Portals.Count; i++)
+        {
+            Portals[i].OnPotalActivated();
+        }
     }
     public void AddConnection(RoomConnection conn)
     {
@@ -98,38 +104,6 @@ public class Room : MonoBehaviour
         gameObject.SetActive(isactive);
     }
 
-    public MinimapRoomData GetMinimapData()
-    {
-        var data = new MinimapRoomData
-        {
-            roomID = Id,
-            worldPosition = transform.position,
-            type = Type,
-            connectedDirections = new List<Direction>()
-        };
-
-        foreach (var conn in Connections)
-        {
-            if (conn.FromRoomID == Id)
-                data.connectedDirections.Add(conn.Direction);
-            else if(conn.ToRoomID == Id)
-                data.connectedDirections.Add(GetOppositeDirection(conn.Direction));
-        }
-
-        return data;
-    }
-
-    public static Direction GetOppositeDirection(Direction dir)
-    {
-        return dir switch
-        {
-            Direction.Up => Direction.Down,
-            Direction.Down => Direction.Up,
-            Direction.Left => Direction.Right,
-            Direction.Right => Direction.Left,
-            _ => dir
-        };
-    }
     public Transform GetEntranceAnchor(Direction dir)
     {
         return dir switch
@@ -145,16 +119,5 @@ public class Room : MonoBehaviour
     public Transform GetSponPos()
     {
         return playerSpawnPoint;
-    }
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            PlayerController pc = other.GetComponent<PlayerController>();
-            if (pc != null)
-            {
-                pc.SetCurrentRoom(this);
-            }
-        }
     }
 }

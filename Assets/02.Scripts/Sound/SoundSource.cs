@@ -19,13 +19,10 @@ public class SoundSource : MonoBehaviour ,IPoolObject
     {
         StartCoroutine(DelayRoutine(delaeTime, clip, issfx));
     }
-
-
+    
     public void Play(AudioClip clip,bool issfx)
     {
-        ViewManager.Instance.OnViewChanged += HandleViewModeChange;
-
-        HandleViewModeChange(ViewManager.Instance.CurrentViewMode);
+        HandleViewModeChange(issfx);
 
         if(issfx) 
             audioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
@@ -35,11 +32,15 @@ public class SoundSource : MonoBehaviour ,IPoolObject
         audioSource.clip = clip;
         audioSource.Play();
         if(issfx) { StartCoroutine(wiatEnd(clip.length)); }
+        else audioSource.loop = true;
+    }
+    private void OnDestroy()
+    {
+        Stop();
     }
     public void Stop()
     {
         audioSource.Stop();
-        ViewManager.Instance.OnViewChanged -= HandleViewModeChange;
         returnPool();
     }
 
@@ -58,11 +59,14 @@ public class SoundSource : MonoBehaviour ,IPoolObject
 
     public void returnPool()
     {
-        PoolManager.Instance.ReturnObject(this);
+        if(gameObject == null || this == null) return;
+        if(PoolManager.HasInstance)
+            PoolManager.Instance.ReturnObject(this);
     }
 
-    private void HandleViewModeChange(ViewModeType viewModeType)
+    private void HandleViewModeChange(bool issfx)
     {
-        audioSource.spatialBlend = (viewModeType == ViewModeType.View2D) ? 0f : 1f;
+        audioSource.spatialBlend = 
+            (issfx && ViewManager.Instance.CurrentViewMode == ViewModeType.View3D) ? 1f : 0f;
     }
 }

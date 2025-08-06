@@ -1,64 +1,119 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour, IPoolObject
+public class Projectile:MonoBehaviour, IPoolObject
 {
     [SerializeField] private LayerMask layer;
     [SerializeField] private PoolType poolType;
     [SerializeField] private int poolSize = 10;
 
-    private float lifeTime; // 투사체의 생명주기
+    private float lifeTime;
     private float damage;
     private float speed;
     private int hitCount;
 
+    private float ignoreTime = 0.1f;
+    private float currentIgnore = 0f;
+
+    private Vector3 moveDir;
+    private ParticleSystem vfx;
+
+    // === 크리티컬 관련 필드 추가 ===
+    private bool isCritical = false;
+    private float criticalDamageMultiplier = 1f;
+
     public GameObject GameObject => gameObject;
-
     public PoolType PoolType => poolType;
-
     public int PoolSize => poolSize;
 
     private void Update()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        
+        transform.position += moveDir * speed * Time.deltaTime;
+
         lifeTime -= Time.deltaTime;
         if(lifeTime <= 0)
         {
             PoolManager.Instance.ReturnObject(this);
             return;
         }
+
+        if(currentIgnore > 0f)
+            currentIgnore -= Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // 충돌 시 처리 로직
+        if(currentIgnore > 0f) return;
+
         if(other.TryGetComponent(out IDamagable target) && ((1 << other.gameObject.layer) & layer) != 0)
         {
-            // 대상에게 피해를 입히는 로직
-            target.GetDamaged(damage);
+            // === 크리티컬 적용 ===
+            float finalDamage = isCritical ? damage * criticalDamageMultiplier : damage;
+
+            if(target.GetDamaged(finalDamage))
+            {
+                DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+                PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                damageUI.InitDamageText(target.GetDamagedPos(), damageType, finalDamage);
+            }
 
             hitCount--;
-
-            // 투사체를 풀에 반환
             if(hitCount <= 0)
                 PoolManager.Instance.ReturnObject(this);
         }
     }
 
     /// <summary>
-    /// 투사체를 초기화합니다.
+    /// 발사체 초기화 (크리티컬 정보까지 확장)
     /// </summary>
-    /// <param name="dir">진행 방향</param>
-    /// <param name="speed">진행 속도</param>
-    /// <param name="damage">공격력</param>
-    /// <param name="lifeTime">진행 거리</param>
-    /// <param name="hitCount">관통 횟수, 기본 1</param>
-    public void InitProjectile(Vector3 dir, float speed, float damage, float lifeTime = float.MaxValue, int hitCount = 1)
+    public void InitProjectile(
+        Vector3 dir,
+        float speed,
+        float damage,
+        float lifeTime = 3f,
+        int hitCount = 1,
+        string vfxPath = null,
+        bool isCritical = false,
+        float criticalDamageMultiplier = 1f)
     {
-        transform.forward = dir; // 방향 설정
+        moveDir = dir.normalized;
+        transform.forward = moveDir;
+
         this.speed = speed;
         this.damage = damage;
-        this.lifeTime = lifeTime;
+        this.lifeTime = lifeTime > 0 ? lifeTime : 3f;
         this.hitCount = hitCount;
+
+        this.isCritical = isCritical;
+        this.criticalDamageMultiplier = criticalDamageMultiplier;
+
+        currentIgnore = ignoreTime;
+
+        if(vfx != null)
+        {
+            Destroy(vfx.gameObject);
+            vfx = null;
+        }
+        foreach(Transform child in transform)
+        {
+            if(child.GetComponent<ParticleSystem>() != null)
+                Destroy(child.gameObject);
+        }
+
+        if(!string.IsNullOrEmpty(vfxPath))
+        {
+            var vfxPrefab = Resources.Load<ParticleSystem>(vfxPath);
+            if(vfxPrefab != null)
+            {
+                vfx = Instantiate(vfxPrefab, transform);
+                vfx.transform.localPosition = Vector3.zero;
+                vfx.Play();
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+        if(vfx != null)
+            vfx.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 }

@@ -5,11 +5,10 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(NavMeshAgent))]
-public abstract class EnemyController:BaseController<EnemyCondition>
+public abstract class EnemyController:BaseController
 {
 
     public EnemyStateMachine StateMachine { get; private set; }
-
     public EnemyAnimationData AnimationData { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
     public Vector3 patrolPivot { get; private set; } = Vector3.zero;
@@ -22,21 +21,18 @@ public abstract class EnemyController:BaseController<EnemyCondition>
     private Vector3 destinationTmp; // NavMeshAgent의 목적지 저장
     private float agentSpeedTmp; // NavMeshAgent의 속도 저장
 
-    public Room room;
+    public string soundName;
+    public Room room {  get; private set; }
+
     protected override void OnEnable()
     {
-        base.OnEnable();
-        GameManager.Instance.onDestinyChange += HandleDestinyChange;//운명변경 이벤트 연결
-        room = GetComponentInParent<Room>();
+        base.OnEnable();     
     }
     protected override void OnDisable()
     {
         base.OnDisable();
-        if(PoolManager.HasInstance)
+        if(PoolManager.HasInstance && hpBar != null)
             PoolManager.Instance.ReturnObject(hpBar.GetComponent<IPoolObject>());
-
-        if(GameManager.HasInstance)
-            GameManager.Instance.onDestinyChange -= HandleDestinyChange;//운명변경 이벤트 연결해제
     }
 
     protected override void Awake()
@@ -45,6 +41,7 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         NavMeshAgent = GetComponent<NavMeshAgent>();
         NavMeshAgent.speed = 0;
         NavMeshAgent.updateRotation = false; // NavMeshAgent가 회전을 처리하지 않도록 설정
+        NavMeshAgent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     protected virtual void Update()
@@ -74,18 +71,16 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         patrolPivot = transform.position;
     }
 
-    protected override void OnDrawGizmos()
+    protected override void OnDrawGizmosSelected()
     {
-        base.OnDrawGizmos();
-
         if(Application.isPlaying && isInitialized)
         {
             // 적의 순찰 범위를 시각적으로 표시
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(patrolPivot, Condition.GetValue(ConditionType.PatrolRange));
+            Gizmos.DrawWireSphere(patrolPivot, Condition.GetTotalCurrentValue(ConditionType.PatrolRange));
             // 적의 추적 범위를 시각적으로 표시
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, Condition.GetValue(ConditionType.ChaseRange));
+            Gizmos.DrawWireSphere(transform.position, Condition.GetTotalCurrentValue(ConditionType.ChaseRange));
         }
     }
 
@@ -95,7 +90,6 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         Player = GameManager.Instance.Player; // 플레이어 오브젝트 초기화
 
         // Controller 초기화
-        Condition = new EnemyCondition(InitConditionData());
         AnimationData = new EnemyAnimationData();
         StateMachine = new EnemyStateMachine(this);
         SetEnemyState();
@@ -103,29 +97,13 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         // 체력 UI 초기화
         hpBar = PoolManager.Instance.GetObject(PoolType.hpBar);
         hpBar.transform.SetParent(transform);
-        hpBar.transform.localPosition = Vector3.zero + Vector3.up * 2f; // HP Bar 위치 조정
+        hpBar.transform.localPosition = Vector3.zero + Vector3.up * (col.bounds.size.y + 0.5f); // HP Bar 위치 조정
         HpBarUpdate();
         Condition.statModifiers[ConditionType.HP] += HpBarUpdate; // 체력 변화시 UI 업데이트
 
+        room = GetComponentInParent<Room>();
+
         isInitialized = true;
-    }
-
-    /// <summary>
-    /// 적의 상태를 설정하는 추상 메서드
-    /// 각 적 유형에 따라 사용 될 상태를 추가
-    /// </summary>
-    protected abstract void SetEnemyState();
-
-    public override bool GetDamaged(float damage)
-    {
-        bool isAllive = base.GetDamaged(damage);
-
-        if(isAllive)
-        {
-            StateMachine.ChangeState(EnemyStateType.Hit); // 데미지를 받았을 때 상태 변경
-        }
-
-        return isAllive;
     }
 
     public void HpBarUpdate()
@@ -133,10 +111,23 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         HpUI.HpBarUpdate(Condition.GetConditionRatio(ConditionType.HP));
     }
 
-    protected override void Die()
+    public override void Hit()
     {
+        Debug.LogWarning($"[EnemyController] {gameObject.name} has been hit.");
+        StateMachine.ChangeState(EnemyStateType.Hit); // Hit 상태로 변경
+    }
+
+    public override void Die()
+    {
+        Debug.LogWarning($"[EnemyController] {gameObject.name} has died.");
         StateMachine.ChangeState(EnemyStateType.Die);
     }
+
+    /// <summary>
+    /// 적의 상태를 설정하는 추상 메서드
+    /// 각 적 유형에 따라 사용 될 상태를 추가
+    /// </summary>
+    protected abstract void SetEnemyState();
 
     /// <summary>
     /// 적의 공격 액션을 수행하는 메서드
@@ -163,23 +154,23 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         }
 
         float playerDistanceSqr = (targetPos - curPos).sqrMagnitude;
-        float range = Condition.GetValue(rangeType);
+        float range = Condition.GetTotalCurrentValue(rangeType);
 
         return playerDistanceSqr <= range * range;
     }
 
     protected override IEnumerator WaitForDataLoad()
     {
-        yield return new WaitUntil(() => TableManager.Instance.loadComplete && PoolManager.Instance.IsInitialized && GameManager.HasInstance);
+        yield return new WaitUntil(() => PoolManager.Instance.IsInitialized && GameManager.HasInstance);
         Initialize();
     }
 
     protected override void SetCharacterPauseMode(bool isPlaying)
     {
-        base.SetCharacterPauseMode(isPlaying);
-
         if(StateMachine.CurrentStateType == EnemyStateType.Die)
             return; // 죽은 상태에서는 일시정지 모드 변경을 하지 않음
+
+        base.SetCharacterPauseMode(isPlaying);
 
         if(!isPlaying)
         {
@@ -195,25 +186,5 @@ public abstract class EnemyController:BaseController<EnemyCondition>
         }
     }
 
-    /// <summary>
-    /// 운명 변경이벤트 발생시 실행할 함수
-    /// </summary>
-    /// <param name="data"></param>
-    void HandleDestinyChange(DestinyData data, int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Enemy)
-        {
-            Condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value * i); // 추후에 운명에 의한 증가량 추가
-        }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Enemy)
-        {
-            Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value * i); // 추후에 운명에 의한 증가량 추가
-        }
-
-    }
+    public abstract AnimationClip GetPatternAnimationClip();
 }

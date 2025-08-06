@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ShopUI : UIBase
 {
-    public override string UIName => "ShopUI";
+    public override string UIName => this.GetType().Name;
 
     private PlayerController player;
     private IInventory playerInventory => GameManager.Instance.Player?.GetComponent<Inventory>();
@@ -34,15 +34,25 @@ public class ShopUI : UIBase
     
     private HashSet<InventoryItemSlot> selectedSellItems = new(); //선택된 슬롯 기억리스트 (슬롯과 그 안에 아이템 함께기억)
     private HashSet<InventoryItemSlot> purchaseSlots = new(); //거래된 슬롯 기억리스트
-    
+
+    private ShopManager shopManager;
+
+    private void Start()
+    {
+        shopManager = FindObjectOfType<ShopManager>();
+    }
+
     public void OpenWithInventory(ShopInventory inventory)
     {
         shopInventoryRaw = inventory;
         base.Open();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ShopOpen");
         
         dealBtn.onClick.RemoveAllListeners();
         dealBtn.onClick.AddListener(ExecuteTransaction);
-
+        exitBtn.onClick.RemoveAllListeners();
+        exitBtn.onClick.AddListener(Close);
+        
         StartCoroutine(WaitForInitAndBind());
     }
     /// <summary>
@@ -50,6 +60,7 @@ public class ShopUI : UIBase
     /// </summary>
     public override void Close()
     {
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ShopClose");
         base.Close();
         selectedSellItems.Clear();
         UnsubscribeGoldUpdate();
@@ -60,8 +71,7 @@ public class ShopUI : UIBase
             GameManager.Instance != null && GameManager.Instance.Player != null && // 플레이어 존재 확인
             GameManager.Instance.Player.GetComponent<PlayerController>() != null && // PlayerController 존재 확인
             shopInventoryRaw != null && shopInventoryRaw.Initialized &&
-            playerInventory != null && playerInventory.Initialized &&
-            TableManager.Instance != null && TableManager.Instance.loadComplete);
+            playerInventory != null && playerInventory.Initialized);
 
         player = GameManager.Instance.Player.GetComponent<PlayerController>();
         
@@ -201,9 +211,9 @@ public class ShopUI : UIBase
         var sellItems = sellSlotSelected.ConvertAll(s => s.InventoryItemSlot);
         var buyItems = buySlotSelected.ConvertAll(s => s.InventoryItemSlot);
         
-        if (ShopManager.Instance.TryExecuteTransaction(sellItems, buyItems, out var result))
+        if (shopManager.TryExecuteTransaction(sellItems, buyItems, out var result))
         {
-            Debug.Log(result);
+            SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"Deal");
             foreach(var slot in buySlotSelected)
             {
                 purchaseSlots.Add(slot.InventoryItemSlot);
@@ -235,7 +245,7 @@ public class ShopUI : UIBase
     {
         if (playerCondition != null)
         {
-            curGoldText.text = $"보유골드: {playerCondition.GetValue(ConditionType.Gold)}G";
+            curGoldText.text = $"보유골드: {playerCondition.GetTotalCurrentValue(ConditionType.Gold)}G";
         }
         else
         {

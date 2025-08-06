@@ -1,7 +1,6 @@
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum SlotType
@@ -13,16 +12,20 @@ public enum SlotType
 /// <summary>
 /// 하나의 인벤토리 또는 장비 슬롯을 표현하는 UI 컴포넌트
 /// </summary>
-public class SlotUI : MonoBehaviour
+public class SlotUI : MonoBehaviour, ISlotTooltipTarget
 {
     public SlotType slotType;
     
     public Image iconImage;
-    [CanBeNull] public TextMeshProUGUI EquipText;
     public Image backgroundImage;
+    public Image equipFrame;
     public InventoryUI inventoryUI { get; private set; }
     public InventoryItemSlot InventorySlot { get; private set; }
     public ActiveItemSlot ActiveSlot { get; private set; }
+    
+    public InventoryItemSlot GetItemSlot() => InventorySlot;
+    public RectTransform GetTooltipPosition() => (RectTransform)transform;
+    public bool IsEquipSlot() => slotType == SlotType.Equip;
     
     public void Init(InventoryUI ui)
     {
@@ -78,9 +81,9 @@ public class SlotUI : MonoBehaviour
             iconImage.sprite = null;
             iconImage.enabled = false;
 
-            if (slotType == SlotType.Equip && EquipText != null)
+            if (slotType == SlotType.Equip && equipFrame != null)
             {
-                EquipText.gameObject.SetActive(false);
+                equipFrame.gameObject.SetActive(false);
             }
 
             return;
@@ -88,10 +91,10 @@ public class SlotUI : MonoBehaviour
 
         iconImage.sprite = Resources.Load<Sprite>(InventorySlot.InventoryItem.IconPath);
         iconImage.enabled = true;
-        //장비 텍스트 활성화
-        if (slotType == SlotType.Equip && EquipText != null)
+        //장비 프레임 활성화
+        if (slotType == SlotType.Equip && equipFrame != null)
         {
-            EquipText.gameObject.SetActive(true);
+            equipFrame.gameObject.SetActive(true);
         }
     }
     

@@ -6,7 +6,7 @@ public class PlayerBaseState:IUnitState
     protected ConditionData data;
     protected ViewModeType viewMode;
 
-    protected PlayerController player => stateMachine.Player;
+    protected PlayerController Player => stateMachine.Player;
 
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
@@ -47,12 +47,12 @@ public class PlayerBaseState:IUnitState
 
     protected void StartAnimation(int animationHash)
     {
-        player._Animator.SetBool(animationHash, true);
+        Player._Animator.SetBool(animationHash, true);
     }
 
     protected void StopAnimation(int animationHash)
     {
-        player._Animator.SetBool(animationHash, false);
+        Player._Animator.SetBool(animationHash, false);
     }
 
     public void SwitchView(ViewModeType mode)
@@ -66,7 +66,7 @@ public class PlayerBaseState:IUnitState
     /// </summary>
     protected Vector3 Move(Vector2 input)
     {
-        float speed = player.Condition.GetValue(ConditionType.MoveSpeed);
+        float speed = Player.Condition.GetTotalCurrentValue(ConditionType.MoveSpeed);
 
         Vector3 dir;
         if(viewMode == ViewModeType.View2D)
@@ -82,14 +82,14 @@ public class PlayerBaseState:IUnitState
         }
 
         Vector3 delta = dir * speed;
-        delta.y = player._Rigidbody.velocity.y;
-        player._Rigidbody.velocity = delta;
+        delta.y = Player._Rigidbody.velocity.y;
+        Player._Rigidbody.velocity = delta;
         return dir;
     }
 
     protected void PlayerLookAt()
     {
-        Vector2 move = player.InputHandler.MoveInput;
+        Vector2 move = Player.InputHandler.MoveInput;
 
         if(move.magnitude > 0.1f)
         {
@@ -103,7 +103,7 @@ public class PlayerBaseState:IUnitState
                 if(moveDir.sqrMagnitude > 0.01f)
                 {
                     Quaternion targetRot = Quaternion.LookRotation(moveDir);
-                    player.VisualTransform.rotation = Quaternion.Lerp(player.VisualTransform.rotation, targetRot, Time.deltaTime * player.VisualRotateSpeed);
+                    Player.VisualTransform.rotation = Quaternion.Lerp(Player.VisualTransform.rotation, targetRot, Time.deltaTime * Player.VisualRotateSpeed);
                 }
             }
             // 2D 시점 회전
@@ -113,12 +113,9 @@ public class PlayerBaseState:IUnitState
                 {
                     // x축이 정면이어야 하므로, 오른쪽 이동(+)일 때 y=90, 왼쪽(-)일 때 y=-90
                     float yAngle = move.x > 0 ? 90f : -90f;
-                    player.VisualTransform.rotation = Quaternion.Euler(0, yAngle, 0);
+                    Player.VisualTransform.rotation = Quaternion.Euler(0, yAngle, 0);
                 }
             }
-
-
-
         }
     }
 }

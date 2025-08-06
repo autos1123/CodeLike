@@ -1,9 +1,10 @@
-[System.Serializable]
 
 /// <summary>
 /// 하나의 인벤토리 슬롯에 해당하는 데이터 구조.
 /// 아이템 정보 포함
 /// </summary>
+/// 
+[System.Serializable]
 public class InventoryItemSlot
 {
     /// <summary> 슬롯에 담긴 아이템 데이터 </summary>

@@ -14,16 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataList:
   - ID: 4000
-    name: Bow
+    name: Enegy Wave
+    rarity: 301
+    skillID: 5000
+    description: "\uC5D0\uB108\uC9C0\uD30C"
+    IconPath: Sprite/EnegyWave
+  - ID: 4001
+    name: Electro force
     rarity: 301
     skillID: 5001
-    description: "\uD65C"
-    IconPath: Sprite/BowIcon
-  - ID: 4001
-    name: BlackOra
+    description: "\uB9E4\uC6B0 \uD070 \uBC88\uAC1C \uC5D0\uB108\uC9C0\uB97C \uC2DC\uC804\uD55C\uB2E4."
+    IconPath: Sprite/ElectroForce
+  - ID: 4002
+    name: Poison Meteor
+    rarity: 301
+    skillID: 5003
+    description: "\uB3C5\uC131 \uBA54\uD14C\uC624\uB97C \uC2DC\uC804\uD55C\uB2E4."
+    IconPath: Sprite/PoisonMeteor
+  - ID: 4003
+    name: Heal
     rarity: 301
     skillID: 5002
-    description: "\uAC80\uC740 \uC624\uB77C\uB97C \uD48D\uAE30\uB294 \uC544\uC774\uD15C.
-      \uC0AC\uC6A9\uC790\uC758 \uAE30\uBCF8\uACF5\uACA9\uC5D0 \uAC80\uC740\uC774\uD399\uD2B8\uAC00
-      \uCD94\uAC00\uB418\uACE0 \uACF5\uACA9\uBC94\uC704\uAC00 \uB298\uC5B4\uB09C\uB2E4"
-    IconPath: Sprite/BlackOraIcon
+    description: "\uD68C\uBCF5\uD55C\uB2E4."
+    IconPath: Sprite/Heal

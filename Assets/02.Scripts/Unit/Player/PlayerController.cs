@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 /// 플레이어 이동, 공격, 점프, 데미지 처리 및 FSM 관리
@@ -7,36 +8,78 @@ using System.Collections.Generic;
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
-public class PlayerController:BaseController<PlayerCondition>
+public class PlayerController:BaseController
 {
     public PlayerInputHandler InputHandler { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerAnimationData AnimationData { get; private set; }
+    public Animator Animator { get; private set; }
     public PlayerActiveItemController ActiveItemController { get; private set; }
     public Room CurrentRoom { get; private set; }
 
     [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask platformLayer;
     [SerializeField] private float groundRayOffset = 0.1f;
 
-    public bool IsGrounded { get; private set; }
+    [Header("Dash VFX")]
+    public GameObject DashVFXPrefab;
 
+    public Vector3 LastSafePosition { get; private set; }
+    private Transform currentPlatform = null;
+    private Vector3 platformLocalPosition;
+    
+    private float staminaDrainPerSecond = 5f;
+
+    public Action OnSkillInput;
+
+    private Vector3 lastSafePosition;
+
+
+    public bool IsGrounded { get; private set; }
+    
     protected override void Awake()
     {
         base.Awake();
+    }
+    protected override void Start()
+    {
+        base.Start();
         InputHandler = GetComponent<PlayerInputHandler>();
         ActiveItemController = GetComponent<PlayerActiveItemController>();
+        Animator = GetComponentInChildren<Animator>();
         _Rigidbody.freezeRotation = true;
     }
 
     private void Update()
     {
-        if(!isInitialized || !isPlaying)
+        if(!isInitialized || !isPlaying || Condition.IsDied)
             return;
-
+        
         UpdateGrounded();
+        UpdateSafePosition();
+        
         StateMachine.Update();
         InputHandler.ResetOneTimeInputs();
+
+        if(ViewManager.Instance.CurrentViewMode == ViewModeType.View3D)
+        {
+            if(Condition.CurrentConditions[ConditionType.Stamina] > 0f)
+            {
+                Condition.CurrentConditions[ConditionType.Stamina] -= staminaDrainPerSecond * Time.deltaTime;
+                Condition.CurrentConditions[ConditionType.Stamina] = Mathf.Max(0f, Condition.CurrentConditions[ConditionType.Stamina]);
+                Condition.statModifiers[ConditionType.Stamina]?.Invoke();
+            }
+            else
+            {
+                ViewManager.Instance.SwitchView(ViewModeType.View2D);
+            }
+        }
+        else
+        {
+            // 2D일 때만 리젠!
+            Condition.RegenerateStamina();
+        }
     }
 
     private void FixedUpdate()
@@ -59,16 +102,17 @@ public class PlayerController:BaseController<PlayerCondition>
         Vector3 boxCenter = center + Vector3.down * (extents.y + groundRayOffset * 0.5f);
 
         // 박스 크기 (살짝 얇게 Y축 조정)
-        Vector3 boxHalfExtents = new Vector3(extents.x, groundRayOffset * 0.5f, extents.z);
+        Vector3 boxHalfExtents = new Vector3(extents.x - 0.1f, groundRayOffset * 0.5f, extents.z - 0.1f);
+    
+        int combinedLayerMask = groundLayer | platformLayer;
+        
+        IsGrounded = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, combinedLayerMask).Length > 0;
 
-        bool isGrounded = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, groundLayer).Length > 0;
-
-        IsGrounded = isGrounded;
     }
 
-    protected override void OnDrawGizmos()
+    protected override void OnDrawGizmosSelected()
     {
-        base.OnDrawGizmos();
+        base.OnDrawGizmosSelected();
 
         if(Application.isPlaying)
         {
@@ -88,33 +132,54 @@ public class PlayerController:BaseController<PlayerCondition>
     /// </summary>
     public void Attack()
     {
-        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Enemy"));
+        Collider[] hitColliders = _CombatController.GetTargetColliders(LayerMask.GetMask("Enemy"));
+
+        float attackPower = Condition.GetTotalCurrentValue(ConditionType.AttackPower);
+        float criticalChance = Condition.GetTotalCurrentValue(ConditionType.CriticalChance);
+        float criticalDamage = Condition.GetTotalCurrentValue(ConditionType.CriticalDamage);
 
         foreach(var hitCollider in hitColliders)
         {
             if(hitCollider.TryGetComponent(out IDamagable enemy))
             {
-                enemy.GetDamaged(Condition.GetValue(ConditionType.AttackPower));
+                // 크리티컬 판정
+                bool isCritical = UnityEngine.Random.value < criticalChance;
+
+                float finalDamage = attackPower;
+                if(isCritical)
+                {
+                    finalDamage *= criticalDamage;
+                }
+
+                if(enemy.GetDamaged(finalDamage))
+                {
+                    DamageType damageType = isCritical ? DamageType.Critical : DamageType.Normal;
+                    PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                    damageUI.InitDamageText(enemy.GetDamagedPos(), damageType, finalDamage);
+                }
             }
         }
     }
 
 
-    public override bool GetDamaged(float damage)
+    public override void Hit()
     {
-        bool isAlive = base.GetDamaged(damage);
-        if(isAlive)
-        {
-            // 플레이어가 데미지를 받았을 때 상태 머신에 데미지 상태로 전환 요청
-            StateMachine.ChangeState(StateMachine.KnockbackState);
-        }
-        return isAlive;
-
+        StateMachine.ChangeState(StateMachine.KnockbackState);
     }
 
-    protected override void Die()
+    public override void Die()
     {
         StateMachine.ChangeState(StateMachine.DeadState);
+
+        UIManager.Instance.ShowConfirmPopup(
+            "사망했습니다! 로비로 돌아갑니다.",
+            onConfirm: () => {
+                Destroy(GameManager.Instance.Player);
+                SceneManager.LoadScene("LobbyScene");
+            },
+            onCancel: null, 
+            confirmText: "확인" 
+            );
     }
 
     /// <summary>
@@ -124,125 +189,86 @@ public class PlayerController:BaseController<PlayerCondition>
     {
         base.Initialize();
 
-        Condition = new PlayerCondition(InitConditionData());
         AnimationData = new PlayerAnimationData();
         StateMachine = new PlayerStateMachine(this);
 
         UIManager.Instance.ShowUI<HUD>();
+
+        //임식 bgm 시작
+        //SoundManager.Instance.PlayBGM(this.transform, SoundAddressbleName.Boss_Battle);
+
         // 인벤토리 초기화 
         Inventory inventory = GetComponent<Inventory>();
-        if(inventory != null)
+        if(inventory != null&& !inventory.Initialized)
         {
             inventory.InitializeInventory(); // TableManager 준비될 때까지 대기 후 초기화
         }
-        //UIManager.Instance.ShowUI<HUD>();
         isInitialized = true;
     }
-
-    protected override void OnEnable()
+    private void UpdateSafePosition()
     {
-        base.OnEnable();
-        GameManager.Instance.onDestinyChange += HandleDestinyChange;
-    }
+        Vector3 boxCenter = col.bounds.center + Vector3.down * (col.bounds.extents.y + 0.05f);
+        Vector3 boxHalfExtents = new Vector3(col.bounds.extents.x * 0.9f, 0.05f, col.bounds.extents.z * 0.9f);
+        int combinedLayer = groundLayer | platformLayer;
 
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        if(GameManager.HasInstance)
-            GameManager.Instance.onDestinyChange -= HandleDestinyChange;
-    }
+        Collider[] hits = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity, combinedLayer);
 
-    /// <summary>
-    /// 운명 변경이벤트 발생시 실행할 함수
-    /// </summary>
-    /// <param name="data"></param>
-    void HandleDestinyChange(DestinyData data, int i)
-    {
-        DestinyEffectData positiveEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.PositiveEffectDataID);
-        DestinyEffectData negativeEffect = TableManager.Instance.GetTable<DestinyEffectDataTable>().GetDataByID(data.NegativeEffectDataID);
-
-
-        if(positiveEffect.effectedTarget == EffectedTarget.Player)
+        if (hits.Length > 0)
         {
-            Condition.ChangeModifierValue(positiveEffect.conditionType, ModifierType.BuffEnhance, positiveEffect.value * i); // 추후에 운명에 의한 증가량 추가
+            LastSafePosition = transform.position;
+
+            // 플랫폼일 경우 현재 플랫폼 정보 저장
+            foreach (var hit in hits)
+            {
+                if (((1 << hit.gameObject.layer) & platformLayer) != 0)
+                {
+                    currentPlatform = hit.transform;
+                    platformLocalPosition = currentPlatform.InverseTransformPoint(transform.position);
+                    return;
+                }
+            }
+            // 플랫폼이 아니라면
+            currentPlatform = null;
         }
-
-        if(negativeEffect.effectedTarget == EffectedTarget.Player)
-        {
-            Condition.ChangeModifierValue(negativeEffect.conditionType, ModifierType.BuffEnhance, negativeEffect.value * i); // 추후에 운명에 의한 증가량 추가
-        }
-
     }
-
-    public override void OnViewChange(ViewModeType viewMode)
+    private void OnTriggerEnter(Collider other)
     {
-        base.OnViewChange(viewMode);
-        if(viewMode == ViewModeType.View2D)
+        if (other.CompareTag("FallZone"))
         {
-            col.excludeLayers = LayerMask.GetMask("Enemy"); // 2D 모드에서는 Enemy 레이어 제외
-        }
-        else if(viewMode == ViewModeType.View3D)
-        {
-            col.excludeLayers = 0;
+            ApplyFallDamage(20);
+            if (!Condition.IsDied)
+            {
+                RespawnToSafePosition(); // 죽지 않았으면 리스폰
+            }
         }
     }
 
-    public void SetCurrentRoom(Room room)
+    private void ApplyFallDamage(float damageAmount)
     {
-        if(CurrentRoom == room) return;
+        if (Condition.IsDied) return; // 이미 죽었으면 낙사 데미지 무시
 
-        CurrentRoom = room;
-
-        // 미니맵 갱신 요청
-        UpdateRoomActivation();
-        RequestMinimapUpdate();
-    }
-
-    private void RequestMinimapUpdate()
-    {
-        if(StageManager.Instance == null || StageManager.Instance.currentStage == null)
+        bool isDead = Condition.GetDamaged(damageAmount);
+        if (isDead)
         {
-            Debug.LogWarning("[Player] StageManager 또는 currentStage가 존재하지 않아 미니맵 업데이트를 건너뜁니다.");
+            Die(); // PlayerController에 있는 Die() 함수 호출
+        }
+    }
+    
+    public void RespawnToSafePosition()
+    {
+        if (Condition.CurrentConditions[ConditionType.HP] <= 0)
+        {
+            Debug.Log("사망 상태 -> 리스폰 불가");
             return;
         }
 
-        var stage = StageManager.Instance.currentStage;
-        var minimapData = MinimapBuilder.BuildFromStage(stage, stage.connections);
+        Debug.Log("낙사! 안전지점으로 리스폰");
 
-        foreach(var data in minimapData)
-            data.isCurrent = data.roomID == CurrentRoom.Id;
+        Vector3 respawnPosition = (currentPlatform != null)
+            ? currentPlatform.TransformPoint(platformLocalPosition)
+            : LastSafePosition;
 
-        // UIManager가 UI를 모두 로드한 뒤에만 접근
-        UIManager.Instance.OnAllUIReady(() =>
-        {
-            if(UIManager.Instance.TryGetUI<MinimapUI>(out var minimap))
-            {
-                minimap.GenerateMinimap(minimapData);
-            }
-            else
-            {
-                Debug.LogWarning("[Player] MinimapUI가 UIManager에 아직 등록되지 않았습니다.");
-            }
-        });
-    }
-
-    private void UpdateRoomActivation()
-    {
-        var allRooms = StageManager.Instance.generator.AllRooms;
-        HashSet<Room> activeSet = new();
-
-        activeSet.Add(CurrentRoom);
-        foreach(var conn in CurrentRoom.Connections)
-        {
-            Room neighbor = StageManager.Instance.currentStage.roomMap.TryGetValue(conn.ToRoomID, out var r1) ? r1 :
-                            StageManager.Instance.currentStage.roomMap.TryGetValue(conn.FromRoomID, out var r2) ? r2 : null;
-
-            if(neighbor != null)
-                activeSet.Add(neighbor);
-        }
-
-
-     //   foreach(var room in allRooms)
-        //    room.SetRoomActive(activeSet.Contains(room));
+        _Rigidbody.velocity = Vector3.zero;
+        transform.position = respawnPosition + Vector3.up * 1f; // 살짝 띄워서 리스폰
     }
 }

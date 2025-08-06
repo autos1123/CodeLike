@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 public class ConfirmPopup : UIBase
 {
-    public override string UIName => "ConfirmPopup";
+    public override string UIName => this.GetType().Name;
 
     public TextMeshProUGUI messageText;
     public Button confirmButton;
@@ -52,6 +50,7 @@ public class ConfirmPopup : UIBase
 
         confirmButton.onClick.AddListener(() =>
         {
+            SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ButtonClick");
             Close(); // base.Close()
             onConfirm?.Invoke();
         });
@@ -61,6 +60,7 @@ public class ConfirmPopup : UIBase
             cancelButton.gameObject.SetActive(true);
             cancelButton.onClick.AddListener(() =>
             {
+                SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ButtonClick");
                 Close();
                 onCancel.Invoke();
             });
@@ -91,5 +91,10 @@ public class ConfirmPopup : UIBase
         {
             layoutGroup.enabled = false;
         }
+    }
+    public override void Open()
+    {
+        base.Open();
+        SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"PopUpOpen");
     }
 }

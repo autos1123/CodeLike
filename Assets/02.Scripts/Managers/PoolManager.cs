@@ -4,7 +4,16 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 
-public class PoolManager : MonoSingleton<PoolManager>
+public enum PoolLoad
+{
+    None,
+    Pool,
+    Pool1,
+    Pool2,
+}
+
+[DefaultExecutionOrder(-100)]
+public class PoolManager:MonoSingleton<PoolManager>
 {
     [SerializeField] List<GameObject> poolObjectList = new List<GameObject>();
     private List<IPoolObject> pools = new List<IPoolObject>();
@@ -15,16 +24,16 @@ public class PoolManager : MonoSingleton<PoolManager>
     public bool IsInitialized { get; private set; } = false;
     protected override void Awake()
     {
-        LoadPoolsAsync();
+        LoadPoolsAsync(PoolLoad.Pool);
     }
 
     /// <summary>
     /// 라벨을 통해 어드레서블에 올린 데이터 탐색하여 저장
     /// </summary>
-    private void LoadPoolsAsync()
+    private void LoadPoolsAsync(PoolLoad poolLoad)
     {
         Addressables.LoadAssetsAsync<GameObject>(
-            AddressbleLabels.PoolLabel,
+            poolLoad.ToString(),
             (GameObject) =>
             {
                 poolObjectList.Add(GameObject);
@@ -46,14 +55,13 @@ public class PoolManager : MonoSingleton<PoolManager>
             {
                 CreatePool(pool, pool.PoolSize);
             }
+            IsInitialized = true;
         };
-
-        IsInitialized = true;
     }
 
     private void CreatePool(IPoolObject iPoolObject, int poolsize)
     {
-        if (poolObjects.ContainsKey(iPoolObject.PoolType))
+        if(poolObjects.ContainsKey(iPoolObject.PoolType))
         {
             Debug.LogWarning($"등록된 풀이 있습니다. : {iPoolObject.PoolType}");
             return;
@@ -67,7 +75,7 @@ public class PoolManager : MonoSingleton<PoolManager>
         GameObject prentObj = new GameObject(poolName) { transform = { parent = transform } };
         parentCache[poolType] = prentObj.transform;
 
-        for (int i = 0; i < poolsize; i++)
+        for(int i = 0; i < poolsize; i++)
         {
 
             GameObject obj = Instantiate(poolObject, prentObj.transform);
@@ -83,13 +91,13 @@ public class PoolManager : MonoSingleton<PoolManager>
     public GameObject GetObject(PoolType poolType)
     {
         string poolName = poolType.ToString();
-        if (!poolObjects.TryGetValue(poolType, out Queue<GameObject> pool))
+        if(!poolObjects.TryGetValue(poolType, out Queue<GameObject> pool))
         {
             Debug.LogWarning($"등록된 풀이 없습니다. : {poolType}");
             return null;
         }
 
-        if (pool.Count > 0)
+        if(pool.Count > 0)
         {
             GameObject go = pool.Dequeue();
             go.SetActive(true);
@@ -108,30 +116,41 @@ public class PoolManager : MonoSingleton<PoolManager>
 
     public void ReturnObject(IPoolObject obj, float returnTime = 0, UnityAction action = null)
     {
-        StartCoroutine(DelayedReturnObject(obj, returnTime, action));
+            StartCoroutine(DelayedReturnObject(obj, returnTime, action));
     }
 
     IEnumerator DelayedReturnObject(IPoolObject obj, float returnTime, UnityAction action)
     {
-        if (!poolObjects.ContainsKey(obj.PoolType))
+        if(!poolObjects.ContainsKey(obj.PoolType))
         {
             Debug.LogWarning($"등록된 풀이 없습니다. : {obj.PoolType}");
             CreatePool(obj, 1);
         }
 
         yield return new WaitForSeconds(returnTime);
+        ReturnObject(obj, action);
+    }
+
+    public void ReturnObject(IPoolObject obj, UnityAction action)
+    {
+        if(obj == null || obj.GameObject == null) return;
+
         obj.GameObject.SetActive(false);
         obj.GameObject.transform.position = Vector3.zero;
         action?.Invoke();
         poolObjects[obj.PoolType].Enqueue(obj.GameObject);
         obj.GameObject.transform.SetParent(parentCache[obj.PoolType]);
     }
-
     public void RemovePool(PoolType poolType)
     {
         Destroy(parentCache[poolType].gameObject);
         parentCache.Remove(poolType);
         poolObjects.Remove(poolType);
         registeredObj.Remove(poolType);
+    }
+    
+    public bool HasPool(PoolType type)
+    {
+        return poolObjects.ContainsKey(type);
     }
 }

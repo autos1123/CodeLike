@@ -8,7 +8,8 @@ public enum EnemyStateType
     Chase,
     Attack,
     Die,
-    Hit
+    Hit,
+    Dash
 }
 
 public class EnemyStateMachine : UnitStateMachine
@@ -28,7 +29,7 @@ public class EnemyStateMachine : UnitStateMachine
     {
         this.Enemy = enemy;
         Player = GameManager.Instance.Player;
-        MovementSpeed = Enemy.Condition.GetValue(ConditionType.MoveSpeed);
+        MovementSpeed = Enemy.Condition.GetTotalCurrentValue(ConditionType.MoveSpeed);
     }
 
     public void AddState(EnemyStateType stateType, EnemyBaseState state)

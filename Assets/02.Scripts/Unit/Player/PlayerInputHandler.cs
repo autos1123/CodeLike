@@ -27,6 +27,20 @@ public class PlayerInputHandler:MonoBehaviour
     /// </summary>
     public bool AttackPressed { get; private set; }
 
+    ///<summary>
+    /// Dash 버튼이 눌렸는지 여부 (한 프레임만 true)
+    /// </summary>
+    public bool DashPressed { get; private set; }
+
+    /// <summary>
+    /// 스킬 X 버튼이 눌렸는지 여부 (한 프레임만 true)
+    /// </summary>
+    public bool SkillXPressed { get; private set; }
+    /// <summary>
+    /// 스킬 C 버튼이 눌렸는지 여부 (한 프레임만 true)
+    /// </summary>
+    public bool SkillCPressed { get; private set; } 
+
     /// <summary>
     /// 상호작용 키 입력 시 호출되는 이벤트
     /// </summary>
@@ -40,16 +54,27 @@ public class PlayerInputHandler:MonoBehaviour
         inputActions.Player.Move.performed += OnMove;
         inputActions.Player.Move.canceled += OnMove;
 
-        // 점프 및 공격: 한 프레임만 true로 처리
+        // 점프, 공격, 대쉬: 한 프레임만 true로 처리
         inputActions.Player.Jump.performed += ctx => JumpPressed = true;
         inputActions.Player.Attack.performed += ctx => AttackPressed = true;
-        inputActions.Player.ChangeView.performed += ctx => ViewManager.Instance.ToggleView();
+        inputActions.Player.Dash.performed += ctx => DashPressed = true;
+        inputActions.Player.UseXItem.performed += ctx => SkillXPressed = true;
+        inputActions.Player.UseCitem.performed += ctx => SkillCPressed = true;
+
+        inputActions.Player.ChangeView.performed += ctx =>
+        {   //v키 입력이 허용되지않았다면
+            if (TutorialManager.HasInstance && !TutorialManager.Instance.IsViewChangeInputAllowed())
+            {
+                Debug.Log("V키 입력 막혀있음 (튜토리얼)");
+                return;
+            }
+            ViewManager.Instance.ToggleView();
+        };
         inputActions.Player.OpenOptions.performed += OnOpenOption;
         inputActions.Player.OpenInventory.performed += ctx => UIManager.Instance.ToggleUI<InventoryUI>();
         inputActions.Player.OpenStatus.performed += ctx => UIManager.Instance.ToggleUI<StatusBoard>();
         inputActions.Player.OpenMinmap.performed += ctx => UIManager.Instance.ToggleUI<MinimapUI>();
-        inputActions.Player.UseXItem.performed += ctx => GameManager.Instance.Player.transform.GetComponent<PlayerActiveItemController>().UseItem(Skillinput.X);
-        inputActions.Player.UseCitem.performed += ctx => GameManager.Instance.Player.transform.GetComponent<PlayerActiveItemController>().UseItem(Skillinput.C);
+        
         // 상호작용 입력 (F키)
         inputActions.Player.Interaction.performed += OnInteraction;
     }
@@ -86,6 +111,9 @@ public class PlayerInputHandler:MonoBehaviour
     {
         JumpPressed = false;
         AttackPressed = false;
+        DashPressed = false;
+        SkillXPressed = false;
+        SkillCPressed = false;
     }
 
     public bool IsPressingDown()

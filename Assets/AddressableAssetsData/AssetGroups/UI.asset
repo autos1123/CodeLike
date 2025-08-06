@@ -17,12 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 7b0208339ac7c344a838cd7398534604
   m_SerializeEntries:
-  - m_GUID: 9b31fbe034564294ca786abd968d0974
-    m_Address: DestinyBoard
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InGameUI
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 502ce5f10d34a30409395a2255681c05
     m_Address: EnhanceBoard
     m_ReadOnly: 0
@@ -34,13 +28,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - InGameUI
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0e5186ca63bf7c64e990f6d05d92f301
-    m_Address: Assets/03.Prefaps/UI/Option.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InGameUI
-    - TitleUI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f6e5b415a198f61419cbcfbc3489f174
     m_Address: Assets/03.Prefaps/UI/Shop.prefab
@@ -77,6 +64,26 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 932dc52e2c9cc8047be77be31c087bcc
+    m_Address: Assets/03.Prefaps/UI/ContextualUIHint2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - TutorialUI
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c91f56d082a259743a3397910fc2f934
+    m_Address: Assets/03.Prefaps/UI/HealUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ec417ef67baf9946a26d8a89be3875a
+    m_Address: Assets/03.Prefaps/UI/MapTitleUI.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
+    - TutorialUI
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}

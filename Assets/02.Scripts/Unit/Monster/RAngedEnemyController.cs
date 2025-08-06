@@ -1,9 +1,11 @@
 using UnityEngine;
 
-public class RangedEnemyController : EnemyController
+public class RangedEnemyController:EnemyController
 {
     [Header("원거리 적 설정")]
     [SerializeField] private Transform projectileOffset;
+    [Header("투사체 방식")]
+    [SerializeField] private int projectileType;
 
 
     /// <summary>
@@ -12,27 +14,41 @@ public class RangedEnemyController : EnemyController
     /// </summary>
     public override void AttackAction()
     {
-        Collider[] hitColliders = GetTargetColliders(LayerMask.GetMask("Player"));
-
-        foreach(var hitCollider in hitColliders)
-        {
-            // 투사체 생성 및 발사
-            FireProjectile(hitCollider.transform.position);
-        }
+        FireProjectile(GameManager.Instance.Player.transform);
     }
 
-    private void FireProjectile(Vector3 targetPos)
+    private void FireProjectile(Transform target)
     {
-        // 타겟까지의 방향 계산
-        Vector3 direction = (targetPos + Vector3.up * 1.5f)- projectileOffset.position;
-        direction.y = 0; // 수평 방향으로만 발사
+        Collider p_collider = target.GetComponent<Collider>();
+        Vector3 direction = p_collider.bounds.center - projectileOffset.position;
         direction.Normalize();
 
-        // 투사체를 풀에서 가져오기
-        GameObject projectile = PoolManager.Instance.GetObject(PoolType.projectile);
+        PoolType poolToUse = projectileType switch
+        {
+            0 => PoolType.projectile,
+            1 => PoolType.ArrowProjectile,
+            _ => PoolType.projectile
+        };
+
+        GameObject projectile = PoolManager.Instance.GetObject(poolToUse);
         projectile.transform.position = projectileOffset.position;
-        projectile.GetComponent<Projectile>()?.InitProjectile(direction, 10f, Condition.GetValue(ConditionType.AttackPower));
+
+        // === 크리티컬 처리 ===
+        float attackPower = Condition.GetTotalCurrentValue(ConditionType.AttackPower);
+        float criticalChance = Condition.GetTotalCurrentValue(ConditionType.CriticalChance);
+        float criticalDamage = Condition.GetTotalCurrentValue(ConditionType.CriticalDamage);
+
+        bool isCritical = UnityEngine.Random.value < criticalChance;
+
+        projectile.GetComponent<Projectile>()?.InitProjectile(
+            dir: direction,
+            speed: 10f,
+            damage: attackPower,
+            isCritical: isCritical,
+            criticalDamageMultiplier: criticalDamage
+        );
     }
+
 
     protected override void SetEnemyState()
     {
@@ -44,5 +60,10 @@ public class RangedEnemyController : EnemyController
         StateMachine.AddState(EnemyStateType.Hit, new EnemyHitState(StateMachine));
 
         StateMachine.StartStateMachine(EnemyStateType.Idle);
+    }
+
+    public override AnimationClip GetPatternAnimationClip()
+    {
+        throw new System.NotImplementedException();
     }
 }
