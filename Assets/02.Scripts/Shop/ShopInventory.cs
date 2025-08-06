@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
+
 /// <summary>
 /// 상점 전용 인벤토리. 초기 아이템 셋업 및 IInventory 인터
 /// </summary>
@@ -84,7 +86,11 @@ public class ShopInventory : MonoBehaviour,IInventory
 
             Rarity selectedRarity = GetRandomRarityByChance();
             var candidates = allItems.Where(i => i.Rarity == selectedRarity).ToList();
-            if (candidates.Count == 0) continue;
+            if(candidates.Count == 0)
+            {
+                candidates = allItems.Where(i => i.Rarity == Rarity.Uncommon).ToList();
+                if (candidates.Count == 0) continue;
+            }
 
             var selectedItem = candidates[UnityEngine.Random.Range(0, candidates.Count)];
 
@@ -92,6 +98,12 @@ public class ShopInventory : MonoBehaviour,IInventory
             {
                 inventorySlots.Add(CreateSlot(selectedItem));
             }
+        }
+
+        if(inventorySlots.Count == 0 && allItems.Count == 0)
+        {
+            var fallbackItem = allItems[UnityEngine.Random.Range(0, allItems.Count)];
+            inventorySlots.Add(CreateSlot(fallbackItem));
         }
     }
     private int GetRandomItemCount()
