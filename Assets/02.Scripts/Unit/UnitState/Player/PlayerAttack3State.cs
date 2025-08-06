@@ -15,7 +15,6 @@ public class PlayerAttack3State:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
-        Debug.LogWarning("3333");
         float attackSpeed = Player.Condition.GetTotalCurrentValue(ConditionType.AttackSpeed);
         Player.Animator.SetFloat("AttackSpeed", attackSpeed);
 

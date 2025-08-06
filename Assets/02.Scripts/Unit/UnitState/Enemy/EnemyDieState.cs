@@ -11,7 +11,6 @@ public class EnemyDieState:EnemyBaseState
 
     public override void StateEnter()
     {
-        Debug.LogWarning($"[EnemyDieState] {stateMachine.Enemy.name} has died.");
 
         moveSpeedModifier = 0; // Idle 상태에서는 이동 속도를 0으로 설정
         stateMachine.Enemy.NavMeshAgent.enabled = false; // NavMeshAgent를 비활성화하여 이동을 중지시킴
@@ -19,7 +18,6 @@ public class EnemyDieState:EnemyBaseState
         stateMachine.Enemy.GetComponent<Collider>().enabled = false; // Collider를 비활성화하여 충돌을 방지
         SoundManager.Instance.PlaySFX(stateMachine.Enemy.transform.position, "Death");
         stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.DieParameterHash);
-        Debug.LogWarning("DieAnimation Triggered");
         base.StateEnter();
 
         // 아이템 드랍, 골드 획득 로직

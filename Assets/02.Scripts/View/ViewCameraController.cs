@@ -46,7 +46,6 @@ public class ViewCameraController:MonoBehaviour
         cam = GetComponent<Camera>();
         if(cam == null)
         {
-            Debug.LogError("[ViewCameraController] Camera 컴포넌트를 찾을 수 없습니다.");
             return;
         }
     }

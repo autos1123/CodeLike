@@ -8,13 +8,11 @@ public class EnemyHitState : EnemyBaseState
 
     public override void StateEnter()
     {
-        Debug.LogWarning($"[EnemyHitState] {stateMachine.Enemy.name} has been hit.");
         moveSpeedModifier = 0f; // 공격 상태에서는 이동하지 않음
         stateMachine.Enemy.NavMeshAgent.isStopped = true; // NavMeshAgent를 정지시킴
         stateMachine.Enemy._Rigidbody.velocity = Vector3.zero; // Rigidbody를 정지시킴
         StartAnimation(stateMachine.Enemy.AnimationData.IdleParameterHash);
         stateMachine.Enemy._Animator.SetTrigger(stateMachine.Enemy.AnimationData.HitParameterHash);
-        Debug.LogWarning("HitAnimationStarted");
         base.StateEnter();
     }
 

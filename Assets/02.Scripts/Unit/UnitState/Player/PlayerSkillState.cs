@@ -25,7 +25,6 @@ public class PlayerSkillState:PlayerBaseState
             return;
         }
         Player.OnSkillInput += UseSkill;
-        Debug.LogWarning("PlayerSkillState Entered with skill: " + usingSkill);
         StartAnimation(Player.AnimationData.SkillParameterHash);
 
     }

@@ -24,7 +24,6 @@ public class PlayerDashState:PlayerBaseState
         // 먼저 쿨타임 체크
         if(!CanDash())
         {
-            Debug.LogWarning("대쉬가 아직 쿨타임 중입니다!");
             stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
@@ -32,7 +31,6 @@ public class PlayerDashState:PlayerBaseState
         // 스테미너 체크
         if(!Player.Condition.UseStamina(15f))
         {
-            Debug.LogWarning("스테미너가 부족함!");
             stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
