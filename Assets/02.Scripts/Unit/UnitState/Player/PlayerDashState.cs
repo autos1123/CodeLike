@@ -5,20 +5,41 @@ public class PlayerDashState:PlayerBaseState
     private float dashDuration = 0.25f; // 대쉬 지속 시간
     private float elapsedTime = 0f;
 
+    // 쿨타임 관련 추가 변수
+    private float dashCooldown = 2f; // 쿨타임 시간
+    private float lastDashTime = -Mathf.Infinity;
+
     public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
 
+    // 대쉬 가능 여부 체크 메소드
+    private bool CanDash()
+    {
+        return Time.time >= lastDashTime + dashCooldown;
+    }
+
     public override void StateEnter()
     {
-        base.StateEnter();
+        // 먼저 쿨타임 체크
+        if(!CanDash())
+        {
+            Debug.LogWarning("대쉬가 아직 쿨타임 중입니다!");
+            return;
+        }
 
+        // 스테미너 체크
         if(!Player.Condition.UseStamina(15f))
         {
             Debug.LogWarning("스테미너가 부족함!");
             stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
+
+        // 위의 조건이 모두 만족했을 때만 Base의 진입 로직 호출
+        base.StateEnter();
+
+        lastDashTime = Time.time; // 대쉬 사용 시간 기록
 
         StartAnimation(Player.AnimationData.DashParameterHash);
         SoundManager.Instance.PlaySFX(Player.transform.position, SoundAddressbleName.DashSound);
@@ -49,10 +70,10 @@ public class PlayerDashState:PlayerBaseState
 
         if(Player.DashVFXPrefab != null)
         {
-            Vector3 spawnPosition = Player.transform.position 
+            Vector3 spawnPosition = Player.transform.position
                 + Vector3.up
                 - dir * 0.8f;
-            Quaternion rotation = Quaternion.LookRotation(dir); 
+            Quaternion rotation = Quaternion.LookRotation(dir);
 
             GameObject vfx = GameObject.Instantiate(
                 Player.DashVFXPrefab,
@@ -68,6 +89,7 @@ public class PlayerDashState:PlayerBaseState
     {
         base.StateUpdate();
         elapsedTime += Time.deltaTime;
+
         if(elapsedTime >= dashDuration)
         {
             if(Player.InputHandler.MoveInput != Vector2.zero)
