@@ -59,12 +59,14 @@ public class PlayerController:BaseController
         
         UpdateGrounded();
         UpdateSafePosition();
-        
+        if(InputHandler.AttackPressed)
+        {
+            ComboBuffered = true;
+            Debug.LogWarning($"[PlayerController] ComboBuffered = true!");
+        }
+
         StateMachine.Update();
         InputHandler.ResetOneTimeInputs();
-
-        if(InputHandler.AttackPressed)
-            ComboBuffered = true;
 
         if(ViewManager.Instance.CurrentViewMode == ViewModeType.View3D)
         {

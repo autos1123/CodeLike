@@ -25,6 +25,7 @@ public class PlayerDashState:PlayerBaseState
         if(!CanDash())
         {
             Debug.LogWarning("대쉬가 아직 쿨타임 중입니다!");
+            stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
 
