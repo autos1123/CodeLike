@@ -29,12 +29,16 @@ public class PlayerAttack1State:PlayerBaseState
 
         comboTimer = 0f;
         StartAnimation(Player.AnimationData.Attack1ParameterHash);
+
+        Debug.Log($"[Attack1/StateEnter] attackSpeed:{attackSpeed}, baseClip:{baseClipLength}, actualClip:{actualClipLength}, window:{comboWindowStart:F2}~{comboWindowEnd:F2}");
     }
 
     public override void StateUpdate()
     {
         base.StateUpdate();
         comboTimer += Time.deltaTime;
+
+        Debug.Log($"[Attack1/Update] comboTimer:{comboTimer:F2}, comboWindow:{comboWindowStart:F2}~{comboWindowEnd:F2}, Buffered:{Player.ComboBuffered}");
 
         Vector2 move = Player.InputHandler.MoveInput;
         if(move.magnitude > 0.1f) PlayerLookAt();
@@ -44,14 +48,17 @@ public class PlayerAttack1State:PlayerBaseState
         {
             if(Player.ComboBuffered)
             {
-                Player.ComboBuffered = false; // 입력 소비!
+                Debug.Log("[Attack1] ComboBuffered=true! Attack2로 전환!");
+                Player.ComboBuffered = false;
                 stateMachine.ChangeState(stateMachine.Attack2State);
                 return;
             }
         }
 
+
         if(comboTimer > actualClipLength)
         {
+            Debug.Log("[Attack1] IdleState로 전환");
             stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
