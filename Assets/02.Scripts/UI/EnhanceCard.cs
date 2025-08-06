@@ -26,7 +26,7 @@ public class EnhanceCard:MonoBehaviour
     [SerializeField] private float _secondClickAnimDuration = 0.15f; // 두 번째 클릭 애니메이션 총 시간
     [SerializeField] private float _secondClickShrinkFactor = 0.9f; // 두 번째 클릭 시 얼마나 작아질지
 
-    bool isFirstOpen = true;
+    bool _isOpened = false;
     float value;
 
     void Start()
@@ -40,10 +40,10 @@ public class EnhanceCard:MonoBehaviour
         _enhanceBoard = enhanceBoard; // 참조 저장
         _enhanceData = enhanceData;
         
-        if(isFirstOpen)
+        if(!_isOpened)
         {
             value = Random.Range(enhanceData.minvalue, enhanceData.maxvalue);
-            isFirstOpen = false;
+            _isOpened = true;
         }
         
 
