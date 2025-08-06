@@ -26,6 +26,8 @@ public class EnhanceCard:MonoBehaviour
     [SerializeField] private float _secondClickAnimDuration = 0.15f; // 두 번째 클릭 애니메이션 총 시간
     [SerializeField] private float _secondClickShrinkFactor = 0.9f; // 두 번째 클릭 시 얼마나 작아질지
 
+    bool isFirstOpen = true;
+    float value;
 
     void Start()
     {
@@ -38,7 +40,12 @@ public class EnhanceCard:MonoBehaviour
         _enhanceBoard = enhanceBoard; // 참조 저장
         _enhanceData = enhanceData;
         
-        float value = Random.Range(enhanceData.minvalue, enhanceData.maxvalue);
+        if(isFirstOpen)
+        {
+            value = Random.Range(enhanceData.minvalue, enhanceData.maxvalue);
+            isFirstOpen = false;
+        }
+        
 
         // 1. 플레이어 기본 ConditionData에서 "초기값" 가져오기
         var playerConditionData = TableManager.Instance.GetTable<ConditionDataTable>().dataList
@@ -54,7 +61,7 @@ public class EnhanceCard:MonoBehaviour
         float currentStat = 0f;
         if(GameManager.Instance.Player.TryGetComponent<PlayerController>(out var playerController))
         {
-            currentStat = playerController.Condition.GetTotalCurrentValue(_enhanceData.ConditionType);
+            currentStat = playerController.Condition.GetOriginConditionValue(_enhanceData.ConditionType);
         }
 
         // 3. 증가량/설명
