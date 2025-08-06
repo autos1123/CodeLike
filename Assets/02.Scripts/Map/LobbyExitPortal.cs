@@ -9,7 +9,7 @@ public class LobbyExitPortal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             UIManager.Instance.ShowConfirmPopup(
-                "모험을 떠나자",
+                "마을을 떠나시겠습니까?",
                 onConfirm: () => {                    
                     LoadingSceneController.LoadScene("MainScene");                    
                 },

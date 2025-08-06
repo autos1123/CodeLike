@@ -45,7 +45,11 @@ public class TakeActiveItem:UIBase
         takeButton.interactable = false;
         closeButton.onClick.AddListener(OnCloseButtonClicked); // 나가기 버튼 이벤트 등록
     }
-
+    public override void Close()
+    {
+        base.Close();
+        GameManager.Instance.setState(GameState.Play);
+    }
     public void Open(ActiveItemSlot[] _activeItemSlots, ActiveItemData _acquiredItem, Inventory _playerInventory = null,ActiveItemBox _sourceActiveItemBox = null)
     {
         base.Open();
@@ -75,6 +79,7 @@ public class TakeActiveItem:UIBase
         acquiredItemDescription.text = GetDescriptionByID(acquiredItem?.ID ?? -1);
         
         GameEvents.TriggerActiveItemUIOpened();
+        GameManager.Instance.setState(GameState.Stop);
     }
 
     private void OnSlotSelected(int slotIndex)

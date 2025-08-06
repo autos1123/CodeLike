@@ -62,7 +62,8 @@ public class TakePassiveItem : UIBase
             rarityText.color = GetColorByRarity(currentItem.Rarity);
             takeButton.gameObject.SetActive(true);
         }
-
+        
+        GameManager.Instance.setState(GameState.Stop);
         // itemIcon.sprite = Resources.Load<Sprite>(item.IconPath);
         // nameText.text = item.name;
         // descriptionText.text = item.description;
@@ -79,6 +80,7 @@ public class TakePassiveItem : UIBase
         nameText.text = "";
         descriptionText.text = "";
         rarityText.text = "";
+        GameManager.Instance.setState(GameState.Play);
     }
 
     private IEnumerator StartSlotRolling()
