@@ -68,6 +68,19 @@ public class Inventory:MonoBehaviour, IInventory
             activeItemSlots.Add(new ActiveItemSlot());
     }
 
+    public void ApplyItemStat()
+    {
+        if(!GameManager.Instance.Player.TryGetComponent<PlayerController>(out var controller))
+        {
+            return;
+        }
+
+        foreach(var item in equipSlots)
+        {
+            if(!item.IsEmpty) controller.Condition.ChangeModifierValue(item.InventoryItem.ConditionType, ModifierType.ItemEnhance, item.InventoryItem.value);
+
+        }
+    }
     /// <summary>
     /// 인벤토리에 아이템을 추가할 수 있는지 확인
     /// 빈 슬롯이 있는지 여부만 확인

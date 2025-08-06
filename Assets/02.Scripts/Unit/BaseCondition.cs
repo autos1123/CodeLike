@@ -144,6 +144,7 @@ public class BaseCondition
             if(modifierDict.TryGetValue(m_type, out float currentValue))
             {
                 modifierDict[m_type] += value;
+                if(modifierDict[m_type] < 0) modifierDict[m_type] = 0; // 음수인 경우 제거
             }
             else
             {
