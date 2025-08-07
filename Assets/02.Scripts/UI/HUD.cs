@@ -10,7 +10,9 @@ public class HUD:UIBase
 
     [SerializeField] TextMeshProUGUI goldText;
     [SerializeField] Image HPFill;
+    [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] Image StaminaFill;
+    [SerializeField] private TextMeshProUGUI staminaText;
     [SerializeField] Image ItemSlot1;
     [SerializeField] Image ItemSlot1CoolTime;
     [SerializeField] Image ItemSlot2;
@@ -92,6 +94,9 @@ public class HUD:UIBase
         float maxHP = player.Condition.GetTotalMaxValue(ConditionType.HP); // 강화 포함한 최대 HP
 
         HPFill.fillAmount = Mathf.Min(1f, currentHP / maxHP);
+        
+        if (hpText != null)
+            hpText.text = $"{Mathf.FloorToInt(currentHP)} / {Mathf.FloorToInt(maxHP)}";
     }
 
     void ChangeStamina()
@@ -102,6 +107,9 @@ public class HUD:UIBase
         float maxStamina = player.Condition.GetTotalMaxValue(ConditionType.Stamina); // 강화 포함한 최대 HP
 
         StaminaFill.fillAmount = Mathf.Min(1f,(currentStamina / maxStamina));
+        
+        if (staminaText != null)
+            staminaText.text = $"{Mathf.FloorToInt(currentStamina)} / {Mathf.FloorToInt(maxStamina)}";
         
     }
 
