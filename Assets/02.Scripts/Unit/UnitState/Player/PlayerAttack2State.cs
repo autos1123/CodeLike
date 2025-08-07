@@ -8,15 +8,15 @@ public class PlayerAttack2State:PlayerBaseState
     private float comboWindowEnd = 0f;
     private float actualClipLength = 0f;
     private bool canCancel = false;
-
-    private const float ComboWindowAbsoluteMin = 0.22f;
-    private const float ComboWindowAbsoluteMax = 0.5f;
+    private const float MinComboWindow = 0.18f;
 
     public PlayerAttack2State(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void StateEnter()
     {
         base.StateEnter();
+
+        Player.ComboBuffered = false;
         float attackSpeed = Player.Condition.GetTotalCurrentValue(ConditionType.AttackSpeed);
         Player.Animator.SetFloat("AttackSpeed", attackSpeed);
 
@@ -24,14 +24,13 @@ public class PlayerAttack2State:PlayerBaseState
             .FirstOrDefault(x => x.name == "Slash Attack").length;
         actualClipLength = baseClipLength / attackSpeed;
 
-        float dynamicWindowLength = Mathf.Max(actualClipLength * 0.5f, ComboWindowAbsoluteMin);
-        dynamicWindowLength = Mathf.Min(dynamicWindowLength, ComboWindowAbsoluteMax);
-
         comboWindowStart = actualClipLength * 0.18f;
-        comboWindowEnd = Mathf.Min(comboWindowStart + dynamicWindowLength, actualClipLength);
+        comboWindowEnd = Mathf.Max(comboWindowStart + MinComboWindow, actualClipLength * 0.75f);
+        comboWindowEnd = Mathf.Min(comboWindowEnd, actualClipLength);
 
         comboTimer = 0f;
         canCancel = false;
+
         StartAnimation(Player.AnimationData.Attack2ParameterHash);
     }
 
@@ -40,18 +39,13 @@ public class PlayerAttack2State:PlayerBaseState
         base.StateUpdate();
         comboTimer += Time.deltaTime;
 
+        var input = Player.InputHandler;
+
         if(comboTimer >= comboWindowStart && comboTimer <= comboWindowEnd)
         {
             canCancel = true;
-            if(Player.InputHandler.AttackPressed && !Player.ComboBuffered)
+            if(input.AttackPressed)
                 Player.ComboBuffered = true;
-
-            if(Player.InputHandler.DashPressed)
-            {
-                stateMachine.ChangeState(stateMachine.DashState);
-                return;
-            }
-
             if(Player.ComboBuffered)
             {
                 Player.ComboBuffered = false;
@@ -64,20 +58,48 @@ public class PlayerAttack2State:PlayerBaseState
             canCancel = false;
         }
 
+        if(canCancel)
+        {
+            if(input.DashPressed)
+            {
+                stateMachine.ChangeState(stateMachine.DashState);
+                return;
+            }
+            if(input.JumpPressed && Player.IsGrounded)
+            {
+                stateMachine.ChangeState(stateMachine.JumpState);
+                return;
+            }
+            if(input.SkillXPressed)
+            {
+                stateMachine.SkillState.SetSkill(Skillinput.X);
+                stateMachine.ChangeState(stateMachine.SkillState);
+                return;
+            }
+            if(input.SkillCPressed)
+            {
+                stateMachine.SkillState.SetSkill(Skillinput.C);
+                stateMachine.ChangeState(stateMachine.SkillState);
+                return;
+            }
+        }
+
         if(comboTimer > actualClipLength)
             stateMachine.ChangeState(stateMachine.IdleState);
     }
 
-    public override void StateExit()
-    {
-        base.StateExit();
-        StopAnimation(Player.AnimationData.Attack2ParameterHash);
-    }
-
+    public override void StateExit() { base.StateExit(); }
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
         if(canCancel)
+        {
             Move(Player.InputHandler.MoveInput);
+        }
+        else
+        {
+            // 캔슬 불가 구간(이동은 되지만 속도 제한, 혹은 아주 느리게만 이동)
+            Move(Player.InputHandler.MoveInput * 0.4f); // or 0.2f, 취향에 따라
+        }
     }
 }
