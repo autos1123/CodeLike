@@ -25,9 +25,12 @@ public class ShopUI : UIBase
     public TextMeshProUGUI sellTotalText;
     public TextMeshProUGUI buyTotalText;
     public TextMeshProUGUI calculateText;
+    public TextMeshProUGUI curGoldText;
+    public TextMeshProUGUI resultGoldText;
+    public Image InfoImage;
+    
     public Button dealBtn;
     public Button exitBtn;
-    public TextMeshProUGUI curGoldText;
     
     private List<ShopSlotUI> sellSlots = new();
     private List<ShopSlotUI> buySlots = new ();
@@ -196,10 +199,32 @@ public class ShopUI : UIBase
         buyTotalText.text = $"구매 금액: {buyTotal} G";
         
         float calculatePrice = sellTotal - buyTotal;
-        string sign = calculatePrice >= 0 ? "+" : "-";
-        string calculatePriceText = $"{sign}{Mathf.Abs(calculatePrice)}";
+        float currentGold = playerCondition?.GetTotalCurrentValue(ConditionType.Gold) ?? 0;
+        float resultGold = currentGold + calculatePrice;
         
-        calculateText.text = $"총 계산된 금액: {calculatePriceText} G";
+        string sign = calculatePrice >= 0 ? "+" : "-";
+        string calcPriceText = $"{sign}{Mathf.Abs(calculatePrice)}";
+        
+        string currentColor = "#FFD700"; 
+        string resultColor = resultGold >= 0 ? "#00FF00" : "#FF4444"; // 초록 또는 빨강
+        
+        calculateText.text = 
+            $"<color={currentColor}>{currentGold}G</color>{calcPriceText}G=<color={resultColor}>{resultGold}G</color>";
+        
+        // 거래 후 금액 텍스트 색상 동기화
+        if (resultGoldText != null)
+        {
+            Color parsedColor;
+            if (ColorUtility.TryParseHtmlString(resultColor, out parsedColor))
+            {
+                resultGoldText.color = parsedColor;
+            }
+        }
+        
+        // 선택되었을 때만 텍스트 보이도록
+        bool anySelected = sellTotal > 0 || buyTotal > 0;
+        calculateText.gameObject.SetActive(anySelected);
+        InfoImage.gameObject.SetActive(anySelected);
     }
     
     /// <summary>
