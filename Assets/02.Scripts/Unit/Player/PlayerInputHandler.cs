@@ -46,6 +46,7 @@ public class PlayerInputHandler:MonoBehaviour
     /// </summary>
     public Action<InputAction.CallbackContext> OnInteraction;
 
+
     private void Awake()
     {
         inputActions = new PlayerInputActions();
