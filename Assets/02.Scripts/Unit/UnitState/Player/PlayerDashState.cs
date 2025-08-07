@@ -6,7 +6,7 @@ public class PlayerDashState:PlayerBaseState
     private float elapsedTime = 0f;
 
     // 쿨타임 관련 추가 변수
-    private float dashCooldown = 2f; // 쿨타임 시간
+    private float dashCooldown = 1f; // 쿨타임 시간
     private float lastDashTime = -Mathf.Infinity;
 
     public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine)
