@@ -44,6 +44,8 @@ public class HealUI : UIBase
         UpdateUI(_healingPercentage); // 현재 NPC의 퍼센트로 UI 업데이트
         AddListeners(); 
         base.Open(); 
+        UIManager.Instance.uiStack.Push(this);
+        
     }
 
     public override void Close()

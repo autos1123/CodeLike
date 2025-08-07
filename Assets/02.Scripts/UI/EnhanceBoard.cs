@@ -38,7 +38,7 @@ public class EnhanceBoard : UIBase
     public void Open(GameObject callingNpcObject)
     {
         base.Open();
-        
+        UIManager.Instance.uiStack.Push(this);
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"EnhanceOpen");
         
         _callingNpcObject = callingNpcObject;

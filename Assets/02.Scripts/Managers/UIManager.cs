@@ -21,7 +21,7 @@ public class UIManager:MonoSingleton<UIManager>
     [SerializeField] private List<UILabel> uiLabel;
     private ContextualUIHint _currentContextualHintUI;
 
-    private Stack<UIBase> uiStack;
+    public Stack<UIBase> uiStack;
 
     public bool IsInitialized { get; private set; } = false;
     protected override bool Persistent => false;

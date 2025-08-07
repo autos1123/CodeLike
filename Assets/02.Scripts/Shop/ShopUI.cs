@@ -51,6 +51,8 @@ public class ShopUI : UIBase
         
         shopInventoryRaw = inventory;
         base.Open();
+        UIManager.Instance.uiStack.Push(this);
+        
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ShopOpen");
         
         dealBtn.onClick.RemoveAllListeners();
@@ -69,6 +71,11 @@ public class ShopUI : UIBase
         base.Close();
         selectedSellItems.Clear();
         UnsubscribeGoldUpdate();
+        
+        // 툴팁숨김
+        var tooltip = UIManager.Instance.GetUI<TooltipUI>();
+        if (tooltip != null)
+            tooltip.Hide();
     }
     private IEnumerator WaitForInitAndBind()
     {

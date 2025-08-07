@@ -55,6 +55,8 @@ public class TakeActiveItem:UIBase
         if (gameObject.activeSelf) return;
         
         base.Open();
+        UIManager.Instance.uiStack.Push(this);
+        
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxOpen");
 
         activeItemSlots = _activeItemSlots;
