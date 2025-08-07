@@ -98,7 +98,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -464,7 +464,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf88ff26316072448b233cec392d9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipManager: {fileID: 0}
   dragManager: {fileID: 0}
 --- !u!114 &-5008153682401394537
 MonoBehaviour:
@@ -478,4 +477,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc5218fd7a080a4e8fc9cb4063f465a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipManager: {fileID: 0}

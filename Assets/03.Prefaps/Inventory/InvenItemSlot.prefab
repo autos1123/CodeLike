@@ -98,7 +98,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -350,8 +350,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotType: 0
   iconImage: {fileID: 1121435429557582902}
-  EquipText: {fileID: 0}
   backgroundImage: {fileID: 1360598857459424354}
+  equipFrame: {fileID: 0}
 --- !u!225 &8874512869602496056
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -388,7 +388,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf88ff26316072448b233cec392d9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipManager: {fileID: 0}
   dragManager: {fileID: 0}
 --- !u!114 &1236391591053063456
 MonoBehaviour:
@@ -402,4 +401,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc5218fd7a080a4e8fc9cb4063f465a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipManager: {fileID: 0}
