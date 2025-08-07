@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Step01_MoveInput
   m_EditorClassIdentifier: 
   QuestDescription: "\uC774\uB3D9\uD0A4 \uC785\uB825\uBC1B\uAE30"
-  inputHintMessage: "\uBC29\uD5A5\uD0A4\uB97C \uC774\uC6A9\uD574 \uC774\uB3D9\uD558\uC138\uC694"
+  inputHintMessage: "WASD\uB97C \uC774\uC6A9\uD574 \uC774\uB3D9\uD558\uC138\uC694"
+  inputType: 0

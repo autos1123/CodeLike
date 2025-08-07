@@ -13,6 +13,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     private TutorialStep currentStep;
     
     [SerializeField] private StaminaTipUIController staminaTipUI;
+    [SerializeField] private GameObject skillTipUI;
     
     private bool _isViewChangeInputAllowed = false; // 기본적으로 V키 입력은 막음
     public bool IsViewChangeInputAllowed()
@@ -71,6 +72,21 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         else
         {
             staminaTipUI.Hide();
+        }
+        
+        if (UIManager.Instance.TryGetUI<ContextualUIHint>(out var hintUI))
+        {
+            
+            if(currentStepIndex == 13)// 위로
+            {
+                hintUI.SetPositionY(hintUI.UpY);
+                skillTipUI.SetActive(true);
+            } 
+            else
+            {
+                hintUI.SetPositionY(hintUI.DefaultY); // 원위치
+                skillTipUI.SetActive(false);
+            }
         }
         
         if (currentStepIndex >= tutorialSteps.Count)
