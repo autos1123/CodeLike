@@ -56,6 +56,7 @@ MonoBehaviour:
   - {fileID: 1410673477549788523}
   - {fileID: 9101537901629303513}
   - {fileID: 6676012848718593769}
+  isEnhanceCompleted: 0
   exitButton: {fileID: 6523058733401472891}
 --- !u!1 &8052181529265610052
 GameObject:
@@ -243,7 +244,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB098\uAC00\uAE30"
+  m_text: "\uB098\uAC00\uAE30(ESC)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 089f4c3299a3e804f9350d7d4533e412, type: 2}
   m_sharedMaterial: {fileID: 2896861845850594031, guid: 089f4c3299a3e804f9350d7d4533e412, type: 2}

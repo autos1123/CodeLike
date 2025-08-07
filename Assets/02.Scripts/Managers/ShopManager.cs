@@ -58,7 +58,7 @@ public class ShopManager:MonoBehaviour
         if (sellItems.Count == 0 && buyItems.Count == 0)
         {
             result = "선택한 아이템이 없습니다!";
-            UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인");
+            UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인(Enter)");
             return false;
         }
         
@@ -110,7 +110,7 @@ public class ShopManager:MonoBehaviour
             {
                 result = $"인벤토리에 {requiredSlots}개의 아이템을 구매할 공간이 부족합니다. (현재 빈 슬롯: {availableEmptySlots}개)";
                 Debug.LogWarning(result);
-                UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인");
+                UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인(Enter)");
                 return false;
             }
         }
@@ -124,7 +124,7 @@ public class ShopManager:MonoBehaviour
         if(newGold < 0)
         {
             result = "골드 부족";
-            UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인");
+            UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인(Enter)");
 
             return false;
         }
@@ -140,7 +140,7 @@ public class ShopManager:MonoBehaviour
             playerInventory.AddToInventory(slot.InventoryItem);
 
         result = $"거래 완료! 현재 골드: {newGold}";
-        UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인");
+        UIManager.Instance.ShowConfirmPopup(result, onConfirm: () => { }, confirmText: "확인(Enter)");
         return true;
     }
     

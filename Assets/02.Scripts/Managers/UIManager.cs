@@ -195,8 +195,8 @@ public class UIManager:MonoSingleton<UIManager>
     public void ShowConfirmPopup(
         string message, 
         Action onConfirm, 
-        Action onCancel = null,string confirmText = "예", 
-        string cancelText = "아니오",bool playOpenSound = true
+        Action onCancel = null,string confirmText = "예(Enter)", 
+        string cancelText = "아니오(ESC)",bool playOpenSound = true
         )
     {
         if (_uiInstances.TryGetValue(nameof(ConfirmPopup), out var ui))

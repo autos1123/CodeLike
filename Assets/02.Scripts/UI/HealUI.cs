@@ -128,7 +128,7 @@ public class HealUI : UIBase
             $"체력을 {actualHealedAmount}만큼 회복했습니다",
             onConfirm: () => { },
             onCancel: null,
-            confirmText: "확인",
+            confirmText: "확인(Enter)",
             playOpenSound:false
         );
         

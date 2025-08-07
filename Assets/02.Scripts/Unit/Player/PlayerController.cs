@@ -180,7 +180,7 @@ public class PlayerController:BaseController
                 SceneManager.LoadScene("LobbyScene");
             },
             onCancel: null, 
-            confirmText: "확인" 
+            confirmText: "확인(Enter)" 
             );
     }
 
