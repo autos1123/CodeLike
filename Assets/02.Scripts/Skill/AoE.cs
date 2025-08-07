@@ -63,7 +63,12 @@ public class AoE:MonoBehaviour, IPoolObject
         );
         foreach(var col in hits)
         {
-            col.GetComponent<IDamagable>()?.GetDamaged(damage);
+            if(col.TryGetComponent<IDamagable>(out IDamagable target))
+            {
+                target.GetDamaged(damage);
+                PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+                damageUI.InitDamageText(target.GetDamagedPos(), DamageType.Normal, damage);
+            }
         }
     }
 
