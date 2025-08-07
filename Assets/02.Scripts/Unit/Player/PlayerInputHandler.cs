@@ -39,7 +39,10 @@ public class PlayerInputHandler:MonoBehaviour
     /// <summary>
     /// 스킬 C 버튼이 눌렸는지 여부 (한 프레임만 true)
     /// </summary>
-    public bool SkillEPressed { get; private set; } 
+    public bool SkillEPressed { get; private set; }
+
+    private float dashCooldown = 0.7f;
+    private float lastDashTime = -Mathf.Infinity;
 
     /// <summary>
     /// 상호작용 키 입력 시 호출되는 이벤트
@@ -58,7 +61,13 @@ public class PlayerInputHandler:MonoBehaviour
         // 점프, 공격, 대쉬: 한 프레임만 true로 처리
         inputActions.Player.Jump.performed += ctx => JumpPressed = true;
         inputActions.Player.Attack.performed += ctx => AttackPressed = true;
-        inputActions.Player.Dash.performed += ctx => DashPressed = true;
+        inputActions.Player.Dash.performed += ctx => {
+            if(Time.time >= lastDashTime + dashCooldown)
+            {
+                DashPressed = true;
+                lastDashTime = Time.time; // 대쉬 쿨타임 갱신
+            }
+        };
         inputActions.Player.UseQItem.performed += ctx => SkillQPressed = true;
         inputActions.Player.UseEitem.performed += ctx => SkillEPressed = true;
 

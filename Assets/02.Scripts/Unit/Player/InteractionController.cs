@@ -225,6 +225,8 @@ public class InteractionController:MonoBehaviour
     
     private void CloseNPCRelatedUIs()
     {
+        if(!UIManager.HasInstance) return;
+
         // 상점 닫기
         if (UIManager.Instance.TryGetUI<ShopUI>(out var shopUI) && shopUI.gameObject.activeSelf)
         {
