@@ -18,23 +18,29 @@ public class ParticleDamage:MonoBehaviour
         if(!other.TryGetComponent<IDamagable>(out var damagable))
             return;
 
+        float finalDamage = Damage;
+
         switch(skillType)
         {
             case SkillType.AoE:
                 // 1회만 강하게 (예: Damage)
-                damagable.GetDamaged(Damage);
+                finalDamage = Damage;
                 break;
 
             case SkillType.Zone:
                 // 지속딜: 프레임마다 들어감 (예: Damage * Time.deltaTime)
-                damagable.GetDamaged(Damage * Time.deltaTime);
+                finalDamage = Damage * Time.deltaTime;
                 break;
 
             case SkillType.Projectile:
                 // 단일 타겟, 1회
-                damagable.GetDamaged(Damage);
+                finalDamage = Damage;
                 break;
         }
+
+        damagable.GetDamaged(finalDamage);
+        PoolingDamageUI damageUI = PoolManager.Instance.GetObject(PoolType.DamageUI).GetComponent<PoolingDamageUI>();
+        damageUI.InitDamageText(damagable.GetDamagedPos(), DamageType.Normal, finalDamage);
     }
 }
 

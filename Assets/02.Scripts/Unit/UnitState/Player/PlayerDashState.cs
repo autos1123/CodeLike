@@ -40,7 +40,6 @@ public class PlayerDashState:PlayerBaseState
         dashDir = GetDashDirection();
         float dashPower = 15f;
         Player._Rigidbody.AddForce(dashDir * dashPower, ForceMode.VelocityChange);
-        Player.VisualTransform.forward = dashDir;
 
         if(Player.DashVFXPrefab != null)
         {
@@ -92,5 +91,10 @@ public class PlayerDashState:PlayerBaseState
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
+    }
+
+    protected override void PlayerLookAt()
+    {
+        Player.VisualTransform.forward = dashDir;
     }
 }

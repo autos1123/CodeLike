@@ -87,7 +87,7 @@ public class PlayerBaseState:IUnitState
         return dir;
     }
 
-    protected void PlayerLookAt()
+    protected virtual void PlayerLookAt()
     {
         // 3D 시점 회전
         if(viewMode == ViewModeType.View3D)
