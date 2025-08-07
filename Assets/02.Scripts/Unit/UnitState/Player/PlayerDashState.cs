@@ -7,7 +7,6 @@ public class PlayerDashState:PlayerBaseState
     private float elapsedTime = 0f;
     private Vector3 dashDir = Vector3.zero;
 
-<<<<<<< Updated upstream
     // 쿨타임 관련 추가 변수
     private float dashCooldown = 1f; // 쿨타임 시간
     private float lastDashTime = -Mathf.Infinity;

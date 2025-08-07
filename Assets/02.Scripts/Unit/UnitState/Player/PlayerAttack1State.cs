@@ -36,7 +36,6 @@ public class PlayerAttack1State:PlayerBaseState
         comboTimer = 0f;
         canCancel = false;
         StartAnimation(Player.AnimationData.Attack1ParameterHash);
-<<<<<<< Updated upstream
 
         
     }
@@ -48,8 +47,6 @@ public class PlayerAttack1State:PlayerBaseState
                
         Vector2 move = Player.InputHandler.MoveInput;
         if(move.magnitude > 0.1f) PlayerLookAt();
-=======
->>>>>>> Stashed changes
 
         if(comboTimer >= comboWindowStart && comboTimer <= comboWindowEnd)
         {
@@ -76,9 +73,9 @@ public class PlayerAttack1State:PlayerBaseState
         }
 
         if(comboTimer > actualClipLength)
-<<<<<<< Updated upstream
         {
             stateMachine.ChangeState(stateMachine.IdleState);
+        }
     }
 
     public override void StateExit()
