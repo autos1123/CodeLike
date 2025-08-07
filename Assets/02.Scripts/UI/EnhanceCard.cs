@@ -236,6 +236,11 @@ public class EnhanceCard:MonoBehaviour
             line1 = $"{statName}이 {_randomIncreaseValue * 100f:F0}% 증가합니다.";
             line2 = $"강화 후: {currentStat * 100f:F0}% → {(currentStat + _randomIncreaseValue) * 100f:F0}%";
         }
+        else if (_enhanceData.ConditionType == ConditionType.AttackSpeed)
+        {
+            line1 = "꽝!!!!!!!!!!";
+            line2 = "운이 없으시군요 후훗";
+        }
         else
         {
             line1 = $"{statName}이 {_randomIncreaseValue:F1} 증가합니다.";

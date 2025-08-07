@@ -62,16 +62,16 @@ MonoBehaviour:
     - {fileID: 21300000, guid: c25771c58d32fa346993493c2ae6ae84, type: 3}
     - {fileID: 21300000, guid: cdba99f4274886849b9478e103c454d7, type: 3}
   - ID: 7003
-    name: "\uACF5\uACA9\uC18D\uB3C4\uC99D\uAC00"
+    name: "\uAF5D"
     ConditionType: 4
-    minvalue: 0.5
-    maxvalue: 0.7
-    description: "\uACF5\uACA9\uC18D\uB3C4\uAC00 @\uC99D\uAC00\uD569\uB2C8\uB2E4."
+    minvalue: 0
+    maxvalue: 0
+    description: "\uAF5D!!!"
     flipFrontFrames:
-    - {fileID: 21300000, guid: c3c0867c87b68cf4db7a9d7cfb7f6d92, type: 3}
-    - {fileID: 21300000, guid: fc5e23258822bb245a883cebd72504a4, type: 3}
-    - {fileID: 21300000, guid: 8e8d8493f7625474a9d346a605a2dd22, type: 3}
-    - {fileID: 21300000, guid: d9c2133d1f548bf4b906ec28efa2a120, type: 3}
+    - {fileID: 21300000, guid: bee8ba6dd09f8bf43a3677c2b14b2f7c, type: 3}
+    - {fileID: 21300000, guid: 8ffacacbcc462b2478e7f3e04b452aee, type: 3}
+    - {fileID: 21300000, guid: a7db380f454d5b642a6280414fb1d449, type: 3}
+    - {fileID: 21300000, guid: 7e064cce5d2217247bc67b7e682990ac, type: 3}
     flipBackFrames:
     - {fileID: 21300000, guid: cf34367b249a4054da7b0d7ce4e22422, type: 3}
     - {fileID: 21300000, guid: 4e92bb0eec7da2d4aa3a22a69d175883, type: 3}
