@@ -42,7 +42,7 @@ public class PlayerBaseState:IUnitState
 
     public virtual void StateUpdate()
     {
-        // 자식 클래스에서 오버라이드
+        PlayerLookAt();
     }
 
     protected void StartAnimation(int animationHash)
@@ -89,36 +89,31 @@ public class PlayerBaseState:IUnitState
 
     protected void PlayerLookAt()
     {
-        Vector2 move = Player.InputHandler.MoveInput;
-
-        if(move.magnitude > 0.1f)
+        // 3D 시점 회전
+        if(viewMode == ViewModeType.View3D)
         {
-            // 3D 시점 회전
-            if(viewMode == ViewModeType.View3D)
+            Plane plane = new Plane(Vector3.up, Player.transform.position);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            float enter;
+            if(plane.Raycast(ray, out enter))
             {
-                Plane plane = new Plane(Vector3.up, Player.transform.position);
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                float enter;
-                if(plane.Raycast(ray, out enter))
-                {
-                    Vector3 mouseWorld = ray.GetPoint(enter);
-                    Vector3 dir = (mouseWorld - Player.transform.position);
-                    dir.y = 0;
-                    if(dir.sqrMagnitude > 0.01f)
-                        Player.VisualTransform.forward = dir.normalized;
-                }
-            }
-            // 2D 시점 회전
-            else if(viewMode == ViewModeType.View2D)
-            {
-                Vector3 mouseScreen = Input.mousePosition;
-                mouseScreen.z = Mathf.Abs(Camera.main.transform.position.z - Player.transform.position.z);
-                Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
+                Vector3 mouseWorld = ray.GetPoint(enter);
                 Vector3 dir = (mouseWorld - Player.transform.position);
                 dir.y = 0;
-                if(Mathf.Abs(dir.x) > 0.01f)
-                    Player.VisualTransform.forward = new Vector3(Mathf.Sign(dir.x), 0, 0);
+                if(dir.sqrMagnitude > 0.01f)
+                    Player.VisualTransform.forward = dir.normalized;
             }
+        }
+        // 2D 시점 회전
+        else if(viewMode == ViewModeType.View2D)
+        {
+            Vector3 mouseScreen = Input.mousePosition;
+            mouseScreen.z = Mathf.Abs(Camera.main.transform.position.z - Player.transform.position.z);
+            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
+            Vector3 dir = (mouseWorld - Player.transform.position);
+            dir.y = 0;
+            if(Mathf.Abs(dir.x) > 0.01f)
+                Player.VisualTransform.forward = new Vector3(Mathf.Sign(dir.x), 0, 0);
         }
     }
 }
