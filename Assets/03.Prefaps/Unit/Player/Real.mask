@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Real
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Rig
+    m_Weight: 1
+  - m_Path: RigPelvis
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigCape1
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigCape1/RigCape2
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigCape1/RigCape2/RigCape3
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigLArm1
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigLArm1/RigLArm2
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigLArm1/RigLArm2/RigLArmPalm
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigNeck
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigNeck/RigHead
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigNeck/RigHead/RigMouth
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigRArm1
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigRArm1/RigRArm2
+    m_Weight: 1
+  - m_Path: RigPelvis/RigSpine/RigRibcage/RigRArm1/RigRArm2/RigRArmPalm
+    m_Weight: 1
+  - m_Path: Soul Mage
+    m_Weight: 1
