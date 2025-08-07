@@ -1,14 +1,11 @@
-// PlayerDashState.cs
 using UnityEngine;
 
 public class PlayerDashState:PlayerBaseState
 {
-    private float dashDuration = 0.25f;
+    private float dashDuration = 0.22f;
     private float elapsedTime = 0f;
     private Vector3 dashDir = Vector3.zero;
-
-    // 쿨타임 관련 추가 변수
-    private float dashCooldown = 1f; // 쿨타임 시간
+    private float dashCooldown = 0.7f;
     private float lastDashTime = -Mathf.Infinity;
 
     public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine) { }
@@ -33,14 +30,13 @@ public class PlayerDashState:PlayerBaseState
         base.StateEnter();
 
         lastDashTime = Time.time;
-
         StartAnimation(Player.AnimationData.DashParameterHash);
         SoundManager.Instance.PlaySFX(Player.transform.position, SoundAddressbleName.DashSound);
+
         elapsedTime = 0f;
         Player._Rigidbody.useGravity = false;
         Player._Rigidbody.velocity = Vector3.zero;
 
-        // ***** 여기를 함수로 빼서 명확하게 처리 *****
         dashDir = GetDashDirection();
         float dashPower = 15f;
         Player._Rigidbody.AddForce(dashDir * dashPower, ForceMode.VelocityChange);
@@ -63,13 +59,11 @@ public class PlayerDashState:PlayerBaseState
                 return new Vector3(input.x, 0, 0).normalized;
             else
             {
-                // 3D: 카메라 기준 이동
                 var f = Camera.main.transform.forward; f.y = 0; f.Normalize();
                 var r = Camera.main.transform.right; r.y = 0; r.Normalize();
                 return (r * input.x + f * input.y).normalized;
             }
         }
-        // 입력이 없으면 현재 시점(캐릭터) 방향
         return Player.VisualTransform.forward;
     }
 
