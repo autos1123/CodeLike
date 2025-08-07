@@ -12,6 +12,8 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     private int currentStepIndex = -1;
     private TutorialStep currentStep;
     
+    [SerializeField] private StaminaTipUIController staminaTipUI;
+    
     private bool _isViewChangeInputAllowed = false; // 기본적으로 V키 입력은 막음
     public bool IsViewChangeInputAllowed()
     {
@@ -60,7 +62,17 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         }
 
         currentStepIndex++;
-
+        
+        // 스태미너 UI 표시 조건
+        if (currentStepIndex == 4 || currentStepIndex == 16)
+        {
+            staminaTipUI.ShowWithBounce();
+        }
+        else
+        {
+            staminaTipUI.Hide();
+        }
+        
         if (currentStepIndex >= tutorialSteps.Count)
         {
             EndTutorial();
@@ -91,5 +103,18 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
         PlayerPrefs.SetInt("TutorialCompleted", 1); // 튜토리얼 완료로 설정
         SceneManager.LoadScene(nextSceneName);
+    }
+
+    public void TutorialSkipBtn()
+    {
+        UIManager.Instance.ShowConfirmPopup(
+            "튜토리얼을 스킵하시겠습니까?",
+            onConfirm: () =>
+            {
+                PlayerPrefs.SetInt("TutorialCompleted", 1); // 튜토리얼 완료로 설정
+                SceneManager.LoadScene(nextSceneName);
+            },
+            onCancel: () =>
+            { });
     }
 }

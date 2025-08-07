@@ -129,11 +129,17 @@ public class PlayerInputHandler:MonoBehaviour
 
     private void OnOpenOption(InputAction.CallbackContext context)
     {
-        if(UIManager.Instance.GetUI<OptionBoard>().gameObject.activeSelf == false)
-            GameManager.Instance.setState(GameState.Stop);
+        
+        UIManager.Instance.CloseOption();
+        
+        if(UIManager.Instance.GetUI<OptionBoard>().gameObject.activeSelf == true)
+        {
+            GameManager.Instance.setState(GameState.Stop);            
+        }
         else
+        {
             GameManager.Instance.setState(GameState.Play);
-
-        UIManager.Instance.ToggleUI<OptionBoard>();
+            
+        }
     }
 }

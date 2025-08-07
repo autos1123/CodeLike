@@ -74,7 +74,7 @@ public class NPCController : MonoBehaviour, IInteractable
         {
             shopInventory.OnInitialized += () => shopUI.OpenWithInventory(shopInventory);
         }
-        else
+        else if(!shopUI.gameObject.activeSelf)
         {
             shopUI.OpenWithInventory(shopInventory);
         }
@@ -93,7 +93,7 @@ public class NPCController : MonoBehaviour, IInteractable
                 "이미 강화를 완료했습니다",
                 onConfirm: () => { },
                 onCancel: null,
-                confirmText: "확인"
+                confirmText: "확인(Enter)"
             );
         }
         else if(!enhanceBoard.gameObject.activeSelf)
@@ -116,7 +116,7 @@ public class NPCController : MonoBehaviour, IInteractable
                 "이미 치료를 완료했습니다",
                 onConfirm: () => { },
                 onCancel: null,
-                confirmText: "확인"
+                confirmText: "확인(Enter)"
             );
         }
         else if(!healUI.gameObject.activeSelf)

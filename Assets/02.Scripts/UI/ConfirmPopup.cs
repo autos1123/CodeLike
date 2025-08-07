@@ -17,7 +17,20 @@ public class ConfirmPopup : UIBase
     public Button cancelButton;
     public TextMeshProUGUI confirmButtonText;
     public TextMeshProUGUI cancelButtonText;
-
+    private void Update()
+    {
+        if (!gameObject.activeSelf) return;
+        
+        // 오직 최상단 ConfirmPopup일 때만 반응
+        if (UIManager.Instance.uiStack.Count == 0 || UIManager.Instance.uiStack.Peek() != this)
+            return;
+        
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            // 확인 버튼 클릭 처리
+            confirmButton.onClick.Invoke();
+        }
+    }
     /// <summary>
     /// 팝업 내용을 설정하고 버튼 콜백을 등록
     /// </summary>
@@ -26,8 +39,7 @@ public class ConfirmPopup : UIBase
     /// <param name="onCancel">취소 버튼 클릭 시 호출될 콜백 (null이면 버튼 숨김)</param>
     /// <param name="confirmText">확인 버튼에 표시할 텍스트 (기본값: "예")</param>
     /// <param name="cancelText">취소 버튼에 표시할 텍스트 (기본값: "아니오")</param>
-
-    public void Setup(string message, Action onConfirm, Action onCancel = null,string confirmText = "예", string cancelText = "아니오")
+    public void Setup(string message, Action onConfirm, Action onCancel = null,string confirmText = "예(Enter)", string cancelText = "아니오")
     {
         messageText.text = message;
 
@@ -95,6 +107,7 @@ public class ConfirmPopup : UIBase
     public override void Open()
     {
         base.Open();
+        UIManager.Instance.uiStack.Push(this);
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"PopUpOpen");
     }
 }

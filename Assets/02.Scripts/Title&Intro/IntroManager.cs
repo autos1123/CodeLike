@@ -14,6 +14,9 @@ public class IntroManager : MonoBehaviour
     public CanvasGroup uiFadeGroup;
     public CanvasGroup blackScreenGroup;
     public Animator blackScreenAnimator;
+    public PlayableDirector timelineDirector;
+    public GameObject skipTextUI;
+    
     
     [Header("Story")]
     public GameObject storyGroup;            // 전체 스토리 UI 그룹
@@ -32,6 +35,14 @@ public class IntroManager : MonoBehaviour
 
     private const string isTutorialCompletedKey = "TutorialCompleted";
 
+    void Start()
+    {
+        if (timelineDirector != null)
+        {
+            timelineDirector.played += OnCutsceneStarted;
+            timelineDirector.stopped += OnCutsceneEnded;
+        }
+    }
     void OnEnable()
     {
         if (videoPlayer != null)
@@ -47,7 +58,26 @@ public class IntroManager : MonoBehaviour
             videoPlayer.loopPointReached -= OnVideoEnd;
         }
     }
+    void OnDestroy()
+    {
+        if (timelineDirector != null)
+        {
+            timelineDirector.played -= OnCutsceneStarted;
+            timelineDirector.stopped -= OnCutsceneEnded;
+        }
+    }
+    
+    void OnCutsceneStarted(PlayableDirector director)
+    {
+        if (skipTextUI != null)
+            skipTextUI.SetActive(true);
+    }
 
+    void OnCutsceneEnded(PlayableDirector director)
+    {
+        if (skipTextUI != null)
+            skipTextUI.SetActive(false);
+    }
     public void PlayVideo()
     {
         videoPlayer.source = VideoSource.Url;
@@ -146,6 +176,12 @@ public class IntroManager : MonoBehaviour
                 }
             }
         }
+        
+        // 컷신 스킵 처리
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SkipCutscene();
+        }
     }
 
     void ShowCurrentStory()
@@ -214,5 +250,40 @@ public class IntroManager : MonoBehaviour
     public void SkipStory()
     {
         LoadingSceneController.LoadScene("TutorialScene");
+    }
+    
+    public void SkipCutscene()
+    {
+        // 1. 타임라인 멈춤
+        if (timelineDirector != null && timelineDirector.state == PlayState.Playing)
+        {
+            timelineDirector.Stop();
+        }
+
+        // 2. VideoPlayer 중지
+        if (videoPlayer != null && videoPlayer.isPlaying)
+        {
+            videoPlayer.Stop();
+            videoPlayer.gameObject.SetActive(false);
+        }
+
+        // 3. 메뉴 등장 처리 수동 호출
+        if (menuCanvas != null)
+        {
+            menuCanvas.SetActive(true);
+        }
+
+        if (uiFadeGroup != null)
+        {
+            uiFadeGroup.alpha = 1f;
+            uiFadeGroup.interactable = true;
+            uiFadeGroup.blocksRaycasts = true;
+        }
+
+        if (blackScreenAnimator != null)
+            blackScreenAnimator.enabled = false;
+
+        if (blackScreenGroup != null)
+            blackScreenGroup.alpha = 1f;
     }
 }

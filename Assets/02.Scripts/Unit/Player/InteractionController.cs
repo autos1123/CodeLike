@@ -14,7 +14,8 @@ public class InteractionController:MonoBehaviour
     [SerializeField] private float interactableRange = 2.0f;
     [SerializeField] private Transform interactTextTr;
     private TextMeshProUGUI interactText;
-
+    private GameObject lastInteractedNPC;
+    
     private Vector3 size_2D;
 
     //interactTextTr에 외부에서 접근할 수 있도록
@@ -78,6 +79,14 @@ public class InteractionController:MonoBehaviour
         if(interactableObj.CanInteract(gameObject))
         {
             interactableObj.Interact(gameObject);
+            
+            // 마지막으로 상호작용한 NPC 저장
+            var mono = interactableObj as MonoBehaviour;
+            if (mono != null)
+            {
+                lastInteractedNPC = mono.gameObject;
+            }
+            
             interactableObj = null;
             
             InteractableCheck(); 
@@ -144,7 +153,20 @@ public class InteractionController:MonoBehaviour
             {
                 SetInteractTextParentToPlayer();
             }
+            CloseNPCRelatedUIs();
+            lastInteractedNPC = null;
             return;
+        }
+        
+        //대상이 NPC가 아니고, 이전 NPC와 달라졌다면
+        if (interactableObj != null)
+        {
+            var newTarget = interactableObj as MonoBehaviour;
+            if (newTarget != null && lastInteractedNPC != null && newTarget.gameObject != lastInteractedNPC)
+            {
+                CloseNPCRelatedUIs();
+                lastInteractedNPC = null;
+            }
         }
 
         // 대상이 상호작용 가능하면 UI 표시
@@ -199,5 +221,26 @@ public class InteractionController:MonoBehaviour
     {
         var mb = interactable as MonoBehaviour;
         return mb != null && mb.gameObject != null && mb.gameObject.activeInHierarchy;
+    }
+    
+    private void CloseNPCRelatedUIs()
+    {
+        // 상점 닫기
+        if (UIManager.Instance.TryGetUI<ShopUI>(out var shopUI) && shopUI.gameObject.activeSelf)
+        {
+            shopUI.Close();
+        }
+
+        // 강화창 닫기
+        if (UIManager.Instance.TryGetUI<EnhanceBoard>(out var enhanceUI) && enhanceUI.gameObject.activeSelf)
+        {
+            enhanceUI.Close();
+        }
+
+        // 치료창 닫기
+        if (UIManager.Instance.TryGetUI<HealUI>(out var healUI) && healUI.gameObject.activeSelf)
+        {
+            healUI.Close();
+        }
     }
 }

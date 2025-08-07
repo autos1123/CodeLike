@@ -20,6 +20,7 @@ public class BookObstacle :ObstacleController, IDamagable
     [SerializeField] private ObstacleController[] obstacleControllers;
     private ObstacleController currentPattern;
     [SerializeField] private float patternInterval = 5f;
+    private float patternTimer = 0f;
 
     [Header("HPUI")]
     [SerializeField] private GameObject hpBar;
@@ -128,18 +129,26 @@ public class BookObstacle :ObstacleController, IDamagable
     {
         while(true)
         {
-            yield return new WaitForSeconds(patternInterval);
-            if(hintTextCoroutine != null)
+            if(isPlaying)
             {
-                StopCoroutine(hintTextCoroutine);
+                patternTimer += Time.deltaTime;
             }
-            hintTextCoroutine = StartCoroutine(HintFadeOut());
 
-            patternEffect.Clear();
-            patternEffect.Play();
-            yield return new WaitUntil(() => patternEffect.isPlaying == false);
-            PlayRandomPattern();
-            yield return new WaitUntil(() => currentPattern.isPatternEnd == true);
+            if(patternTimer >= patternInterval)
+            {
+                if(hintTextCoroutine != null)
+                {
+                    StopCoroutine(hintTextCoroutine);
+                }
+                hintTextCoroutine = StartCoroutine(HintFadeOut());
+
+                patternEffect.Clear();
+                patternEffect.Play();
+                yield return new WaitUntil(() => patternEffect.isPlaying == false);
+                PlayRandomPattern();
+                yield return new WaitUntil(() => currentPattern.isPatternEnd == true);
+                patternTimer = 0f;
+            }
         }
     }
 
@@ -148,7 +157,7 @@ public class BookObstacle :ObstacleController, IDamagable
         ContextualUIHint hint = UIManager.Instance.GetUI<ContextualUIHint>();
         if(hint != null)
         {
-            hint.SetHintText("창조주의 마도서가 스킬을 사용합니다. 주의하세요! \n 시점을 변환하여 회피하세요.");
+            hint.SetHintText("창조주의 마도서가 스킬을 사용합니다. 주의하세요! \nV키를 눌러 시점을 변환하여 회피하세요.");
         }
 
         UIManager.Instance.ShowUI<ContextualUIHint>();

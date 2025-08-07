@@ -121,7 +121,7 @@ public class Inventory:MonoBehaviour, IInventory
                 "인벤토리가 가득 차서 아이템을 추가할 수 없습니다.",
                 onConfirm: () => { },
                 onCancel: null,
-                confirmText: "확인"
+                confirmText: "확인(Enter)"
             );
             return false;
         }
@@ -139,7 +139,7 @@ public class Inventory:MonoBehaviour, IInventory
             "인벤토리가 가득 차서 아이템을 추가할 수 없습니다.",
             onConfirm: () => { },
             onCancel: null,
-            confirmText: "확인"
+            confirmText: "확인(Enter)"
         );
         return false;
     }

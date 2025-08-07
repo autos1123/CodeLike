@@ -44,6 +44,8 @@ public class HealUI : UIBase
         UpdateUI(_healingPercentage); // 현재 NPC의 퍼센트로 UI 업데이트
         AddListeners(); 
         base.Open(); 
+        UIManager.Instance.uiStack.Push(this);
+        
     }
 
     public override void Close()
@@ -126,7 +128,7 @@ public class HealUI : UIBase
             $"체력을 {actualHealedAmount}만큼 회복했습니다",
             onConfirm: () => { },
             onCancel: null,
-            confirmText: "확인",
+            confirmText: "확인(Enter)",
             playOpenSound:false
         );
         

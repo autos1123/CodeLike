@@ -61,7 +61,9 @@ public class PassiveItemBox : MonoBehaviour,IInteractable
             Debug.LogWarning("[PassiveItemBox] 아이템 ID 목록이 비어 있습니다.");
             return;
         }
-
+        
+        if (UIManager.Instance.IsUIOpen<TakePassiveItem>()) return;
+        
         if(fixedPicekedId == null)
         {
             fixedPicekedId = PickItemByRarity();
@@ -76,7 +78,9 @@ public class PassiveItemBox : MonoBehaviour,IInteractable
         }
 
         var takePassiveItemUI = UIManager.Instance.GetUI<TakePassiveItem>();
-        takePassiveItemUI.Open(item, inventory,this);
+        takePassiveItemUI.Open(item, inventory, this);
+        
+        
     }
     
     private int? PickItemByRarity()
