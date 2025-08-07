@@ -109,40 +109,49 @@ public class ViewCameraController:MonoBehaviour
         // 기존 Tween이 있다면 강제로 종료 (새로운 전환 시작 전)
         moveTween?.Kill();
 
-        Vector3 localTargetPos = (mode == ViewModeType.View2D) ? pos2D.localPosition : pos3D.localPosition;
-        
-        hudAnimator?.StartShift(previousMode, mode, transitionDuration);
+        try
+        {
+            Vector3 localTargetPos = (mode == ViewModeType.View2D) ? pos2D.localPosition : pos3D.localPosition;
 
-        float startYForLookAt = currentLookAtY;
-        float targetYForLookAt = (mode== ViewModeType.View2D)? pos2D.localPosition.y : lookPivotY;
-        currentLookAtY = targetYForLookAt; // 최종 LookAt Y 위치 업데이트
-        
-        moveTween = transform.DOLocalMove(localTargetPos, transitionDuration)
-            .SetEase(Ease.OutQuad)
-            .OnStart(() =>
-            {
-                GameManager.Instance.setState(GameState.ViewChange);
-            })
-            .OnUpdate(() =>
-            {
-                if(playerTransform != null)
+            hudAnimator?.StartShift(previousMode, mode, transitionDuration);
+
+            float startYForLookAt = currentLookAtY;
+            float targetYForLookAt = (mode == ViewModeType.View2D) ? pos2D.localPosition.y : lookPivotY;
+            currentLookAtY = targetYForLookAt; // 최종 LookAt Y 위치 업데이트
+
+            moveTween = transform.DOLocalMove(localTargetPos, transitionDuration)
+                .SetEase(Ease.OutQuad)
+                .OnStart(() =>
                 {
-                    float transitionPer = moveTween.ElapsedPercentage(); // DOTween에서 제공하는 진행도 사용
-                    float yPos = Mathf.Lerp(startYForLookAt, targetYForLookAt, transitionPer);
+                    GameManager.Instance.setState(GameState.ViewChange);
+                })
+                .OnUpdate(() =>
+                {
+                    if(playerTransform != null)
+                    {
+                        float transitionPer = moveTween.ElapsedPercentage(); // DOTween에서 제공하는 진행도 사용
+                        float yPos = Mathf.Lerp(startYForLookAt, targetYForLookAt, transitionPer);
 
-                    transform.LookAt(playerTransform.position + Vector3.up * yPos);
+                        transform.LookAt(playerTransform.position + Vector3.up * yPos);
 
-                    UpdateCameraProperties(mode, transitionPer);
-                }
-            })
-            .OnComplete(() =>
-            {
-                // 전환 완료 후 HUD 복귀
-                hudAnimator?.ReturnToOriginal(Mathf.Max(0, transitionDuration - hudReturnDelay));
-                GameManager.Instance.setState(GameState.Play);
-            });
+                        UpdateCameraProperties(mode, transitionPer);
+                    }
+                })
+                .OnComplete(() =>
+                {
+                    // 전환 완료 후 HUD 복귀
+                    hudAnimator?.ReturnToOriginal(Mathf.Max(0, transitionDuration - hudReturnDelay));
+                    GameManager.Instance.setState(GameState.Play);
+                });
 
-        previousMode = mode;
+            previousMode = mode;
+        }
+        catch(Exception e)
+        {
+            Debug.LogError($"[ViewCameraController] ApplyView 에러: {e.Message}");
+            ViewManager.Instance.OnViewChanged -= ApplyView;
+        }
+
     }
     /// <summary>
     /// 카메라의 orthographic 및 cullingMask 속성을 전환 진행도에 따라 업데이트합니다.
