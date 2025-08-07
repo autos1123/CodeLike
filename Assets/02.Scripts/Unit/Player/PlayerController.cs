@@ -59,11 +59,7 @@ public class PlayerController:BaseController
         
         UpdateGrounded();
         UpdateSafePosition();
-        if(InputHandler.AttackPressed)
-        {
-            ComboBuffered = true;
-            Debug.LogWarning($"[PlayerController] ComboBuffered = true!");
-        }
+       
 
         StateMachine.Update();
         InputHandler.ResetOneTimeInputs();
