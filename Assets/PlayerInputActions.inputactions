@@ -78,7 +78,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "UseXItem",
+                    "name": "UseQItem",
                     "type": "Button",
                     "id": "9e397504-7344-4727-a116-ff265b220c4e",
                     "expectedControlType": "Button",
@@ -87,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "UseCitem",
+                    "name": "UseEitem",
                     "type": "Button",
                     "id": "f0fd4099-b786-4542-85d1-f8d753c14c9f",
                     "expectedControlType": "Button",
@@ -129,7 +129,7 @@
                 {
                     "name": "up",
                     "id": "a6c0ff79-f0dc-4b2f-a812-fd57860996d1",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -140,7 +140,7 @@
                 {
                     "name": "down",
                     "id": "a3556e5b-feab-4b37-985f-7b4605f29444",
-                    "path": "<Keyboard>/downArrow",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -151,7 +151,7 @@
                 {
                     "name": "left",
                     "id": "e3b92205-9780-40de-8978-b4c32af7ba65",
-                    "path": "<Keyboard>/leftArrow",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -162,7 +162,7 @@
                 {
                     "name": "right",
                     "id": "bd731d51-7045-4f07-9dcb-8965cb21a433",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -184,7 +184,7 @@
                 {
                     "name": "",
                     "id": "4944ae52-acca-4caa-b8a2-23f3bca7797f",
-                    "path": "<Keyboard>/z",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -250,22 +250,22 @@
                 {
                     "name": "",
                     "id": "24e07765-49e0-4624-aa5b-21bc2b58e297",
-                    "path": "<Keyboard>/x",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "UseXItem",
+                    "action": "UseQItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "0ef493b5-9043-4ba3-98cc-7f47d064bec5",
-                    "path": "<Keyboard>/c",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "UseCitem",
+                    "action": "UseEitem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

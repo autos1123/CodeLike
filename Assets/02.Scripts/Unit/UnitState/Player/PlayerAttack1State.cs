@@ -7,7 +7,6 @@ public class PlayerAttack1State:PlayerBaseState
     private float comboWindowStart = 0f;
     private float comboWindowEnd = 0f;
     private float actualClipLength = 0f;
-    private bool canCancel = false;
 
     private const float MinComboWindow = 0.18f; // 할로우나이트 느낌에 가깝게
 
@@ -33,7 +32,6 @@ public class PlayerAttack1State:PlayerBaseState
         comboWindowEnd = Mathf.Min(comboWindowEnd, actualClipLength);
 
         comboTimer = 0f;
-        canCancel = false;
 
         StartAnimation(Player.AnimationData.Attack1ParameterHash);
     }
@@ -44,11 +42,9 @@ public class PlayerAttack1State:PlayerBaseState
         comboTimer += Time.deltaTime;
 
         var input = Player.InputHandler;
-
         // 콤보 윈도우 진입
         if(comboTimer >= comboWindowStart && comboTimer <= comboWindowEnd)
         {
-            canCancel = true;
 
             // Attack 입력시 콤보 버퍼 처리 (프레임 단위 입력)
             if(input.AttackPressed)
@@ -62,14 +58,7 @@ public class PlayerAttack1State:PlayerBaseState
                 return;
             }
         }
-        else
-        {
-            canCancel = false;
-        }
 
-        // 콤보 캔슬 구간(할로우나이트식): 대쉬, 점프, 스킬 즉시 전환
-        if(canCancel)
-        {
             if(input.DashPressed)
             {
                 stateMachine.ChangeState(stateMachine.DashState);
@@ -80,19 +69,18 @@ public class PlayerAttack1State:PlayerBaseState
                 stateMachine.ChangeState(stateMachine.JumpState);
                 return;
             }
-            if(input.SkillXPressed)
+            if(input.SkillQPressed)
             {
                 stateMachine.SkillState.SetSkill(Skillinput.X);
                 stateMachine.ChangeState(stateMachine.SkillState);
                 return;
             }
-            if(input.SkillCPressed)
+            if(input.SkillEPressed)
             {
                 stateMachine.SkillState.SetSkill(Skillinput.C);
                 stateMachine.ChangeState(stateMachine.SkillState);
                 return;
             }
-        }
 
         if(comboTimer > actualClipLength)
             stateMachine.ChangeState(stateMachine.IdleState);
@@ -106,14 +94,6 @@ public class PlayerAttack1State:PlayerBaseState
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
-        if(canCancel)
-        {
             Move(Player.InputHandler.MoveInput);
-        }
-        else
-        {
-            // 캔슬 불가 구간(이동은 되지만 속도 제한, 혹은 아주 느리게만 이동)
-            Move(Player.InputHandler.MoveInput * 0.4f); // or 0.2f, 취향에 따라
-        }
     }
 }

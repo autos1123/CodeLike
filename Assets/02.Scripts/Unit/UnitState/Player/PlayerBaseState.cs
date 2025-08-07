@@ -96,25 +96,28 @@ public class PlayerBaseState:IUnitState
             // 3D 시점 회전
             if(viewMode == ViewModeType.View3D)
             {
-                var camForward = Camera.main.transform.forward; camForward.y = 0; camForward.Normalize();
-                var camRight = Camera.main.transform.right; camRight.y = 0; camRight.Normalize();
-                Vector3 moveDir = camRight * move.x + camForward * move.y;
-
-                if(moveDir.sqrMagnitude > 0.01f)
+                Plane plane = new Plane(Vector3.up, Player.transform.position);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                float enter;
+                if(plane.Raycast(ray, out enter))
                 {
-                    Quaternion targetRot = Quaternion.LookRotation(moveDir);
-                    Player.VisualTransform.rotation = Quaternion.Lerp(Player.VisualTransform.rotation, targetRot, Time.deltaTime * Player.VisualRotateSpeed);
+                    Vector3 mouseWorld = ray.GetPoint(enter);
+                    Vector3 dir = (mouseWorld - Player.transform.position);
+                    dir.y = 0;
+                    if(dir.sqrMagnitude > 0.01f)
+                        Player.VisualTransform.forward = dir.normalized;
                 }
             }
             // 2D 시점 회전
             else if(viewMode == ViewModeType.View2D)
             {
-                if(Mathf.Abs(move.x) > 0.01f)
-                {
-                    // x축이 정면이어야 하므로, 오른쪽 이동(+)일 때 y=90, 왼쪽(-)일 때 y=-90
-                    float yAngle = move.x > 0 ? 90f : -90f;
-                    Player.VisualTransform.rotation = Quaternion.Euler(0, yAngle, 0);
-                }
+                Vector3 mouseScreen = Input.mousePosition;
+                mouseScreen.z = Mathf.Abs(Camera.main.transform.position.z - Player.transform.position.z);
+                Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
+                Vector3 dir = (mouseWorld - Player.transform.position);
+                dir.y = 0;
+                if(Mathf.Abs(dir.x) > 0.01f)
+                    Player.VisualTransform.forward = new Vector3(Mathf.Sign(dir.x), 0, 0);
             }
         }
     }

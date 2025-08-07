@@ -36,13 +36,13 @@ public class PlayerIdleState:PlayerBaseState
         {
             stateMachine.ChangeState(stateMachine.Attack1State);
         }
-        if(Player.InputHandler.SkillXPressed)
+        if(Player.InputHandler.SkillQPressed)
         {
             stateMachine.SkillState.SetSkill(Skillinput.X);
             stateMachine.ChangeState(stateMachine.SkillState);
             return;
         }
-        if(Player.InputHandler.SkillCPressed)
+        if(Player.InputHandler.SkillEPressed)
         {
             stateMachine.SkillState.SetSkill(Skillinput.C);
             stateMachine.ChangeState(stateMachine.SkillState);

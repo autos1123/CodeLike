@@ -7,7 +7,6 @@ public class PlayerAttack2State:PlayerBaseState
     private float comboWindowStart = 0f;
     private float comboWindowEnd = 0f;
     private float actualClipLength = 0f;
-    private bool canCancel = false;
     private const float MinComboWindow = 0.18f;
 
     public PlayerAttack2State(PlayerStateMachine stateMachine) : base(stateMachine) { }
@@ -29,7 +28,6 @@ public class PlayerAttack2State:PlayerBaseState
         comboWindowEnd = Mathf.Min(comboWindowEnd, actualClipLength);
 
         comboTimer = 0f;
-        canCancel = false;
 
         StartAnimation(Player.AnimationData.Attack2ParameterHash);
     }
@@ -43,7 +41,6 @@ public class PlayerAttack2State:PlayerBaseState
 
         if(comboTimer >= comboWindowStart && comboTimer <= comboWindowEnd)
         {
-            canCancel = true;
             if(input.AttackPressed)
                 Player.ComboBuffered = true;
             if(Player.ComboBuffered)
@@ -53,35 +50,27 @@ public class PlayerAttack2State:PlayerBaseState
                 return;
             }
         }
-        else
+        if(input.DashPressed)
         {
-            canCancel = false;
+            stateMachine.ChangeState(stateMachine.DashState);
+            return;
         }
-
-        if(canCancel)
+        if(input.JumpPressed && Player.IsGrounded)
         {
-            if(input.DashPressed)
-            {
-                stateMachine.ChangeState(stateMachine.DashState);
-                return;
-            }
-            if(input.JumpPressed && Player.IsGrounded)
-            {
-                stateMachine.ChangeState(stateMachine.JumpState);
-                return;
-            }
-            if(input.SkillXPressed)
-            {
-                stateMachine.SkillState.SetSkill(Skillinput.X);
-                stateMachine.ChangeState(stateMachine.SkillState);
-                return;
-            }
-            if(input.SkillCPressed)
-            {
-                stateMachine.SkillState.SetSkill(Skillinput.C);
-                stateMachine.ChangeState(stateMachine.SkillState);
-                return;
-            }
+            stateMachine.ChangeState(stateMachine.JumpState);
+            return;
+        }
+        if(input.SkillQPressed)
+        {
+            stateMachine.SkillState.SetSkill(Skillinput.X);
+            stateMachine.ChangeState(stateMachine.SkillState);
+            return;
+        }
+        if(input.SkillEPressed)
+        {
+            stateMachine.SkillState.SetSkill(Skillinput.C);
+            stateMachine.ChangeState(stateMachine.SkillState);
+            return;
         }
 
         if(comboTimer > actualClipLength)
@@ -92,14 +81,7 @@ public class PlayerAttack2State:PlayerBaseState
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
-        if(canCancel)
-        {
             Move(Player.InputHandler.MoveInput);
-        }
-        else
-        {
-            // 캔슬 불가 구간(이동은 되지만 속도 제한, 혹은 아주 느리게만 이동)
-            Move(Player.InputHandler.MoveInput * 0.4f); // or 0.2f, 취향에 따라
-        }
+        
     }
 }

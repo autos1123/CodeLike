@@ -35,11 +35,11 @@ public class PlayerInputHandler:MonoBehaviour
     /// <summary>
     /// 스킬 X 버튼이 눌렸는지 여부 (한 프레임만 true)
     /// </summary>
-    public bool SkillXPressed { get; private set; }
+    public bool SkillQPressed { get; private set; }
     /// <summary>
     /// 스킬 C 버튼이 눌렸는지 여부 (한 프레임만 true)
     /// </summary>
-    public bool SkillCPressed { get; private set; } 
+    public bool SkillEPressed { get; private set; } 
 
     /// <summary>
     /// 상호작용 키 입력 시 호출되는 이벤트
@@ -59,8 +59,8 @@ public class PlayerInputHandler:MonoBehaviour
         inputActions.Player.Jump.performed += ctx => JumpPressed = true;
         inputActions.Player.Attack.performed += ctx => AttackPressed = true;
         inputActions.Player.Dash.performed += ctx => DashPressed = true;
-        inputActions.Player.UseXItem.performed += ctx => SkillXPressed = true;
-        inputActions.Player.UseCitem.performed += ctx => SkillCPressed = true;
+        inputActions.Player.UseQItem.performed += ctx => SkillQPressed = true;
+        inputActions.Player.UseEitem.performed += ctx => SkillEPressed = true;
 
         inputActions.Player.ChangeView.performed += ctx =>
         {   //v키 입력이 허용되지않았다면
@@ -113,8 +113,8 @@ public class PlayerInputHandler:MonoBehaviour
         JumpPressed = false;
         AttackPressed = false;
         DashPressed = false;
-        SkillXPressed = false;
-        SkillCPressed = false;
+        SkillQPressed = false;
+        SkillEPressed = false;
     }
 
     public bool IsPressingDown()

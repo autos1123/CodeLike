@@ -40,6 +40,7 @@ public class PlayerDashState:PlayerBaseState
         dashDir = GetDashDirection();
         float dashPower = 15f;
         Player._Rigidbody.AddForce(dashDir * dashPower, ForceMode.VelocityChange);
+        Player.VisualTransform.forward = dashDir;
 
         if(Player.DashVFXPrefab != null)
         {

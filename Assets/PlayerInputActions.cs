@@ -100,7 +100,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""UseXItem"",
+                    ""name"": ""UseQItem"",
                     ""type"": ""Button"",
                     ""id"": ""9e397504-7344-4727-a116-ff265b220c4e"",
                     ""expectedControlType"": ""Button"",
@@ -109,7 +109,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""UseCitem"",
+                    ""name"": ""UseEitem"",
                     ""type"": ""Button"",
                     ""id"": ""f0fd4099-b786-4542-85d1-f8d753c14c9f"",
                     ""expectedControlType"": ""Button"",
@@ -151,7 +151,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""a6c0ff79-f0dc-4b2f-a812-fd57860996d1"",
-                    ""path"": ""<Keyboard>/upArrow"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -162,7 +162,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""a3556e5b-feab-4b37-985f-7b4605f29444"",
-                    ""path"": ""<Keyboard>/downArrow"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -173,7 +173,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""e3b92205-9780-40de-8978-b4c32af7ba65"",
-                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -184,7 +184,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""bd731d51-7045-4f07-9dcb-8965cb21a433"",
-                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -206,7 +206,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4944ae52-acca-4caa-b8a2-23f3bca7797f"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -272,22 +272,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""24e07765-49e0-4624-aa5b-21bc2b58e297"",
-                    ""path"": ""<Keyboard>/x"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""UseXItem"",
+                    ""action"": ""UseQItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""0ef493b5-9043-4ba3-98cc-7f47d064bec5"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""UseCitem"",
+                    ""action"": ""UseEitem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -328,8 +328,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_OpenOptions = m_Player.FindAction("OpenOptions", throwIfNotFound: true);
         m_Player_OpenInventory = m_Player.FindAction("OpenInventory", throwIfNotFound: true);
         m_Player_OpenStatus = m_Player.FindAction("OpenStatus", throwIfNotFound: true);
-        m_Player_UseXItem = m_Player.FindAction("UseXItem", throwIfNotFound: true);
-        m_Player_UseCitem = m_Player.FindAction("UseCitem", throwIfNotFound: true);
+        m_Player_UseQItem = m_Player.FindAction("UseQItem", throwIfNotFound: true);
+        m_Player_UseEitem = m_Player.FindAction("UseEitem", throwIfNotFound: true);
         m_Player_OpenMinmap = m_Player.FindAction("OpenMinmap", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
     }
@@ -401,8 +401,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_OpenOptions;
     private readonly InputAction m_Player_OpenInventory;
     private readonly InputAction m_Player_OpenStatus;
-    private readonly InputAction m_Player_UseXItem;
-    private readonly InputAction m_Player_UseCitem;
+    private readonly InputAction m_Player_UseQItem;
+    private readonly InputAction m_Player_UseEitem;
     private readonly InputAction m_Player_OpenMinmap;
     private readonly InputAction m_Player_Dash;
     public struct PlayerActions
@@ -417,8 +417,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @OpenOptions => m_Wrapper.m_Player_OpenOptions;
         public InputAction @OpenInventory => m_Wrapper.m_Player_OpenInventory;
         public InputAction @OpenStatus => m_Wrapper.m_Player_OpenStatus;
-        public InputAction @UseXItem => m_Wrapper.m_Player_UseXItem;
-        public InputAction @UseCitem => m_Wrapper.m_Player_UseCitem;
+        public InputAction @UseQItem => m_Wrapper.m_Player_UseQItem;
+        public InputAction @UseEitem => m_Wrapper.m_Player_UseEitem;
         public InputAction @OpenMinmap => m_Wrapper.m_Player_OpenMinmap;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -454,12 +454,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @OpenStatus.started += instance.OnOpenStatus;
             @OpenStatus.performed += instance.OnOpenStatus;
             @OpenStatus.canceled += instance.OnOpenStatus;
-            @UseXItem.started += instance.OnUseXItem;
-            @UseXItem.performed += instance.OnUseXItem;
-            @UseXItem.canceled += instance.OnUseXItem;
-            @UseCitem.started += instance.OnUseCitem;
-            @UseCitem.performed += instance.OnUseCitem;
-            @UseCitem.canceled += instance.OnUseCitem;
+            @UseQItem.started += instance.OnUseQItem;
+            @UseQItem.performed += instance.OnUseQItem;
+            @UseQItem.canceled += instance.OnUseQItem;
+            @UseEitem.started += instance.OnUseEitem;
+            @UseEitem.performed += instance.OnUseEitem;
+            @UseEitem.canceled += instance.OnUseEitem;
             @OpenMinmap.started += instance.OnOpenMinmap;
             @OpenMinmap.performed += instance.OnOpenMinmap;
             @OpenMinmap.canceled += instance.OnOpenMinmap;
@@ -494,12 +494,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @OpenStatus.started -= instance.OnOpenStatus;
             @OpenStatus.performed -= instance.OnOpenStatus;
             @OpenStatus.canceled -= instance.OnOpenStatus;
-            @UseXItem.started -= instance.OnUseXItem;
-            @UseXItem.performed -= instance.OnUseXItem;
-            @UseXItem.canceled -= instance.OnUseXItem;
-            @UseCitem.started -= instance.OnUseCitem;
-            @UseCitem.performed -= instance.OnUseCitem;
-            @UseCitem.canceled -= instance.OnUseCitem;
+            @UseQItem.started -= instance.OnUseQItem;
+            @UseQItem.performed -= instance.OnUseQItem;
+            @UseQItem.canceled -= instance.OnUseQItem;
+            @UseEitem.started -= instance.OnUseEitem;
+            @UseEitem.performed -= instance.OnUseEitem;
+            @UseEitem.canceled -= instance.OnUseEitem;
             @OpenMinmap.started -= instance.OnOpenMinmap;
             @OpenMinmap.performed -= instance.OnOpenMinmap;
             @OpenMinmap.canceled -= instance.OnOpenMinmap;
@@ -533,8 +533,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnOpenOptions(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnOpenStatus(InputAction.CallbackContext context);
-        void OnUseXItem(InputAction.CallbackContext context);
-        void OnUseCitem(InputAction.CallbackContext context);
+        void OnUseQItem(InputAction.CallbackContext context);
+        void OnUseEitem(InputAction.CallbackContext context);
         void OnOpenMinmap(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
     }
