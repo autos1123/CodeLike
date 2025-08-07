@@ -92,4 +92,17 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         PlayerPrefs.SetInt("TutorialCompleted", 1); // 튜토리얼 완료로 설정
         SceneManager.LoadScene(nextSceneName);
     }
+
+    public void TutorialSkipBtn()
+    {
+        UIManager.Instance.ShowConfirmPopup(
+            "튜토리얼을 스킵하시겠습니까?",
+            onConfirm: () =>
+            {
+                PlayerPrefs.SetInt("TutorialCompleted", 1); // 튜토리얼 완료로 설정
+                SceneManager.LoadScene(nextSceneName);
+            },
+            onCancel: () =>
+            { });
+    }
 }
