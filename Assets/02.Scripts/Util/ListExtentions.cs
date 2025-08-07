@@ -26,3 +26,36 @@ public static class ListExtensions
         return source.OrderBy(_ => rng.Next()).ToList();
     }
 }
+
+public static class StackExtension
+{
+    public static bool RemoveItem<T>(this Stack<T> stack , T value)
+    {
+        if(stack == null || stack.Count == 0)
+            return false;
+
+        var temp = new Stack<T>();
+        bool removed = false;
+
+        // 요소 꺼내며 찾기
+        while(stack.Count > 0)
+        {
+            var item = stack.Pop();
+            if(!removed && EqualityComparer<T>.Default.Equals(item, value))
+            {
+                removed = true; // 해당 항목 제거
+                continue;
+            }
+            temp.Push(item);
+        }
+
+        // 원래대로 복구
+        while(temp.Count > 0)
+        {
+            stack.Push(temp.Pop());
+        }
+
+        return removed;
+    }
+}
+

@@ -21,6 +21,8 @@ public class UIManager:MonoSingleton<UIManager>
     [SerializeField] private List<UILabel> uiLabel;
     private ContextualUIHint _currentContextualHintUI;
 
+    private Stack<UIBase> uiStack;
+
     public bool IsInitialized { get; private set; } = false;
     protected override bool Persistent => false;
 
@@ -29,6 +31,7 @@ public class UIManager:MonoSingleton<UIManager>
     {
         base.Awake();
         uiPrefabs = new List<GameObject>();
+        uiStack = new Stack<UIBase>();
         InitializeUI();
     }
     private IEnumerator Start()
@@ -102,9 +105,15 @@ public class UIManager:MonoSingleton<UIManager>
 
     public void ShowUI<T>() where T : UIBase
     {
-        if(_uiInstances.TryGetValue(typeof(T).Name , out var ui))
+        if(_uiInstances.TryGetValue(typeof(T).Name , out var ui)&& !GetUI<T>().gameObject.activeSelf)
         {
             ui.Open();
+            if(typeof(T).Name != "HUD" &&
+               typeof(T).Name != "MapTitleUI")
+
+            {
+                uiStack.Push(ui);
+            }
         }
     }
 
@@ -113,6 +122,7 @@ public class UIManager:MonoSingleton<UIManager>
         if(_uiInstances.TryGetValue(typeof(T).Name, out var ui))
         {
             ui.Close();
+            uiStack.RemoveItem(ui);
         }
     }
 
@@ -134,6 +144,16 @@ public class UIManager:MonoSingleton<UIManager>
         result = null;
         return false;
     }
+
+
+    public void Hide(UIBase uiType)
+    {
+        if(!_uiInstances.ContainsKey(uiType.UIName))
+            return;
+
+        _uiInstances[uiType.UIName].Close();
+    }
+
     // 특정 힌트 메시지를 가진 ContextualUIHint를 표시하는 전용 메서드 추가
     public void ShowContextualHint(string message)
     {
@@ -206,5 +226,16 @@ public class UIManager:MonoSingleton<UIManager>
         return uiLoaded;
     }
 
-
+    public void CloseOption()
+    {
+        if(uiStack.Count > 0)
+        {
+            Hide(uiStack.Pop());
+        }
+        else
+        {
+            ToggleUI<OptionBoard>();
+        }
+            
+    }
 }
