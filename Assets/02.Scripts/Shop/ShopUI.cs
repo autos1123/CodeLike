@@ -44,6 +44,8 @@ public class ShopUI : UIBase
 
     public void OpenWithInventory(ShopInventory inventory)
     {
+        if (gameObject.activeSelf) return;
+        
         shopInventoryRaw = inventory;
         base.Open();
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ShopOpen");

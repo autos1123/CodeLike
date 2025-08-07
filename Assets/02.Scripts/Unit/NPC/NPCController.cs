@@ -74,7 +74,7 @@ public class NPCController : MonoBehaviour, IInteractable
         {
             shopInventory.OnInitialized += () => shopUI.OpenWithInventory(shopInventory);
         }
-        else
+        else if(!shopUI.gameObject.activeSelf)
         {
             shopUI.OpenWithInventory(shopInventory);
         }

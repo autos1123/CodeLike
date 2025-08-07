@@ -107,6 +107,8 @@ public class UIManager:MonoSingleton<UIManager>
     {
         if(_uiInstances.TryGetValue(typeof(T).Name , out var ui)&& !GetUI<T>().gameObject.activeSelf)
         {
+            if (ui.gameObject.activeSelf)
+                return;
             ui.Open();
             if(typeof(T).Name != "HUD" &&
                typeof(T).Name != "MapTitleUI")
@@ -238,4 +240,10 @@ public class UIManager:MonoSingleton<UIManager>
         }
             
     }
+    
+    public bool IsUIOpen<T>() where T : UIBase
+    {
+        return _uiInstances.TryGetValue(typeof(T).Name, out var ui) && ui.gameObject.activeSelf;
+    }
+
 }

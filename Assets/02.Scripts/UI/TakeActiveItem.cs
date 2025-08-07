@@ -52,6 +52,8 @@ public class TakeActiveItem:UIBase
     }
     public void Open(ActiveItemSlot[] _activeItemSlots, ActiveItemData _acquiredItem, Inventory _playerInventory = null,ActiveItemBox _sourceActiveItemBox = null)
     {
+        if (gameObject.activeSelf) return;
+        
         base.Open();
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxOpen");
 

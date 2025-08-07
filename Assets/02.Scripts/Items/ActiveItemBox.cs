@@ -34,7 +34,9 @@ public class ActiveItemBox:MonoBehaviour, IInteractable
             Debug.LogError("[ActiveItemBox] possibleItemIds 배열이 비어 있습니다!");
             return;
         }
-
+        
+        if (UIManager.Instance.IsUIOpen<TakeActiveItem>()) return;
+        
         if(fixedPickedId == null) // 아직 아이템이 선택되지 않았다면
         {
             int randomIndex = Random.Range(0, possibleItemIds.Length);

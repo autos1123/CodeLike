@@ -28,6 +28,8 @@ public class TakePassiveItem : UIBase
 
     public void Open(ItemData item, Inventory inventory,PassiveItemBox itemBox)
     {
+        if (gameObject.activeSelf) return;
+        
         base.Open();
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"BoxOpen");
         currentItem = item;
