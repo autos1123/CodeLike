@@ -129,9 +129,12 @@ public class BookObstacle :ObstacleController, IDamagable
     {
         while(true)
         {
+            yield return null;
+
             if(isPlaying)
             {
                 patternTimer += Time.deltaTime;
+                Debug.Log(patternTimer);
             }
 
             if(patternTimer >= patternInterval)
@@ -148,6 +151,7 @@ public class BookObstacle :ObstacleController, IDamagable
                 PlayRandomPattern();
                 yield return new WaitUntil(() => currentPattern.isPatternEnd == true);
                 patternTimer = 0f;
+                Debug.Log($"Pattern End");
             }
         }
     }
