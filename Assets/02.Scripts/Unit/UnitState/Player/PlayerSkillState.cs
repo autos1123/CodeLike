@@ -27,17 +27,13 @@ public class PlayerSkillState:PlayerBaseState
         Player.OnSkillInput += UseSkill;
         StartAnimation(Player.AnimationData.SkillParameterHash);
 
+
     }
 
 
     public override void StateUpdate()
     {
         base.StateUpdate();
-        Vector2 move = Player.InputHandler.MoveInput;
-        if(move.magnitude > 0.1f)
-        {
-            PlayerLookAt();
-        }
         if(Player._Animator.GetCurrentAnimatorStateInfo(0).IsName("Cast") &&
             Player._Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.95f)
         {
@@ -55,6 +51,9 @@ public class PlayerSkillState:PlayerBaseState
     public override void StatePhysicsUpdate()
     {
         base.StatePhysicsUpdate();
-        Move(Player.InputHandler.MoveInput);
+        if(Player.IsGrounded)
+        {
+            Player._Rigidbody.velocity = Vector3.zero; // 지상에서만 고정
+        }
     }
 }
