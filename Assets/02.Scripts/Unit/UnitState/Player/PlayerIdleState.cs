@@ -10,6 +10,7 @@ public class PlayerIdleState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
+        Player._Rigidbody.velocity = Vector3.zero; // Rigidbody 속도 초기화
         StartAnimation(Player.AnimationData.IdleParameterHash);
     }
 
