@@ -112,7 +112,6 @@ public class UIManager:MonoSingleton<UIManager>
             ui.Open();
             if(typeof(T).Name != "HUD" &&
                typeof(T).Name != "MapTitleUI")
-
             {
                 uiStack.Push(ui);
             }

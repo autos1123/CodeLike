@@ -60,7 +60,10 @@ public class PlayerInputHandler:MonoBehaviour
 
         // 점프, 공격, 대쉬: 한 프레임만 true로 처리
         inputActions.Player.Jump.performed += ctx => JumpPressed = true;
-        inputActions.Player.Attack.performed += ctx => AttackPressed = true;
+        inputActions.Player.Attack.performed += ctx =>
+        {
+            if(UIManager.Instance.uiStack.Count == 0) AttackPressed = true;
+        };
         inputActions.Player.Dash.performed += ctx => {
             if(Time.time >= lastDashTime + dashCooldown)
             {
