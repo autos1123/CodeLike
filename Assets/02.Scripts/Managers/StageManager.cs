@@ -187,7 +187,9 @@ public class StageManager:MonoSingleton<StageManager>
         // 현재 방 갱신
         previousRoom = currentRoom;
         currentRoom = newRoom;
-
+        
+        CurrentStage?.SetCurrentRoom(newRoom);
+        
         // 페이드인 트리거
         var fader = FindObjectOfType<ScreenFader>();
         if (fader != null)
