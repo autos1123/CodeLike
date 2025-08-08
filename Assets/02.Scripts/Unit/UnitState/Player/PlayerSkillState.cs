@@ -19,9 +19,13 @@ public class PlayerSkillState:PlayerBaseState
     public override void StateEnter()
     {
         base.StateEnter();
+        Vector2 move = Player.InputHandler.MoveInput;
         if(!Player.ActiveItemController.CanUseSkill(usingSkill))
         {
-            stateMachine.ChangeState(stateMachine.IdleState);
+            if(move != Vector2.zero)
+                stateMachine.ChangeState(stateMachine.MoveState);
+            else
+                stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
         Player.OnSkillInput += UseSkill;
