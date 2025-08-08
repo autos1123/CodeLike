@@ -19,18 +19,21 @@ public class PlayerDashState:PlayerBaseState
     {
         if(!CanDash())
         {
-            stateMachine.ChangeState(stateMachine.IdleState);
+            stateMachine.ChangeState(stateMachine.MoveState);
             return;
         }
+
         if(!Player.Condition.UseStamina(15f))
         {
-            stateMachine.ChangeState(stateMachine.IdleState);
+            stateMachine.ChangeState(stateMachine.MoveState);
             return;
         }
+
+        StartAnimation(Player.AnimationData.DashParameterHash);
+        
         base.StateEnter();
 
         lastDashTime = Time.time;
-        StartAnimation(Player.AnimationData.DashParameterHash);
         SoundManager.Instance.PlaySFX(Player.transform.position, SoundAddressbleName.DashSound);
 
         elapsedTime = 0f;
