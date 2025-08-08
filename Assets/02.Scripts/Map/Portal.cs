@@ -9,6 +9,8 @@ public class Portal:MonoBehaviour,IInteractable
     private Room room;
     [SerializeField] private ParticleSystem nextRoomParticle;
     [SerializeField] private ParticleSystem prevRoomParticle;
+    [SerializeField] private GameObject direction_right;
+    [SerializeField] private GameObject direction_left;
     private BoxCollider boxCollider;
     private Direction exitDirection;
     [SerializeField] private float offsetDistance = 3f;
@@ -25,6 +27,8 @@ public class Portal:MonoBehaviour,IInteractable
     public float OffsetDistance => offsetDistance;
     public float CooldownDuration => cooldownDuration;
     public Room DestinationRoom => destinationRoom;
+    public GameObject DirectionRight => direction_right;
+    public GameObject DirectionLeft => direction_left;
 
     /// <summary>
     ///  초기화: Room 이벤트 등록 및 비활성화 처리

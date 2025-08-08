@@ -42,7 +42,7 @@ public class Room : MonoBehaviour
     {
         if(isClearRoom)
         {
-            foreach(var portal in GetComponentsInChildren<Portal>())
+            foreach(Portal portal in Portals)
             {
                 portal.OnPotalActivated(); // 파티클 & 콜라이더 다시 켜기
             }
@@ -54,6 +54,10 @@ public class Room : MonoBehaviour
 
             guideCoroutine = StartCoroutine(RepeatGuide());
         }
+        else
+        {
+            ShowDirectionArrow(true);
+        }
     }
 
     private void OnDisable()
@@ -62,6 +66,21 @@ public class Room : MonoBehaviour
         {
             StopCoroutine(guideCoroutine);
             guideCoroutine = null;
+        }
+    }
+
+    private void ShowDirectionArrow(bool isShow)
+    {
+        foreach(Portal portal in Portals)
+        {
+            if(portal.ExitDirection == Direction.Right)
+            {
+                portal.DirectionLeft.SetActive(isShow);
+            }
+            else if(portal.ExitDirection == Direction.Left)
+            {
+                portal.DirectionRight.SetActive(isShow);
+            }
         }
     }
 
@@ -121,6 +140,7 @@ public class Room : MonoBehaviour
         }
 
         guideCoroutine = StartCoroutine(RepeatGuide());
+        ShowDirectionArrow(false);
     }
 
     private void StartGuideToPortal()
