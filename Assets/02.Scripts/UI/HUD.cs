@@ -129,12 +129,14 @@ public class HUD:UIBase
     void ChangeItemSlot1CoolTime(float time)
     {
         if (ItemSlot1CoolTime == null) return;
+        ItemSlot1CoolTime.gameObject.SetActive(time > 0);
         ItemSlot1CoolTime.fillAmount = time;
     }
 
     void ChangeItemSlot2CoolTime(float time)
     {
         if (ItemSlot2CoolTime == null) return;
+        ItemSlot2CoolTime.gameObject.SetActive(time > 0);
         ItemSlot2CoolTime.fillAmount = time;
     }
 
@@ -144,11 +146,13 @@ public class HUD:UIBase
         if(activeItemController != null && activeItemController.activeItemDatas.Count > 0 && activeItemController.activeItemDatas[0] != null)
         {
             ItemSlot1.gameObject.SetActive(true);
+            ItemSlot1CoolTime.gameObject.SetActive(false);
             ItemSlot1.sprite = Resources.Load<Sprite>(activeItemController.activeItemDatas[0].IconPath);
         }
         else
         {
             ItemSlot1.gameObject.SetActive(false);
+            ItemSlot1CoolTime.gameObject.SetActive(false);
             ItemSlot1.sprite = null;
         }
 
@@ -156,11 +160,13 @@ public class HUD:UIBase
         if(activeItemController != null && activeItemController.activeItemDatas.Count > 1 && activeItemController.activeItemDatas[1] != null)
         {
             ItemSlot2.gameObject.SetActive(true);
+            ItemSlot2CoolTime.gameObject.SetActive(false);
             ItemSlot2.sprite = Resources.Load<Sprite>(activeItemController.activeItemDatas[1].IconPath);
         }
         else
         {
             ItemSlot2.gameObject.SetActive(false);
+            ItemSlot2CoolTime.gameObject.SetActive(false);
             ItemSlot2.sprite = null;
         }
     }
