@@ -7,7 +7,10 @@ public class Portal:MonoBehaviour,IInteractable
     [SerializeField] private string interactionPrompt = "[F] 문열기";
     [SerializeField] private Transform promptPivot;
     private Room room;
-    [SerializeField] private ParticleSystem particle;
+    [SerializeField] private ParticleSystem nextRoomParticle;
+    [SerializeField] private ParticleSystem prevRoomParticle;
+    [SerializeField] private GameObject direction_right;
+    [SerializeField] private GameObject direction_left;
     private BoxCollider boxCollider;
     private Direction exitDirection;
     [SerializeField] private float offsetDistance = 3f;
@@ -15,13 +18,17 @@ public class Portal:MonoBehaviour,IInteractable
     private Room destinationRoom;
 
     private static float lastTeleportTimes = 0;
-
+    private ScreenFader screenFader;
+    private bool isTeleporting = false;
+    
     public string InteractionPrompt => interactionPrompt;
     public Transform PromptPivot => promptPivot;
     public Direction ExitDirection => exitDirection;
     public float OffsetDistance => offsetDistance;
     public float CooldownDuration => cooldownDuration;
     public Room DestinationRoom => destinationRoom;
+    public GameObject DirectionRight => direction_right;
+    public GameObject DirectionLeft => direction_left;
 
     /// <summary>
     ///  초기화: Room 이벤트 등록 및 비활성화 처리
@@ -30,8 +37,12 @@ public class Portal:MonoBehaviour,IInteractable
     {
         room = GetComponentInParent<Room>();
         boxCollider = GetComponent<BoxCollider>();
-        particle.Stop();
         boxCollider.enabled = false;
+
+        if(screenFader == null)
+        {
+            screenFader = FindObjectOfType<ScreenFader>();
+        }
     }
 
     public void InitPortal(Direction exitDirection, Room destinationRoom)
@@ -45,7 +56,17 @@ public class Portal:MonoBehaviour,IInteractable
     /// </summary>
     public void OnPotalActivated()
     {
-        particle.Play();
+        if(destinationRoom == null)
+            nextRoomParticle.Play();
+
+        if(destinationRoom.isClearRoom)
+        {
+            prevRoomParticle.Play();
+        }
+        else
+        {
+            nextRoomParticle.Play();
+        }
         boxCollider.enabled = true;
     }
 
@@ -55,6 +76,20 @@ public class Portal:MonoBehaviour,IInteractable
     /// <param name="other"></param>
     public void Interact(GameObject other)
     {
+        if(isTeleporting) return;
+        
+        StartCoroutine(Teleport(other));
+    }
+
+    private IEnumerator Teleport(GameObject other)
+    {
+        isTeleporting = true;
+
+        if(screenFader != null)
+        {
+            yield return screenFader.FadeOut();
+        }
+        
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if(rb != null)
         {
@@ -64,12 +99,9 @@ public class Portal:MonoBehaviour,IInteractable
         if(destinationRoom == null)
         {
             StageManager.Instance.LoadStage();
-            return;
+            isTeleporting = false;
+            yield break;
         }
-
-        // 다음 방 활성화
-        destinationRoom.gameObject.SetActive(true);
-
         var pos = destinationRoom.GetEntranceAnchor((Direction)((int)exitDirection * -1)).position;
 
         if(ViewManager.Instance.CurrentViewMode == ViewModeType.View2D) pos.z = 0;
@@ -78,9 +110,10 @@ public class Portal:MonoBehaviour,IInteractable
 
         lastTeleportTimes = Time.time;
 
-        room.gameObject.SetActive(false); // 현재 방 비활성화
-
-        StageManager.Instance.CurrentStage.SetCurrentRoom(destinationRoom);
+        StageManager.Instance.SetCurrentRoom(destinationRoom);
+        
+        isTeleporting = false;
+        
     }
     /// <summary>
     /// 인터랙트 기능 여부 항상 true

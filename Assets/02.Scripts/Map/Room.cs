@@ -1,8 +1,5 @@
-using JetBrains.Annotations;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 
@@ -38,6 +35,54 @@ public class Room : MonoBehaviour
     private int enemyCount;
 
     public List<RoomConnection> Connections { get; private set; } = new();
+
+    private Coroutine guideCoroutine;
+
+    private void OnEnable()
+    {
+        if(isClearRoom)
+        {
+            foreach(Portal portal in Portals)
+            {
+                portal.OnPotalActivated(); // 파티클 & 콜라이더 다시 켜기
+            }
+
+            if(guideCoroutine != null)
+            {
+                StopCoroutine(guideCoroutine);
+            }
+
+            guideCoroutine = StartCoroutine(RepeatGuide());
+        }
+        else
+        {
+            ShowDirectionArrow(true);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if(guideCoroutine != null)
+        {
+            StopCoroutine(guideCoroutine);
+            guideCoroutine = null;
+        }
+    }
+
+    private void ShowDirectionArrow(bool isShow)
+    {
+        foreach(Portal portal in Portals)
+        {
+            if(portal.ExitDirection == Direction.Right)
+            {
+                portal.DirectionLeft.SetActive(isShow);
+            }
+            else if(portal.ExitDirection == Direction.Left)
+            {
+                portal.DirectionRight.SetActive(isShow);
+            }
+        }
+    }
 
     private IEnumerator Start()
     {
@@ -88,7 +133,41 @@ public class Room : MonoBehaviour
         {
             Portals[i].OnPotalActivated();
         }
+
+        if(guideCoroutine != null)
+        {
+            StopCoroutine(guideCoroutine);
+        }
+
+        guideCoroutine = StartCoroutine(RepeatGuide());
+        ShowDirectionArrow(false);
     }
+
+    private void StartGuideToPortal()
+    {
+        if(Portals.Count > 0)
+        {
+            Vector3 pivot = GameManager.Instance.Player.GetComponent<PlayerController>().col.bounds.center;
+
+            for(int i = 0; i < Portals.Count; i++)
+            {
+                GuideTrail guide = PoolManager.Instance.GetObject(PoolType.GuideTrail).GetComponent<GuideTrail>();
+
+                Vector3 portalPos = Portals[i].GetComponent<Collider>().bounds.center;
+                guide.Initialize(pivot, portalPos, Portals[i].DestinationRoom.isClearRoom);
+            }   
+        }
+    }
+
+    private IEnumerator RepeatGuide()
+    {
+        while(true)
+        {
+            StartGuideToPortal();
+            yield return new WaitForSeconds(3f);
+        }
+    }
+
     public void AddConnection(RoomConnection conn)
     {
         Connections.Add(conn);
@@ -97,11 +176,6 @@ public class Room : MonoBehaviour
     public Vector3 GetPlayerSpawnPoint()
     {
         return playerSpawnPoint != null  ? playerSpawnPoint.position : transform.position; 
-    }
-
-    public void SetRoomActive(bool isactive)
-    {
-        gameObject.SetActive(isactive);
     }
 
     public Transform GetEntranceAnchor(Direction dir)

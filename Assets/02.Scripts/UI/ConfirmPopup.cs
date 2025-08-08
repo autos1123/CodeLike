@@ -63,7 +63,7 @@ public class ConfirmPopup : UIBase
         confirmButton.onClick.AddListener(() =>
         {
             SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ButtonClick");
-            Close(); // base.Close()
+            UIManager.Instance.Hide(this);
             onConfirm?.Invoke();
         });
 
@@ -73,7 +73,7 @@ public class ConfirmPopup : UIBase
             cancelButton.onClick.AddListener(() =>
             {
                 SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"ButtonClick");
-                Close();
+                UIManager.Instance.Hide(this);
                 onCancel.Invoke();
             });
         }
@@ -107,6 +107,7 @@ public class ConfirmPopup : UIBase
     public override void Open()
     {
         base.Open();
+        UIManager.Instance.uiStack.Push(this);
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"PopUpOpen");
     }
 }
