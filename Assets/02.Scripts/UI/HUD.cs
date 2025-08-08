@@ -92,11 +92,17 @@ public class HUD:UIBase
 
         float currentHP = player.Condition.CurrentConditions[ConditionType.HP]; // 실제 현재 HP
         float maxHP = player.Condition.GetTotalMaxValue(ConditionType.HP); // 강화 포함한 최대 HP
+        float HPraito = currentHP / maxHP;
 
         HPFill.fillAmount = Mathf.Min(1f, currentHP / maxHP);
         
         if (hpText != null)
             hpText.text = $"{Mathf.FloorToInt(currentHP)} / {Mathf.FloorToInt(maxHP)}";
+
+        if(ratio <= 0.3f)
+            hpText.color = Color.red;
+        else
+            hpText.color = Color.white;
     }
 
     void ChangeStamina()
@@ -105,12 +111,19 @@ public class HUD:UIBase
 
         float currentStamina = player.Condition.CurrentConditions[ConditionType.Stamina]; // 실제 현재 HP
         float maxStamina = player.Condition.GetTotalMaxValue(ConditionType.Stamina); // 강화 포함한 최대 HP
+        float ratio = currentStamina / maxStamina;
 
         StaminaFill.fillAmount = Mathf.Min(1f,(currentStamina / maxStamina));
         
         if (staminaText != null)
             staminaText.text = $"{Mathf.FloorToInt(currentStamina)} / {Mathf.FloorToInt(maxStamina)}";
-        
+
+
+        // 스태미나 비율이 30% 이하이면 붉게 표시
+        if(ratio <= 0.3f)
+            staminaText.color = Color.red;
+        else
+            staminaText.color = Color.white; 
     }
 
     void ChangeItemSlot1CoolTime(float time)
