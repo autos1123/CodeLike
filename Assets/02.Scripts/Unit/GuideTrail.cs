@@ -13,12 +13,18 @@ public class GuideTrail : MonoBehaviour, IPoolObject
     [SerializeField] private float arriveDistance;
 
     private Vector3 target;
+    private TrailRenderer trailRenderer;
 
     public GameObject GameObject => gameObject;
 
     public PoolType PoolType => poolType;
 
     public int PoolSize => poolSize;
+
+    private void Awake()
+    {
+        trailRenderer = GetComponent<TrailRenderer>();
+    }
 
     // Update is called once per frame
     void Update()
