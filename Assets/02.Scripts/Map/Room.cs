@@ -42,6 +42,11 @@ public class Room : MonoBehaviour
     {
         if(isClearRoom)
         {
+            foreach(var portal in GetComponentsInChildren<Portal>())
+            {
+                portal.OnPotalActivated(); // 파티클 & 콜라이더 다시 켜기
+            }
+
             if(guideCoroutine != null)
             {
                 StopCoroutine(guideCoroutine);
@@ -86,16 +91,7 @@ public class Room : MonoBehaviour
             enemyCount = enemyContainer.childCount;
         }
     }
-    private void OnEnable()
-    {
-        if (isClearRoom)
-        {
-            foreach (var portal in GetComponentsInChildren<Portal>())
-            {
-                portal.OnPotalActivated(); // 파티클 & 콜라이더 다시 켜기
-            }
-        }
-    }
+
     public void Initialize(int id, Vector2Int gridPos, RoomType type)
     {
         Id = id;
