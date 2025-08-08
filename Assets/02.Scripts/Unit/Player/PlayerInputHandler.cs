@@ -154,4 +154,12 @@ public class PlayerInputHandler:MonoBehaviour
             
         }
     }
+    
+    public void SetInputEnabled(bool isEnabled)
+    {
+        if (isEnabled)
+            inputActions.Player.Enable();
+        else
+            inputActions.Player.Disable();
+    }
 }
