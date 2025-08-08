@@ -107,6 +107,7 @@ public class ConfirmPopup : UIBase
     public override void Open()
     {
         base.Open();
+        UIManager.Instance.uiStack.Push(this);
         SoundManager.Instance.PlaySFX(GameManager.Instance.Player.transform.position,"PopUpOpen");
     }
 }
