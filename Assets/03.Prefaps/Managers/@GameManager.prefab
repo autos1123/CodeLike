@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b3262689495524eaa280cabf73c68f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageMapCountData: 03000000060000000700000008000000090000000a000000
   _player: {fileID: 0}
   curGameState: 0
+  Gold: 0
+  cursorIcon: {fileID: 2800000, guid: f75349a286817b6479976a10636d3b2c, type: 3}
