@@ -56,6 +56,9 @@ public class Portal:MonoBehaviour,IInteractable
     /// </summary>
     public void OnPotalActivated()
     {
+        if(destinationRoom == null)
+            nextRoomParticle.Play();
+
         if(destinationRoom.isClearRoom)
         {
             prevRoomParticle.Play();
