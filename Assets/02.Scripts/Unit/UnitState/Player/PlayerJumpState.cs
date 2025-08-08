@@ -52,6 +52,11 @@ public class PlayerJumpState:PlayerBaseState
                 stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
+        if(Player.InputHandler.AttackPressed)
+        {
+            stateMachine.ChangeState(stateMachine.Attack1State);
+            return;
+        }
         if(Player.InputHandler.SkillQPressed)
         {
             stateMachine.SkillState.SetSkill(Skillinput.X);
