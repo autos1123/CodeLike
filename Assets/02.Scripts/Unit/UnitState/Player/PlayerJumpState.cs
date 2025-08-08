@@ -44,9 +44,12 @@ public class PlayerJumpState:PlayerBaseState
         if(Time.time - jumpStartTime < jumpGroundGrace)
             return;
 
-        if(move != Vector2.zero)
+        if(Player.IsGrounded)
         {
-            stateMachine.ChangeState(stateMachine.MoveState);
+            if(move != Vector2.zero)
+                stateMachine.ChangeState(stateMachine.MoveState);
+            else
+                stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
         if(Player.InputHandler.SkillQPressed)
