@@ -68,7 +68,9 @@ public class ViewChangeController : MonoBehaviour
     private void SetPositionWhenViewChanged()
     {
         // 현재 콜라이더의 경계 박스에서 충돌한 오브젝트들을 가져옴
-        Collider[] hit = Physics.OverlapBox(col.bounds.center,
+        Vector3 center = transform.position;
+        center.z = 0;
+        Collider[] hit = Physics.OverlapBox(center,
                                             col.bounds.extents,
                                             Quaternion.identity,
                                             LayerMask.GetMask("Obstacle"),
@@ -104,5 +106,7 @@ public class ViewChangeController : MonoBehaviour
 
         // 현재 오브젝트를 왼쪽으로 distance만큼 이동시켜, 콜라이더에서 완전히 벗어나게 함
         transform.position = transform.position + direction * distance;
+
+        SetPositionWhenViewChanged();
     }
 }
