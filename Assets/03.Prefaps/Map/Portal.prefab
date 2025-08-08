@@ -81,7 +81,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 0
   startDelay:
@@ -4969,7 +4969,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -9799,7 +9799,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -14629,7 +14629,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -19521,7 +19521,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -24429,10 +24429,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionPrompt: "[F] \uC774\uB3D9\uD558\uAE30"
   promptPivot: {fileID: 8081424682180415206}
-  room: {fileID: 0}
   particle: {fileID: 5635067380931651422}
-  boxCollider: {fileID: 0}
-  exitDirection: 0
   offsetDistance: 3
   cooldownDuration: 1
-  destinationRoom: {fileID: 0}

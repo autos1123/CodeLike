@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,12 +14,11 @@ public class StageManager:MonoSingleton<StageManager>
     // private으로 변경 후 외부 접근을 위해 프로퍼티 추가 필요
     [SerializeField] protected ProceduralStageGenerator generator;
     protected StageData currentStage;
-
     public ProceduralStageGenerator Generator => generator; // 외부에서 접근할 수 있도록 프로퍼티로 노출
     public StageData CurrentStage => currentStage;
 
     protected int stageID = 0; // private으로
-
+    
     public event Action ChangeStage;
 
     protected Coroutine waitUntilCoroutine;
@@ -40,6 +38,10 @@ public class StageManager:MonoSingleton<StageManager>
 
     [SerializeField] protected string bgmKey;              // 인스펙터에서 지정 (예: "TutorialBGM")
     [SerializeField] protected Material skyboxMaterial;    // 인스펙터에서 지정
+    
+    private Room previousRoom;
+    private Room currentRoom;
+    
     public virtual void LoadStage()
     {
         titleShown = false;
@@ -61,6 +63,7 @@ public class StageManager:MonoSingleton<StageManager>
 
         if(currentStage.roomMap.Count != 0)
         {
+            currentRoom = currentStage.CurrentRoom;
             GameManager.Instance.Player.transform.position = currentStage.playerSpawnPoint;
             if (viewCameraController != null && ViewManager.HasInstance)
             {
@@ -172,6 +175,30 @@ public class StageManager:MonoSingleton<StageManager>
         if(skyboxMaterial != null)
         {
             RenderSettings.skybox = skyboxMaterial;
+        }
+    }
+    
+    public void SetCurrentRoom(Room newRoom)
+    {   
+        
+        if (newRoom == null) return;
+        
+        newRoom.gameObject.SetActive(true);
+        // 현재 방 갱신
+        previousRoom = currentRoom;
+        currentRoom = newRoom;
+
+        // 페이드인 트리거
+        var fader = FindObjectOfType<ScreenFader>();
+        if (fader != null)
+        {
+            StartCoroutine(fader.FadeIn());
+        }
+
+        // 이전 방 비활성화 (포탈 포함)
+        if (previousRoom != null && previousRoom != currentRoom)
+        {
+            previousRoom.gameObject.SetActive(false);
         }
     }
     // ===== 미니맵 시스템 전달용 데이터 정리 =====
