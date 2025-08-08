@@ -23,7 +23,6 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     public void SetViewChangeInputAllowed(bool allowed)
     {
         _isViewChangeInputAllowed = allowed;
-        Debug.Log($"[TutorialManager] V키 입력 허용 상태: {_isViewChangeInputAllowed}");
     }
     protected override bool Persistent => false;
 

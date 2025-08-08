@@ -27,7 +27,6 @@ public class ContextualUIHint : UIBase
     {
         if (rectTransform != null)
         {
-            Debug.Log("ContextualUIHint: 위치조정");
             var pos = rectTransform.anchoredPosition;
             pos.y = y;
             rectTransform.anchoredPosition = pos;

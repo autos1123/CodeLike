@@ -13,8 +13,6 @@ namespace MasterStylizedExplosions
         public float Timer;
         private void OnWillRenderObject()
         {
-
-            //Debug.Log(Time.time);
             Timer += Time.time - LastTime;
             if (Particle == null)
             {
@@ -22,14 +20,11 @@ namespace MasterStylizedExplosions
             }
             if (Particle != null && Timer >= TriggerInterval)
             {
-
-                //Debug.Log("TriggerSubEmitter");
                 if (Particle.isPlaying)
                 {
                     Timer = 0;
                     Particle.TriggerSubEmitter(0);
                 }
-
             }
             LastTime = Time.time;
         }
