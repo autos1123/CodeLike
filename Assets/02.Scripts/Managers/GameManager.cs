@@ -36,8 +36,6 @@ public class GameManager:MonoSingleton<GameManager>
     public float Gold = 0;
     public Dictionary<ConditionType, Dictionary<ModifierType, float>> ConditionModifier;
 
-    [SerializeField] private Texture2D cursorIcon;
-
     public void setState(GameState gameState)
     {
         curGameState = gameState;
@@ -67,7 +65,6 @@ public class GameManager:MonoSingleton<GameManager>
     private void Start()
     {
         //Application.targetFrameRate = 60;
-        Cursor.SetCursor(cursorIcon, Vector2.zero, CursorMode.Auto);
     }
     // 각종 NPC 상호작용의 완료 상태를 설정하는 공용 메소드
     public void SetNpcInteractionProcessed(GameObject npcObject, bool processed)
