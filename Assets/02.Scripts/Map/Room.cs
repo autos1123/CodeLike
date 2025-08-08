@@ -1,8 +1,5 @@
-using JetBrains.Annotations;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 
@@ -89,7 +86,16 @@ public class Room : MonoBehaviour
             enemyCount = enemyContainer.childCount;
         }
     }
-
+    private void OnEnable()
+    {
+        if (isClearRoom)
+        {
+            foreach (var portal in GetComponentsInChildren<Portal>())
+            {
+                portal.OnPotalActivated(); // 파티클 & 콜라이더 다시 켜기
+            }
+        }
+    }
     public void Initialize(int id, Vector2Int gridPos, RoomType type)
     {
         Id = id;
