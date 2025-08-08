@@ -65,6 +65,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Pool
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3888c351fadaf8408fcba8c5eff57e9
+    m_Address: Assets/03.Prefaps/Pool/GuideTrail.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pool
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:

@@ -39,6 +39,30 @@ public class Room : MonoBehaviour
 
     public List<RoomConnection> Connections { get; private set; } = new();
 
+    private Coroutine guideCoroutine;
+
+    private void OnEnable()
+    {
+        if(isClearRoom)
+        {
+            if(guideCoroutine != null)
+            {
+                StopCoroutine(guideCoroutine);
+            }
+
+            guideCoroutine = StartCoroutine(RepeatGuide());
+        }
+    }
+
+    private void OnDisable()
+    {
+        if(guideCoroutine != null)
+        {
+            StopCoroutine(guideCoroutine);
+            guideCoroutine = null;
+        }
+    }
+
     private IEnumerator Start()
     {
         var surface = GetComponent<NavMeshSurface>();
@@ -88,7 +112,40 @@ public class Room : MonoBehaviour
         {
             Portals[i].OnPotalActivated();
         }
+
+        if(guideCoroutine != null)
+        {
+            StopCoroutine(guideCoroutine);
+        }
+
+        guideCoroutine = StartCoroutine(RepeatGuide());
     }
+
+    private void StartGuideToPortal()
+    {
+        if(Portals.Count > 0)
+        {
+            Vector3 pivot = GameManager.Instance.Player.GetComponent<PlayerController>().col.bounds.center;
+
+            for(int i = 0; i < Portals.Count; i++)
+            {
+                GuideTrail guide = PoolManager.Instance.GetObject(PoolType.GuideTrail).GetComponent<GuideTrail>();
+
+                Vector3 portalPos = Portals[i].GetComponent<Collider>().bounds.center;
+                guide.Initialize(pivot, portalPos);
+            }   
+        }
+    }
+
+    private IEnumerator RepeatGuide()
+    {
+        while(true)
+        {
+            StartGuideToPortal();
+            yield return new WaitForSeconds(3f);
+        }
+    }
+
     public void AddConnection(RoomConnection conn)
     {
         Connections.Add(conn);
@@ -97,11 +154,6 @@ public class Room : MonoBehaviour
     public Vector3 GetPlayerSpawnPoint()
     {
         return playerSpawnPoint != null  ? playerSpawnPoint.position : transform.position; 
-    }
-
-    public void SetRoomActive(bool isactive)
-    {
-        gameObject.SetActive(isactive);
     }
 
     public Transform GetEntranceAnchor(Direction dir)
