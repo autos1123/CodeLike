@@ -12,7 +12,8 @@ public enum PoolType
     Zone,
     Heal,
     ArrowProjectile,
-    DamageUI
+    DamageUI,
+    GuideTrail
 }
 public interface IPoolObject
 {

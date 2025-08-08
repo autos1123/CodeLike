@@ -87,7 +87,6 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
     /// <param name="equipSlot"></param>
     public void UnEquip(InventoryItemSlot equipSlot)
     {
-        Debug.Log("장착해제");
         if(PlayerCondition == null || equipSlot == null || equipSlot.IsEmpty)
             return;
 
@@ -103,7 +102,6 @@ public class EquipmentManager : MonoSingleton<EquipmentManager>
             if (GameManager.Instance != null && GameManager.Instance.Player != null)
             {
                 playerInventory = GameManager.Instance.Player.GetComponent<Inventory>();
-                Debug.Log("플레이어 인벤토리 참조완료");
             }
 
             if (playerInventory == null)

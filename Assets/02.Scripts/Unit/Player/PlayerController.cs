@@ -271,9 +271,6 @@ public class PlayerController:BaseController
             Debug.Log("사망 상태 -> 리스폰 불가");
             return;
         }
-
-        Debug.Log("낙사! 안전지점으로 리스폰");
-
         Vector3 respawnPosition = (currentPlatform != null)
             ? currentPlatform.TransformPoint(platformLocalPosition)
             : LastSafePosition;

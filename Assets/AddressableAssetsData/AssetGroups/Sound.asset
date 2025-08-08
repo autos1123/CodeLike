@@ -239,6 +239,37 @@ MonoBehaviour:
     m_SerializedLabels:
     - SFX
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f832315790d5ee540a6b35abcb263fc3
+    m_Address: Assets/98.Sound/Death.WAV
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 501af9bd2b8d3134e91121a77fc60830
+    m_Address: Assets/99.Externals/TitleScene/Adventure RPG Essentials Music Pack
+      v1.1/WAV/09a Boss Battle Theme.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e50d8d537b91374ba20acf3d9340c1f
+    m_Address: Assets/99.Externals/Sound/TutorialBGM.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b916e7f51f6e2e4a8ae3ecb4ec05132
+    m_Address: Assets/99.Externals/Sound/LobbyBGM.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 18f35fabd014a2346b3b7c23b40852e1
+    m_Address: Assets/99.Externals/Sound/MainBGM.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}
   m_SchemaSet:

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,21 @@ public class StageData
     public List<RoomConnection> connections { get; private set; } = new();
     public Dictionary<int, Room> roomMap { get; private set; } = new();
     public Vector3 playerSpawnPoint { get; private set; }
-    public Room CurrentRoom { get; private set; }
+    //public Room CurrentRoom { get; private set; }
+    public event Action<Room> OnCurrentRoomChanged;
+    private Room _currentRoom;
+    public Room CurrentRoom 
+    {
+        get => _currentRoom;
+        private set
+        {
+            // 같은 방이면 불필요한 업데이트를 방지
+            if (_currentRoom == value) return;
+            _currentRoom = value;
+            // 현재 방이 변경될 때마다 이벤트를 호출
+            OnCurrentRoomChanged?.Invoke(_currentRoom);
+        }
+    }
 
     public StageData(int stageID)
     {

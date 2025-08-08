@@ -42,7 +42,7 @@ public class Projectile:MonoBehaviour, IPoolObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if(currentIgnore > 0f) return;
+        //if(currentIgnore > 0f) return;
 
         if(other.TryGetComponent(out IDamagable target) && ((1 << other.gameObject.layer) & layer) != 0)
         {

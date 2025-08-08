@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class UIBase : MonoBehaviour
+public abstract class UIBase:MonoBehaviour
 {
     public abstract string UIName { get; }
 
@@ -9,5 +9,10 @@ public abstract class UIBase : MonoBehaviour
         gameObject.SetActive(true);
         this.transform.SetAsLastSibling();
     }
-    public virtual void Close() => gameObject.SetActive(false);
+    public virtual void Close()
+    {
+        gameObject.SetActive(false);
+        //hotFix
+        UIManager.Instance.uiStack.RemoveItem(this);
+    }     
 }
