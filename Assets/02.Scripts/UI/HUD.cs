@@ -92,14 +92,14 @@ public class HUD:UIBase
 
         float currentHP = player.Condition.CurrentConditions[ConditionType.HP]; // 실제 현재 HP
         float maxHP = player.Condition.GetTotalMaxValue(ConditionType.HP); // 강화 포함한 최대 HP
-        float HPraito = currentHP / maxHP;
+        float HPratio = currentHP / maxHP;
 
         HPFill.fillAmount = Mathf.Min(1f, currentHP / maxHP);
         
         if (hpText != null)
             hpText.text = $"{Mathf.FloorToInt(currentHP)} / {Mathf.FloorToInt(maxHP)}";
 
-        if(ratio <= 0.3f)
+        if(HPratio <= 0.3f)
             hpText.color = Color.red;
         else
             hpText.color = Color.white;
