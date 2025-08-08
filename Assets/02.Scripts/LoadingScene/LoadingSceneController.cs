@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ public class LoadingSceneController : MonoBehaviour
 {
     public Slider progressBar;
     public TextMeshProUGUI progressText;
-
+    private GameObject player;
     private static string nextScene;
 
     public static void LoadScene(string sceneName)
@@ -20,6 +21,14 @@ public class LoadingSceneController : MonoBehaviour
 
     private void Start()
     {
+        player = GameObject.FindWithTag("Player"); // 플레이어에 Tag 설정해야 함
+        if (player != null)
+        {
+            var inputHandler = player.GetComponent<PlayerInputHandler>();
+            if (inputHandler != null)
+                inputHandler.SetInputEnabled(false);
+        }
+
         StartCoroutine(LoadNextScene());
     }
 
@@ -46,7 +55,14 @@ public class LoadingSceneController : MonoBehaviour
         {
             yield return null;
         }
-
+        
+        if (player != null)
+        {
+            var inputHandler = player.GetComponent<PlayerInputHandler>();
+            if (inputHandler != null)
+                inputHandler.SetInputEnabled(true);
+        }
+        
         // 허수 로딩 끝 + 진짜 로딩 끝 최종 전환
         op.allowSceneActivation = true;
     }
