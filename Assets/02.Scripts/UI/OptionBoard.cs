@@ -174,7 +174,6 @@ public class OptionBoard : UIBase
         if(hasSavedResolution)
         {
             PlayerPrefs.Save(); // WebGL에서는 확실하게 저장
-            Debug.Log("Saved resolution index in WebGL PlayerPrefs.");
         }
 #endif
     }
