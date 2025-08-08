@@ -85,12 +85,6 @@ MonoBehaviour:
     - InGameUI
     - TutorialUI
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3fa4e0c541bd51f4cb67cac83f56fc74
-    m_Address: Assets/03.Prefaps/UI/HUD.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InGameUI
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9370d220b7536de4bbc9c89133c60586
     m_Address: Assets/03.Prefaps/UI/StatusBoard.prefab
     m_ReadOnly: 0

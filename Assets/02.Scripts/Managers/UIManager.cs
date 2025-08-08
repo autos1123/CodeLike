@@ -14,7 +14,7 @@ public enum UILabel
 public class UIManager:MonoSingleton<UIManager>
 {
     private Dictionary<string, UIBase> _uiInstances = new Dictionary<string, UIBase>();
-    private List<GameObject> uiPrefabs;
+    [SerializeField] private List<GameObject> uiPrefabs;
     private bool uiLoaded = false;
     private List<Action> _onUILoaded = new();
 
@@ -30,7 +30,7 @@ public class UIManager:MonoSingleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
-        uiPrefabs = new List<GameObject>();
+        //uiPrefabs = new List<GameObject>();
         uiStack = new Stack<UIBase>();
         InitializeUI();
     }
@@ -88,8 +88,6 @@ public class UIManager:MonoSingleton<UIManager>
                 callback?.Invoke();
             }
             _onUILoaded.Clear();
-
-            Addressables.Release(handle);
         };
     }
 

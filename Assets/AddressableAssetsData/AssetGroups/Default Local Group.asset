@@ -17,15 +17,21 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: be2227b91220ff54aab4945db3d4981c
   m_SerializeEntries:
-  - m_GUID: 5848d78b553911f43b65d0b58ffc0ed1
-    m_Address: Assets/Materials/Square.png
+  - m_GUID: 6ec8e94fa0e317941993e09948387d63
+    m_Address: Assets/Materials/circle_filled_512.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 540143e95dc04f64da63db5dd0ba4cce
-    m_Address: Assets/Materials/Circle.png
+  - m_GUID: d6b416e139c1faf48b82e5714d707084
+    m_Address: Assets/Materials/square_filled_512.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fa4e0c541bd51f4cb67cac83f56fc74
+    m_Address: Assets/03.Prefaps/UI/HUD.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InGameUI
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 36732b1fb450a684bb1963cfe3e0ec52, type: 2}

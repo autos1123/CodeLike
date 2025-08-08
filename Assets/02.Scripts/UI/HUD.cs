@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 public class HUD:UIBase
@@ -17,7 +18,6 @@ public class HUD:UIBase
     [SerializeField] Image ItemSlot1CoolTime;
     [SerializeField] Image ItemSlot2;
     [SerializeField] Image ItemSlot2CoolTime;
-
     public override string UIName => this.GetType().Name;
 
     public override void Open()
