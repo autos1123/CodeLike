@@ -38,9 +38,18 @@ public class GuideTrail : MonoBehaviour, IPoolObject
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
     }
 
-    public void Initialize(Vector3 start, Vector3 target)
+    public void Initialize(Vector3 start, Vector3 target, bool isClearRoom)
     {
         this.target = target;
         transform.position = start;
+
+        Color colorTmp;
+        if(isClearRoom)
+            colorTmp = Color.green;
+        else
+            colorTmp = Color.red;
+
+        trailRenderer.startColor = colorTmp;
+        trailRenderer.endColor = colorTmp;
     }
 }

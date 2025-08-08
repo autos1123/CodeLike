@@ -134,7 +134,7 @@ public class Room : MonoBehaviour
                 GuideTrail guide = PoolManager.Instance.GetObject(PoolType.GuideTrail).GetComponent<GuideTrail>();
 
                 Vector3 portalPos = Portals[i].GetComponent<Collider>().bounds.center;
-                guide.Initialize(pivot, portalPos);
+                guide.Initialize(pivot, portalPos, Portals[i].DestinationRoom.isClearRoom);
             }   
         }
     }
