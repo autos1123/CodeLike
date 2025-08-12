@@ -156,13 +156,13 @@ public class Room : MonoBehaviour
         foreach (var portal in Portals)
         {
             if (portal == null) continue;
-            if (portal.DestinationRoom == null) continue;
 
             GuideTrail guide = PoolManager.Instance.GetObject(PoolType.GuideTrail)?.GetComponent<GuideTrail>();
             if (guide == null) continue;
 
             Vector3 portalPos = portal.GetComponent<Collider>().bounds.center;
-            guide.Initialize(pivot, portalPos, portal.DestinationRoom.isClearRoom);
+            bool isClear = portal.DestinationRoom == null ? false : portal.DestinationRoom.isClearRoom;
+            guide.Initialize(pivot, portalPos, isClear);
         }
     }
 
