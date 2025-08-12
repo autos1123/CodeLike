@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,19 +16,24 @@ public class RoomStatusUI : MonoBehaviour
     private IEnumerator SubscribeToStageManager()
     {
         yield return new WaitUntil(() => StageManager.HasInstance && StageManager.Instance.CurrentStage != null);
-        
-        currentStageName = GetStageName(StageManager.Instance.CurrentStage.stageID);
 
+        // 처음 구독
         StageManager.Instance.CurrentStage.OnCurrentRoomChanged += UpdateRoomStatus;
-        
+        StageManager.Instance.ChangeStage += OnStageChanged;
+
+        // 첫 표시
+        UpdateStageName();
         UpdateRoomStatus(StageManager.Instance.CurrentStage.CurrentRoom);
     }
 
     private void OnDestroy()
     {
-        if (StageManager.HasInstance && StageManager.Instance.CurrentStage != null)
+        if (StageManager.HasInstance)
         {
-            StageManager.Instance.CurrentStage.OnCurrentRoomChanged -= UpdateRoomStatus;
+            if (StageManager.Instance.CurrentStage != null)
+                StageManager.Instance.CurrentStage.OnCurrentRoomChanged -= UpdateRoomStatus;
+
+            StageManager.Instance.ChangeStage -= OnStageChanged;
         }
     }
 
@@ -77,4 +83,23 @@ public class RoomStatusUI : MonoBehaviour
             roomText.text = text;
         }
     }
+    
+    private void OnStageChanged()
+    {
+        UpdateStageName();
+
+        if (StageManager.Instance.CurrentStage != null)
+        {
+            StageManager.Instance.CurrentStage.OnCurrentRoomChanged -= UpdateRoomStatus;
+            StageManager.Instance.CurrentStage.OnCurrentRoomChanged += UpdateRoomStatus;
+
+            UpdateRoomStatus(StageManager.Instance.CurrentStage.CurrentRoom);
+        }
+    }
+    
+    private void UpdateStageName()
+    {
+        currentStageName = GetStageName(StageManager.Instance.CurrentStage.stageID);
+    }
+
 }

@@ -81,6 +81,12 @@ public class StageManager:MonoSingleton<StageManager>
                 Debug.LogWarning("[StageManager] ViewManager가 아직 초기화되지 않았습니다. 기본 뷰 모드(2D)로 설정합니다.");
                 viewCameraController.InitCameraForStage(ViewModeType.View2D); 
             }
+            
+            var fader = FindObjectOfType<ScreenFader>();
+            if (fader != null)
+            {
+                StartCoroutine(fader.FadeIn());
+            }
         }
         else
         {
