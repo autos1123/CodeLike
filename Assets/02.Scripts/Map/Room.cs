@@ -145,17 +145,24 @@ public class Room : MonoBehaviour
 
     private void StartGuideToPortal()
     {
-        if(Portals.Count > 0)
+        if (GameManager.Instance?.Player == null) return;
+        if (Portals == null || Portals.Count == 0) return;
+
+        var playerController = GameManager.Instance.Player.GetComponent<PlayerController>();
+        if (playerController?.col == null) return;
+
+        Vector3 pivot = playerController.col.bounds.center;
+
+        foreach (var portal in Portals)
         {
-            Vector3 pivot = GameManager.Instance.Player.GetComponent<PlayerController>().col.bounds.center;
+            if (portal == null) continue;
+            if (portal.DestinationRoom == null) continue;
 
-            for(int i = 0; i < Portals.Count; i++)
-            {
-                GuideTrail guide = PoolManager.Instance.GetObject(PoolType.GuideTrail).GetComponent<GuideTrail>();
+            GuideTrail guide = PoolManager.Instance.GetObject(PoolType.GuideTrail)?.GetComponent<GuideTrail>();
+            if (guide == null) continue;
 
-                Vector3 portalPos = Portals[i].GetComponent<Collider>().bounds.center;
-                guide.Initialize(pivot, portalPos, Portals[i].DestinationRoom.isClearRoom);
-            }   
+            Vector3 portalPos = portal.GetComponent<Collider>().bounds.center;
+            guide.Initialize(pivot, portalPos, portal.DestinationRoom.isClearRoom);
         }
     }
 
