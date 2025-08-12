@@ -57,7 +57,11 @@ public class Portal:MonoBehaviour,IInteractable
     public void OnPotalActivated()
     {
         if(destinationRoom == null)
+        {
             nextRoomParticle.Play();
+            boxCollider.enabled = true;
+            return;
+        }
 
         if(destinationRoom.isClearRoom)
         {
