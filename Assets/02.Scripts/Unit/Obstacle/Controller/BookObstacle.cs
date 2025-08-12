@@ -112,6 +112,8 @@ public class BookObstacle :ObstacleController, IDamagable
     private void Die()
     {
         destroyEffect.Play();
+        StopAllCoroutines();
+        UIManager.Instance.Hide<ContextualUIHint>();
         Invoke(nameof(Destroy), 0.2f);
     }
 
